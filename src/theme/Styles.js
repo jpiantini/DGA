@@ -14,13 +14,13 @@ export const Row = styled('div')({
 });
 
 export const StyledButton = styled(Button)({
-    height:'35px',
-    width:'100%',
-    borderRadius:'0',
+    height: '35px',
+    width: '100%',
+    borderRadius: '0',
     color: COLORS.white,
     backgroundColor: COLORS.secondary,
-    fontSize:'15px',
-    fontFamily:'Nunito Sans',
+    fontSize: '15px',
+    fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
         backgroundColor: COLORS.primary,
@@ -28,20 +28,34 @@ export const StyledButton = styled(Button)({
 });
 
 export const StyledButtonOutlined = styled(Button)({
-    height:'35px',
-    width:'100%',
-    borderColor:COLORS.secondary,
-    borderRadius:0,
+    height: '35px',
+    width: '100%',
+    borderColor: COLORS.secondary,
+    borderRadius: 0,
     color: COLORS.secondary,
     backgroundColor: COLORS.white,
-    fontSize:'15px',
-    fontFamily:'Nunito Sans',
+    fontSize: '15px',
+    fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
-        borderColor:COLORS.secondary,
+        borderColor: COLORS.secondary,
         backgroundColor: COLORS.secondary,
     }
 });
 
+export const BodyText = styled('p')({
+    margin: 0,
+    textAlign: 'left',
+    fontSize: '15px',
+    color: COLORS.black,
+    fontFamily: 'Source Sans Pro',
+    fontWeight: '400',
+});
 
+export const RowBodyDivider = styled('div')({
+    width:'7%'
+});
+export const SmallHeightDivider = styled('div')({
+    height:'15px'
+});
 

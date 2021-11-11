@@ -1,8 +1,5 @@
 import Grid from '@mui/material/Grid';
 import {
-    FooterRoutes,
-} from './FooterConstants';
-import {
     Title,
     FooterContainer,
     LinkText,
@@ -11,7 +8,7 @@ import {
     TitleDivider
 } from './styles/FooterStyles';
 
-function Footer() {
+function Footer({FooterRoutes}) {
     return (
             <FooterContainer>
                 <CenterContainer >

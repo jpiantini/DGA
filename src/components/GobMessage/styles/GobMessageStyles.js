@@ -3,12 +3,12 @@ import COLORS from '../../../theme/Colors';
 export const Container = styled('div')({
     zIndex:3,
     display: 'flex',
-    position:'absolute',
+    position:'relative',
     flexDirection: 'row',
     backgroundColor: COLORS.secondary,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    height:'40px',
+    height:'30%',
     width:'100%',
     '@media (max-width:768px)': {
         flexDirection: 'column',

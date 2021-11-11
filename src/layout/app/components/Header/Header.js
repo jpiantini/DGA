@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Container, MenuContainer, Image, MenuButton, MenuDivider, DrawerList, DrawerListItemButton, DrawerListItemContainer } from './styles/HeaderStyles';
-import MiturBlackLogo from '../../../../assets/images/MiturBlackLogo.png'
+import MiturLogo from '../../../../assets/images/MiturLogoSecondary.png'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,7 +18,7 @@ function Header() {
 
     return (
         <Container >
-            <Image src={MiturBlackLogo} />
+            <Image src={MiturLogo} />
             {
                 matchesWidth ?
                     <MenuContainer>

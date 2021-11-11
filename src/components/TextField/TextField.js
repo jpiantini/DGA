@@ -28,8 +28,7 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
                         mask={mask}
                         maskChar={null}
                         value={value}
-                        onChange={onChange}
-                        placeholder='Enter your PIN'>
+                        onChange={onChange}>
                         {(inputProps) => 
                         <StyledTextInput
                         {...inputProps}

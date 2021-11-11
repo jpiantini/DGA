@@ -1,6 +1,7 @@
 import Login from '../views/Auth/Login/Login';
 import Register from '../views/Auth/Register/Register';
 import Home from '../views/Home/Home';
+import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
 import ServiceDescription from '../views/ServiceDescription/ServiceDescription';
 
 const routes = [
@@ -28,6 +29,13 @@ const routes = [
     {
         path: '/serviceDescription',
         component: ServiceDescription,
+        exact: true,
+        layout:'/app',
+        loginRequired:false
+    },
+    {
+        path: '/listOfServices',
+        component: ListOfServicesPerCategory,
         exact: true,
         layout:'/app',
         loginRequired:false

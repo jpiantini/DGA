@@ -6,7 +6,7 @@ export const Container = styled('div')({
     zIndex:5,
     display: 'flex',
     flexDirection: 'row',
-    marginTop:'80px',
+    marginTop:'40px',
     alignSelf:'flex-end',
     marginRight:'10vw',
     '@media (max-width:768px)': {
@@ -32,7 +32,7 @@ export const MenuButton = styled(Button)({
 export const DrawerList = styled(List)({
     flex:1,
     width:'200px',
-    background: `linear-gradient(to left bottom,${COLORS.tertiary},${COLORS.secondary})`,
+    backgroundColor: COLORS.secondary,
     alignSelf:'center',
 });
 export const DrawerListItemContainer = styled(ListItem)({

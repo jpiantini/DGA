@@ -18,7 +18,8 @@ import {
     tertiarySelectorData,
     quaternarySelectorData,
     ListServices,
-    moreInformationBackgroundImage
+    moreInformationBackgroundImage,
+    FooterRoutes
 } from './HomeConstants';
 import {
     Container,
@@ -52,6 +53,7 @@ import { useHistory } from 'react-router';
 function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
     const history = useHistory();
+
     return (
         <Container >
             <GobMessage />
@@ -191,50 +193,6 @@ function Home() {
                 </SelectorsSearcherContainer>
             </MediumContainer>
 
-            {/* <ServicesListContainer style={{
-                'backgroundImage': `url(${servicesListBackgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-            }}>
-                <div>
-                    <ServicesSubtitle>Listado de servicios por sub-sector</ServicesSubtitle>
-                    <ServicesTitle>Usa nuestro buscador avanzado</ServicesTitle>
-                </div>
-                {
-                    minServicesBreakPoint ?
-                        <div>
-                            <CenterContainer>
-                                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    {
-                                        ListServices.map((item) => (
-                                            <Grid item >
-                                                <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')} />
-                                            </Grid>
-                                        ))
-                                    }
-                                </Grid>
-                            </CenterContainer>
-                        </div>
-                        :
-                        <div style={{ width: '100%', alignItems: 'center', alignSelf: 'center' }}>
-                            //PASS itemId as prop is REQUIRED for ScrollMenu work 
-                            <ScrollMenu
-                                LeftArrow={LeftArrow}
-                                RightArrow={RightArrow}
-                            >
-                                {
-                                    ListServices.map((item) => (
-                                        <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')} />
-                                    ))
-                                }
-                            </ScrollMenu>
-                            <ServicesSubtitle>Deslice a la izquierda o derecha para ver los servicios</ServicesSubtitle>
-                        </div>
-                }
-            </ServicesListContainer>
-        
-        */}
             <Container style={{
                 backgroundColor: COLORS.snow,
                 minHeight: '80vh',
@@ -248,15 +206,15 @@ function Home() {
                 <div style={{ height: '30px' }} />
                 <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     <Grid item >
-                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
+                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
                     </Grid>
 
                     <Grid item >
-                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
+                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
                     </Grid>
 
                     <Grid item >
-                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
+                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
                     </Grid>
                 </Grid>
                 <div style={{ height: '30px' }} />
@@ -280,7 +238,7 @@ function Home() {
                 </div>
             </ContainerBackground>
 
-            <Footer />
+            <Footer FooterRoutes={FooterRoutes}/>
         </Container>
     );
 }
