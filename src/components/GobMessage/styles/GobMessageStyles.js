@@ -33,7 +33,7 @@ export const URLDivider = styled('div')({
 
 export const Text = styled('p')({
     color: COLORS.white,
-    fontSize: '1vw',
+    fontSize: '0.8vw',
     '@media (max-width:768px)': {
         fontSize: '6.5px',
     },
@@ -42,7 +42,7 @@ export const Text = styled('p')({
 
 export const LinkText = styled('a')({
     color: COLORS.primary,
-    fontSize: '1vw',
+    fontSize: '0.8vw',
     alignSelf:'center',
     '@media (max-width:768px)': {
         fontSize: '6.5px',

@@ -9,12 +9,21 @@ import {
 } from './styles/ServiceDescriptionStyles';
 import { FAQDATA } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
 
+    const [loginOrRegisterModalStatus,setLoginOrRegisterModalStatus] = useState(false);
+
+    const handleLoginOrRegisterModal = () => {
+        //CREATE OTHER FUNCTION TO VALIDATE LOGIN AND START REQUEST OR OPEN MODAL
+        setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
+    }
+
     return (
         <Container >
+                        <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={handleLoginOrRegisterModal} onCloseClick={handleLoginOrRegisterModal}/>
             <Row>
                 <ServiceDirectoryMenu />
                 <RowBodyDivider />
@@ -36,7 +45,7 @@ function ServiceDescription() {
                     <BodyText>• Cedula de Identidad</BodyText>
                     <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" >INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleLoginOrRegisterModal()}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     {

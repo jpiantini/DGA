@@ -46,8 +46,10 @@ function Login() {
     return (
         <LoginContainer>
             <LeftPanelContainer>
-                <LogoImage src={MiturLogoImage} />
+            <LogoImage src={MiturLogoImage} />
+
                 <FlexStartContainer>
+                <div>
                     <Title>Iniciar Sesión</Title>
                     <TextFieldContainer>
                         <TextField
@@ -84,6 +86,7 @@ function Login() {
                                 color: COLORS.primary,
                             }}>Registrarse</LinkText>
                     </Row>
+                    </div>
                     <FooterContainer>
                         <BodyText style={{
                             color: COLORS.grayPlaceholder,

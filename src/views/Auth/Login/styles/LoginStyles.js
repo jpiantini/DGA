@@ -3,6 +3,7 @@ import COLORS from '../../../../theme/Colors';
 import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { Link } from 'react-router-dom';
+
 export const LoginContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row',
@@ -20,7 +21,7 @@ export const LeftPanelContainer = styled('div')({
 });
 
 export const LogoImage = styled('img')({
-    margin: '25px',
+    margin: '10%',
     width: '350px',
     '@media (max-width:768px)': {
         width: '300px',
@@ -54,6 +55,7 @@ export const Title = styled('h1')({
 export const FlexStartContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
+    justifyContent:'space-around',
     width: '80%',
     height: '100%',
     alignItems: 'flex-start'
@@ -88,5 +90,5 @@ export const FooterContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    height: '100%',
+    height: '40%',
 });

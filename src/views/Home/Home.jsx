@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import COLORS from '../../theme/Colors';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
@@ -44,7 +43,11 @@ import {
     DefaultButton,
     SearcherContainer,
     SelectorContainer,
-    SearcherTitle
+    SearcherTitle,
+    StyledDescriptionIcon,
+    StyledPersonAddIcon,
+    StyledSearchIcon,
+    StyledSearchIconForSearcher
 } from './styles/HomeStyles';
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import Footer from './components/Footer/Footer';
@@ -53,7 +56,6 @@ import { useHistory } from 'react-router';
 function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
     const history = useHistory();
-
     return (
         <Container >
             <GobMessage />
@@ -75,17 +77,17 @@ function Home() {
             <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
                 <AnalyticsContainer>
                     <div>
-                        <DescriptionIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledDescriptionIcon />
                         <Title>+304%</Title>
                         <SubTitle>Solicitudes de licencia</SubTitle>
                     </div>
                     <div>
-                        <PersonAddIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledPersonAddIcon />
                         <Title>+304%</Title>
                         <SubTitle>Usuarios registrados</SubTitle>
                     </div>
                     <div>
-                        <SearchIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledSearchIcon />
                         <Title>+304%</Title>
                         <SubTitle>Busquedas realizadas</SubTitle>
                     </div>
@@ -101,10 +103,11 @@ function Home() {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon />
+                                    <StyledSearchIconForSearcher />
                                 </InputAdornment>
                             ),
                         }}
+                        input
                     />
                 </SearcherContainer>
                 <SelectorsSearcherContainer >
@@ -114,8 +117,17 @@ function Home() {
                             id="outlined-select-currency"
                             select
                             label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
+                            //   value={firstSelectorData}
+                            //  onChange={handleChange}
+                            SelectProps={{
+                                MenuProps:{
+                                    MenuListProps:{
+                                        sx:{fontSize:'500px'}
+                                    },
+                                    sx:{fontSize:'500px'}
+
+                                }
+                            }}
                         >
                             {
                                 firstSelectorData.map((item) => (
@@ -206,15 +218,15 @@ function Home() {
                 <div style={{ height: '30px' }} />
                 <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     <Grid item >
-                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
+                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
                     </Grid>
 
                     <Grid item >
-                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
+                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
                     </Grid>
 
                     <Grid item >
-                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')}/>
+                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
                     </Grid>
                 </Grid>
                 <div style={{ height: '30px' }} />
@@ -238,7 +250,7 @@ function Home() {
                 </div>
             </ContainerBackground>
 
-            <Footer FooterRoutes={FooterRoutes}/>
+            <Footer FooterRoutes={FooterRoutes} />
         </Container>
     );
 }

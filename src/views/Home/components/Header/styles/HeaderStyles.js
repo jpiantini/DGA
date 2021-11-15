@@ -6,26 +6,33 @@ export const Container = styled('div')({
     zIndex:5,
     display: 'flex',
     flexDirection: 'row',
-    marginTop:'40px',
     alignSelf:'flex-end',
-    marginRight:'10vw',
+    marginTop:'40px',
+    marginRight:'14vw',
     '@media (max-width:768px)': {
         right:'3vw',
     },
-});
-
-export const Text = styled('p')({
-    fontSize:'18px',
-    textAlign:'center',
-    color: COLORS.white,
-    textShadow:'1px 1px #000000',
-    '@media (max-width:768px)': {
+    '@media (min-width:1200px)': {
+        marginTop:'40px',
     },
-    fontFamily:'Nunito Sans'
+    '@media (min-width:2048px)': {
+        marginTop:'60px',
+    },
+    '@media (min-width:3840px)': {
+        marginTop:'60px',
+    },
 });
 
 export const MenuButton = styled(Button)({
-    fontSize:'15px',
+    '@media (min-width:1200px)': {
+        fontSize:'15px',
+    },
+    '@media (min-width:2048px)': {
+        fontSize:'25px',
+    },
+    '@media (min-width:3840px)': {
+        fontSize:'40px',
+    },
     color:COLORS.white,
 });
 

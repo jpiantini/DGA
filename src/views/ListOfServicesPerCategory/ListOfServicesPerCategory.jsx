@@ -12,13 +12,21 @@ import { Grid } from '@mui/material';
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import { ListServices } from './ListOfServicesPerCategoryConstants';
 import { useHistory } from 'react-router';
+import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 
 function ListOfServicesPerCategory() {
     const matchesWidth = useMediaQuery('(min-width:867px)');
     const history = useHistory();
 
+    const [loginOrRegisterModalStatus,setLoginOrRegisterModalStatus] = useState(false);
+
+    const handleLoginOrRegisterModal = () => {
+        //CREATE OTHER FUNCTION TO VALIDATE LOGIN AND START REQUEST OR OPEN MODAL
+        setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
+    }
     return (
         <Container >
+            <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={handleLoginOrRegisterModal} onCloseClick={handleLoginOrRegisterModal}/>
             <Row>
                 <ServiceDirectoryMenu />
                 <RowBodyDivider />
@@ -36,11 +44,11 @@ function ListOfServicesPerCategory() {
                         <>
                         <TextInformation title="Servicios" />
                         <SmallHeightDivider />
-                        <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        <Grid  container direction="row" justifyContent="center"  spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {
                                 ListServices.map((item) => (
                                     <Grid item >
-                                        <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')}/>
+                                        <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleLoginOrRegisterModal()} OnViewInformationPress={() => history.push('/app/serviceDescription')}/>
                                     </Grid>
                                 ))
                             }
@@ -58,7 +66,7 @@ function ListOfServicesPerCategory() {
                     {
                         ListServices.map((item) => (
                             <Grid item >
-                                <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')}/>
+                                <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleLoginOrRegisterModal()} OnViewInformationPress={() => history.push('/app/serviceDescription')}/>
                             </Grid>
                         ))
                     }

@@ -19,15 +19,15 @@ function Header() {
         matchesWidth ?
             <Container>
                 <MenuButton>Mis Servicios</MenuButton>
-                <div style={{ width: '15px' }} />
+                <div style={{ width: '1rem' }} />
                 <MenuButton>Contacto</MenuButton>
-                <div style={{ width: '15px' }} />
+                <div style={{ width: '1rem' }} />
                 <MenuButton variant="outlined" color="inherit" onClick={() => goToRoute('public/login')}>
                     Iniciar sesión
                 </MenuButton>
-                <div style={{ width: '15px' }} />
+                <div style={{ width: '1rem' }} />
                 <MenuButton variant="outlined" color="inherit" onClick={() => goToRoute('public/register')}>Registrar</MenuButton>
-                <div style={{ width: '15px' }} />
+                <div style={{ width: '1rem' }} />
             </Container>
             :
             <Container>

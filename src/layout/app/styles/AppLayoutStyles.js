@@ -8,7 +8,7 @@ export const LayoutContainer = styled('div')({
 })
 
 export const LayoutBodyContainer = styled('div')({
-    width:'95%',
+    width:'85%',
     alignSelf:'center'
 })
 
