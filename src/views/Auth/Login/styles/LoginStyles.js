@@ -13,18 +13,30 @@ export const LeftPanelContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent:'center',
     minHeight: '100vh',
-    width: '50%',
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         width: '100%',
-    }
+    },
+    '@media (min-width:768px)': {
+        width: '100%',
+    },
+    '@media (min-width:1200px)': {
+        width: '50%',
+    },
 });
 
 export const LogoImage = styled('img')({
     margin: '10%',
-    width: '350px',
-    '@media (max-width:768px)': {
-        width: '300px',
+    '@media (min-width:320px)': {
+        width: '75%',
+    },
+    '@media (min-width:768px)': {
+        width: '75%',
+
+    },
+    '@media (min-width:1200px)': {
+        width: '75%',
     },
 });
 
@@ -36,18 +48,29 @@ export const Image = styled('div')({
     width: '100%',
     minHeight: '100vh',
     justifyContent: 'center',
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         display: 'none',
-    }
+    },
+    '@media (min-width:768px)': {
+        display: 'none',
+    },
+    '@media (min-width:1200px)': {
+        display: 'flex',
+    },
 });
 
 export const Title = styled('h1')({
     margin: 0,
-    fontSize: '45px',
     color: COLORS.secondary,
     fontFamily: 'Source Sans Pro',
-    '@media (max-width:768px)': {
-        fontSize: '30px'
+    '@media (min-width:320px)': {
+        fontSize: '30px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '35px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '45px',
     },
 });
 
@@ -55,19 +78,17 @@ export const Title = styled('h1')({
 export const FlexStartContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent:'space-around',
-    width: '80%',
     height: '100%',
-    alignItems: 'flex-start'
+    width: '75%',
+    alignSelf:'center',
+    alignItems:'flex-start',
+    justifySelf:'center',
 });
 
 export const TextFieldContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '350px',
-    '@media(max-width:768px)':{
-        width: '280px',
-    }
+    width: '100%',
 });
 
 export const LinkText = styled(Link)({

@@ -44,7 +44,7 @@ function ListOfServicesPerCategory() {
                         <>
                         <TextInformation title="Servicios" />
                         <SmallHeightDivider />
-                        <Grid  container direction="row" justifyContent="center"  spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        <Grid  container direction="row" justifyContent="flex-start"  spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {
                                 ListServices.map((item) => (
                                     <Grid item >

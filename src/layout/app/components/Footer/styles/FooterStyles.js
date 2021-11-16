@@ -6,8 +6,14 @@ import COLORS from '../../../../../theme/Colors';
 export const Image = styled('img')({
     margin: '25px',
     width: '20%',
-    '@media (max-width:768px)': {
-        width: '170px',
+    '@media (min-width:320px)': {
+        width: '200px',
+    },
+    '@media (min-width:768px)': {
+        width: '240px',
+    },
+    '@media (min-width:1200px)': {
+        width: '300px',
     },
 });
 

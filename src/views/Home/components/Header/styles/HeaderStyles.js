@@ -15,23 +15,11 @@ export const Container = styled('div')({
     '@media (min-width:1200px)': {
         marginTop:'40px',
     },
-    '@media (min-width:2048px)': {
-        marginTop:'60px',
-    },
-    '@media (min-width:3840px)': {
-        marginTop:'60px',
-    },
 });
 
 export const MenuButton = styled(Button)({
     '@media (min-width:1200px)': {
         fontSize:'15px',
-    },
-    '@media (min-width:2048px)': {
-        fontSize:'25px',
-    },
-    '@media (min-width:3840px)': {
-        fontSize:'40px',
     },
     color:COLORS.white,
 });

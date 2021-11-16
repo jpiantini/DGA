@@ -46,12 +46,6 @@ export const MediumContainer = styled('div')({
     '@media (min-width:1200px)': {
         minHeight: '380px',
     },
-    '@media (min-width:2048px)': {
-        minHeight: '500px',
-    },
-    '@media (min-width:3840px)': {
-        minHeight: '1000px',
-    },
 });
 
 
@@ -88,17 +82,7 @@ export const DefaultButton = styled(Button)({
         fontSize: '15px',
         borderRadius: '20px',
         width: '230px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '25px',
-        borderRadius: '22px',
-        width: '400px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '40px',
-        borderRadius: '35px',
-        width: '500px'
-    },
+    }
 });
 
 export const HomeTitle = styled('h1')({
@@ -114,13 +98,7 @@ export const HomeTitle = styled('h1')({
     },
     '@media (min-width:1200px)': {
         fontSize: '50px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '65px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '120px'
-    },
+    }
 });
 
 
@@ -137,12 +115,6 @@ export const HomeSubTitle = styled('h3')({
     },
     '@media (min-width:1200px)': {
         fontSize: '18px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '30px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '55px'
     },
 });
 
@@ -169,13 +141,7 @@ export const StyledDescriptionIcon = styled(DescriptionIcon)({
     },
     '@media (min-width:1200px)': {
         fontSize: '100px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '130px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '300px'
-    },
+    }
 });
 
 export const StyledPersonAddIcon = styled(PersonAddIcon)({
@@ -188,13 +154,7 @@ export const StyledPersonAddIcon = styled(PersonAddIcon)({
     },
     '@media (min-width:1200px)': {
         fontSize: '100px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '130px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '300px'
-    },
+    }
 });
 
 export const StyledSearchIcon = styled(SearchIcon)({
@@ -207,12 +167,6 @@ export const StyledSearchIcon = styled(SearchIcon)({
     },
     '@media (min-width:1200px)': {
         fontSize: '100px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '130px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '300px'
     },
 });
 
@@ -231,12 +185,6 @@ export const Title = styled('h1')({
     '@media (min-width:1200px)': {
         fontSize: '50px'
     },
-    '@media (min-width:2048px)': {
-        fontSize: '70px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '130px'
-    },
 });
 
 export const SubTitle = styled('h3')({
@@ -252,13 +200,7 @@ export const SubTitle = styled('h3')({
     },
     '@media (min-width:1200px)': {
         fontSize: '20px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '30px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '70px'
-    },
+    }
 });
 
 export const SearcherSubTitle = styled('h3')({
@@ -274,12 +216,6 @@ export const SearcherSubTitle = styled('h3')({
     },
     '@media (min-width:1200px)': {
         fontSize: '16px'
-    },
-    '@media (min-width:2048px)': {
-        fontSize: '22px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize: '50px'
     },
 });
 
@@ -328,36 +264,16 @@ export const SelectorsSearcherContainer = styled('div')({
 
 
   export const StyledSearchIconForSearcher = styled(SearchIcon)({
-    '@media (min-width:2048px)': {
-        fontSize:'28px'
-    },
-    '@media (min-width:3840px)': {
-        fontSize:'60px'
-    },
+   
 });
+
 export const SearchTextInput = styled(TextField)({
     width: '100%',
     alignSelf: 'center',
-    '& .MuiOutlinedInput-input': {
-        '@media (min-width:2048px)': {
-            fontSize: '30px',
-        },
-        '@media (min-width:3840px)': {
-            fontSize: '60px',
-        },
-    },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
             borderColor: COLORS.secondary,
             borderRadius: 0,
-            '@media (min-width:2048px)': {
-                height: '80px',
-                borderWidth: '1px',
-            },
-            '@media (min-width:3840px)': {
-                height: '130px',
-                borderWidth: '2px',
-            },
         },
         '&:hover fieldset': {
             borderColor: COLORS.secondary,
@@ -367,10 +283,6 @@ export const SearchTextInput = styled(TextField)({
             borderColor: COLORS.secondary,
             borderWidth: '1px',
             borderRadius: 0,
-            '@media (min-width:3840px)': {
-                borderWidth: '2px',
-            },
-
         },
     },
 });
@@ -378,14 +290,6 @@ export const SearchTextInput = styled(TextField)({
 export const SearchSelect = styled(TextField)({
     alignSelf: 'start',
     width: '100%',
-    '& .MuiOutlinedInput-input': {
-        '@media (min-width:2048px)': {
-            fontSize: '30px',
-        },
-        '@media (min-width:3840px)': {
-            fontSize: '60px',
-        },
-    },
     '& .MuiMenuItem-root':{
         fontSize:'100px'
     },
@@ -393,14 +297,6 @@ export const SearchSelect = styled(TextField)({
         '& fieldset': {
             borderColor: COLORS.secondary,
             borderRadius: 0,
-            '@media (min-width:2048px)': {
-                height: '80px',
-                borderWidth: '1px',
-            },
-            '@media (min-width:3840px)': {
-                height: '130px',
-                borderWidth: '2px',
-            },
         },
         '&:hover fieldset': {
             borderColor: COLORS.secondary,
@@ -410,9 +306,6 @@ export const SearchSelect = styled(TextField)({
             borderColor: COLORS.secondary,
             borderWidth: '1px',
             borderRadius: 0,
-            '@media (min-width:3840px)': {
-                borderWidth: '2px',
-            },
         },
     },
     '@media (max-width:830px)': {
@@ -470,10 +363,35 @@ export const LinkText = styled('a')({
 export const CenterContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '70%',
-    justifyContent: 'center',
-    alignItems: 'left',
+    width: '85%',
     alignSelf: 'center',
-    textAlign: 'left'
+    padding:'10px'
 });
+
+export const CardsContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'row',
+    '@media (min-width:320px)': {
+        flexDirection: 'column',
+    },
+    '@media (min-width:768px)': {
+        flexDirection: 'row',
+    },
+    '@media (min-width:1200px)': {
+        flexDirection: 'row',
+    },
+});
+
+export const CardsDivider = styled('div')({
+    '@media (min-width:320px)': {
+        height: '25px'
+    },
+    '@media (min-width:768px)': {
+        width: '10%'
+    },
+    '@media (min-width:1200px)': {
+        width: '10%'
+    },
+});
+
 

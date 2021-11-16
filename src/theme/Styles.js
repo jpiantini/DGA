@@ -14,7 +14,7 @@ export const Row = styled('div')({
 });
 
 export const StyledButton = styled(Button)({
-    height: '35px',
+    minHeight: '35px',
     width: '100%',
     borderRadius: '0',
     color: COLORS.white,
@@ -28,7 +28,7 @@ export const StyledButton = styled(Button)({
 });
 
 export const StyledButtonOutlined = styled(Button)({
-    height: '35px',
+    minHeight: '35px',
     width: '100%',
     borderColor: COLORS.secondary,
     borderRadius: 0,

@@ -10,10 +10,9 @@ function GobMessage() {
 
             <TextContainer>
                 <Text >
-                    Este sitio pertenece al Ministerio de Turismo de la Republica Dominicana | Visitar el sitio oficial
+                   { 'Este sitio pertenece al Ministerio de Turismo de la Republica Dominicana | Visitar el sitio oficial \r\n' }
+                   <LinkText href="http://www.mitur.gob.do">www.mitur.gob.do</LinkText>
                 </Text>
-                <URLDivider />
-                <LinkText href="http://www.mitur.gob.do">www.mitur.gob.do</LinkText>
             </TextContainer>
             <Image src={EscudoRD} />
 

@@ -47,7 +47,9 @@ import {
     StyledDescriptionIcon,
     StyledPersonAddIcon,
     StyledSearchIcon,
-    StyledSearchIconForSearcher
+    StyledSearchIconForSearcher,
+    CardsContainer,
+    CardsDivider
 } from './styles/HomeStyles';
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import Footer from './components/Footer/Footer';
@@ -117,17 +119,8 @@ function Home() {
                             id="outlined-select-currency"
                             select
                             label="Elegir"
-                            //   value={firstSelectorData}
-                            //  onChange={handleChange}
-                            SelectProps={{
-                                MenuProps:{
-                                    MenuListProps:{
-                                        sx:{fontSize:'500px'}
-                                    },
-                                    sx:{fontSize:'500px'}
-
-                                }
-                            }}
+                        //   value={firstSelectorData}
+                        //  onChange={handleChange}
                         >
                             {
                                 firstSelectorData.map((item) => (
@@ -214,21 +207,16 @@ function Home() {
                     <SearcherSubTitle style={{ margin: 0 }}>LISTADO DE SERVICIOS POR SUB-SECTOR</SearcherSubTitle>
                     <SearcherTitle >Usa nuestro buscador avanzado</SearcherTitle>
 
-                </CenterContainer>
-                <div style={{ height: '30px' }} />
-                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item >
+                    <div style={{ height: '60px' }} />
+                    <CardsContainer>
                         <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
-                    </Grid>
-
-                    <Grid item >
+                        <CardsDivider />
                         <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
-                    </Grid>
-
-                    <Grid item >
+                        <CardsDivider />
                         <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
-                    </Grid>
-                </Grid>
+                    </CardsContainer>
+                </CenterContainer>
+
                 <div style={{ height: '30px' }} />
             </Container>
 
