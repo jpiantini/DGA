@@ -1,17 +1,33 @@
 import { useState } from 'react';
-import { Container, MenuContainer, Image, MenuButton, MenuDivider, DrawerList, DrawerListItemButton, DrawerListItemContainer } from './styles/HeaderStyles';
 import MiturLogo from '../../../../assets/images/MiturLogoSecondary.png'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+    Container,
+    MenuContainer,
+    Image,
+    MenuButton,
+    MenuDivider,
+    DrawerList,
+    DrawerListItemButton,
+    DrawerListItemContainer
+} from './styles/HeaderStyles';
+import LoggedInMenu from '../../../../components/LoggedInMenu/LoggedInMenu';
 
 function Header() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const [drawerState, setDrawerState] = useState(false);
 
+
     const history = useHistory();
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
+
     const goToRoute = (route) => {
         history.push(route);
     }
@@ -26,11 +42,16 @@ function Header() {
                         <MenuDivider />
                         <MenuButton>Servicios</MenuButton>
                         <MenuDivider />
-                        <MenuButton>Informaciones</MenuButton>
+                        <MenuButton>Mi escritorio</MenuButton>
                         <MenuDivider />
                         <MenuButton>Contacto</MenuButton>
                         <MenuDivider />
-                        <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
+                        {
+                            !authenticated ?
+                            <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
+                            :
+                            <LoggedInMenu />
+                        }
                     </MenuContainer>
                     :
                     <MenuContainer>
@@ -48,7 +69,7 @@ function Header() {
                                     <DrawerListItemButton color="inherit" >Servicios</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Informaciones</DrawerListItemButton>
+                                    <DrawerListItemButton color="inherit" >Mi escritorio</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
                                     <DrawerListItemButton color="inherit" >Contacto</DrawerListItemButton>

@@ -1,3 +1,20 @@
+export const titles = [
+  {
+    id:1,
+    title:'CONFOTUR',
+  },
+  {
+    id:2,
+    title:'EMPRESAS Y SERVICIOS',
+  },
+  {
+    id:3,
+    title:'DDP',
+  },
+ 
+  
+]
+
 export const ListServices = [
     {
       id:1,

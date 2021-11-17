@@ -1,29 +1,55 @@
-import { useState } from 'react';
+import { useState,useLayoutEffect } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { FAQDATA } from './ServiceDescriptionConstants';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
+import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
+import { useParams } from "react-router-dom";
 import {
     ButtonContainer,
     Container,
 } from './styles/ServiceDescriptionStyles';
-import { FAQDATA } from './ServiceDescriptionConstants';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
+    const history = useHistory();
+    let { id } = useParams();
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
 
-    const [loginOrRegisterModalStatus,setLoginOrRegisterModalStatus] = useState(false);
+    const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
-    const handleLoginOrRegisterModal = () => {
-        //CREATE OTHER FUNCTION TO VALIDATE LOGIN AND START REQUEST OR OPEN MODAL
-        setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
+    const handleServiceRequest = () => {
+        if (authenticated) {
+            //send to service request 
+            alert('Servicio solicitado');
+        } else {
+            setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
+        }
     }
+
+    useLayoutEffect(() => {
+        const LastServiceAvailable = 1; //TEST VALUE
+        if (id == LastServiceAvailable) {
+            //UPDATE APP HEADER SUBTITLE
+            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
+        } else {
+            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
+            history.push('/app/serviceDescription/1')
+          //  let Title = titles.find((title) => title.id == 1)?.title;
+            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
+        }
+    }, []);
+
 
     return (
         <Container >
-                        <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={handleLoginOrRegisterModal} onCloseClick={handleLoginOrRegisterModal}/>
+            <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={() => setLoginOrRegisterModalStatus(false)} onCloseClick={() => setLoginOrRegisterModalStatus(false)} />
             <Row>
                 <ServiceDirectoryMenu />
                 <RowBodyDivider />
@@ -45,7 +71,7 @@ function ServiceDescription() {
                     <BodyText>• Cedula de Identidad</BodyText>
                     <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleLoginOrRegisterModal()}>INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest()}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     {
@@ -71,25 +97,25 @@ function ServiceDescription() {
                 </Container>
             </Row>
             {
-                        !matchesWidth &&
-                        <>
-                            <TextInformation title="Preguntas Frecuentes"
-                                content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+                !matchesWidth &&
+                <>
+                    <TextInformation title="Preguntas Frecuentes"
+                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
                         sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
                         sed diam voluptua."
-                            />
+                    />
 
-                            {
-                                FAQDATA.map((item) => (
-                                    <>
-                                        <Collapsable key={item.id} title={item.question} content={item.answer} />
-                                        <SmallHeightDivider />
-                                    </>
-                                ))
-                            }
-                        </>
-
+                    {
+                        FAQDATA.map((item) => (
+                            <>
+                                <Collapsable key={item.id} title={item.question} content={item.answer} />
+                                <SmallHeightDivider />
+                            </>
+                        ))
                     }
+                </>
+
+            }
         </Container>
     );
 }

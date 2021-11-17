@@ -65,7 +65,7 @@ function Home() {
                 'backgroundImage': `url(${slideImages[2]})`,
             }} >
                 <DarkOverlay>
-                    <Header />
+                    <Header/>
                     <HomeTextContainer>
                         <HomeSubTitle>LOREM IPSUM, CASUS AMER</HomeSubTitle>
                         <HomeTitle>Lorem ipsum,Cans amer dolor</HomeTitle>
@@ -209,11 +209,11 @@ function Home() {
 
                     <div style={{ height: '60px' }} />
                     <CardsContainer>
-                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
+                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/1')} />
                         <CardsDivider />
-                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
+                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/2')} />
                         <CardsDivider />
-                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices')} />
+                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/3')} />
                     </CardsContainer>
                 </CenterContainer>
 

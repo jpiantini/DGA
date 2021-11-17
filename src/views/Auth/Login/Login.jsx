@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './LoginConstants';
 import {
     LogoImage,
@@ -13,18 +13,28 @@ import {
     TextFieldContainer
 } from './styles/LoginStyles';
 import { StyledButton, Row } from '../../../theme/Styles';
-import LoginTextField from './components/TextField/TextField';
 import COLORS from '../../../theme/Colors';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
+import { useDispatch, useSelector } from "react-redux";
+import { AuthLogin } from '../../../redux/actions/AuthActions';
 
 function Login() {
 
     const history = useHistory();
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
 
     const goToRoute = (route) => {
         history.push(route)
+    }
+
+    const onLogin = (formData) => {
+        //CALL API LOGIN WITH AXIOS
+        if(formData){//IF LOGIN SUCCESS
+            dispatch(AuthLogin(true)) //set Authenticated true is needed save token
+        }
     }
 
     const formik = useFormik({
@@ -35,13 +45,15 @@ function Login() {
         validationSchema: FormSchema,
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2));
+            onLogin(values);
         },
     });
 
-    const onLoginClick = (formData) => {
-
-    }
-
+    useEffect(() => {
+        if (authenticated) {
+            goToRoute('/public');
+        }
+      }, [authenticated]);
 
     return (
         <LoginContainer>
