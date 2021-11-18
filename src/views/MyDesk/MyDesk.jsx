@@ -16,12 +16,20 @@ import {
     MetricsValue
 } from './styles/MyDeskStyles';
 import DeskNotification from './components/DeskNotification/DeskNotification';
+import { MockupNotifications } from './MyDeskConstants';
 
 function MyDesk() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
+    const [NotificationList, setNotificationsList] = useState(MockupNotifications);
+
+    const removeMockupNotifications = (notificationID) => {
+        setNotificationsList(
+            NotificationList.filter((notification) => notification.id != notificationID)
+        )
+    }
 
     useLayoutEffect(() => {
         dispatch(UpdateAppSubHeaderTitle('Mi escritorio')) //SET SUBHEADER TITLE
@@ -37,16 +45,19 @@ function MyDesk() {
                         <RowBodyDivider />
                     </Fragment>
                 }
+                <Container>
+                    {
+                        NotificationList.map((notification) => (
+                            <Fragment>
+                                <DeskNotification key={notification.id} variant={notification.type}
+                                    onClose={() => removeMockupNotifications(notification.id)}
+                                />
+                                <SmallHeightDivider />
+                            </Fragment>
 
-                <Container style={{}}>
-                    <DeskNotification />
+                        ))
+                    }
                     <SmallHeightDivider />
-                    <DeskNotification variant="warning" />
-                    <SmallHeightDivider />
-                    <DeskNotification variant="error" />
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-
                     <MetricsContainer>
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes en proceso</MetricsTitle>
