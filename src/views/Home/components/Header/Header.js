@@ -23,7 +23,7 @@ function Header() {
     return (
         matchesWidth ?
             <Container>
-                <MenuButton>Mis Servicios</MenuButton>
+                <MenuButton onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</MenuButton>
                 <div style={{ width: '1rem' }} />
                 <MenuButton>Contacto</MenuButton>.
                 <div style={{ width: '1rem' }} />
@@ -55,7 +55,7 @@ function Header() {
                             <DrawerListItemButton color="inherit" >INICIO</DrawerListItemButton>
                         </DrawerListItemContainer>
                         <DrawerListItemContainer>
-                            <DrawerListItemButton color="inherit" >MIS SERVICIOS</DrawerListItemButton>
+                            <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/listOfServices/0')}>SERVICIOS</DrawerListItemButton>
                         </DrawerListItemContainer>
                         {
                             !authenticated &&

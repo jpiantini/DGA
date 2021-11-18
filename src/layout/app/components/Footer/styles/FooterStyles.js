@@ -25,6 +25,7 @@ export const FooterContainer = styled('div')({
     width: '100%',
     minHeight: '40vh',
     justifyContent: 'center',
+    alignSelf:'flex-end'
 });
 
 

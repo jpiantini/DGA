@@ -4,11 +4,14 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Divider from '@mui/material/Divider';
+import { useHistory } from 'react-router';
 import {
     Container, StyledPaper, UserImage,
 } from './styles/LoggedInMenuStyles';
 
 function LoggedInMenu({ image }) {
+
+    const history = useHistory();
 
     const [hover, setHover] = useState(false);
     const containerRef = useRef(null);
@@ -37,7 +40,7 @@ function LoggedInMenu({ image }) {
                     >
                         <StyledPaper>
                             <MenuList>
-                                <MenuItem >Mi configuración</MenuItem>
+                                <MenuItem onClick={() => history.push('/app/myDesk')}>Mi configuración</MenuItem>
                                 <Divider sx={{ width: '100%' }} />
                                 <MenuItem >Cerrar sesión</MenuItem>
                             </MenuList>

@@ -26,10 +26,6 @@ function Login() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const goToRoute = (route) => {
-        history.push(route)
-    }
-
     const onLogin = (formData) => {
         //CALL API LOGIN WITH AXIOS
         if(formData){//IF LOGIN SUCCESS
@@ -51,7 +47,7 @@ function Login() {
 
     useEffect(() => {
         if (authenticated) {
-            goToRoute('/public');
+            history.goBack();
         }
       }, [authenticated]);
 

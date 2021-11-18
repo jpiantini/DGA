@@ -5,6 +5,7 @@ export const LayoutContainer = styled('div')({
     display:'flex',
     flexDirection:'column',
     width:'100%',
+    minHeight:'100vh'
 })
 
 export const LayoutBodyContainer = styled('div')({

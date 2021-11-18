@@ -3,6 +3,7 @@ import Login from '../views/Auth/Login/Login';
 import Register from '../views/Auth/Register/Register';
 import Home from '../views/Home/Home';
 import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
+import MyDesk from '../views/MyDesk/MyDesk';
 import ServiceDescription from '../views/ServiceDescription/ServiceDescription';
 
 const routes = [
@@ -40,6 +41,13 @@ const routes = [
         exact: true,
         layout: '/app',
         loginRequired: false
+    },
+    {
+        path: '/myDesk',
+        component: MyDesk,
+        exact: true,
+        layout: '/app',
+        loginRequired: true
     },
     {
         path: '*',

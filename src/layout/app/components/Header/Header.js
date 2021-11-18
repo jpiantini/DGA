@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import MiturLogo from '../../../../assets/images/MiturLogoSecondary.png'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from "react-router-dom";
@@ -40,17 +40,19 @@ function Header() {
                     <MenuContainer>
                         <MenuButton onClick={() => goToRoute('/')}>Inicio</MenuButton>
                         <MenuDivider />
-                        <MenuButton>Servicios</MenuButton>
-                        <MenuDivider />
-                        <MenuButton>Mi escritorio</MenuButton>
+                        <MenuButton onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</MenuButton>
                         <MenuDivider />
                         <MenuButton>Contacto</MenuButton>
                         <MenuDivider />
                         {
                             !authenticated ?
-                            <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
-                            :
-                            <LoggedInMenu />
+                                <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
+                                :
+                                <Fragment>
+                                    <MenuButton onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</MenuButton>
+                                    <MenuDivider />
+                                    <LoggedInMenu />
+                                </Fragment>
                         }
                     </MenuContainer>
                     :
@@ -66,19 +68,24 @@ function Header() {
                                     <DrawerListItemButton color="inherit" onClick={() => goToRoute('/')}>INICIO</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Servicios</DrawerListItemButton>
-                                </DrawerListItemContainer>
-                                <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Mi escritorio</DrawerListItemButton>
+                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
                                     <DrawerListItemButton color="inherit" >Contacto</DrawerListItemButton>
                                 </DrawerListItemContainer>
-                                <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
-                                        INICIAR SESIÓN
-                                    </DrawerListItemButton>
-                                </DrawerListItemContainer>
+                                {
+                                    !authenticated ?
+                                            <DrawerListItemContainer>
+                                                <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
+                                                    INICIAR SESIÓN
+                                                </DrawerListItemButton>
+                                            </DrawerListItemContainer>
+                                            :
+                                            <DrawerListItemContainer>
+                                                <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</DrawerListItemButton>
+                                            </DrawerListItemContainer>
+                                }
+
                             </DrawerList>
                         </Drawer>
                     </MenuContainer>

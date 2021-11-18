@@ -40,7 +40,10 @@ function ListOfServicesPerCategory() {
             //UPDATE APP HEADER SUBTITLE
             let Title = titles.find((title) => title.id == id)?.title; //find title in mockup info need 
             dispatch(UpdateAppSubHeaderTitle(Title)) // TITLE OF SUBHEADER APP
-        } else {
+        }else if (id == 0) {
+            dispatch(UpdateAppSubHeaderTitle('TODOS LOS SERVICIOS')) // IN CASE IF NEEDED SHOW ALL SERVICES
+        }
+         else {
             //IF ENTERED CATEGORY AS PARAM DOES`NT EXISTS REDIRECT TO FIRST CATEGORY
             history.push('/app/listOfServices/1')
             let Title = titles.find((title) => title.id == 1)?.title;
