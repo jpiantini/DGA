@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -11,35 +11,52 @@ import {
     CloseButtonContainer,
     IconContainer
 } from './styles/DeskNotificationStyles';
+import Slide from 'react-reveal/Slide';
 
-function DeskNotification({ variant, message,onClose }) {
+function DeskNotification({ variant, message, onClose, disableAnimation, disableCloseButton }) {
 
+    const [showAnimation, setShowAnimation] = useState();
 
+    const handleOnClose = () => {
+        setShowAnimation(false);
+        setTimeout(() => {
+            onClose();
+        }, 1000);
+    }
     return (
-        <Container variant={variant}>
-            <TextContainer>
-                <IconContainer>
-                    {
-                        variant === 'error' ?
-                            <StyledCancelIcon />
-                            :
-                            variant === 'warning' ?
-                                <StyledWarningIcon />
+        <Slide right={!disableAnimation} when={showAnimation}>
+            <Container variant={variant}>
+                <TextContainer>
+                    <IconContainer>
+                        {
+                            variant === 'error' ?
+                                <StyledCancelIcon />
                                 :
-                                <StyledCheckCircleIcon />
-                    }
-                </IconContainer>
-                <Text >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </Text>
-            </TextContainer>
-            <CloseButtonContainer>
-                <IconButton onClick={onClose} sx={{padding:0}}>
-                    <StyledCloseIcon />
-                </IconButton>
-            </CloseButtonContainer>
+                                variant === 'warning' ?
+                                    <StyledWarningIcon />
+                                    :
+                                    <StyledCheckCircleIcon />
+                        }
+                    </IconContainer>
+                    <Text >
+                        {
+                            message ? message :
+                            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                        }
+                       
+                    </Text>
+                </TextContainer>
+                {
+                    disableCloseButton ? null :
+                        <CloseButtonContainer>
+                            <IconButton onClick={handleOnClose} sx={{ padding: 0 }}>
+                                <StyledCloseIcon />
+                            </IconButton>
+                        </CloseButtonContainer>
+                }
 
-        </Container>
+            </Container>
+        </Slide>
     );
 }
 

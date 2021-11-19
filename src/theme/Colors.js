@@ -12,7 +12,7 @@ const COLORS = {
 
   //basics colors
   red: "red",
-  error: "#F74022",
+  error: "#c95159",
   success: "#00a000",
   warning:"#ffff00",
   white: '#ffffff',

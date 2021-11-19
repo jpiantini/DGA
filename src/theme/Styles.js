@@ -27,21 +27,29 @@ export const StyledButton = styled(Button)({
     }
 });
 
-export const StyledButtonOutlined = styled(Button)({
+export const StyledButtonOutlined = styled(Button)(props => ({
     minHeight: '35px',
     width: '100%',
     borderColor: COLORS.secondary,
     borderRadius: 0,
-    color: COLORS.secondary,
-    backgroundColor: COLORS.white,
-    fontSize: '15px',
+    color: props.active ? COLORS.white : COLORS.secondary,
+    backgroundColor: props.active ? COLORS.secondary : COLORS.white,
+    '@media (min-width:320px)': {
+        fontSize: '12px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '13.5px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '15px',
+    },
     fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
         borderColor: COLORS.secondary,
         backgroundColor: COLORS.secondary,
     }
-});
+}));
 
 export const BodyText = styled('p')({
     margin: 0,
@@ -57,5 +65,9 @@ export const RowBodyDivider = styled('div')({
 });
 export const SmallHeightDivider = styled('div')({
     height:'15px'
+});
+
+export const MediumHeightDivider = styled('div')({
+    height:'60px'
 });
 

@@ -48,7 +48,7 @@ export const MetricsValue = styled('h1')({
         fontSize: '50px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '100px',
+        fontSize: '90px',
     },
 
 });
@@ -58,6 +58,21 @@ export const MetricsContentDivider = styled('div')({
     width: '1px',
     height: '60%',
     alignSelf: 'center'
+});
+
+export const ButtonsMenuContainer = styled('div')({
+    display:'flex',
+    flexDirection:'column',
+    alignSelf:'center',
+    '@media (min-width:320px)': {
+        width: '100%',
+    },
+    '@media (min-width:768px)': {
+        width: '80%',
+    },
+    '@media (min-width:1200px)': {
+        width:'70%',
+    },
 });
 
 

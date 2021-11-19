@@ -99,7 +99,7 @@ export const StyledWarningIcon = styled(WarningIcon)({
 });
 
 export const StyledCancelIcon = styled(CancelIcon)({
-    color:COLORS.error,
+    color:COLORS.red,
     '@media (min-width:320px)': {
         fontSize: '18x',
     },
