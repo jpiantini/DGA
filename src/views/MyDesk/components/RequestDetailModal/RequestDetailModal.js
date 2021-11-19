@@ -34,7 +34,7 @@ export default function RequestDetailModal({ open, onCloseClick, selectedItem })
 
         <ContentContainer>
           <DeskNotification disableAnimation disableCloseButton //LUNES CAMBIAR ESTE COMPONENTE CREAR UNO INDEPENDIENTE PARA ESTA FUNCIONALIDAD
-           variant={selectedItem?.actionRequired ? "warning" : selectedItem.status === 'rejected' ?  'rejected' : 'success'}
+           variant={selectedItem?.actionRequired ? "warning" : selectedItem?.status === 'rejected' ?  'error' : 'success'}
            message={selectedItem?.actionRequired ?
             "MENSAJE DE ACCION REQUERIDA. FAVOR REALICE LA ACCION REQUERIDA PARA COMPLETAR LA SOLICITUD"
             :
