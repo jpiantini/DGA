@@ -27,16 +27,19 @@ export const LeftPanelContainer = styled('div')({
 });
 
 export const LogoImage = styled('img')({
-    margin: '10%',
     '@media (min-width:320px)': {
         width: '75%',
+        margin: '10%',
     },
     '@media (min-width:768px)': {
         width: '75%',
+        margin: '17%',
 
     },
     '@media (min-width:1200px)': {
-        width: '75%',
+        width: '50%',
+        margin: '18%',
+
     },
 });
 
@@ -64,13 +67,13 @@ export const Title = styled('h1')({
     color: COLORS.secondary,
     fontFamily: 'Source Sans Pro',
     '@media (min-width:320px)': {
-        fontSize: '30px',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
-        fontSize: '35px',
+        fontSize: '18px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '45px',
+        fontSize: '20px',
     },
 });
 
@@ -104,12 +107,12 @@ export const BodyText = styled('p')({
     color: COLORS.black,
     fontSize: '14px',
     fontFamily: 'Source Sans Pro',
-    margin: '3px'
+    margin: '0'
 });
 
 export const FooterContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    height: '40%',
+    height: '100%',
 });

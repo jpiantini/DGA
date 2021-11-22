@@ -88,27 +88,29 @@ export const StyledWarningIcon = styled(WarningIcon)({
 });
 
 export const ProgressBarContainer = styled('div')(props => ({
+    position:'relative',
     width: '100%',
     backgroundColor: '#e6e6e6',
     borderRadius: '10px',
     height: '20px',
-    alignItems:'center',
-    justifyContent:'center'
+    textAlign:'center',
 }));
 
 export const ProgressBarPercent = styled('div')(props => ({
+    position:'relative',
     width: props.percent ? props.percent : '25%',
     borderRadius: '10px',
-    backgroundColor: props.variant === 'completed' ? COLORS.tertiary :
-        props.variant === 'rejected' ? COLORS.error : '#858585',
+    backgroundColor: props.variant === 'success' ? COLORS.tertiary :
+        props.variant === 'rejected' ? COLORS.error : COLORS.primary,
     height: '20px',
 }));
 
 export const ProgressBarTitle = styled('h3')(props => ({
     margin: 0,
+    zIndex:100,
     position: 'absolute',
-    width:props.width,
-    textAlign:'center',
+    left:0,
+    width:'100%',
     color: COLORS.white,
     fontFamily: 'Source Sans Pro',
     '@media (min-width:320px)': {

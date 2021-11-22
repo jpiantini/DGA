@@ -14,12 +14,20 @@ export const Row = styled('div')({
 });
 
 export const StyledButton = styled(Button)({
-    minHeight: '35px',
+    minHeight: '38px',
     width: '100%',
     borderRadius: '0',
     color: COLORS.white,
     backgroundColor: COLORS.secondary,
-    fontSize: '15px',
+    '@media (min-width:320px)': {
+        fontSize: '12px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '13.5px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '15px',
+    },
     fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
@@ -28,7 +36,7 @@ export const StyledButton = styled(Button)({
 });
 
 export const StyledButtonOutlined = styled(Button)(props => ({
-    minHeight: '35px',
+    minHeight: '38px',
     width: '100%',
     borderColor: COLORS.secondary,
     borderRadius: 0,

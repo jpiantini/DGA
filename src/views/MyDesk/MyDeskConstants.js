@@ -19,14 +19,12 @@ export const MockupNotifications = [
 export const MockupInProcessRequests = [
     {
         id:1,
-        actionRequired:true,
         percent:'60%',
         title:'Solicitud de no objeción de suelo',
-        status:'inProcess'
+        status:'actionRequired'
     },
     {
         id:2,
-        actionRequired:false,
         percent:'90%',
         title:'Solicitud de prueba ABC',
         status:'inProcess'
@@ -37,12 +35,12 @@ export const MockupCompletedRequests = [
     {
         id:1,
         title:'Clasificación Provisional',
-        status:'completed'
+        status:'success'
     },
     {
         id:2,
         title:'Guías Turísticos',
-        status:'completed'
+        status:'success'
     },
 ]
 

@@ -17,23 +17,26 @@ export const MetricsContainer = styled('div')({
 });
 
 export const MetricsTextContainer = styled('div')({
+    position:'relative',
     textAlign: 'center',
+    alignItems:'center',
     width: '24%',
     padding: '2%'
 });
 
-export const MetricsTitle = styled('p')({
+export const MetricsTitle = styled('h1')({
     margin: 0,
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Nunito Sans',
     color: COLORS.secondary,
+    alignSelf:'center',
     '@media (min-width:320px)': {
         fontSize: '13px',
     },
     '@media (min-width:768px)': {
-        fontSize: '18px',
+        fontSize: '15px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '25px',
+        fontSize: '17px',
     },
 });
 
@@ -54,7 +57,7 @@ export const MetricsValue = styled('h1')({
 });
 
 export const MetricsContentDivider = styled('div')({
-    backgroundColor: COLORS.tertiary,
+    backgroundColor: COLORS.primary,
     width: '1px',
     height: '60%',
     alignSelf: 'center'

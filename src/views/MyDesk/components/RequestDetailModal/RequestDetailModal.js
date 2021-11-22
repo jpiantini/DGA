@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import { useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
-import DeskNotification from '../DeskNotification/DeskNotification';
+import IconButton from '@mui/material/IconButton';
 import { Row, SmallHeightDivider, StyledButton } from '../../../../theme/Styles';
 import {
   Container,
@@ -13,13 +13,52 @@ import {
   Text,
   TextContainer,
   ButtonContainer,
-  Column
-} from './styles/RequestDetailStyles';
+  Column,
+  StyledCancelIcon,
+  StyledCheckCircleIcon,
+  StyledWarningIcon,
+  IconContainer,
+  HeaderMessageContainer,
+  HeaderMessageTextContainer,
+  HeaderMessageBodyText,
+  StyledCloseIcon
+} from './styles/RequestDetailModalStyles';
+import { HeaderMessages } from './RequestDetailModalConstants';
 
 export default function RequestDetailModal({ open, onCloseClick, selectedItem }) {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
 
+  const HeaderMessage = ({ variant, message }) => {
+    console.log(variant, message)
+    return (
+      <HeaderMessageContainer variant={variant}>
+        <HeaderMessageTextContainer>
+          <IconContainer>
+            {
+              variant === 'rejected' ?
+                <StyledCancelIcon />
+                :
+                variant === 'actionRequired' ?
+                  <StyledWarningIcon />
+                  :
+                  variant === 'success' ?
+                    <StyledCheckCircleIcon />
+                    :
+                    variant === 'inProcess' ?
+                      <StyledCheckCircleIcon />
+                      :
+                      null
+            }
+          </IconContainer>
+          <div style={{ width: '2%' }} />
+          <HeaderMessageBodyText >
+            {message}
+          </HeaderMessageBodyText>
+        </HeaderMessageTextContainer>
+      </HeaderMessageContainer>
+    )
+  }
 
   return (
     <Dialog
@@ -33,19 +72,22 @@ export default function RequestDetailModal({ open, onCloseClick, selectedItem })
       <Container>
 
         <ContentContainer>
-          <DeskNotification disableAnimation disableCloseButton //LUNES CAMBIAR ESTE COMPONENTE CREAR UNO INDEPENDIENTE PARA ESTA FUNCIONALIDAD
-           variant={selectedItem?.actionRequired ? "warning" : selectedItem?.status === 'rejected' ?  'error' : 'success'}
-           message={selectedItem?.actionRequired ?
-            "MENSAJE DE ACCION REQUERIDA. FAVOR REALICE LA ACCION REQUERIDA PARA COMPLETAR LA SOLICITUD"
-            :
-            "¡Felicidades! Esta solicitud se ha completado correctamente."
+          <Row>
+            <HeaderMessage
+              variant={selectedItem?.status}
+              message={
+                HeaderMessages.find((message) =>
+                  message.id === selectedItem?.status
+                )?.message} />
+            <IconButton onClick={onCloseClick} sx={{ marginLeft: '5%' }}>
+              <StyledCloseIcon />
+            </IconButton>
+          </Row>
 
-          } />
           <SmallHeightDivider />
           <TextInformation title="Detalles" />
           <SmallHeightDivider />
           <TextContainer>
-
             <Row style={{ justifyContent: 'space-between' }}>
               <Column>
                 <Title>
@@ -94,7 +136,7 @@ export default function RequestDetailModal({ open, onCloseClick, selectedItem })
                 </Text>
               </Column>
               {
-                selectedItem?.actionRequired &&
+                selectedItem?.status === 'actionRequired' &&
                 <Column>
                   <ButtonContainer>
                     <StyledButton>
@@ -103,11 +145,10 @@ export default function RequestDetailModal({ open, onCloseClick, selectedItem })
                   </ButtonContainer>
                 </Column>
               }
-
             </Row>
           </TextContainer>
-
         </ContentContainer>
+        <SmallHeightDivider />
       </Container>
     </Dialog>
   );

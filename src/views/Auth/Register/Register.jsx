@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  MiturLogoImage,AuthBackgroundImage, FormSchema } from './RegisterConstants';
+import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './RegisterConstants';
 import {
     Image,
     RegisterContainer,
@@ -7,9 +7,10 @@ import {
     LogoImage,
     FlexStartContainer,
     BodyText,
-    FooterContainer
+    FooterContainer,
+    FormContainer
 } from './styles/RegisterStyles';
-import { StyledButton, StyledButtonOutlined } from '../../../theme/Styles';
+import { SmallHeightDivider, StyledButton, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
 import { useHistory } from "react-router-dom";
 import TextField from '../../../components/TextField/TextField';
@@ -44,10 +45,9 @@ function Register() {
     return (
         <RegisterContainer>
             <LeftPanelContainer>
-                <div style={{ height: '50px' }} />
-                <LogoImage src={MiturLogoImage}/>
+                <LogoImage src={MiturLogoImage} />
                 <FlexStartContainer>
-                    <div style={{ width: '100%' }}>
+                    <FormContainer>
                         <TextField title="Nombre" type="text" id="name"
                             value={formik.values.name}
                             onChange={formik.handleChange}
@@ -55,6 +55,8 @@ function Register() {
                             helperText={formik.touched.name && formik.errors.name}
                             required
                         />
+                        <SmallHeightDivider />
+
                         <TextField title="Apellidos" type="text" id="lastName"
                             value={formik.values.lastName}
                             onChange={formik.handleChange}
@@ -62,10 +64,14 @@ function Register() {
                             helperText={formik.touched.lastName && formik.errors.lastName}
                             required
                         />
+                        <SmallHeightDivider />
+
                         <RadioGroup name="identificationType" value={formik.values.identificationType} onChange={formik.handleChange} row >
                             <FormControlLabel value={1} control={<Radio sx={{ color: COLORS.tertiary }} />} label="Cedúla" />
                             <FormControlLabel value={2} control={<Radio sx={{ color: COLORS.tertiary }} />} label="Pasaporte" />
                         </RadioGroup>
+                        <SmallHeightDivider />
+
                         <TextField title="Documento de Identidad" type="text" id="identification"
                             required
                             mask="999-9999999-9"
@@ -74,6 +80,8 @@ function Register() {
                             error={formik.touched.identification && Boolean(formik.errors.identification)}
                             helperText={formik.touched.identification && formik.errors.identification}
                         />
+                        <SmallHeightDivider />
+
                         <TextField title="Telefono de contacto" type="text" id="phoneNumber"
                             required
                             mask="999-999-9999"
@@ -82,18 +90,23 @@ function Register() {
                             error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
                             helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                         />
+                        <SmallHeightDivider />
+
                         <TextField title="Correo Electronico" type="text" id="email"
-                           required
-                           value={formik.values.email}
+                            required
+                            value={formik.values.email}
                             onChange={formik.handleChange}
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
                         />
-                       
-                        <div style={{height:'20px'}}/>
-                        <StyledButtonOutlined variant='outlined' style={{width:'180px'}}
-                         onClick={() => formik.handleSubmit()}> Registrarme</StyledButtonOutlined>
-                    </div>
+
+                        <SmallHeightDivider />
+                        <SmallHeightDivider />
+
+                        <StyledButton onClick={() => formik.handleSubmit()}>
+                            Registrarme
+                        </StyledButton>
+                    </FormContainer>
                     <FooterContainer>
                         <BodyText style={{
                             color: COLORS.grayPlaceholder,

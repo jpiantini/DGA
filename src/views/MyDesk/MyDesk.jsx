@@ -21,6 +21,7 @@ import {
 import ButtonGroup from '@mui/material/ButtonGroup';
 import RequestCard from './components/RequestCard/RequestCard';
 import RequestDetailModal from './components/RequestDetailModal/RequestDetailModal';
+import Fade from 'react-reveal/Fade';
 
 function MyDesk() {
 
@@ -113,51 +114,69 @@ function MyDesk() {
                         </ButtonGroup>
                     </ButtonsMenuContainer>
 
-                    <MediumHeightDivider />
-                    <TextInformation title="Solicitudes en proceso" />
-
                     {
-                        MockupInProcessRequests.map((request) => (
-                            <Fragment key={request.id}>
-                                <SmallHeightDivider />
-                                <RequestCard title={request.title} percent={request.percent}
-                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                    variant='inProcess' actionRequired={request.actionRequired} />
-                            </Fragment>
-                        ))
+                        ActiveMenu == 0 ? // MI PERFIL
+                            <Fade right>
+                                <MediumHeightDivider />
+                                <TextInformation title="MI PERFIL" />
+                            </Fade>
+                            :
+                            ActiveMenu == 1 ? // SOLICITUDES EN PROCESO
+                                <Fade right >
+                                    <MediumHeightDivider />
+                                    <TextInformation title="Solicitudes en proceso" />
+
+                                    {
+                                        MockupInProcessRequests.map((request) => (
+                                            <Fragment key={request.id}>
+                                                <SmallHeightDivider />
+                                                <RequestCard title={request.title} percent={request.percent}
+                                                    onClick={() => handleRequestDetailModalStatus(request)}
+                                                    variant={request.status} />
+                                            </Fragment>
+                                        ))
+                                    }
+
+                                    <MediumHeightDivider />
+                                    <TextInformation title="Solicitudes Completadas" />
+
+                                    {
+                                        MockupCompletedRequests.map((request) => (
+                                            <Fragment key={request.id}>
+                                                <SmallHeightDivider />
+                                                <RequestCard title={request.title} percent={'100%'}
+                                                    onClick={() => handleRequestDetailModalStatus(request)}
+                                                    variant={request.status} />
+                                            </Fragment>
+                                        ))
+                                    }
+
+                                    <MediumHeightDivider />
+                                    <TextInformation title="Solicitudes Rechazadas" />
+
+                                    {
+                                        MockupRejectedRequests.map((request) => (
+                                            <Fragment key={request.id}>
+                                                <SmallHeightDivider />
+                                                <RequestCard title={request.title} percent={'100%'}
+                                                    onClick={() => handleRequestDetailModalStatus(request)}
+                                                    variant={request.status} />
+                                            </Fragment>
+                                        ))
+                                    }
+                                    <RequestDetailModal
+                                        selectedItem={selectedRequest}
+                                        open={openRequestDetailModal}
+                                        onCloseClick={handleRequestDetailModalStatus} />
+                                </Fade>
+                                : 
+                                // MIS DOCUMENTOS
+                                <Fade right>
+                                    <MediumHeightDivider />
+                                    <TextInformation title="MIS DOCUMENTOS" />
+                                </Fade>
                     }
 
-                    <MediumHeightDivider />
-                    <TextInformation title="Solicitudes Completadas" />
-
-                    {
-                        MockupCompletedRequests.map((request) => (
-                            <Fragment key={request.id}>
-                                <SmallHeightDivider />
-                                <RequestCard title={request.title} percent={'100%'}
-                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                    variant='completed' />
-                            </Fragment>
-                        ))
-                    }
-
-                    <MediumHeightDivider />
-                    <TextInformation title="Solicitudes Rechazadas" />
-
-                    {
-                        MockupRejectedRequests.map((request) => (
-                            <Fragment key={request.id}>
-                                <SmallHeightDivider />
-                                <RequestCard title={request.title} percent={'100%'}
-                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                    variant='rejected' />
-                            </Fragment>
-                        ))
-                    }
-                    <RequestDetailModal
-                        selectedItem={selectedRequest}
-                        open={openRequestDetailModal}
-                        onCloseClick={handleRequestDetailModalStatus} />
                 </Container>
             </Row>
 
