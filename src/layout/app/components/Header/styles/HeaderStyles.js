@@ -7,7 +7,7 @@ export const Container = styled('div')({
     backgroundColor: COLORS.white,
     justifyContent: 'space-around',
     alignItems:'center',
-    height:'100px',
+    minHeight:'90px',
     width:'100%',
 
 });
@@ -29,10 +29,14 @@ export const MenuDivider = styled('div')({
   
 });
 export const Image = styled('img')({
-    width: '20%',
-    heigth: '5vh',
-    '@media (max-width:768px)': {
-        width: '170px'  ,
+    '@media (min-width:320px)': {
+        width: '200px',
+    },
+    '@media (min-width:768px)': {
+        width: '220px',
+    },
+    '@media (min-width:1200px)': {
+        width: '320px',
     },
 });
 

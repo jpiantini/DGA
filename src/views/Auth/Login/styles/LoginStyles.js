@@ -3,6 +3,7 @@ import COLORS from '../../../../theme/Colors';
 import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { Link } from 'react-router-dom';
+
 export const LoginContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row',
@@ -12,18 +13,33 @@ export const LeftPanelContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent:'center',
     minHeight: '100vh',
-    width: '50%',
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         width: '100%',
-    }
+    },
+    '@media (min-width:768px)': {
+        width: '100%',
+    },
+    '@media (min-width:1200px)': {
+        width: '50%',
+    },
 });
 
 export const LogoImage = styled('img')({
-    margin: '25px',
-    width: '350px',
-    '@media (max-width:768px)': {
-        width: '300px',
+    '@media (min-width:320px)': {
+        width: '75%',
+        margin: '10%',
+    },
+    '@media (min-width:768px)': {
+        width: '75%',
+        margin: '17%',
+
+    },
+    '@media (min-width:1200px)': {
+        width: '50%',
+        margin: '18%',
+
     },
 });
 
@@ -35,18 +51,29 @@ export const Image = styled('div')({
     width: '100%',
     minHeight: '100vh',
     justifyContent: 'center',
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         display: 'none',
-    }
+    },
+    '@media (min-width:768px)': {
+        display: 'none',
+    },
+    '@media (min-width:1200px)': {
+        display: 'flex',
+    },
 });
 
 export const Title = styled('h1')({
     margin: 0,
-    fontSize: '45px',
     color: COLORS.secondary,
     fontFamily: 'Source Sans Pro',
-    '@media (max-width:768px)': {
-        fontSize: '30px'
+    '@media (min-width:320px)': {
+        fontSize: '18px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '18px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '20px',
     },
 });
 
@@ -54,18 +81,17 @@ export const Title = styled('h1')({
 export const FlexStartContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '80%',
     height: '100%',
-    alignItems: 'flex-start'
+    width: '75%',
+    alignSelf:'center',
+    alignItems:'flex-start',
+    justifySelf:'center',
 });
 
 export const TextFieldContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '350px',
-    '@media(max-width:768px)':{
-        width: '280px',
-    }
+    width: '100%',
 });
 
 export const LinkText = styled(Link)({
@@ -81,7 +107,7 @@ export const BodyText = styled('p')({
     color: COLORS.black,
     fontSize: '14px',
     fontFamily: 'Source Sans Pro',
-    margin: '3px'
+    margin: '0'
 });
 
 export const FooterContainer = styled('div')({

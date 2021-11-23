@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import COLORS from '../../theme/Colors';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
@@ -18,7 +17,8 @@ import {
     tertiarySelectorData,
     quaternarySelectorData,
     ListServices,
-    moreInformationBackgroundImage
+    moreInformationBackgroundImage,
+    FooterRoutes
 } from './HomeConstants';
 import {
     Container,
@@ -43,11 +43,18 @@ import {
     DefaultButton,
     SearcherContainer,
     SelectorContainer,
-    SearcherTitle
+    SearcherTitle,
+    StyledDescriptionIcon,
+    StyledPersonAddIcon,
+    StyledSearchIcon,
+    StyledSearchIconForSearcher,
+    CardsContainer,
+    CardsDivider
 } from './styles/HomeStyles';
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import Footer from './components/Footer/Footer';
 import { useHistory } from 'react-router';
+import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
 
 function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
@@ -73,17 +80,17 @@ function Home() {
             <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
                 <AnalyticsContainer>
                     <div>
-                        <DescriptionIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledDescriptionIcon />
                         <Title>+304%</Title>
                         <SubTitle>Solicitudes de licencia</SubTitle>
                     </div>
                     <div>
-                        <PersonAddIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledPersonAddIcon />
                         <Title>+304%</Title>
                         <SubTitle>Usuarios registrados</SubTitle>
                     </div>
                     <div>
-                        <SearchIcon style={{ fontSize: '70px', color: COLORS.primary }} />
+                        <StyledSearchIcon />
                         <Title>+304%</Title>
                         <SubTitle>Busquedas realizadas</SubTitle>
                     </div>
@@ -99,142 +106,24 @@ function Home() {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon />
+                                    <StyledSearchIconForSearcher />
                                 </InputAdornment>
                             ),
                         }}
+                        input
                     />
+                    <SmallHeightDivider />
+                    <div style={{  width: '50%', alignSelf: 'center' }}>
+                        <StyledButton>
+                            Buscar
+                        </StyledButton>
+                    </div>
+
                 </SearcherContainer>
-                <SelectorsSearcherContainer >
-                    <SelectorContainer>
-                        <SearcherSubTitle>Relacionado a:</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                firstSelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-                    <SelectorContainer>
-                        <SearcherSubTitle>Subsector</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                secondarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
 
 
-                    <SelectorContainer>
-                        <SearcherSubTitle>Actividad</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                tertiarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-
-                    <SelectorContainer>
-                        <SearcherSubTitle>Subactividad</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                quaternarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-                </SelectorsSearcherContainer>
             </MediumContainer>
 
-            {/* <ServicesListContainer style={{
-                'backgroundImage': `url(${servicesListBackgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-            }}>
-                <div>
-                    <ServicesSubtitle>Listado de servicios por sub-sector</ServicesSubtitle>
-                    <ServicesTitle>Usa nuestro buscador avanzado</ServicesTitle>
-                </div>
-                {
-                    minServicesBreakPoint ?
-                        <div>
-                            <CenterContainer>
-                                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    {
-                                        ListServices.map((item) => (
-                                            <Grid item >
-                                                <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')} />
-                                            </Grid>
-                                        ))
-                                    }
-                                </Grid>
-                            </CenterContainer>
-                        </div>
-                        :
-                        <div style={{ width: '100%', alignItems: 'center', alignSelf: 'center' }}>
-                            //PASS itemId as prop is REQUIRED for ScrollMenu work 
-                            <ScrollMenu
-                                LeftArrow={LeftArrow}
-                                RightArrow={RightArrow}
-                            >
-                                {
-                                    ListServices.map((item) => (
-                                        <ServiceCard itemId={item.id} {...item} OnViewInformationPress={() => history.push('/app/serviceDescription')} />
-                                    ))
-                                }
-                            </ScrollMenu>
-                            <ServicesSubtitle>Deslice a la izquierda o derecha para ver los servicios</ServicesSubtitle>
-                        </div>
-                }
-            </ServicesListContainer>
-        
-        */}
             <Container style={{
                 backgroundColor: COLORS.snow,
                 minHeight: '80vh',
@@ -244,21 +133,16 @@ function Home() {
                     <SearcherSubTitle style={{ margin: 0 }}>LISTADO DE SERVICIOS POR SUB-SECTOR</SearcherSubTitle>
                     <SearcherTitle >Usa nuestro buscador avanzado</SearcherTitle>
 
+                    <div style={{ height: '60px' }} />
+                    <CardsContainer>
+                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/1')} />
+                        <CardsDivider />
+                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/2')} />
+                        <CardsDivider />
+                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" onRequestPress={() => history.push('/app/listOfServices/3')} />
+                    </CardsContainer>
                 </CenterContainer>
-                <div style={{ height: '30px' }} />
-                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item >
-                        <ServiceCard title='CONFOTUR' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
-                    </Grid>
 
-                    <Grid item >
-                        <ServiceCard title='EMPRESAS Y SERVICIOS' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
-                    </Grid>
-
-                    <Grid item >
-                        <ServiceCard title='DDP' bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut" />
-                    </Grid>
-                </Grid>
                 <div style={{ height: '30px' }} />
             </Container>
 
@@ -280,7 +164,7 @@ function Home() {
                 </div>
             </ContainerBackground>
 
-            <Footer />
+            <Footer FooterRoutes={FooterRoutes} />
         </Container>
     );
 }

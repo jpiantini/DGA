@@ -1,12 +1,13 @@
 import { styled } from '@mui/system';
 import { Button } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
+
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign:'center',
-    height:'280px',
+    height:'220px',
     width:'100%',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -53,11 +54,16 @@ export const Image = styled('img')({
 
 export const Title = styled('h1')({
     margin:0,
-    fontSize: '50px',
-    textShadow: '2px 2px 10px #000000',
+   // textShadow: '2px 2px 10px #000000',
     color: COLORS.white,
     fontFamily: 'Source Sans Pro',
-    '@media (max-width:768px)': {
-        fontSize: '30px'
+    '@media (min-width:320px)': {
+        fontSize: '30px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '35px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '50px',
     },
 });

@@ -1,36 +1,58 @@
-import { useState } from 'react';
-import { Container, MenuContainer, Image, MenuButton, MenuDivider, DrawerList, DrawerListItemButton, DrawerListItemContainer } from './styles/HeaderStyles';
-import MiturBlackLogo from '../../../../assets/images/MiturBlackLogo.png'
+import { useState, Fragment } from 'react';
+import MiturLogo from '../../../../assets/images/MiturLogoSecondary.png'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+import LoggedInMenu from '../../../../components/LoggedInMenu/LoggedInMenu';
+import {
+    Container,
+    MenuContainer,
+    Image,
+    MenuButton,
+    MenuDivider,
+    DrawerList,
+    DrawerListItemButton,
+    DrawerListItemContainer
+} from './styles/HeaderStyles';
 
 function Header() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const [drawerState, setDrawerState] = useState(false);
 
+
     const history = useHistory();
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
+
     const goToRoute = (route) => {
         history.push(route);
     }
 
     return (
         <Container >
-            <Image src={MiturBlackLogo} />
+            <Image src={MiturLogo} />
             {
                 matchesWidth ?
                     <MenuContainer>
                         <MenuButton onClick={() => goToRoute('/')}>Inicio</MenuButton>
                         <MenuDivider />
-                        <MenuButton>Servicios</MenuButton>
-                        <MenuDivider />
-                        <MenuButton>Informaciones</MenuButton>
+                        <MenuButton onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</MenuButton>
                         <MenuDivider />
                         <MenuButton>Contacto</MenuButton>
                         <MenuDivider />
-                        <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
+                        {
+                            !authenticated ?
+                                <MenuButton onClick={() => goToRoute('/public/login')}>Iniciar Sesión</MenuButton>
+                                :
+                                <Fragment>
+                                    <MenuButton onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</MenuButton>
+                                    <MenuDivider />
+                                    <LoggedInMenu />
+                                </Fragment>
+                        }
                     </MenuContainer>
                     :
                     <MenuContainer>
@@ -45,19 +67,24 @@ function Header() {
                                     <DrawerListItemButton color="inherit" onClick={() => goToRoute('/')}>INICIO</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Servicios</DrawerListItemButton>
-                                </DrawerListItemContainer>
-                                <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Informaciones</DrawerListItemButton>
+                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
                                     <DrawerListItemButton color="inherit" >Contacto</DrawerListItemButton>
                                 </DrawerListItemContainer>
-                                <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
-                                        INICIAR SESIÓN
-                                    </DrawerListItemButton>
-                                </DrawerListItemContainer>
+                                {
+                                    !authenticated ?
+                                        <DrawerListItemContainer>
+                                            <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
+                                                INICIAR SESIÓN
+                                            </DrawerListItemButton>
+                                        </DrawerListItemContainer>
+                                        :
+                                        <DrawerListItemContainer>
+                                            <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</DrawerListItemButton>
+                                        </DrawerListItemContainer>
+                                }
+
                             </DrawerList>
                         </Drawer>
                     </MenuContainer>

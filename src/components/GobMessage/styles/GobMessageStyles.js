@@ -1,18 +1,24 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+
 export const Container = styled('div')({
     zIndex:3,
     display: 'flex',
-    position:'absolute',
+    position:'relative',
     flexDirection: 'row',
     backgroundColor: COLORS.secondary,
     alignItems: 'center',
+    textAlign:'center',
     justifyContent: 'space-evenly',
-    height:'40px',
     width:'100%',
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         flexDirection: 'column',
-        height:'55px',
+    },
+    '@media (min-width:768px)': {
+        flexDirection: 'column',
+    },
+    '@media (min-width:1200px)': {
+        flexDirection: 'row',
     }
 });
 
@@ -33,27 +39,40 @@ export const URLDivider = styled('div')({
 
 export const Text = styled('p')({
     color: COLORS.white,
-    fontSize: '1vw',
-    '@media (max-width:768px)': {
-        fontSize: '6.5px',
+    fontFamily:'Quicksand',
+    '@media (min-width:320px)': {
+        fontSize: '9px',
     },
-    fontFamily:'Quicksand'
+    '@media (min-width:768px)': {
+        fontSize: '11px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '13px',
+    }
 });
 
 export const LinkText = styled('a')({
     color: COLORS.primary,
-    fontSize: '1vw',
-    alignSelf:'center',
-    '@media (max-width:768px)': {
-        fontSize: '6.5px',
+    fontFamily:'Quicksand',
+    '@media (min-width:320px)': {
+        fontSize: '9px',
     },
-    fontFamily:'Quicksand'
+    '@media (min-width:768px)': {
+        fontSize: '11px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '13px',
+    }
 });
 
 export const Image = styled('img')({
-    width: '15vw',
-    heigth: '5vh',
-    '@media (max-width:768px)': {
-        width: '170px'  ,
+    '@media (min-width:320px)': {
+        width: '170px',
     },
+    '@media (min-width:768px)': {
+        width: '230px',
+    },
+    '@media (min-width:1200px)': {
+        width: '250px',
+    }
 });

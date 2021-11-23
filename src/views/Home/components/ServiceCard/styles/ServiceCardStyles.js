@@ -8,9 +8,8 @@ export const Container = styled('div')({
     backgroundColor: COLORS.white,
     textAlign: 'center',
     justifyContent:'center',
-    width: '300px',
+    width: '100%',
     height: '300px',
-    margin: "0 10px",
     boxShadow: '0 8px 10px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
 });
 

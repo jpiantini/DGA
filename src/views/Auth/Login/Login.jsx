@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './LoginConstants';
 import {
     LogoImage,
@@ -12,19 +12,25 @@ import {
     FooterContainer,
     TextFieldContainer
 } from './styles/LoginStyles';
-import { StyledButton, Row } from '../../../theme/Styles';
-import LoginTextField from './components/TextField/TextField';
+import { StyledButton, Row, SmallHeightDivider, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
+import { useDispatch, useSelector } from "react-redux";
+import { AuthLogin } from '../../../redux/actions/AuthActions';
 
 function Login() {
 
     const history = useHistory();
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
 
-    const goToRoute = (route) => {
-        history.push(route)
+    const onLogin = (formData) => {
+        //CALL API LOGIN WITH AXIOS
+        if (formData) {//IF LOGIN SUCCESS
+            dispatch(AuthLogin(true)) //set Authenticated true is needed save token
+        }
     }
 
     const formik = useFormik({
@@ -35,13 +41,15 @@ function Login() {
         validationSchema: FormSchema,
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2));
+            onLogin(values);
         },
     });
 
-    const onLoginClick = (formData) => {
-
-    }
-
+    useEffect(() => {
+        if (authenticated) {
+            history.goBack();
+        }
+    }, [authenticated]);
 
     return (
         <LoginContainer>
@@ -49,6 +57,8 @@ function Login() {
                 <LogoImage src={MiturLogoImage} />
                 <FlexStartContainer>
                     <Title>Iniciar Sesión</Title>
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
                     <TextFieldContainer>
                         <TextField
                             type="text"
@@ -61,6 +71,9 @@ function Login() {
                         />
                     </TextFieldContainer>
 
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
                     <TextFieldContainer>
                         <TextField
                             type="password"
@@ -72,18 +85,18 @@ function Login() {
                             helperText={formik.touched.password && formik.errors.password}
                         />
                     </TextFieldContainer>
-                    <div style={{ height: '15px' }} />
-                    <StyledButton style={{width:'180px'}} onClick={() => formik.handleSubmit()}>Iniciar sesión</StyledButton>
-                    <div style={{ height: '35px' }} />
+                    <MediumHeightDivider />
+                    <StyledButton onClick={() => formik.handleSubmit()}>Iniciar sesión</StyledButton>
+                    <MediumHeightDivider />
                     <LinkText>No recuerdo mi contraseña</LinkText>
-                    <Row>
-                        <BodyText>¿No tienes una cuenta?</BodyText>
+                    <SmallHeightDivider />
+                    <BodyText>¿No tienes una cuenta?
                         <LinkText
                             to='/public/register'
                             style={{
                                 color: COLORS.primary,
                             }}>Registrarse</LinkText>
-                    </Row>
+                    </BodyText>
                     <FooterContainer>
                         <BodyText style={{
                             color: COLORS.grayPlaceholder,

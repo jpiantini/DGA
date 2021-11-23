@@ -1,13 +1,15 @@
 import * as React from 'react';
-import Home from './views/Home/Home';
 import { Global } from '@emotion/react';
 import Router from './router/Router';
 import { BrowserRouter } from "react-router-dom";
 import Layouts from './router/Layouts';
+import { Provider } from "react-redux";
+import Store from './redux/store/Store';
+//ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
 function App() {
   return (
-    <div>
+    <Provider store={Store}>
       <Global
         styles={`
           body {
@@ -18,8 +20,7 @@ function App() {
       <BrowserRouter>
           <Router routes={Layouts} />
       </BrowserRouter>
-
-    </div>
+    </Provider>
 
   );
 }

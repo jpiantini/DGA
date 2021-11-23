@@ -6,12 +6,15 @@ const COLORS = {
   tertiary: "#0063bc",
   tertiaryOpacity: (color) => { return `rgba(0, 99, 188,${color || 0.50})` },
 
-
+  notificationSuccess:'#cee6d6',
+  notificationWarning:'#ece6bb',
+  notificationError:'#ff657a',
 
   //basics colors
   red: "red",
-  error: "#F74022",
-  success: "#30C39E",
+  error: "#c95159",
+  success: "#00a000",
+  warning:"#ffff00",
   white: '#ffffff',
   whiteOpacity: 'rgba(255, 255, 255,0.65)',
   snow: '#f2f6ff',
@@ -20,8 +23,6 @@ const COLORS = {
   grayPlaceholder: '#A9A9AC',
   lightGray: "#DCDCDC",
   fieldGray: "#E6EAEE",
-
- 
 }
 
 export default COLORS

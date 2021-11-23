@@ -8,22 +8,31 @@ export const RegisterContainer = styled('div')({
     flexDirection: 'row',
 });
 
+export const FormContainer = styled('div')({
+    width:'100%',
+    height:'100%'
+});
+
 export const LeftPanelContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    alignItems:'center',
-    minHeight:'100vh',
-    width: '50%',
-    '@media (max-width:768px)': {
+    alignItems: 'center',
+    justifyContent:'center',
+    minHeight: '100vh',
+    '@media (min-width:320px)': {
         width: '100%',
-    }
+    },
+    '@media (min-width:768px)': {
+        width: '100%',
+    },
+    '@media (min-width:1200px)': {
+        width: '50%',
+    },
 });
 
 export const LogoImage = styled('img')({
-    width: '150px',
-    '@media (max-width:768px)': {
-        width: '150px',
-    },
+    width: '35%',
+        margin: '8%',
 });
 
 export const Image = styled('div')({
@@ -51,11 +60,13 @@ export const Title = styled('h1')({
 
 
 export const FlexStartContainer = styled('div')({
-    display:'flex',
-    flexDirection:'column',
-    width: '80%',
-    height:'100%',
-    alignItems: 'flex-start'
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    width: '75%',
+    alignSelf:'center',
+    alignItems:'flex-start',
+    justifySelf:'center',
 });
 
 export const LinkText = styled('a')({
