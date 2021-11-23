@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS,LOGIN_FAIL } from "../actions/AuthActions";
+import { LOGIN_SUCCESS,LOGOUT } from "../actions/AuthActions";
 
 const initialState = {
   authenticated: false
@@ -11,7 +11,7 @@ const initialState = {
           ...state,
           authenticated: action.payload
         };
-        case LOGIN_FAIL:
+        case LOGOUT:
         return {
           ...state,
           authenticated: action.payload

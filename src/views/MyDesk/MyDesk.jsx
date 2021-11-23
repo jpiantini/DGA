@@ -11,17 +11,19 @@ import DeskNotification from './components/DeskNotification/DeskNotification';
 import { MockupCompletedRequests, MockupInProcessRequests, MockupNotifications, MockupRejectedRequests } from './MyDeskConstants';
 import {
     Container,
-    MetricsContainer,
+    CardContainer,
     MetricsContentDivider,
     MetricsTextContainer,
     MetricsTitle,
     MetricsValue,
-    ButtonsMenuContainer
+    ButtonsMenuContainer,
 } from './styles/MyDeskStyles';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import RequestCard from './components/RequestCard/RequestCard';
 import RequestDetailModal from './components/RequestDetailModal/RequestDetailModal';
 import Fade from 'react-reveal/Fade';
+import MyProfile from './subViews/myProfile/MyProfile';
+import MyRequests from './subViews/MyRequests/MyRequests';
 
 function MyDesk() {
 
@@ -31,6 +33,11 @@ function MyDesk() {
 
     const [NotificationList, setNotificationsList] = useState(MockupNotifications);
     const [ActiveMenu, setActiveMenu] = useState(0); //0 MI PERFIL , 2 MIS SOLICITUDES, 3 MIS DOCUMENTOS
+
+    const [openModifyProfileModal, setOpenModifyProfileModal] = useState(false);
+    const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
+    const [selectedCompany, setSelectedCompany] = useState(false);
+
     const [openRequestDetailModal, setOpenRequestDetailModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState();
 
@@ -76,7 +83,7 @@ function MyDesk() {
                         ))
                     }
                     <SmallHeightDivider />
-                    <MetricsContainer>
+                    <CardContainer>
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes en proceso</MetricsTitle>
                             <MetricsValue>01</MetricsValue>
@@ -96,7 +103,7 @@ function MyDesk() {
                             <MetricsTitle>Solicitudes rechazadas</MetricsTitle>
                             <MetricsValue>01</MetricsValue>
                         </MetricsTextContainer>
-                    </MetricsContainer>
+                    </CardContainer>
 
 
                     <MediumHeightDivider />
@@ -116,60 +123,11 @@ function MyDesk() {
 
                     {
                         ActiveMenu == 0 ? // MI PERFIL
-                            <Fade right>
-                                <MediumHeightDivider />
-                                <TextInformation title="MI PERFIL" />
-                            </Fade>
+                            <MyProfile />
                             :
                             ActiveMenu == 1 ? // SOLICITUDES EN PROCESO
-                                <Fade right >
-                                    <MediumHeightDivider />
-                                    <TextInformation title="Solicitudes en proceso" />
-
-                                    {
-                                        MockupInProcessRequests.map((request) => (
-                                            <Fragment key={request.id}>
-                                                <SmallHeightDivider />
-                                                <RequestCard title={request.title} percent={request.percent}
-                                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                                    variant={request.status} />
-                                            </Fragment>
-                                        ))
-                                    }
-
-                                    <MediumHeightDivider />
-                                    <TextInformation title="Solicitudes Completadas" />
-
-                                    {
-                                        MockupCompletedRequests.map((request) => (
-                                            <Fragment key={request.id}>
-                                                <SmallHeightDivider />
-                                                <RequestCard title={request.title} percent={'100%'}
-                                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                                    variant={request.status} />
-                                            </Fragment>
-                                        ))
-                                    }
-
-                                    <MediumHeightDivider />
-                                    <TextInformation title="Solicitudes Rechazadas" />
-
-                                    {
-                                        MockupRejectedRequests.map((request) => (
-                                            <Fragment key={request.id}>
-                                                <SmallHeightDivider />
-                                                <RequestCard title={request.title} percent={'100%'}
-                                                    onClick={() => handleRequestDetailModalStatus(request)}
-                                                    variant={request.status} />
-                                            </Fragment>
-                                        ))
-                                    }
-                                    <RequestDetailModal
-                                        selectedItem={selectedRequest}
-                                        open={openRequestDetailModal}
-                                        onCloseClick={handleRequestDetailModalStatus} />
-                                </Fade>
-                                : 
+                                <MyRequests />
+                                :
                                 // MIS DOCUMENTOS
                                 <Fade right>
                                     <MediumHeightDivider />
@@ -179,7 +137,6 @@ function MyDesk() {
 
                 </Container>
             </Row>
-
         </Container>
     );
 }

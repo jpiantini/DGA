@@ -30,9 +30,16 @@ export const StyledTextInput = styled(TextField)({
 
 export const Title = styled('h1')({
     marginTop: '3px',
-    fontSize: '17px',
     color: COLORS.black,
     fontFamily: 'Nunito Sans',
     fontWeight: '400',
-
+    '@media (min-width:320px)': {
+      fontSize: '11px',
+  },
+  '@media (min-width:768px)': {
+      fontSize: '15px',
+  },
+  '@media (min-width:1200px)': {
+    fontSize: '17px',
+  }
 });

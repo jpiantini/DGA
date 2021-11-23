@@ -22,6 +22,8 @@ import { useFormik } from 'formik';
 
 function Register() {
 
+    const history = useHistory();
+
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -37,7 +39,6 @@ function Register() {
         },
     });
 
-    const history = useHistory();
     const goToRoute = (route) => {
         history.push(route);
     }

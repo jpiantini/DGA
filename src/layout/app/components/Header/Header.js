@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
-
+import LoggedInMenu from '../../../../components/LoggedInMenu/LoggedInMenu';
 import {
     Container,
     MenuContainer,
@@ -16,7 +16,6 @@ import {
     DrawerListItemButton,
     DrawerListItemContainer
 } from './styles/HeaderStyles';
-import LoggedInMenu from '../../../../components/LoggedInMenu/LoggedInMenu';
 
 function Header() {
 
@@ -75,15 +74,15 @@ function Header() {
                                 </DrawerListItemContainer>
                                 {
                                     !authenticated ?
-                                            <DrawerListItemContainer>
-                                                <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
-                                                    INICIAR SESIÓN
-                                                </DrawerListItemButton>
-                                            </DrawerListItemContainer>
-                                            :
-                                            <DrawerListItemContainer>
-                                                <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</DrawerListItemButton>
-                                            </DrawerListItemContainer>
+                                        <DrawerListItemContainer>
+                                            <DrawerListItemButton color="inherit" onClick={() => goToRoute('/public/login')}>
+                                                INICIAR SESIÓN
+                                            </DrawerListItemButton>
+                                        </DrawerListItemContainer>
+                                        :
+                                        <DrawerListItemContainer>
+                                            <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/myDesk')}>Mi escritorio</DrawerListItemButton>
+                                        </DrawerListItemContainer>
                                 }
 
                             </DrawerList>

@@ -78,4 +78,4 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
     );
 }
 
-export default TextField;
+export default React.memo(TextField);

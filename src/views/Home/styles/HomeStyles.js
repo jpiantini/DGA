@@ -239,6 +239,8 @@ export const AnalyticsContainer = styled('div')({
 });
 
 export const SearcherContainer = styled('div')({
+    display:'flex',
+    flexDirection:'column',
     width: '83%',
     alignItems: 'flex-start',
     alignSelf: 'center'

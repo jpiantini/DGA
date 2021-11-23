@@ -54,6 +54,7 @@ import {
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import Footer from './components/Footer/Footer';
 import { useHistory } from 'react-router';
+import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
 
 function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
@@ -65,7 +66,7 @@ function Home() {
                 'backgroundImage': `url(${slideImages[2]})`,
             }} >
                 <DarkOverlay>
-                    <Header/>
+                    <Header />
                     <HomeTextContainer>
                         <HomeSubTitle>LOREM IPSUM, CASUS AMER</HomeSubTitle>
                         <HomeTitle>Lorem ipsum,Cans amer dolor</HomeTitle>
@@ -111,91 +112,16 @@ function Home() {
                         }}
                         input
                     />
+                    <SmallHeightDivider />
+                    <div style={{  width: '50%', alignSelf: 'center' }}>
+                        <StyledButton>
+                            Buscar
+                        </StyledButton>
+                    </div>
+
                 </SearcherContainer>
-                <SelectorsSearcherContainer >
-                    <SelectorContainer>
-                        <SearcherSubTitle>Relacionado a:</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                firstSelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-                    <SelectorContainer>
-                        <SearcherSubTitle>Subsector</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                secondarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
 
 
-                    <SelectorContainer>
-                        <SearcherSubTitle>Actividad</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                tertiarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-
-                    <SelectorContainer>
-                        <SearcherSubTitle>Subactividad</SearcherSubTitle>
-                        <SearchSelect
-                            id="outlined-select-currency"
-                            select
-                            label="Elegir"
-                        //   value={firstSelectorData}
-                        //  onChange={handleChange}
-                        >
-                            {
-                                quaternarySelectorData.map((item) => (
-                                    <MenuItem key={item.value} value={item.value}>
-                                        {item.label}
-                                    </MenuItem>
-                                ))
-                            }
-
-                        </SearchSelect>
-                    </SelectorContainer>
-
-                </SelectorsSearcherContainer>
             </MediumContainer>
 
             <Container style={{
