@@ -47,10 +47,10 @@ export const Text = styled('p')({
     color: COLORS.black,
     fontFamily:'Nunito Sans',
     '@media (min-width:320px)': {
-        fontSize: '9px',
+        fontSize: '13px',
     },
     '@media (min-width:768px)': {
-        fontSize: '11px',
+        fontSize: '13PX',
     },
     '@media (min-width:1200px)': {
         fontSize: '13px',
@@ -74,7 +74,7 @@ export const StyledCloseIcon = styled(CloseIcon)({
 export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
     color:COLORS.success,
     '@media (min-width:320px)': {
-        fontSize: '18x',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
         fontSize: '20px',

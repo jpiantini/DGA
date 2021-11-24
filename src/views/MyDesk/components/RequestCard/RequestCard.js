@@ -1,6 +1,5 @@
-import { Fragment, useRef, useEffect } from 'react';
+import { memo } from 'react';
 import { SmallHeightDivider, StyledButtonOutlined } from '../../../../theme/Styles';
-import { useContainerDimensions } from '../../../../utilities/hooks/useContainerDimensions/useContainerDimensions';
 import {
     Container,
     RowContainer,
@@ -16,17 +15,10 @@ import {
 
 function RequestCard({ variant, title, onClick, percent }) {
 
-    const widthRef = useRef(null);
-    const { width } = useContainerDimensions(widthRef);
-
-    useEffect(() => {
-
-    }, [width]);
-
-    const ProgressBar = ({ variant, percent }) => {
+ const ProgressBar = ({ variant, percent }) => {
         return ( //VARIANTS : success,rejected,inProcess,actionRequired
-            <ProgressBarContainer ref={widthRef}>
-                <ProgressBarTitle width={width} variant={variant}>
+            <ProgressBarContainer>
+                <ProgressBarTitle  variant={variant}>
                     {
                         variant != 'rejected' ?
                             percent + ' COMPLETADO'
@@ -76,4 +68,4 @@ function RequestCard({ variant, title, onClick, percent }) {
     );
 }
 
-export default RequestCard;
+export default memo(RequestCard);

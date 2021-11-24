@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {Fragment,memo} from 'react';
 import COLORS from '../../theme/Colors';
 import { StyledTextInput, Title, Container } from './styles/TextFieldStyles';
 import InputMask from 'react-input-mask';
@@ -14,9 +14,9 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
             <Title>{title} </Title> 
             <div style={{width:'5px'}}/>
             {required ? 
-            <React.Fragment>
+            <Fragment>
                 <Title style={{color:COLORS.red}}>*</Title> 
-            </React.Fragment>
+            </Fragment>
             : null}
            
             </Row>
@@ -78,4 +78,4 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
     );
 }
 
-export default React.memo(TextField);
+export default memo(TextField);
