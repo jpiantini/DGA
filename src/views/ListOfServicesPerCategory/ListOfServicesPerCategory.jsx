@@ -26,10 +26,11 @@ function ListOfServicesPerCategory() {
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
-    const handleServiceRequest = () => {
+    const handleServiceRequest = (serviceID) => {
         if (authenticated) {
             //send to service request 
-            alert('Servicio solicitado');
+     //       alert('Servicio solicitado');
+            history.push(`/app/requestService/${serviceID}`)
         } else {
             setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
         }
@@ -75,7 +76,7 @@ function ListOfServicesPerCategory() {
                                 {
                                     ListServices.map((item) => (
                                         <Grid item >
-                                            <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest()} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
+                                            <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
                                         </Grid>
                                     ))
                                 }
@@ -93,7 +94,7 @@ function ListOfServicesPerCategory() {
                         {
                             ListServices.map((item) => (
                                 <Grid item >
-                                    <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest()} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
+                                    <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
                                 </Grid>
                             ))
                         }

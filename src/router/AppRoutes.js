@@ -4,6 +4,7 @@ import Register from '../views/Auth/Register/Register';
 import Home from '../views/Home/Home';
 import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
 import MyDesk from '../views/MyDesk/MyDesk';
+import RequestService from '../views/RequestService/RequestService';
 import ServiceDescription from '../views/ServiceDescription/ServiceDescription';
 
 const routes = [
@@ -45,6 +46,13 @@ const routes = [
     {
         path: '/myDesk',
         component: MyDesk,
+        exact: true,
+        layout: '/app',
+        loginRequired: true
+    },
+    {
+        path: '/requestService/:id',
+        component: RequestService,
         exact: true,
         layout: '/app',
         loginRequired: true
