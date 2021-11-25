@@ -44,11 +44,11 @@
 
 */
 
-.right-arrow {
+#forward {
   position: absolute;
   top: 35%;
   right: 28%;
-  font-size: 5rem;
+  font-size: 3rem;
   color: #fff;
   z-index: 10;
   cursor: pointer;
@@ -56,11 +56,11 @@
   margin: 3px;
 }
 
-.left-arrow {
-  position: absolute;
+#back {
+  position: relative;
   top: 35%;
   left: 10%;
-  font-size: 5rem;
+  font-size: 3rem;
   color: #fff;
   z-index: 10;
   cursor: pointer;
