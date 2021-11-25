@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, Fragment } from 'react';
 import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined } from '../../theme/Styles';
 import { ListServices, MockupSteps } from './RequestServiceConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -23,16 +23,31 @@ function RequestService() {
     const { authenticated } = useSelector((state) => state.authReducer);
 
     const [activeStep, setActiveStep] = useState(0);
-    const [backButtonActive, setActiveStep] = useState(0);
+    const [togglePaymentForm, setTogglePaymentForm] = useState();
 
     const handleNext = () => {
         //NEED CHANGE MockupSteps to FormSteps
         let stepsLenght = MockupSteps.length;
+        console.log(stepsLenght,stepsLenght-2,activeStep)
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1 == stepsLenght ? prevActiveStep : prevActiveStep + 1);
+        if(stepsLenght -2 == activeStep){
+            setTogglePaymentForm(true);
+        }else{
+            setTogglePaymentForm(false)
+        }
     };
 
     const handleBack = () => {
+        let stepsLenght = MockupSteps.length;
+        console.log(stepsLenght,stepsLenght-2,activeStep)
+
         setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
+        if(stepsLenght -1 == activeStep){
+            setTogglePaymentForm(true);
+        }else{
+            setTogglePaymentForm(false)
+        }
     };
 
     useLayoutEffect(() => {
@@ -58,6 +73,17 @@ function RequestService() {
                 ))}
             </Stepper>
 
+            {
+                togglePaymentForm ?
+                    <Container>
+                        <h1>FORMULARIO DE PAGO</h1>
+                    </Container>
+                    :
+                    <Container>
+                        <h1>FORMULARIO DINAMICO</h1>
+                    </Container>
+
+            }
 
             <ButtonsContainer>
                 <ButtonContainer>
@@ -66,9 +92,17 @@ function RequestService() {
                     </StyledButtonOutlined>
                 </ButtonContainer>
                 <ButtonContainer>
-                    <StyledButtonOutlined disabled={activeStep+1  == MockupSteps.length} onClick={handleNext} variant="outlined">
-                        Continuar
-                    </StyledButtonOutlined>
+                    {
+                        MockupSteps.length - 2 == activeStep ?
+                            <StyledButtonOutlined onClick={handleNext} variant="outlined">
+                                Enviar Solicitud
+                            </StyledButtonOutlined>
+                            :
+                            <StyledButtonOutlined disabled={activeStep + 1 == MockupSteps.length} onClick={handleNext} variant="outlined">
+                                Continuar
+                            </StyledButtonOutlined>
+                    }
+
                 </ButtonContainer>
             </ButtonsContainer>
 
