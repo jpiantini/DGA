@@ -49,33 +49,53 @@ import {
     StyledSearchIcon,
     StyledSearchIconForSearcher,
     CardsContainer,
-    CardsDivider
+    CardsDivider,
+    Section,
+    SubtitleTest,
+    
+
+
 } from './styles/HomeStyles';
 import ServiceCard from './components/ServiceCard/ServiceCard';
 import Footer from './components/Footer/Footer';
 import { useHistory } from 'react-router';
 import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
+import {SliderData } from  '../Home/components/carrosuel/SliderData';
 
+import ImageSlider from './components/carrosuel/ImageSlider'
 function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
     const history = useHistory();
     return (
         <Container >
             <GobMessage />
-            <HomeContainer style={{
-                'backgroundImage': `url(${slideImages[2]})`,
-            }} >
-                <DarkOverlay>
+          
                     <Header />
-                    <HomeTextContainer>
-                        <HomeSubTitle>LOREM IPSUM, CASUS AMER</HomeSubTitle>
-                        <HomeTitle>Lorem ipsum,Cans amer dolor</HomeTitle>
-                        <HomeSubTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut</HomeSubTitle>
-                        <div style={{ height: '30px' }} />
-                        <DefaultButton> SABER MÁS </DefaultButton>
-                    </HomeTextContainer>
-                </DarkOverlay>
-            </HomeContainer>
+                    <HomeContainer >
+              
+              <Header />
+                       
+                       <ImageSlider slides={SliderData} >
+                    
+                       <Section>  
+  <HomeTitle>Lorem ipsum,
+      Cans amer dolor</HomeTitle>
+      <SubtitleTest>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, aliq</SubtitleTest>
+    
+      
+  </Section>
+  
+  
+  
+  
+                 
+                           </ImageSlider  >
+                       
+        
+                      
+                 
+              </HomeContainer>
+  
 
             <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
                 <AnalyticsContainer>

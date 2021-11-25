@@ -131,6 +131,49 @@ export const DarkOverlay = styled('div')({
     justifyContent: 'space-evenly'
 });
 
+export const Section = styled('section')({
+    
+
+    position:'relative',
+    zIndex:10,
+     justifyContent:'center',
+    left:'20%',
+    top:'30%',
+ 
+     margin:" 0",
+     display: 'flex',
+     flexDirection: 'column',
+     textAlign: 'left',
+ 
+     /* test*/ 
+     border:'3px solid red'
+   
+ });
+
+ export const SubtitleTest = styled('h3')({
+    position:'relative',
+    margin: 0,
+
+    bottom:'2%',
+    width: '50%',
+    color: COLORS.white,
+    fontFamily: 'Nunito Sans',
+    '@media (min-width:360px)': {
+        fontSize: '13px'
+    },
+    '@media (min-width:768px)': {
+        fontSize: '14px'
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '18px'
+    },
+    '@media (min-width:2048px)': {
+        fontSize: '30px'
+    },
+    '@media (min-width:3840px)': {
+        fontSize: '55px'
+    },
+});
 export const StyledDescriptionIcon = styled(DescriptionIcon)({
     color: COLORS.primary,
     '@media (min-width:320px)': {
