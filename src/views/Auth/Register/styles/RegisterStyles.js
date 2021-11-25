@@ -9,15 +9,15 @@ export const RegisterContainer = styled('div')({
 });
 
 export const FormContainer = styled('div')({
-    width:'100%',
-    height:'100%'
+    width: '100%',
+    height: '100%'
 });
 
 export const LeftPanelContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     minHeight: '100vh',
     '@media (min-width:320px)': {
         width: '100%',
@@ -32,7 +32,7 @@ export const LeftPanelContainer = styled('div')({
 
 export const LogoImage = styled('img')({
     width: '35%',
-        margin: '8%',
+    margin: '8%',
 });
 
 export const Image = styled('div')({
@@ -64,16 +64,16 @@ export const FlexStartContainer = styled('div')({
     flexDirection: 'column',
     height: '100%',
     width: '75%',
-    alignSelf:'center',
-    alignItems:'flex-start',
-    justifySelf:'center',
+    alignSelf: 'center',
+    alignItems: 'flex-start',
+    justifySelf: 'center',
 });
 
 export const LinkText = styled('a')({
     color: COLORS.black,
     fontSize: '14px',
     fontFamily: 'Source Sans Pro',
-    fontWeight:'700',
+    fontWeight: '700',
     margin: '3px',
     textDecoration: 'none',
     '&:hover,&:focus': {
@@ -89,14 +89,14 @@ export const BodyText = styled('p')({
 });
 
 export const FooterContainer = styled('div')({
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'flex-end',
-    height:'100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    height: '100%',
 });
 
 export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
-    color:COLORS.success,
+    color: COLORS.success,
     '@media (min-width:320px)': {
         fontSize: '18px',
     },
@@ -109,22 +109,55 @@ export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
 });
 
 
-export const StyledLink = styled(Button)({
-    margin:0,
+export const StyledLink = styled('a')({
+    margin: 0,
     color: COLORS.primary,
     fontFamily: 'Nunito Sans',
+    fontWeight:700,
     textAlign: 'left',
-    textTransform:'none',
+    textTransform: 'none',
     '@media (min-width:320px)': {
-        fontSize: '11px',
+        fontSize: '15px',
     },
     '@media (min-width:768px)': {
-        fontSize: '12px',
+        fontSize: '15px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '12px',
+        fontSize: '15px',
     },
     '&:hover': {
         textDecoration: 'underline'
     }
+});
+
+
+export const StyledH1 = styled('h1')({
+    color: COLORS.tertiary,
+    fontFamily: 'Source Sans Pro',
+    margin: '3px',
+    '@media (min-width:320px)': {
+        fontSize: '35px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '40px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '50px',
+    },
+});
+
+export const StyledH2 = styled('h2')({
+    color: COLORS.black,
+    fontFamily: 'Source Sans Pro',
+    fontWeight:300,
+    margin: '3px',
+    '@media (min-width:320px)': {
+        fontSize: '25px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '30px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '40px',
+    },
 });

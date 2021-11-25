@@ -9,7 +9,10 @@ import {
     BodyText,
     FooterContainer,
     FormContainer,
-    StyledCheckCircleIcon
+    StyledCheckCircleIcon,
+    StyledH1,
+    StyledH2,
+    StyledLink
 } from './styles/RegisterStyles';
 import { SmallHeightDivider, StyledButton, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
@@ -43,18 +46,34 @@ function Register() {
         },
     });
 
-    const goToRoute = (route) => {
-        history.push(route);
-    }
-
     return (
         <RegisterContainer>
             <LeftPanelContainer>
                 {
                     userRegistered ?
-                        <Fragment>
-                                <StyledCheckCircleIcon/>
-                        </Fragment>
+                        <FlexStartContainer>
+                            <div style={{height:'30%'}} />
+                            <FormContainer>
+                                <StyledCheckCircleIcon />
+                                <StyledH1>
+                                    ¡Gracias!
+                                </StyledH1>
+                                <StyledH2>
+                                    Recibirás un correo de verificacion.
+                                </StyledH2>
+                                <MediumHeightDivider />
+                                <StyledLink onClick={() => history.push('/public')}>
+                                    Volver a inicio.
+                                </StyledLink>
+                            </FormContainer>
+                            <FooterContainer>
+                                <BodyText style={{
+                                    color: COLORS.grayPlaceholder,
+                                    fontSize: '12px'
+                                }}>@2021 Ministerio de Turismo de la República Dominicana.
+                                    Todos los derechos reservados.</BodyText>
+                            </FooterContainer>
+                        </FlexStartContainer>
                         :
                         <Fragment>
                             <LogoImage src={MiturLogoImage} />
