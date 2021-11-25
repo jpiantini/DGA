@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, Fragment } from 'react';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, StyledButton } from '../../theme/Styles';
 import { ListServices, MockupSteps } from './RequestServiceConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -28,24 +28,24 @@ function RequestService() {
     const handleNext = () => {
         //NEED CHANGE MockupSteps to FormSteps
         let stepsLenght = MockupSteps.length;
-        console.log(stepsLenght,stepsLenght-2,activeStep)
+        console.log(stepsLenght, stepsLenght - 2, activeStep)
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1 == stepsLenght ? prevActiveStep : prevActiveStep + 1);
-        if(stepsLenght -2 == activeStep){
+        if (stepsLenght - 2 == activeStep) {
             setTogglePaymentForm(true);
-        }else{
+        } else {
             setTogglePaymentForm(false)
         }
     };
 
     const handleBack = () => {
         let stepsLenght = MockupSteps.length;
-        console.log(stepsLenght,stepsLenght-2,activeStep)
+        console.log(stepsLenght, stepsLenght - 2, activeStep)
 
         setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
-        if(stepsLenght -1 == activeStep){
+        if (stepsLenght - 1 == activeStep) {
             setTogglePaymentForm(true);
-        }else{
+        } else {
             setTogglePaymentForm(false)
         }
     };
@@ -77,17 +77,20 @@ function RequestService() {
                 togglePaymentForm ?
                     <Container>
                         <h1>FORMULARIO DE PAGO</h1>
+                        <ButtonContainer>
+                            <StyledButton>
+                                Pagar despues
+                            </StyledButton>
+                        </ButtonContainer>
                     </Container>
                     :
                     <Container>
-                        <h1>FORMULARIO DINAMICO</h1>
+                        <h1>FORMULARIO DINAMICO PASO {activeStep +1}</h1>
                     </Container>
-
             }
-
             <ButtonsContainer>
                 <ButtonContainer>
-                    <StyledButtonOutlined disabled={activeStep == 0} onClick={handleBack} variant="outlined">
+                    <StyledButtonOutlined disabled={activeStep == 0 || togglePaymentForm} onClick={handleBack} variant="outlined">
                         Retroceder
                     </StyledButtonOutlined>
                 </ButtonContainer>
