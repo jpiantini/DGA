@@ -24,6 +24,7 @@ import RequestDetailModal from './components/RequestDetailModal/RequestDetailMod
 import Fade from 'react-reveal/Fade';
 import MyProfile from './subViews/myProfile/MyProfile';
 import MyRequests from './subViews/MyRequests/MyRequests';
+import MyDocuments from './subViews/myDocuments/MyDocuments';
 
 function MyDesk() {
 
@@ -129,10 +130,7 @@ function MyDesk() {
                                 <MyRequests />
                                 :
                                 // MIS DOCUMENTOS
-                                <Fade right>
-                                    <MediumHeightDivider />
-                                    <TextInformation title="MIS DOCUMENTOS" />
-                                </Fade>
+                                <MyDocuments />
                     }
 
                 </Container>

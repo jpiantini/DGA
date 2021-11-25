@@ -65,9 +65,9 @@ export default function RequestDetailModal({ open, onCloseClick, selectedItem })
       open={open}
       onClose={onCloseClick}
       onBackdropClick={onCloseClick}
-      BackdropComponent={
-        StyledBackdrop
-      }
+    //  BackdropComponent={
+    //    StyledBackdrop
+    //  }
     >
       <Container>
 

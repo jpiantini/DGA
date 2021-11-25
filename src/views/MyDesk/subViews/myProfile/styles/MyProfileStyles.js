@@ -16,7 +16,7 @@ export const SectionTitle = styled('h1')({
     fontFamily: 'Fira Sans',
     textAlign: 'left',
     '@media (min-width:320px)': {
-        fontSize: '12px',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
         fontSize: '18px',
@@ -37,10 +37,10 @@ export const SectionLink = styled(Button)({
     textAlign: 'left',
     textTransform:'none',
     '@media (min-width:320px)': {
-        fontSize: '9px',
+        fontSize: '11px',
     },
     '@media (min-width:768px)': {
-        fontSize: '10px',
+        fontSize: '12px',
     },
     '@media (min-width:1200px)': {
         fontSize: '12px',
@@ -51,29 +51,47 @@ export const SectionLink = styled(Button)({
 });
 
 export const ProfileImage = styled('img')({
+    alignSelf:'center',
     '@media (min-width:320px)': {
         width: '100px',
-        height:'100%'
+        height:'100%',
+        borderRadius:'100%',
+        marginTop:'5px',
     },
     '@media (min-width:768px)': {
         width: '125px',
-        height:'100%'
-
+        height:'100%',
+        borderRadius:0,
+        marginTop:0,
     },
     '@media (min-width:1200px)': {
         width: '150px',
-        height:'100%'
+        height:'100%',
+        borderRadius:0,
+        marginTop:0,
     },
 });
 
 export const ProfileContainer = styled('div')({
-    position:'relative',
     display: 'flex',
-    flexDirection: 'row',
     width: '100%',
-    height:'100%',
-    justifyContent: 'flex-start',
     boxShadow: '1px 2px 22px 2px rgba(0,0,0,0.31)',
+    '@media (min-width:320px)': {
+        flexDirection: 'column',
+        minHeight:'100%',
+        justifyContent: 'center',
+    },
+    '@media (min-width:768px)': {
+        flexDirection: 'row',
+        height:'100%',
+        justifyContent: 'flex-start',
+    },
+    '@media (min-width:1200px)': {
+        flexDirection: 'row',
+        height:'100%',
+        justifyContent: 'flex-start',
+    },
+    
 });
 
 export const CardBodyTitle = styled('p')({
@@ -81,10 +99,10 @@ export const CardBodyTitle = styled('p')({
     fontFamily: 'Source Sans Pro',
     color: COLORS.black,
     '@media(min-width:320px)':{
-        fontSize: '8px',
+        fontSize: '12px',
     },
     '@media(min-width:768px)':{
-        fontSize: '10px',
+        fontSize: '12px',
     },
     '@media(min-width:1200px)':{
         fontSize: '15px',
@@ -92,14 +110,15 @@ export const CardBodyTitle = styled('p')({
 });
 
 export const CardBodyText = styled('p')({
+    width:'100%',
     margin:0,
     fontFamily: 'Nunito Sans',
     color: COLORS.secondary,
     '@media(min-width:320px)':{
-        fontSize: '7px',
+        fontSize: '13px',
     },
     '@media(min-width:768px)':{
-        fontSize: '11px',
+        fontSize: '13px',
     },
     '@media(min-width:1200px)':{
         fontSize: '17px',
@@ -109,7 +128,7 @@ export const CardBodyText = styled('p')({
 export const CardTextContainer = styled('div')({
     display:'flex',
     flexDirection:'row',
-    justifyContent:'space-between',
+    alignSelf:'center',
     width:'90%',
     padding:'2%'
 });

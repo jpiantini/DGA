@@ -3,7 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { MediumHeightDivider, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { FormProfileSchema,FormCompanySchema, MockupCompanies } from './MyProfileConstants';
+import { FormProfileSchema, FormCompanySchema, MockupCompanies } from './MyProfileConstants';
 import {
     CardContainer,
     SectionTitle,
@@ -72,12 +72,12 @@ function MyProfile() {
         if (company) {
             setSelectedCompany(company);
             Object.keys(companyFormik.values).map((key) => {
-                companyFormik.setFieldValue(key,company[key],false);
+                companyFormik.setFieldValue(key, company[key], false);
             })
         } else {
             setSelectedCompany(null);
             Object.keys(companyFormik.values).map((key) => {
-                companyFormik.setFieldValue(key,'',false);
+                companyFormik.setFieldValue(key, '', false);
             })
         }
         setOpenModifyOrAddCompanyModal(!openModifyOrAddCompanyModal);
@@ -107,53 +107,62 @@ function MyProfile() {
             <ProfileContainer>
                 <ProfileImage src="https://www.w3schools.com/howto/img_avatar.png" />
                 <CardTextContainer>
-                    <Column>
-                        <CardBodyTitle>
-                            Nombre
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            Roberto Enrique M.
-                        </CardBodyText>
-                        <SmallHeightDivider />
-                        <CardBodyTitle>
-                            Telefono de contacto
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            809-777-6666
-                        </CardBodyText>
-                    </Column>
+                    <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Nombre
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                Roberto Enrique M.
+                            </CardBodyText>
+                        </Grid>
 
-                    <Column>
-                        <CardBodyTitle>
-                            Documento de Identidad
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            001-6585665-5
-                        </CardBodyText>
-                        <SmallHeightDivider />
-                        <CardBodyTitle>
-                            Ciudad
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            Santo Domingo
-                        </CardBodyText>
-                    </Column>
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Documento de Identidad
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                001-6585665-5
+                            </CardBodyText>
+                        </Grid>
 
-                    <Column>
-                        <CardBodyTitle>
-                            Empresa
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            Restaurant & Bar Grill
-                        </CardBodyText>
-                        <SmallHeightDivider />
-                        <CardBodyTitle>
-                            Correo Electrónico
-                        </CardBodyTitle>
-                        <CardBodyText>
-                            Robert@googlemail.com
-                        </CardBodyText>
-                    </Column>
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Empresa
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                Restaurant & Bar Grill
+                            </CardBodyText>
+                        </Grid>
+
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Telefono de contacto
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                809-777-6666
+                            </CardBodyText>
+                        </Grid>
+
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Ciudad
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                Santo Domingo
+                            </CardBodyText>
+                        </Grid>
+
+                        <Grid item xs={4} sm={4} md={4}>
+                            <CardBodyTitle>
+                                Correo Electrónico
+                            </CardBodyTitle>
+                            <CardBodyText>
+                                Robert@gmail.com
+                            </CardBodyText>
+
+                        </Grid>
+                    </Grid>
                 </CardTextContainer>
             </ProfileContainer>
             <FormModal onClose={handleModifyProfileModal} open={openModifyProfileModal}
@@ -239,59 +248,71 @@ function MyProfile() {
                         </Row>
                         <CardContainer>
                             <CardTextContainer>
-                                <Column>
-                                    <CardBodyTitle>
-                                        RNC
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.rnc}
-                                    </CardBodyText>
-                                    <SmallHeightDivider />
-                                    <CardBodyTitle>
-                                        Teléfono
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.phoneNumber}
-                                    </CardBodyText>
-                                    <SmallHeightDivider />
-                                    <CardBodyTitle>
-                                        Ciudad
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.city}
-                                    </CardBodyText>
-                                </Column>
+                                <Grid alignItems="center" justifyContent="flex-start" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            RNC
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.identification}
+                                        </CardBodyText>
+                                    </Grid>
 
-                                <Column>
-                                    <CardBodyTitle>
-                                        Nombre Comercial
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.companyName}
-                                    </CardBodyText>
-                                    <SmallHeightDivider />
-                                    <CardBodyTitle>
-                                        Correo Electrónico
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.email}
-                                    </CardBodyText>
-                                    <SmallHeightDivider />
-                                    <CardBodyTitle>
-                                        Dirección
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.address}
-                                    </CardBodyText>
-                                </Column>
-                                <Column>
-                                    <CardBodyTitle>
-                                        Área/Rubro
-                                    </CardBodyTitle>
-                                    <CardBodyText>
-                                        {company.category}
-                                    </CardBodyText>
-                                </Column>
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Teléfono
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.phoneNumber}
+                                        </CardBodyText>
+                                    </Grid>
+
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Ciudad
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.city}
+                                        </CardBodyText>
+                                    </Grid>
+
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Nombre Comercial
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.companyName}
+                                        </CardBodyText>
+                                    </Grid>
+
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Correo Electrónico
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.email}
+                                        </CardBodyText>
+                                    </Grid>
+
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Dirección
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.address}
+                                        </CardBodyText>
+                                    </Grid>
+
+                                    <Grid item xs={4} sm={4} md={4}>
+                                        <CardBodyTitle>
+                                            Área/Rubro
+                                        </CardBodyTitle>
+                                        <CardBodyText>
+                                            {company.category}
+                                        </CardBodyText>
+                                    </Grid>
+                                </Grid>
+
                             </CardTextContainer>
                         </CardContainer>
                     </Fragment>

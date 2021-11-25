@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../../theme/Colors';
-import { Button } from '@mui/material';
-import { isMobile } from 'react-device-detect';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Button from '@mui/material/Button';
 
 export const RegisterContainer = styled('div')({
     display: 'flex',
@@ -93,4 +93,38 @@ export const FooterContainer = styled('div')({
     flexDirection:'column',
     justifyContent:'flex-end',
     height:'100%',
+});
+
+export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
+    color:COLORS.success,
+    '@media (min-width:320px)': {
+        fontSize: '18px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '20px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '130px',
+    }
+});
+
+
+export const StyledLink = styled(Button)({
+    margin:0,
+    color: COLORS.primary,
+    fontFamily: 'Nunito Sans',
+    textAlign: 'left',
+    textTransform:'none',
+    '@media (min-width:320px)': {
+        fontSize: '11px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '12px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '12px',
+    },
+    '&:hover': {
+        textDecoration: 'underline'
+    }
 });
