@@ -51,7 +51,7 @@ export const MediumContainer = styled('div')({
 
 
 export const HomeTextContainer = styled('div')({
-    zIndex: 2,
+    zIndex: 10,
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'left',
@@ -86,6 +86,7 @@ export const DefaultButton = styled(Button)({
 });
 
 export const HomeTitle = styled('h1')({
+    zIndex:10,
     margin: 0,
     width: '50%',
     color: COLORS.white,
@@ -135,6 +136,7 @@ export const Section = styled('section')({
     
 
     position:'relative',
+    display:'flex',
     zIndex:10,
      justifyContent:'center',
     left:'20%',

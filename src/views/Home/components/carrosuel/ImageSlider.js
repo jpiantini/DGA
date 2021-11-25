@@ -1,8 +1,8 @@
 import  { useState } from 'react';
 import { SliderData } from './SliderData';
 import "./Style/CarrouselStyle.css";
-import { MdChevronRight,MdChevronLeft } from "react-icons/md";
-import Icon from '@mui/material/Icon';
+//import { MdChevronRight,MdChevronLeft } from "react-icons/md";
+//import Icon from '@mui/material/Icon';
 const ImageSlider = ({ children,slides }) => {
   const [current, setCurrent] = useState(0);
   const length = slides.length;

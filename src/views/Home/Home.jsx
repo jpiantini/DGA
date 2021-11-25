@@ -67,28 +67,22 @@ function Home() {
     const minServicesBreakPoint = useMediaQuery('(min-width:830px)');
     const history = useHistory();
     return (
+        
+        
         <Container >
             <GobMessage />
-          
-                    <Header />
-                    <HomeContainer >
+            <HomeContainer >
               
-              <Header />
-                       
-                       <ImageSlider slides={SliderData} >
-                    
-                       <Section>  
-  <HomeTitle>Lorem ipsum,
+                    <Header />
+                    <ImageSlider slides={SliderData} >
+                    <HomeTextContainer>
+                <HomeTitle>Lorem ipsum,
       Cans amer dolor</HomeTitle>
-      <SubtitleTest>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, aliq</SubtitleTest>
+      <SubtitleTest>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+          Corporis, aliq</SubtitleTest>
     
-      
-  </Section>
+  </HomeTextContainer>  
   
-  
-  
-  
-                 
                            </ImageSlider  >
                        
         

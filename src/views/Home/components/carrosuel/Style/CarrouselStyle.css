@@ -1,8 +1,10 @@
 .slider {
   position: absolute;
+  display: flex;
   width: 100%;
   max-width: 100%;
   min-height: 100vh;
+  max-height: fit-content;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -57,7 +59,7 @@
 }
 
 #back {
-  position: relative;
+  position: absolute;
   top: 35%;
   left: 10%;
   font-size: 3rem;
