@@ -1,0 +1,109 @@
+.slider {
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.slider div {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.img-responsive {
+  position: absolute;
+  min-height: 100%;
+
+  width: 100%;
+}
+/*
+@media screen and (min-width: 1351px) {
+ /
+  .slider {
+    position: absolute;
+    background-color: gray;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
+
+  .img-fluid {
+    
+    width: 100%;
+    height: 100%;
+  }
+  .slider .div {
+    width: max-content;
+  }
+}
+
+*/
+
+.right-arrow {
+  position: absolute;
+  top: 35%;
+  right: 28%;
+  font-size: 5rem;
+  color: #fff;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+  margin: 3px;
+}
+
+.left-arrow {
+  position: absolute;
+  top: 35%;
+  left: 10%;
+  font-size: 5rem;
+  color: #fff;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+  margin: 3px;
+}
+
+.right-arrow:hover,
+.left-arrow:hover {
+  color: #ed5f30;
+}
+
+.slide {
+  opacity: 1;
+  transition-property: none;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+@media screen and (max-width: 660px) {
+  /* acá van las reglas CSS que aplican para este media query */
+  .right-arrow {
+    position: absolute;
+    top: 40%;
+    right: 0;
+    font-size: 3rem;
+    color: #fff;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .left-arrow {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    font-size: 3rem;
+    color: #fff;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+    margin: 3px;
+  }
+}
