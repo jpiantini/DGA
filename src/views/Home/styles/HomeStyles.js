@@ -12,6 +12,7 @@ export const Container = styled('div')({
     textAlign: 'center',
 });
 export const HomeContainer = styled('div')({
+
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
@@ -21,6 +22,7 @@ export const HomeContainer = styled('div')({
     backgroundPosition: 'center',
 });
 export const ContainerBackground = styled('div')({
+   
     display: 'flex',
     flexDirection: 'column',
     textAlign: 'center',
@@ -104,6 +106,8 @@ export const HomeTitle = styled('h1')({
 
 
 export const HomeSubTitle = styled('h3')({
+    position:'absolute',
+    zIndex:30,
     margin: 0,
     width: '50%',
     color: COLORS.white,
@@ -134,16 +138,15 @@ export const DarkOverlay = styled('div')({
 
 export const Section = styled('section')({
     
-
+backgroundColor:COLORS.red,
     position:'relative',
     display:'flex',
-    zIndex:10,
+    zIndex:30,
      justifyContent:'center',
     left:'20%',
     top:'30%',
  
      margin:" 0",
-     display: 'flex',
      flexDirection: 'column',
      textAlign: 'left',
  

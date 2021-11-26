@@ -75,13 +75,13 @@ function Home() {
               
                     <Header />
                     <ImageSlider slides={SliderData} >
-                    <HomeTextContainer>
+                    <Section>
                 <HomeTitle>Lorem ipsum,
       Cans amer dolor</HomeTitle>
       <SubtitleTest>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
           Corporis, aliq</SubtitleTest>
     
-  </HomeTextContainer>  
+  </Section>  
   
                            </ImageSlider  >
                        
