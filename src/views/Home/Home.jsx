@@ -83,10 +83,7 @@ function Home() {
   </Section>  
                     <ImageSlider slides={SliderData} >
                     
-                           </ImageSlider  >
-                       
-        
-                      
+                           </ImageSlider  >        
                  
               </HomeContainer>
   

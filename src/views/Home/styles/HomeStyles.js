@@ -1,4 +1,4 @@
-import { lineHeight, styled } from '@mui/system';
+import { fontSize, lineHeight, styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 import { TextField, Button } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -137,8 +137,10 @@ export const DarkOverlay = styled('div')({
 });
 
 export const Section = styled('section')({
+   
+    marginBlock:'0.67em',
     position:'absolute',
-display:'flex',
+display:'inline-block',
 top:'30%',
 left:'20%',
     zIndex:30,
@@ -147,9 +149,28 @@ left:'20%',
       /* test*/ 
  height: 'auto',
      textDecoration:'none',
+     minHeight:'300px',
     width: '50%',
-     //minHeight:'0px',
-     //maxWidth:'none',   
+    '@media (max-width:360px)': {
+    
+      fontSize:'8px',
+      display:'block',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '14px',
+        top:'30%',
+left:'20%',
+
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '18px'
+    },
+    '@media (min-width:2048px)': {
+        fontSize: '30px'
+    },
+    '@media (min-width:3840px)': {
+        fontSize: '55px'
+    }, 
    
  });
 
