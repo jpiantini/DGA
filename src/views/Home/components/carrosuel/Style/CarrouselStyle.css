@@ -48,8 +48,8 @@
 
 #forward {
   position: absolute;
-  top: 35%;
-  right: 28%;
+  top: 40%;
+  right: 10%;
   font-size: 3rem;
   color: #fff;
   z-index: 10;
@@ -60,8 +60,8 @@
 
 #back {
   position: absolute;
-  top: 35%;
-  left: 10%;
+  top: 40%;
+  left: 09%;
   font-size: 3rem;
   color: #fff;
   z-index: 10;
@@ -70,26 +70,22 @@
   margin: 3px;
 }
 
-.right-arrow:hover,
-.left-arrow:hover {
+#back:hover,
+#forward:hover {
   color: #ed5f30;
+  font-size: 4rem;
 }
 
 .slide {
-  opacity: 1;
   transition-property: none;
 }
 
-.slide.active {
-  opacity: 1;
-}
-
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 750px) {
   /* acá van las reglas CSS que aplican para este media query */
-  .right-arrow {
+  #forward-arrow {
     position: absolute;
     top: 40%;
-    right: 0;
+    right: 20px;
     font-size: 3rem;
     color: #fff;
     z-index: 10;
@@ -97,7 +93,7 @@
     user-select: none;
   }
 
-  .left-arrow {
+  #back {
     position: absolute;
     top: 40%;
     left: 0;
@@ -109,3 +105,38 @@
     margin: 3px;
   }
 }
+/*
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .slider {
+    position: a;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: auto;
+  }
+  #forward-arrow {
+    position: absolute;
+    top: 40%;
+    right: 20px;
+    font-size: 3rem;
+    color: #fff;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #back {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    font-size: 3rem;
+    color: #fff;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;
+    margin: 3px;
+  }
+}
+*/
