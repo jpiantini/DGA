@@ -101,8 +101,8 @@ function MyProfile() {
                         Agregar empresa
                     </StyledButtonOutlined>
                 </div>
-
             </Row>
+            <div style={{ height:'1px' }}/>
 
             <ProfileContainer>
                 <ProfileImage src="https://www.w3schools.com/howto/img_avatar.png" />

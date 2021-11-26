@@ -27,7 +27,8 @@ function LoggedInMenu({ image }) {
         dispatch(AuthLogout());
     }
     return (
-        <Container ref={containerRef} onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
+        <Container ref={containerRef} onClick={() => history.push('/app/myDesk')}
+        onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
             <UserImage src="https://www.w3schools.com/howto/img_avatar.png" />
             <Popper
                 open={hover}
