@@ -74,7 +74,6 @@ function Home() {
             <HomeContainer >
               
                     <Header />
-                    <ImageSlider slides={SliderData} >
                     <Section>
                 <HomeTitle>Lorem ipsum,
       Cans amer dolor</HomeTitle>
@@ -82,7 +81,8 @@ function Home() {
           Corporis, aliq</SubtitleTest>
     
   </Section>  
-  
+                    <ImageSlider slides={SliderData} >
+                    
                            </ImageSlider  >
                        
         
