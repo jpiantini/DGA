@@ -17,6 +17,7 @@
   width: 100%;
   min-height: 200vh;
   animation: animate 25s linear infinite;
+  overflow: hidden;
 }
 
 .img-responsive {
@@ -24,6 +25,7 @@
   min-height: 100%;
 
   width: 100%;
+  overflow: hidden;
 }
 /*
 @media screen and (min-width: 1351px) {
