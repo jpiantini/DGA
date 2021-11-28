@@ -49,14 +49,12 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  backgroundColor: "coral",
   zIndex: 10,
   display: "flex",
   justifyContent: "flex-end",
   flexDirection: "column",
   textAlign: "right",
   right: "50%",
-  marginBottom: "15%",
 
   width: "50%",
   marginLeft: "10%",

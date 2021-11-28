@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 100%;
   min-height: 100%;
-
+  max-height: fit-content;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -21,11 +21,6 @@
 }
 
 .img-responsive {
-  position: absolute;
-  min-height: 100%;
-
-  width: 100%;
-  overflow: hidden;
 }
 /*
 @media screen and (min-width: 1351px) {
@@ -53,7 +48,7 @@
 #forward {
   position: absolute;
   top: 40%;
-  right: 10%;
+  right: 2%;
   font-size: 3rem;
   color: #fff;
   z-index: 10;
@@ -65,7 +60,7 @@
 #back {
   position: absolute;
   top: 40%;
-  left: 09%;
+  left: 2%;
   font-size: 3rem;
   color: #fff;
   z-index: 10;
