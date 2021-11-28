@@ -11,7 +11,6 @@ export const Container = styled("div")({
   textAlign: "center",
 });
 export const HomeContainer = styled("div")({
-  border: "1px solid black1",
   position: "relative",
   display: "flex",
   flexDirection: "column",
@@ -50,15 +49,18 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  left: "2%",
+  backgroundColor: "coral",
   zIndex: 10,
   display: "flex",
+  justifyContent: "flex-end",
   flexDirection: "column",
-  textAlign: "left",
+  textAlign: "right",
+  right: "50%",
   marginBottom: "15%",
-  justifyContent: "center",
-  width: "90%",
-  minHeight: "80vh",
+
+  width: "50%",
+  marginLeft: "10%",
+  minHeight: "50vh",
 });
 
 export const DefaultButton = styled(Button)({
