@@ -51,14 +51,14 @@ export const MediumContainer = styled("div")({
 export const HomeTextContainer = styled("div")({
   zIndex: 10,
   display: "flex",
-  justifyContent: "flex-end",
+  justifyContent: "center",
   flexDirection: "column",
-  textAlign: "right",
-  right: "50%",
+  marginLeft: "10%",
 
   width: "50%",
-  marginLeft: "10%",
+  height: "150px",
   minHeight: "50vh",
+  marginBottom: "10%",
 });
 
 export const DefaultButton = styled(Button)({
