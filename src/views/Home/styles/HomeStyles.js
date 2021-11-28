@@ -11,6 +11,8 @@ export const Container = styled("div")({
   textAlign: "center",
 });
 export const HomeContainer = styled("div")({
+  border: "1px solid black1",
+  position: "relative",
   display: "flex",
   flexDirection: "column",
   minHeight: "100vh",
@@ -48,6 +50,7 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
+  left: "2%",
   zIndex: 10,
   display: "flex",
   flexDirection: "column",

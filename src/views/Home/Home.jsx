@@ -68,13 +68,13 @@ function Home() {
       <GobMessage />
       <HomeContainer>
         <Header />
-        <Section>
+        <HomeTextContainer>
           <HomeTitle>Lorem ipsum, Cans amer dolor</HomeTitle>
           <SubtitleTest>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis,
             aliq
           </SubtitleTest>
-        </Section>
+        </HomeTextContainer>
         <ImageSlider slides={SliderData}></ImageSlider>
       </HomeContainer>
 
