@@ -54,12 +54,24 @@ export const HomeTextContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
   flexDirection: "column",
-  marginLeft: "10%",
+  marginLeft: "20%",
 
   width: "50%",
   height: "150px",
   minHeight: "50vh",
   marginBottom: "10%",
+
+  "@media (min-width:360px)": {
+    width: "100%",
+  },
+  "@media (min-width:768px)": {
+    width: "70%",
+  },
+  "@media (min-width:1200px)": {
+    fontSize: "15px",
+
+    width: "100%",
+  },
 });
 
 export const DefaultButton = styled(Button)({
