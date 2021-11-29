@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GobMessage from "../../components/GobMessage/GobMessage";
 import Header from "./components/Header/Header";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -60,9 +60,32 @@ import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
 import { SliderData } from "../Home/components/carrosuel/SliderData";
 
 import ImageSlider from "./components/carrosuel/ImageSlider";
+import wpCall from "../../services/WpServerCall";
+//import parse from 'html-react-parser';
+
 function Home() {
   const minServicesBreakPoint = useMediaQuery("(min-width:830px)");
   const history = useHistory();
+
+  const [wordpressContent, setWordpressContent] = useState({
+    sliders: [],
+  });
+
+  const getAndSetAllWordPressContent = async () => {
+    let data = await wpCall().get('/sliders/v1/sliders');
+    //TO DO CALL RESTANTS ENDPOINTS 
+    setWordpressContent({
+      sliders: data,
+
+      //SET RESTANT DATA
+    });
+    console.log(data)
+  }
+
+  useEffect(() => {
+    getAndSetAllWordPressContent();
+  }, []);
+
   return (
     <Container>
       <GobMessage />
@@ -115,10 +138,6 @@ function Home() {
             }}
             input
           />
-          <SmallHeightDivider />
-          <div style={{ width: "50%", alignSelf: "center" }}>
-            <StyledButton>Buscar</StyledButton>
-          </div>
         </SearcherContainer>
       </MediumContainer>
 
