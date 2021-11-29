@@ -21,6 +21,8 @@ import StepLabel from '@mui/material/StepLabel';
 import TextInformation from '../../components/TextInformation/TextInformation'
 import { Grid } from '@mui/material';
 import Select from '../../components/Select/Select';
+import TextField from '../../components/TextField/TextField';
+import DatePicker from '../../components/DatePicker/DatePicker';
 
 function RequestService() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -89,6 +91,8 @@ function RequestService() {
                         <h1>FORMULARIO DINAMICO PASO {activeStep + 1}</h1>
 
                         <Select />
+
+                        <DatePicker/>
                     </Container>
                     :
                     <Container>
