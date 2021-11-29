@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, Fragment } from 'react';
+import { useState, useLayoutEffect, useEffect } from 'react';
 import { BodyText, BodyTextBold, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, StyledButton, MediumHeightDivider } from '../../theme/Styles';
 import { ListServices, MockupSteps } from './RequestServiceConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -20,6 +20,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import TextInformation from '../../components/TextInformation/TextInformation'
 import { Grid } from '@mui/material';
+import Select from '../../components/Select/Select';
 
 function RequestService() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -64,6 +65,10 @@ function RequestService() {
         }
     }, []);
 
+    useEffect(() => {
+      //  console.log(MOCKUP_JSON_DYNAMIC_FORM[0])
+    },[]);
+
     return (
         <Container >
             {
@@ -79,7 +84,13 @@ function RequestService() {
             <SmallHeightDivider />
             <SmallHeightDivider />
             {
-                togglePaymentForm ?
+                !togglePaymentForm ?
+                    <Container>
+                        <h1>FORMULARIO DINAMICO PASO {activeStep + 1}</h1>
+
+                        <Select />
+                    </Container>
+                    :
                     <Container>
                         <TextInformation title="Información general" />
                         <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 8 }}>
@@ -143,7 +154,7 @@ function RequestService() {
 
                             <Grid  item xs={4} sm={4} md={4}>
                                 <ImageContainer onClick={() => alert('click')}>
-                                    <LogoImage src="https://lh3.googleusercontent.com/proxy/hz6XGNZSPZOBvbK9P-wHLNQOkMvyfJvwS99gG-7ww4Rx4j5ha_xboFXZo3M5zPsXlBtjHAo2VQ4we_-qq5PfHy7ecZH5dF1YsbJ8FH5OS3rYYNuaeSF_KM1RDovCbvztMemtNyeFlg" />
+                                    <LogoImage src="https://www.cardnet.com.do/capp/images/logo_nuevo_x_2.png" />
                                 </ImageContainer>
                             </Grid>
 
@@ -161,12 +172,7 @@ function RequestService() {
                         </ButtonContainer>
                         <MediumHeightDivider />
                     </Container>
-                    :
-                    <Container>
-                        <h1>FORMULARIO DINAMICO PASO {activeStep + 1}</h1>
-                    </Container>
             }
-
 
             <ButtonsContainer>
                 <ButtonContainer>

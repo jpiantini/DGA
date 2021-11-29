@@ -3,9 +3,9 @@ import {
     Title,
     Container,
     ItemsContainer,
-    RowContainer
+    RowContainer,
+    BodyText
 } from './styles/CollapsableStyles';
-import { BodyText } from '../../theme/Styles';
 import Icon from '@mui/material/Icon';
 
 function Collapsable({ title, content }) {
@@ -17,18 +17,16 @@ function Collapsable({ title, content }) {
     }
     return (
         <Container onClick={handleOnClick}>
-            <ItemsContainer>
+            <ItemsContainer open={open}>
                 <RowContainer>
                     <Title>{title}</Title>
                     <Icon style={{ fontSize: '40px'}}>{open ? "expand_less" : "expand_more"}</Icon>
                 </RowContainer>
 
-                {
-                    open &&
-                    <BodyText>
+                    <BodyText open={open}>
                         {content}
                     </BodyText>
-                }
+           
             </ItemsContainer>
         </Container>
     );
