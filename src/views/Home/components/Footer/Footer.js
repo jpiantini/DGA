@@ -14,7 +14,7 @@ function Footer({FooterRoutes}) {
                 <CenterContainer >
                     <Title>Directorio de servicios</Title>
                     <TitleDivider/>
-                    <Grid container justifyContent="flex-start" direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {
                             FooterRoutes.map((item) => (
                                 <Grid item direction="column" key={item.value}>
