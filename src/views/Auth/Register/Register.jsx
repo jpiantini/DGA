@@ -76,6 +76,7 @@ function Register() {
                     phone2: formData.secondPhoneNumber,
                     email2: formData.secondaryEmail,
                     address: formData.address,
+                    photo:'PHOTO'
                 });
             if (response) {
                 console.log('register success');
