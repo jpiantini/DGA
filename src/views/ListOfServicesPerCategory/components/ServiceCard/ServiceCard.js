@@ -1,8 +1,6 @@
 import  React, { useState } from 'react';
-import ReceiptIcon from '@mui/icons-material/Receipt';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import * as MuiIcons from '@mui/icons-material';
 import Icon from '@mui/material/Icon';
 
 import COLORS from '../../../../theme/Colors';

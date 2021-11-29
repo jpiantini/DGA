@@ -24,10 +24,9 @@ function ServiceDescription() {
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
-    const handleServiceRequest = () => {
+    const handleServiceRequest = (serviceID) => {
         if (authenticated) {
-            //send to service request 
-            alert('Servicio solicitado');
+            history.push(`/app/requestService/${serviceID}`)
         } else {
             setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
         }
@@ -71,7 +70,7 @@ function ServiceDescription() {
                     <BodyText>• Cedula de Identidad</BodyText>
                     <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest()}>INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(id)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     {

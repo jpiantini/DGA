@@ -1,5 +1,5 @@
-import { useState, useLayoutEffect } from 'react';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { useState, useLayoutEffect, Fragment } from 'react';
+import { BodyText, BodyTextBold, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, StyledButton, MediumHeightDivider } from '../../theme/Styles';
 import { ListServices, MockupSteps } from './RequestServiceConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -10,10 +10,16 @@ import {
     ButtonsContainer,
     ButtonContainer,
     Container,
+    ImageContainer,
+    LogoImage,
+    PaymentMethodsContainer,
 } from './styles/RequestServicesStyles';
+import MobileStepper from '@mui/material/MobileStepper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import TextInformation from '../../components/TextInformation/TextInformation'
+import { Grid } from '@mui/material';
 
 function RequestService() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -22,17 +28,27 @@ function RequestService() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
+    const stepsLenght = MockupSteps.length;
     const [activeStep, setActiveStep] = useState(0);
-    const [backButtonActive, setActiveStep] = useState(0);
+    const [togglePaymentForm, setTogglePaymentForm] = useState();
 
     const handleNext = () => {
         //NEED CHANGE MockupSteps to FormSteps
-        let stepsLenght = MockupSteps.length;
         setActiveStep((prevActiveStep) => prevActiveStep + 1 == stepsLenght ? prevActiveStep : prevActiveStep + 1);
+        if (stepsLenght - 2 == activeStep) {
+            setTogglePaymentForm(true);
+        } else {
+            setTogglePaymentForm(false)
+        }
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
+        if (stepsLenght - 1 == activeStep) {
+            setTogglePaymentForm(true);
+        } else {
+            setTogglePaymentForm(false)
+        }
     };
 
     useLayoutEffect(() => {
@@ -50,28 +66,138 @@ function RequestService() {
 
     return (
         <Container >
-            <Stepper activeStep={activeStep} alternativeLabel>
-                {MockupSteps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
+            {
+                matchesWidth &&
+                <Stepper activeStep={activeStep} alternativeLabel>
+                    {MockupSteps.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+            }
+            <SmallHeightDivider />
+            <SmallHeightDivider />
+            {
+                togglePaymentForm ?
+                    <Container>
+                        <TextInformation title="Información general" />
+                        <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 8 }}>
+                            <Grid item xs={4} sm={4} md={4}>
+                                <BodyTextBold>
+                                    Fecha:
+                                </BodyTextBold>
+                                <BodyText>
+                                    12 septiembre de 2021
+                                </BodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <BodyTextBold>
+                                    Empresa:
+                                </BodyTextBold>
+                                <BodyText>
+                                    Construcciones K
+                                </BodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <BodyTextBold>
+                                    Numero de solicitud:
+                                </BodyTextBold>
+                                <BodyText>
+                                    002366574553
+                                </BodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <BodyTextBold>
+                                    Servicio:
+                                </BodyTextBold>
+                                <BodyText>
+                                    Solicitud de No Objeción de suelo
+                                </BodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <BodyTextBold>
+                                    Costo:
+                                </BodyTextBold>
+                                <BodyText>
+                                    RD$2,000.00
+                                </BodyText>
+                            </Grid>
+                        </Grid>
+
+                        <SmallHeightDivider />
+                        <TextInformation title="Formas de pago" />
+                        <SmallHeightDivider />
+                        <SmallHeightDivider />
+
+                        <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+                            <Grid item xs={4} sm={4} md={4}>
+                                <ImageContainer onClick={() => alert('click')}>
+                                    <LogoImage src="https://www.sirite.gob.do/o/sirit-theme-1.20190411.66/images/sirit/sirit-logo.png" />
+                                </ImageContainer>
+                            </Grid>
+
+                            <Grid  item xs={4} sm={4} md={4}>
+                                <ImageContainer onClick={() => alert('click')}>
+                                    <LogoImage src="https://lh3.googleusercontent.com/proxy/hz6XGNZSPZOBvbK9P-wHLNQOkMvyfJvwS99gG-7ww4Rx4j5ha_xboFXZo3M5zPsXlBtjHAo2VQ4we_-qq5PfHy7ecZH5dF1YsbJ8FH5OS3rYYNuaeSF_KM1RDovCbvztMemtNyeFlg" />
+                                </ImageContainer>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <ImageContainer onClick={() => alert('click')}>
+                                    <LogoImage src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" />
+                                </ImageContainer>
+                            </Grid>
+                        </Grid>
+                        <MediumHeightDivider />
+                        <ButtonContainer>
+                            <StyledButton onClick={() => history.push('/app/myDesk')}>
+                                Pagar despues
+                            </StyledButton>
+                        </ButtonContainer>
+                        <MediumHeightDivider />
+                    </Container>
+                    :
+                    <Container>
+                        <h1>FORMULARIO DINAMICO PASO {activeStep + 1}</h1>
+                    </Container>
+            }
 
 
             <ButtonsContainer>
                 <ButtonContainer>
-                    <StyledButtonOutlined disabled={activeStep == 0} onClick={handleBack} variant="outlined">
+                    <StyledButtonOutlined disabled={activeStep == 0 || togglePaymentForm} onClick={handleBack} variant="outlined">
                         Retroceder
                     </StyledButtonOutlined>
                 </ButtonContainer>
+
+                { //STEPPER WHEN DEVICE IS MOBILE
+                    !matchesWidth &&
+                    <MobileStepper
+                        variant="dots"
+                        steps={stepsLenght}
+                        position="static"
+                        activeStep={activeStep}
+                    />
+                }
+
                 <ButtonContainer>
-                    <StyledButtonOutlined disabled={activeStep+1  == MockupSteps.length} onClick={handleNext} variant="outlined">
-                        Continuar
-                    </StyledButtonOutlined>
+                    {
+                        MockupSteps.length - 2 == activeStep ?
+                            <StyledButton onClick={handleNext}>
+                                Enviar Solicitud
+                            </StyledButton>
+                            :
+                            <StyledButtonOutlined disabled={activeStep + 1 == MockupSteps.length} onClick={handleNext} variant="outlined">
+                                Continuar
+                            </StyledButtonOutlined>
+                    }
                 </ButtonContainer>
             </ButtonsContainer>
-
         </Container >
 
     );

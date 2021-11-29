@@ -1,8 +1,8 @@
 import  { useState } from 'react';
 import { SliderData } from './SliderData';
 import "./Style/CarrouselStyle.css";
-import { MdChevronRight,MdChevronLeft } from "react-icons/md";
-
+//import { MdChevronRight,MdChevronLeft } from "react-icons/md";
+//import Icon from '@mui/material/Icon';
 const ImageSlider = ({ children,slides }) => {
   const [current, setCurrent] = useState(0);
   const length = slides.length;
@@ -21,9 +21,14 @@ const ImageSlider = ({ children,slides }) => {
 
   return (
     <section className='slider'>
-      <MdChevronLeft className='left-arrow' onClick={prevSlide} />
-      {children}
-      <MdChevronRight className='right-arrow' onClick={nextSlide} />
+     
+      <span className="material-icons"  id="back" onClick={prevSlide}>
+arrow_back_ios
+</span>
+<span className="material-icons" id="forward" onClick={nextSlide}>
+arrow_forward_ios
+</span>
+
       {SliderData.map((slide, index) => {
         return (
           <div
