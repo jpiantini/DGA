@@ -68,6 +68,15 @@ export const BodyText = styled('p')({
     fontWeight: '400',
 });
 
+export const BodyTextBold = styled('p')({
+    margin: 0,
+    textAlign: 'left',
+    fontSize: '15px',
+    color: COLORS.black,
+    fontFamily: 'Source Sans Pro',
+    fontWeight: '700',
+});
+
 export const RowBodyDivider = styled('div')({
     width:'7%'
 });

@@ -5,6 +5,7 @@ export const Container = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  cursor:'pointer',
 });
 
 export const UserImage = styled('img')({

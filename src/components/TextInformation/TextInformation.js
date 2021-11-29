@@ -1,13 +1,12 @@
-import * as React from 'react';
+import {memo} from 'react';
 import {
     Title,
     Container,
     LineDivider,
 } from './styles/TextInformationStyles';
 import { BodyText } from '../../theme/Styles';
+
 function TextInformation({ title, content }) {
-
-
     return (
         <Container>
             <Title>{title}</Title>
@@ -22,4 +21,4 @@ function TextInformation({ title, content }) {
     );
 }
 
-export default TextInformation;
+export default memo(TextInformation);
