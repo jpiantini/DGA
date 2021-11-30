@@ -91,9 +91,15 @@ const Slideshow = ({
       <ContenedorSlideshow ref={slideshow}>{children}</ContenedorSlideshow>
       {controles && (
         <Controles>
-          <Boton onClick={anterior}>{/* flecha izquierda*/}</Boton>
+          <Boton onClick={anterior}>
+            <span className="material-icons" id="back">
+              arrow_back_ios
+            </span>
+          </Boton>
           <Boton derecho onClick={siguiente}>
-            {/* flecha derecha*/}
+            <span className="material-icons" id="forward">
+              arrow_forward_ios
+            </span>
           </Boton>
         </Controles>
       )}

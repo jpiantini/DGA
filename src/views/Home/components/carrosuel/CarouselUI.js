@@ -41,5 +41,3 @@ const Titulo = styled.p`
   text-transform: uppercase;
   margin-bottom: 10px;
 `;
-
-export default App;

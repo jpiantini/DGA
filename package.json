@@ -26,6 +26,7 @@
     "react-scripts": "4.0.3",
     "redux-thunk": "^2.4.0",
     "seamless-scroll-polyfill": "^2.1.5",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1",
     "webfontloader": "^1.6.28",
     "yup": "^0.32.11"
