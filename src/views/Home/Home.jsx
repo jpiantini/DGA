@@ -61,26 +61,31 @@ import { SliderData } from "../Home/components/carrosuel/SliderData";
 
 import ImageSlider from "./components/carrosuel/ImageSlider";
 import wpCall from "../../services/WpServerCall";
+import { GetImage } from "./components/carrosuel/GetImage";
 //import parse from 'html-react-parser';
 
 function Home() {
   const minServicesBreakPoint = useMediaQuery("(min-width:830px)");
   const history = useHistory();
 
-  const [wordpressContent, setWordpressContent] = useState({
-    sliders: [],
-  });
+  const [wordpressContent, setWordpressContent] = useState([]);
 
   const getAndSetAllWordPressContent = async () => {
-    let data = await wpCall().get('/sliders/v1/sliders');
-    //TO DO CALL RESTANTS ENDPOINTS 
-    setWordpressContent({
-      sliders: data,
+    let data = await wpCall().get("/sliders/v1/sliders");
 
-      //SET RESTANT DATA
+    //TO DO CALL RESTANTS ENDPOINTS
+
+    console.log(data.data);
+    console.log(data);
+    const datos = data.data.map(({ content, date, image, title }) => {
+      return { content, date, image, title };
     });
-    console.log(data)
-  }
+
+    setWordpressContent(datos);
+    console.log(datos);
+
+    console.log(wordpressContent);
+  };
 
   useEffect(() => {
     getAndSetAllWordPressContent();
@@ -89,18 +94,14 @@ function Home() {
   return (
     <Container>
       <GobMessage />
-      <HomeContainer>
-        <Header />
-        <HomeTextContainer>
-          <HomeTitle>Lorem ipsum, Cans amer dolor</HomeTitle>
-          <SubtitleTest>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis,
-            aliq
-          </SubtitleTest>
-        </HomeTextContainer>
-        <ImageSlider slides={SliderData}></ImageSlider>
-      </HomeContainer>
 
+      <Header />
+      <HomeContainer>
+        <ImageSlider
+          slides={wordpressContent}
+          datos={wordpressContent}
+        ></ImageSlider>
+      </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>

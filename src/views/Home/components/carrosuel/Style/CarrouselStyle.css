@@ -11,6 +11,7 @@
   height: auto;
   opacity: 100%;
   visibility: visible;
+  animation: 20s slide infinite;
 }
 .slider div {
   position: absolute;
@@ -19,33 +20,36 @@
   min-height: 200vh;
   /*animation: animate 25s linear infinite;*/
   overflow: hidden;
-  /*animation: slide 5s infinite;*/
+  animation: slide 20s infinite;
 }
 
 @keyframes slide {
   0% {
-    transform: translateX(0);
+    left: 0;
+  }
+  20% {
+    left: 0;
   }
   25% {
-    transform: translateX(0);
+    left: -100%;
   }
-  30% {
-    transform: translateX(-100%);
+  45% {
+    left: -100%;
   }
   50% {
-    transform: translateX(-100%);
+    left: -200%;
   }
-  55% {
-    transform: translateX(-200%);
+  70% {
+    left: -200%;
   }
   75% {
-    transform: translateX(-200%);
+    left: -300%;
   }
-  80% {
-    transform: translateX(-300%);
+  95% {
+    left: -300%;
   }
   100% {
-    transform: translateX(-300%);
+    left: -400%;
   }
 }
 
