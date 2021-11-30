@@ -11,7 +11,6 @@
   height: auto;
   opacity: 100%;
   visibility: visible;
-  animation: 20s slide infinite;
 }
 .slider div {
   position: absolute;
@@ -20,9 +19,9 @@
   min-height: 200vh;
   /*animation: animate 25s linear infinite;*/
   overflow: hidden;
-  animation: slide 20s infinite;
 }
-
+.img-responsive {
+}
 @keyframes slide {
   0% {
     left: 0;

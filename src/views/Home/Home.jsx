@@ -58,7 +58,7 @@ import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
 import { SliderData } from "../Home/components/carrosuel/SliderData";
-
+import { CarouselUI } from "./components/carrosuel/CarouselUI";
 import ImageSlider from "./components/carrosuel/ImageSlider";
 import wpCall from "../../services/WpServerCall";
 import { GetImage } from "./components/carrosuel/GetImage";
@@ -97,10 +97,7 @@ function Home() {
 
       <Header />
       <HomeContainer>
-        <ImageSlider
-          slides={wordpressContent}
-          datos={wordpressContent}
-        ></ImageSlider>
+        <CarouselUI></CarouselUI>
       </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
