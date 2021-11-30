@@ -1,7 +1,7 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { StyledTextInput, Title, Container } from './styles/DatePickerStyles';
-import { Row } from '../../theme/Styles';
+import { Title, Container } from './styles/DatePickerStyles';
+import { Row, StyledTextInput } from '../../theme/Styles';
 import MenuItem from '@mui/material/MenuItem';
 import MUIDatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -21,19 +21,15 @@ function DatePicker({ id, title, placeholder, helperText, value, onChange, error
                     : null}
             </Row>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <MUIDatePicker
-                id={id}
-                renderInput={props => <StyledTextInput  {...props}
-                    />}
-                placeholder={placeholder}
-                value={value}
-                onChange={(e) => console.log(e)}
-                helperText={helperText}
-                error={error} 
-            />
-
+                <MUIDatePicker
+                    id={id}
+                    inputFormat="dd/MM/yyyy"
+                    renderInput={props => <StyledTextInput  {...props} helperText={helperText} error={error}/>}
+                    toolbarPlaceholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                />
             </LocalizationProvider>
-            
         </Container>
     );
 }

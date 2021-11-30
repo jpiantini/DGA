@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, useEffect } from 'react';
-import { BodyText, BodyTextBold, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, StyledButton, MediumHeightDivider } from '../../theme/Styles';
+import { BodyText, BodyTextBold, Title,SubTitle, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, StyledButton, MediumHeightDivider } from '../../theme/Styles';
 import { ListServices, MockupSteps } from './RequestServiceConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -23,6 +23,9 @@ import { Grid } from '@mui/material';
 import Select from '../../components/Select/Select';
 import TextField from '../../components/TextField/TextField';
 import DatePicker from '../../components/DatePicker/DatePicker';
+import CheckBoxGroup from '../../components/CheckBoxGroup/CheckBoxGroup';
+import RadioButtonGroup from '../../components/RadioButtonGroup/RadioButtonGroup';
+import UploadFile from '../../components/UploadFile/UploadFile';
 
 function RequestService() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -34,6 +37,54 @@ function RequestService() {
     const stepsLenght = MockupSteps.length;
     const [activeStep, setActiveStep] = useState(0);
     const [togglePaymentForm, setTogglePaymentForm] = useState();
+
+
+    const [testDate, setTestDate] = useState();
+    const [testAdataOptions, setTestAdataOptions] = useState(
+        [
+            {
+                id: 'checkboxValue1',
+                value: true,
+                label: 'Value 1'
+            },
+            {
+                id: 'checkboxValue2',
+                value: false,
+                label: 'Value 2'
+            },
+            {
+                id: 'checkboxValue3',
+                value: false,
+                label: 'Value 3'
+            },
+        ]
+    );
+    let testAdata = [
+        {
+            value: 1,
+            label: 'Selection 1'
+        },
+        {
+            value: 2,
+            label: 'Selection 2'
+        },
+        {
+            value: 3,
+            label: 'Selection 3'
+        },
+    ]
+    const [testRadio, setTestRadio] = useState(1);
+    let testRadiodataOptions = [
+        {
+            value: 1,
+            label: 'Yes'
+        },
+        {
+            value: 0,
+            label: 'No'
+        },
+
+    ]
 
     const handleNext = () => {
         //NEED CHANGE MockupSteps to FormSteps
@@ -68,8 +119,8 @@ function RequestService() {
     }, []);
 
     useEffect(() => {
-      //  console.log(MOCKUP_JSON_DYNAMIC_FORM[0])
-    },[]);
+        //  console.log(MOCKUP_JSON_DYNAMIC_FORM[0])
+    }, []);
 
     return (
         <Container >
@@ -88,11 +139,31 @@ function RequestService() {
             {
                 !togglePaymentForm ?
                     <Container>
-                        <h1>FORMULARIO DINAMICO PASO {activeStep + 1}</h1>
+                        <Title>FORMULARIO DINAMICO PASO {activeStep + 1}</Title>
+                        <SubTitle>FORMULARIO DINAMICO PASO {activeStep + 1}</SubTitle>
+                        <Select title="Select" required data={testAdata} />
 
-                        <Select />
+                        <TextField title="TextField Text" type="text" required />
+                        <TextField title="TextField Number" type="number" required />
+                        <TextField title="TextField Masked" type="text"
+                            mask="999-999-9999" unMaskedValue={true} onChange={(e) => console.log(e)}
+                            required />
+                        <TextField multiline title="TextField Text Multiline" type="text" required />
 
-                        <DatePicker/>
+                        <DatePicker title="Date Picker" required value={testDate} onChange={(e) => setTestDate(e)} />
+
+                        <CheckBoxGroup title="CheckBox Group"
+                            options={testAdataOptions}
+                            onChange={(e) => setTestAdataOptions(e.target.value)} />
+
+                        <RadioButtonGroup title="RadioButton Group"
+                            options={testRadiodataOptions}
+                            value={testRadio}
+                            onChange={(e) => setTestRadio(e.target.value)} />
+
+                            <UploadFile title="Upload File" id={'Acta de nacimiento'}/>
+
+                        <div style={{ height: '50px' }} />
                     </Container>
                     :
                     <Container>
@@ -156,7 +227,7 @@ function RequestService() {
                                 </ImageContainer>
                             </Grid>
 
-                            <Grid  item xs={4} sm={4} md={4}>
+                            <Grid item xs={4} sm={4} md={4}>
                                 <ImageContainer onClick={() => alert('click')}>
                                     <LogoImage src="https://www.cardnet.com.do/capp/images/logo_nuevo_x_2.png" />
                                 </ImageContainer>
