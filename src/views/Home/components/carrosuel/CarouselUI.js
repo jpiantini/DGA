@@ -4,14 +4,14 @@ import "./Style/style.css";
 import styled from "styled-components";
 import img1 from "../../../../assets/images/mockupImage3.png";
 import img2 from "../../../../assets/images/mockupImage4.png";
-
+import img3 from "../../../../assets/images/mockupImage5.png";
 export const CarouselUI = () => {
   return (
     <main>
       <Slideshow
         controles={true}
         autoplay={true}
-        velocidad="3000"
+        velocidad="2000"
         intervalo="5000"
       >
         <Slide>

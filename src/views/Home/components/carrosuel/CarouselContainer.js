@@ -6,8 +6,8 @@ const Slideshow = ({
   children,
   controles = false,
   autoplay = false,
-  velocidad = "500",
-  intervalo = "5000",
+  velocidad = "10000",
+  intervalo = "8000",
 }) => {
   const slideshow = useRef(null);
   const intervaloSlideshow = useRef(null);
@@ -108,12 +108,18 @@ const Slideshow = ({
 };
 
 const ContenedorPrincipal = styled.div`
-  position: relative;
+  position: absolute;
+
+  height:100%;
+}
 `;
 
 const ContenedorSlideshow = styled.div`
   display: flex;
   flex-wrap: nowrap;
+  min-height: 100%;
+
+  height: 100%;
 `;
 
 const Slide = styled.div`
@@ -121,12 +127,13 @@ const Slide = styled.div`
   overflow: hidden;
   transition: 0.3s ease all;
   z-index: 10;
-  /* max-height: 500px; */
-  position: relative;
+  min-height: 100%;
 
+  height: 100%;
   img {
     width: 100%;
-    vertical-align: top;
+    min-height: 100%;
+    height: 100%;
   }
 `;
 
