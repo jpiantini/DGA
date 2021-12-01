@@ -6,22 +6,20 @@ const Slideshow = ({
   children,
   controles = false,
   autoplay = false,
-  velocidad = "10000",
-  intervalo = "8000",
+  velocidad = "500",
+  intervalo = "500",
 }) => {
   const slideshow = useRef(null);
   const intervaloSlideshow = useRef(null);
 
   const siguiente = useCallback(() => {
     // Comprobamos que el slideshow tenga elementos
-    if (slideshow.current.children.length > 0) {
-      console.log("Siguiente");
-
+    if (slideshow?.current?.children.length > 0) {
       // Obtenemos el primer elemento del slideshow.
       const primerElemento = slideshow.current.children[0];
 
-      // Establecemos la transicion para el slideshow.
-      slideshow.current.style.transition = `${velocidad}ms ease-out all`;
+      // Establecemos la transicion para el slideshow. ${velocidad}ms
+      slideshow.current.style.transition = ` 4000ms ease-out all`;
 
       const tamañoSlide = slideshow.current.children[0].offsetWidth;
 
@@ -62,10 +60,9 @@ const Slideshow = ({
       setTimeout(() => {
         slideshow.current.style.transition = `${velocidad}ms ease-out all`;
         slideshow.current.style.transform = `translateX(0)`;
-      }, 30);
+      }, 70);
     }
   };
-
   useEffect(() => {
     if (autoplay) {
       intervaloSlideshow.current = setInterval(() => {
@@ -108,8 +105,8 @@ const Slideshow = ({
 };
 
 const ContenedorPrincipal = styled.div`
-  position: absolute;
-
+  position: relative;
+  z-index: 30;
   height:100%;
 }
 `;
@@ -138,9 +135,6 @@ const Slide = styled.div`
 `;
 
 const TextoSlide = styled.div`
-  background: ${(props) =>
-    props.colorFondo ? props.colorFondo : "rgba(0,0,0,.3)"};
-  color: ${(props) => (props.colorTexto ? props.colorTexto : "#fff")};
   width: 100%;
   padding: 10px 60px;
   text-align: center;

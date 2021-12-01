@@ -75,8 +75,7 @@ function Home() {
 
     //TO DO CALL RESTANTS ENDPOINTS
 
-    console.log(data.data);
-    console.log(data);
+    console.log("TEST *******", data);
     const datos = data.data.map(({ content, date, image, title }) => {
       return { content, date, image, title };
     });
@@ -97,7 +96,7 @@ function Home() {
 
       <Header />
       <HomeContainer>
-        <CarouselUI></CarouselUI>
+        <CarouselUI datos={wordpressContent}></CarouselUI>
       </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
