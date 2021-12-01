@@ -6,7 +6,8 @@ import COLORS from '../../../theme/Colors';
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    paddingTop:'10px'
 });
 
 export const StyledTextInput = styled(TextField)({

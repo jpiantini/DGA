@@ -3,11 +3,15 @@ import React from "react";
 import { Carousel } from "react-bootstrap";
 
 import "./Style/style.css";
+import "./Style/CarouselBootstrapStyle.scss";
+
 import { HomeTextContainer, HomeTitle } from "../../styles/HomeStyles";
-import { ImageContainer } from "./CarouselBootstrapStyle";
+import { ImageContainer } from "./Style/CarouselBootstrapStyle";
+
 export const CarouselBootstrap = (datos) => {
   console.log(datos);
   return (
+    <div className="use-bootstrap">
     <Carousel className="carouselMain">
       {datos.datos.map((item, index) => {
         return (
@@ -23,5 +27,6 @@ export const CarouselBootstrap = (datos) => {
         );
       })}
     </Carousel>
+    </div>
   );
 };
