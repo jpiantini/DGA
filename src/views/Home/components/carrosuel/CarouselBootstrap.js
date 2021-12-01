@@ -1,6 +1,6 @@
 import React from "react";
 
-import Carousel from "react-bootstrap/Carousel";
+import { Carousel } from "react-bootstrap";
 
 import "./Style/style.css";
 import { HomeTextContainer, HomeTitle } from "../../styles/HomeStyles";
