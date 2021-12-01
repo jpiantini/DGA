@@ -2,9 +2,7 @@ import React from "react";
 import { Slideshow, Slide, TextoSlide } from "./CarouselContainer";
 import "./Style/style.css";
 import styled from "styled-components";
-import img1 from "../../../../assets/images/mockupImage3.png";
-import img2 from "../../../../assets/images/mockupImage4.png";
-import img3 from "../../../../assets/images/mockupImage5.png";
+
 import { HomeTextContainer, SubTitle } from "../../styles/HomeStyles";
 export const CarouselUI = (datos) => {
   console.log("DATOS====", datos);
@@ -38,7 +36,7 @@ export const CarouselUI = (datos) => {
                 <img src={slide.image} alt="" />
 
                 <HomeTextContainer>
-                  <SubTitle>{slide.content}</SubTitle>
+                  <Titulo>{slide.content}</Titulo>
                 </HomeTextContainer>
               </Slide>
             </>
@@ -49,12 +47,17 @@ export const CarouselUI = (datos) => {
   );
 };
 
-const Titulo = styled.h3`
+const Titulo = styled.h1`
+  color: white;
+  position: absolute;
   justify-conten: center;
   font-size: 18px;
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 10px;
-
-  z-index: 35;
+  margin: 10px;
+  width: 45%;
+  fontfamily: Fira Sans;
+  bottom: 50%;
+  z-index: 355;
 `;
