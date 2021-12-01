@@ -12,7 +12,7 @@ export const Container = styled("div")({
   textAlign: "center",
 });
 export const HomeContainer = styled("div")({
-  position: "relative",
+  position: "absolute",
   display: "flex",
   flexDirection: "column",
   minHeight: "100vh",
@@ -135,6 +135,7 @@ export const HomeSubTitle = styled("h3")({
 
 export const DarkOverlay = styled("div")({
   zIndex: 1,
+  position: "relative",
   backgroundColor: "rgba(0, 0, 0, 0.35)",
   top: 0,
   left: 0,

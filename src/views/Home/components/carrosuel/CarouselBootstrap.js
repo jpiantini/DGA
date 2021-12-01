@@ -3,6 +3,7 @@ import img1 from "../../../../assets/images/mockupImage1.jpg";
 import { Carousel, Container, Row } from "react-bootstrap";
 import "./Style/style.css";
 import {
+  DarkOverlay,
   HomeContainer,
   HomeTextContainer,
   HomeTitle,
@@ -14,7 +15,13 @@ export const CarouselBootstrap = (datos) => {
       {datos.datos.map((item, index) => {
         return (
           <Carousel.Item className="item">
-            <img className="d-block w-100" src={item.image} alt="First slide" />
+            <div
+              className="bg-img"
+              id="imagenes"
+              src={item.image}
+              alt="First slide"
+            ></div>
+
             <Carousel.Caption>
               <HomeTextContainer>
                 <HomeTitle>{item.content}</HomeTitle>

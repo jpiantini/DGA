@@ -96,9 +96,9 @@ function Home() {
       <GobMessage />
 
       <Header />
-      <HomeContainer>
-        <CarouselBootstrap datos={wordpressContent}></CarouselBootstrap>
-      </HomeContainer>
+
+      <CarouselBootstrap datos={wordpressContent}></CarouselBootstrap>
+
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>

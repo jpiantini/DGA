@@ -19,6 +19,7 @@
   min-height: 200vh;
   /*animation: animate 25s linear infinite;*/
   overflow: hidden;
+  z-index: 1;
 }
 .img-responsive {
 }
