@@ -62,6 +62,7 @@ import { CarouselUI } from "./components/carrosuel/CarouselUI";
 import ImageSlider from "./components/carrosuel/ImageSlider";
 import wpCall from "../../services/WpServerCall";
 import { GetImage } from "./components/carrosuel/GetImage";
+import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
 //import parse from 'html-react-parser';
 
 function Home() {
@@ -96,14 +97,14 @@ function Home() {
 
       <Header />
       <HomeContainer>
-        <CarouselUI datos={wordpressContent}></CarouselUI>
+        <CarouselBootstrap datos={wordpressContent}></CarouselBootstrap>
       </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
             <Title>+304%</Title>
-            <SubTitle>Solicitudes de licencia</SubTitle>
+            <SubTitle>Solicitudes de licenciaaaa</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />

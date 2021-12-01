@@ -261,9 +261,6 @@ export const Title = styled("h1")({
 });
 
 export const SubTitle = styled("h3")({
-  position: "absolute",
-  zIndex: 200,
-  bottom: "500px",
   margin: 0,
   textAlign: "center",
   color: COLORS.white,
