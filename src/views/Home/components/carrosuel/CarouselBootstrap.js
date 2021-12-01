@@ -1,13 +1,10 @@
 import React from "react";
-import img1 from "../../../../assets/images/mockupImage1.jpg";
-import { Carousel, Container, Row } from "react-bootstrap";
+
+import Carousel from "react-bootstrap/Carousel";
+
 import "./Style/style.css";
-import {
-  DarkOverlay,
-  HomeContainer,
-  HomeTextContainer,
-  HomeTitle,
-} from "../../styles/HomeStyles";
+import { HomeTextContainer, HomeTitle } from "../../styles/HomeStyles";
+import { ImageContainer } from "./CarouselBootstrapStyle";
 export const CarouselBootstrap = (datos) => {
   console.log(datos);
   return (
@@ -15,12 +12,7 @@ export const CarouselBootstrap = (datos) => {
       {datos.datos.map((item, index) => {
         return (
           <Carousel.Item className="item">
-            <div
-              className="bg-img"
-              id="imagenes"
-              src={item.image}
-              alt="First slide"
-            ></div>
+            <ImageContainer image={item.image} />
 
             <Carousel.Caption>
               <HomeTextContainer>

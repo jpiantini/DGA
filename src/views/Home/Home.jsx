@@ -57,12 +57,11 @@ import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
-import { SliderData } from "../Home/components/carrosuel/SliderData";
-import { CarouselUI } from "./components/carrosuel/CarouselUI";
-import ImageSlider from "./components/carrosuel/ImageSlider";
+
 import wpCall from "../../services/WpServerCall";
-import { GetImage } from "./components/carrosuel/GetImage";
+
 import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
+
 //import parse from 'html-react-parser';
 
 function Home() {
