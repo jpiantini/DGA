@@ -4,6 +4,7 @@ import { TextField, Button } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
+import { Translate } from "@mui/icons-material";
 
 export const Container = styled("div")({
   display: "flex",
@@ -11,7 +12,7 @@ export const Container = styled("div")({
   textAlign: "center",
 });
 export const HomeContainer = styled("div")({
-  position: "relative",
+  position: "absolute",
   display: "flex",
   flexDirection: "column",
   minHeight: "100vh",
@@ -51,14 +52,26 @@ export const MediumContainer = styled("div")({
 export const HomeTextContainer = styled("div")({
   zIndex: 10,
   display: "flex",
-  justifyContent: "flex-end",
+  justifyContent: "center",
   flexDirection: "column",
-  textAlign: "right",
-  right: "50%",
+  marginLeft: "20%",
 
   width: "50%",
-  marginLeft: "10%",
+  height: "150px",
   minHeight: "50vh",
+  marginBottom: "10%",
+
+  "@media (min-width:360px)": {
+    width: "100%",
+  },
+  "@media (min-width:768px)": {
+    width: "70%",
+  },
+  "@media (min-width:1200px)": {
+    fontSize: "15px",
+
+    width: "100%",
+  },
 });
 
 export const DefaultButton = styled(Button)({
@@ -122,6 +135,7 @@ export const HomeSubTitle = styled("h3")({
 
 export const DarkOverlay = styled("div")({
   zIndex: 1,
+  position: "relative",
   backgroundColor: "rgba(0, 0, 0, 0.35)",
   top: 0,
   left: 0,
