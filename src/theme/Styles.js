@@ -54,8 +54,8 @@ export const StyledButtonOutlined = styled(Button)(props => ({
     fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
-        borderColor: COLORS.secondary,
-        backgroundColor: COLORS.secondary,
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
     }
 }));
 
