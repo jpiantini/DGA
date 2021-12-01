@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { Button } from '@mui/material';
+import { Button,TextField } from '@mui/material';
 import COLORS from './Colors';
 
 
@@ -54,10 +54,37 @@ export const StyledButtonOutlined = styled(Button)(props => ({
     fontFamily: 'Nunito Sans',
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
-        borderColor: COLORS.secondary,
-        backgroundColor: COLORS.secondary,
+        backgroundColor: COLORS.primary,
+        borderColor: COLORS.primary,
     }
 }));
+
+export const StyledTextInput = styled(TextField)({
+    width: '100%',
+    alignSelf: 'center',
+    borderWidth: '5px',
+    '& .MuiInputBase-input ': {
+      width: '100%',
+      fontSize: '17px',
+      backgroundColor: COLORS.white,
+      padding:10
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: COLORS.secondary,
+        borderRadius: '0',
+        minHeight: '45px',
+      },
+  
+      '&:hover fieldset': {
+        borderColor: COLORS.secondary,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: COLORS.secondary,
+        borderWidth: '1px'
+      },
+    },
+  });
 
 export const BodyText = styled('p')({
     margin: 0,
@@ -75,6 +102,26 @@ export const BodyTextBold = styled('p')({
     color: COLORS.black,
     fontFamily: 'Source Sans Pro',
     fontWeight: '700',
+});
+
+export const Title = styled('h1')({
+    margin:0,
+    fontFamily: 'Nunito Sans',
+    fontSize: '40px',
+    '@media(max-width:768px)':{
+        fontSize: '30px',
+    },
+    color: COLORS.secondary,
+});
+
+export const SubTitle = styled('h4')({
+    margin:0,
+    fontFamily: 'Nunito Sans',
+    fontSize: '30px',
+    '@media(max-width:768px)':{
+        fontSize: '20px',
+    },
+    color: COLORS.secondary,
 });
 
 export const RowBodyDivider = styled('div')({

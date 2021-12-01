@@ -71,9 +71,6 @@ function Login() {
                         />
                     </TextFieldContainer>
 
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-
                     <TextFieldContainer>
                         <TextField
                             type="password"

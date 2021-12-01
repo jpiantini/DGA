@@ -5,6 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import Layouts from './router/Layouts';
 import { Provider } from "react-redux";
 import Store from './redux/store/Store';
+import DateFnsUtils from '@date-io/date-fns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 //ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
 function App() {
@@ -17,9 +20,11 @@ function App() {
           }
         `}
       />
-      <BrowserRouter>
+      <LocalizationProvider dateAdapter={DateFnsUtils}>
+        <BrowserRouter>
           <Router routes={Layouts} />
-      </BrowserRouter>
+        </BrowserRouter>
+      </LocalizationProvider>
     </Provider>
 
   );

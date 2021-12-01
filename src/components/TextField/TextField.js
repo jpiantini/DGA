@@ -1,11 +1,11 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { StyledTextInput, Title, Container } from './styles/TextFieldStyles';
+import { Title, Container } from './styles/TextFieldStyles';
 import InputMask from 'react-input-mask';
-import { Row } from '../../theme/Styles';
+import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function TextField({ id, title, placeholder, helperText, value, onChange, type, error, mask, unMaskedValue, required }) {
+function TextField({ id, title, placeholder, helperText, value, onChange, type, error, mask, unMaskedValue, required,multiline }) {
 
     const removeTextFromInputMaskValue = (value) => {
         let NewValue = value.replace(/[^0-9\.]+/g, "");
@@ -52,16 +52,6 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
                                 {...inputProps}
                                 fullWidth
                                 variant="outlined"
-                                //   focused
-                                InputProps={{
-                                    style: {
-                                        borderRadius: '0',
-                                        width: '100%',
-                                        height: '40px',
-                                        fontSize: '17px',
-                                        backgroundColor: COLORS.white,
-                                    },
-                                }}
                                 placeholder={placeholder}
                                 type={type}
                                 helperText={helperText}
@@ -72,18 +62,8 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
                     :
                     <StyledTextInput
                         fullWidth
+                        multiline={multiline}
                         id={id}
-                        //  focused
-                        InputProps={{
-                            style: {
-                                borderRadius: '0',
-                                borderWidth: '5px',
-                                width: '100%',
-                                height: '40px',
-                                fontSize: '17px',
-                                backgroundColor: COLORS.white,
-                            },
-                        }}
                         placeholder={placeholder}
                         value={value}
                         onChange={onChange}
