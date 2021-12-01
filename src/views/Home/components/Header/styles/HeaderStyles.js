@@ -3,8 +3,8 @@ import { Button,List,ListItem } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
 
 export const Container = styled('div')({
-    position:'absolute',
     zIndex:5,
+    position:'absolute',
     display: 'flex',
     flexDirection: 'row',
     alignSelf:'flex-end',
