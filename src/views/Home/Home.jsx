@@ -57,30 +57,34 @@ import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
-import { SliderData } from "../Home/components/carrosuel/SliderData";
 
-import ImageSlider from "./components/carrosuel/ImageSlider";
 import wpCall from "../../services/WpServerCall";
+
+import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
+
 //import parse from 'html-react-parser';
 
 function Home() {
   const minServicesBreakPoint = useMediaQuery("(min-width:830px)");
   const history = useHistory();
 
-  const [wordpressContent, setWordpressContent] = useState({
-    sliders: [],
-  });
+  const [wordpressContent, setWordpressContent] = useState([]);
 
   const getAndSetAllWordPressContent = async () => {
-    let data = await wpCall().get('/sliders/v1/sliders');
-    //TO DO CALL RESTANTS ENDPOINTS 
-    setWordpressContent({
-      sliders: data,
+    let data = await wpCall().get("/sliders/v1/sliders");
 
-      //SET RESTANT DATA
+    //TO DO CALL RESTANTS ENDPOINTS
+
+    console.log("TEST *******", data);
+    const datos = data.data.map(({ content, date, image, title }) => {
+      return { content, date, image, title };
     });
-    console.log(data)
-  }
+
+    setWordpressContent(datos);
+    console.log(datos);
+
+    console.log(wordpressContent);
+  };
 
   useEffect(() => {
     getAndSetAllWordPressContent();
@@ -89,24 +93,17 @@ function Home() {
   return (
     <Container>
       <GobMessage />
-      <HomeContainer>
-        <Header />
-        <HomeTextContainer>
-          <HomeTitle>Lorem ipsum, Cans amer dolor</HomeTitle>
-          <SubtitleTest>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis,
-            aliq
-          </SubtitleTest>
-        </HomeTextContainer>
-        <ImageSlider slides={SliderData}></ImageSlider>
-      </HomeContainer>
+
+      <Header />
+
+      <CarouselBootstrap datos={wordpressContent}></CarouselBootstrap>
 
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
             <Title>+304%</Title>
-            <SubTitle>Solicitudes de licencia</SubTitle>
+            <SubTitle>Solicitudes de licenciaaaa</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />
