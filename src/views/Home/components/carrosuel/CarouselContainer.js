@@ -106,14 +106,15 @@ const Slideshow = ({
 
 const ContenedorPrincipal = styled.div`
   position: relative;
-  z-index: 305;
-  height:100%;
+  width:100%;
+  height:100vh;
  
 }
 `;
 
 const ContenedorSlideshow = styled.div`
   display: flex;
+  position: absolute;
   flex-wrap: nowrap;
   min-height: 100%;
 
@@ -124,7 +125,7 @@ const Slide = styled.div`
   min-width: 100%;
   overflow: hidden;
   transition: 0.3s ease all;
-  z-index: 10;
+
   min-height: 100%;
 
   height: 100%;
@@ -151,7 +152,7 @@ const TextoSlide = styled.div`
 const Controles = styled.div`
   position: absolute;
   top: 0;
-  z-index: 20;
+
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -174,13 +175,6 @@ const Boton = styled.button`
 			fill: #fff;
 		}
 	} */
-
-  path {
-    filter: ${(props) =>
-      props.derecho
-        ? "drop-shadow(-2px 0px 0px #fff)"
-        : "drop-shadow(2px 0px 0px #fff)"};
-  }
 
   ${(props) => (props.derecho ? "right: 0" : "left: 0")}
 `;
