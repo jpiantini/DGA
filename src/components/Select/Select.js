@@ -1,7 +1,7 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { StyledTextInput, Title, Container } from './styles/SelectStyles';
-import { Row } from '../../theme/Styles';
+import {  Title, Container } from './styles/SelectStyles';
+import { Row, StyledTextInput } from '../../theme/Styles';
 import MenuItem from '@mui/material/MenuItem';
 
 
@@ -20,16 +20,6 @@ function Select({ id, title,data, placeholder, helperText, value, onChange, erro
             <StyledTextInput
                 fullWidth
                 id={id}
-                InputProps={{
-                    style: {
-                        borderRadius: '0',
-                        borderWidth: '5px',
-                        width: '100%',
-                        height: '40px',
-                        fontSize: '17px',
-                        backgroundColor: COLORS.white,
-                    },
-                }}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
@@ -44,7 +34,6 @@ function Select({ id, title,data, placeholder, helperText, value, onChange, erro
                 ))}
 
             </StyledTextInput>
-
         </Container>
     );
 }
