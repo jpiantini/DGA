@@ -25,6 +25,7 @@ import Fade from 'react-reveal/Fade';
 import MyProfile from './subViews/myProfile/MyProfile';
 import MyRequests from './subViews/MyRequests/MyRequests';
 import MyDocuments from './subViews/myDocuments/MyDocuments';
+import MyInstitutionalDocuments from './subViews/myInstitutionalDocuments/MyInstitutionalDocuments';
 
 function MyDesk() {
 
@@ -34,6 +35,7 @@ function MyDesk() {
 
     const [NotificationList, setNotificationsList] = useState(MockupNotifications);
     const [ActiveMenu, setActiveMenu] = useState(0); //0 MI PERFIL , 2 MIS SOLICITUDES, 3 MIS DOCUMENTOS
+    const [ActiveDocumentMenu, setActiveDocumentMenu] = useState(0); //0 DOCUMENTOS PERSONALES ,1 DOCUMENTOS INSTITUCIONALES
 
     const [openModifyProfileModal, setOpenModifyProfileModal] = useState(false);
     const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
@@ -51,6 +53,11 @@ function MyDesk() {
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID)
     }
+
+    const handleChangeDocumentMenu = (menuID) => {
+        setActiveDocumentMenu(menuID)
+    }
+
 
     const handleRequestDetailModalStatus = (request) => {
         setSelectedRequest(request);
@@ -117,7 +124,7 @@ function MyDesk() {
                                 Mis Solicitudes
                             </StyledButtonOutlined>
                             <StyledButtonOutlined active={ActiveMenu == 2} onClick={() => handleChangeMenu(2)}>
-                                Mis Documentos
+                                Documentos
                             </StyledButtonOutlined>
                         </ButtonGroup>
                     </ButtonsMenuContainer>
@@ -129,8 +136,28 @@ function MyDesk() {
                             ActiveMenu == 1 ? // SOLICITUDES EN PROCESO
                                 <MyRequests />
                                 :
-                                // MIS DOCUMENTOS
-                                <MyDocuments />
+                                // DOCUMENTOS
+                                <Fragment>
+                                    <MediumHeightDivider />
+                                    <ButtonsMenuContainer>
+                                        <ButtonGroup size="large" >
+                                            <StyledButtonOutlined active={ActiveDocumentMenu == 0} onClick={() => handleChangeDocumentMenu(0)}>
+                                                Documentos Personales
+                                            </StyledButtonOutlined>
+                                            <StyledButtonOutlined active={ActiveDocumentMenu == 1} onClick={() => handleChangeDocumentMenu(1)}>
+                                                Documentos Institucionales
+                                            </StyledButtonOutlined>
+                                        </ButtonGroup>
+                                    </ButtonsMenuContainer>
+
+                                    {
+                                        ActiveDocumentMenu == 0 ?
+                                            <MyDocuments />
+                                            :
+                                            <MyInstitutionalDocuments />
+                                    }
+                                </Fragment>
+
                     }
 
                 </Container>
