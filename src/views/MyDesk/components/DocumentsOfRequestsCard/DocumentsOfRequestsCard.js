@@ -49,8 +49,8 @@ function DocumentsOfRequestsCard({ title,data }) {
                         </BodyText>
                     </Column>
                 </RowContainer>
-
-                {
+                <SmallHeightDivider/>
+                {   
                     data?.map((item) => (
                         <Fragment>
                             <RowContainer >
@@ -81,6 +81,7 @@ function DocumentsOfRequestsCard({ title,data }) {
                             </RowContainer>
                             <LineDivider />
                         </Fragment>
+
                     ))
                 }
 
