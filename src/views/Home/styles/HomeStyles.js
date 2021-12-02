@@ -52,9 +52,8 @@ export const MediumContainer = styled("div")({
 export const HomeTextContainer = styled("div")({
   justifyContent: "center",
   marginLeft: "20%",
-
-  bottom: "20%",
-
+  bottom: "70%",
+  minHeight: "50vh",
   marginBottom: "10%",
   "@media (min-width:360px)": {
     width: "100%",

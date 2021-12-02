@@ -11,7 +11,7 @@ export const CarouselBootstrap = (datos) => {
         <span id="next" aria-hidden="true" className="material-icons">
           {" "}
           arrow_forward_ios
-        </span>s
+        </span>
       );
     } else if (direction === "Previous") {
       return (
