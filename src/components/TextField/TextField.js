@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask';
 import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function TextField({ id, title, placeholder, helperText, value, onChange, type, error, mask, unMaskedValue, required,multiline }) {
+function TextField({ id, title, placeholder, helperText, value, onChange,onBlur, type, error, mask, unMaskedValue, required,multiline }) {
 
     const removeTextFromInputMaskValue = (value) => {
         let NewValue = value.replace(/[^0-9\.]+/g, "");
@@ -32,6 +32,20 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
                         mask={mask}
                         maskChar={null}
                         value={value}
+                        onBlur={
+                            unMaskedValue ?
+                                (e) => {
+                                    onBlur({
+                                        target:
+                                        {
+                                            id: e.target.id,
+                                            value: removeTextFromInputMaskValue(e.target.value)
+                                        }
+                                    })
+                                }
+                                :
+                                onBlur
+                        }
                         onChange={
                             unMaskedValue ?
                                 (e) => {
@@ -66,6 +80,7 @@ function TextField({ id, title, placeholder, helperText, value, onChange, type, 
                         id={id}
                         placeholder={placeholder}
                         value={value}
+                        onBlur={onBlur}
                         onChange={onChange}
                         type={type}
                         helperText={helperText}

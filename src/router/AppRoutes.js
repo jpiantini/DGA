@@ -1,6 +1,7 @@
 import { Redirect } from 'react-router';
 import Login from '../views/Auth/Login/Login';
 import Register from '../views/Auth/Register/Register';
+import RegisterNew from '../views/Auth/RegisterNew/RegisterNew';
 import Home from '../views/Home/Home';
 import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
 import MyDesk from '../views/MyDesk/MyDesk';
@@ -24,9 +25,9 @@ const routes = [
     },
     {
         path: '/register',
-        component: Register,
+        component: RegisterNew,
         exact: true,
-        layout: '/public',
+        layout: '/app',
         loginRequired: false
     },
     {

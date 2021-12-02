@@ -30,7 +30,7 @@ export default function LoginOrRegisterModal({ open, onBackDropClick, onCloseCli
         <ButtonsContainer>
           <StyledButtonOutlined variant="outlined" onClick={() => goToRoute('/public/login')}>INICIAR SESIÓN</StyledButtonOutlined>
           <SmallHeightDivider />
-          <StyledButtonOutlined variant="outlined" onClick={() => goToRoute('/public/register')}>REGISTRARME</StyledButtonOutlined>
+          <StyledButtonOutlined variant="outlined" onClick={() => goToRoute('/app/register')}>REGISTRARME</StyledButtonOutlined>
         </ButtonsContainer>
       </Container>
     </Dialog>

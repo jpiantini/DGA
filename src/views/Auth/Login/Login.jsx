@@ -89,7 +89,7 @@ function Login() {
                     <SmallHeightDivider />
                     <BodyText>¿No tienes una cuenta?
                         <LinkText
-                            to='/public/register'
+                            to='/app/register'
                             style={{
                                 color: COLORS.primary,
                             }}>Registrarse</LinkText>
