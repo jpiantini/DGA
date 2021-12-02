@@ -2,7 +2,7 @@
 
 export const MockupDocuments = [
   {
-  title:'Personales',
+  title:'Institucionales',
   data:[
   {
     id: 1,
@@ -39,5 +39,5 @@ export const MockupDocuments = [
     date: '22/08/2021',
     url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
   },
-]}
+]},
 ]
