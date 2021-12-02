@@ -50,17 +50,11 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  zIndex: 10,
-  display: "flex",
   justifyContent: "center",
-  flexDirection: "column",
   marginLeft: "20%",
-
-  width: "50%",
-  height: "150px",
+  bottom: "70%",
   minHeight: "50vh",
   marginBottom: "10%",
-
   "@media (min-width:360px)": {
     width: "100%",
   },
@@ -100,7 +94,7 @@ export const DefaultButton = styled(Button)({
 
 export const HomeTitle = styled("h1")({
   zIndex: 10,
-  margin: 0,
+
   width: "50%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
@@ -116,12 +110,12 @@ export const HomeTitle = styled("h1")({
 });
 
 export const HomeSubTitle = styled("h3")({
-  position: "absolute",
-  zIndex: 30,
-  margin: 0,
   width: "50%",
   color: COLORS.white,
   fontFamily: "Nunito Sans",
+  "@media (max-width:400px)": {
+    fontSize: "10px",
+  },
   "@media (min-width:360px)": {
     fontSize: "13px",
   },
