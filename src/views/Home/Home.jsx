@@ -103,7 +103,7 @@ function Home() {
           <div>
             <StyledDescriptionIcon />
             <Title>+304%</Title>
-            <SubTitle>Solicitudes de licenciaaaa</SubTitle>
+            <SubTitle>Solicitudes de licencias</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />

@@ -3,9 +3,9 @@ import TextInformation from '../../../../components/TextInformation/TextInformat
 import { MediumHeightDivider, SmallHeightDivider } from '../../../../theme/Styles';
 import Fade from 'react-reveal/Fade';
 import DocumentsOfRequestsCard from '../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
-import { MockupDocuments } from './MyDocumentsConstants';
+import { MockupDocuments } from './MyInstitutionalDocumentsConstants';
 
-function MyDocuments() {
+function MyInstitutionalDocuments() {
 
     return (
         <Fade right >
@@ -25,4 +25,4 @@ function MyDocuments() {
     );
 }
 
-export default MyDocuments;
+export default MyInstitutionalDocuments;

@@ -74,6 +74,7 @@ export const LineDivider = styled('div')({
     width: '100%',
     display: 'flex',
     height:'1px',
+    marginTop:'10px',
     backgroundColor:COLORS.grayPlaceholder
 });
 
