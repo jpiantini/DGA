@@ -233,11 +233,6 @@ function RequestService() {
                                 </ImageContainer>
                             </Grid>
 
-                            <Grid item xs={4} sm={4} md={4}>
-                                <ImageContainer onClick={() => alert('click')}>
-                                    <LogoImage src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" />
-                                </ImageContainer>
-                            </Grid>
                         </Grid>
                         <MediumHeightDivider />
                         <ButtonContainer>

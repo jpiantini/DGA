@@ -55,7 +55,7 @@ export default function RegisterInformationModal({ open, onBackDropClick, onClos
         </CenterContainer>
         <CenterContainer>
           <ButtonsContainer>
-            <StyledButton onClick={() => goToRoute('public/register')}>Ir al Registro</StyledButton>
+            <StyledButton onClick={() => goToRoute('/app/register')}>Ir al Registro</StyledButton>
           </ButtonsContainer>
         </CenterContainer>
         <SmallHeightDivider/>

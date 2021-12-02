@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 
-function RadioButtonGroup({ id, title, options, value, onChange, required }) {
+function RadioButtonGroup({ id, title, options, value, onChange,onBlur, required,row }) {
 
 
 
@@ -23,10 +23,10 @@ function RadioButtonGroup({ id, title, options, value, onChange, required }) {
                     : null}
             </Row>
             <FormGroup>
-                <RadioGroup name={id} value={value} onChange={onChange} >
+                <RadioGroup name={id} value={value} onChange={onChange} /*onBlur={onBlur}*/ row={row}>
                     {
                         options?.map((option) => (
-                            <FormControlLabel value={option.value} control={<Radio sx={{ color: COLORS.tertiary }} />} label={option.label} />
+                            <FormControlLabel key={option.value} value={option.value} control={<Radio sx={{ color: COLORS.tertiary }} />} label={option.label} />
                         ))
                     }
                 </RadioGroup>

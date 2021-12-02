@@ -1,20 +1,21 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/CheckBoxGroupStyles';
+import { Title, Container } from './styles/CheckBoxStyles';
 import { Row } from '../../theme/Styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
-function CheckBoxGroup({ id, title, options, onChange,onBlur, required }) {
+function CheckBox({ id, title, label,value,onChange,onBlur, required,error,helperText }) {
 
     const HandleCheckboxChange = (e) => {
-        let currentModifiedOption = options.find((option) => option.id == e.target.id);
-        console.log(currentModifiedOption)
-        currentModifiedOption.value = e.target.checked
-        let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
-        console.log(newOptions)
-        return newOptions;
+        if(e.target.checked){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     return (
@@ -28,32 +29,32 @@ function CheckBoxGroup({ id, title, options, onChange,onBlur, required }) {
                     </Fragment>
                     : null}
             </Row>
+            <FormControl required={required} error={error} component="fieldset" variant="standard">
             <FormGroup>
-
-                {
-                    options?.map((option,index) => (
-                        <FormControlLabel key={index} control={
-                            <Checkbox size="medium" checked={option.value}
+                        <FormControlLabel  control={
+                            <Checkbox size="medium" checked={value}
                                 onChange={(e) => onChange({
                                     target: {
                                         id: id,
                                         value: HandleCheckboxChange(e)
                                     }
                                 })}
-                               /* onBlur={(e) => onBlur({
+                                onBlur={(e) => onBlur({
                                     target: {
                                         id: id,
                                         value: HandleCheckboxChange(e)
                                     }
-                                })}*/
-                                id={option.id} />
-                        } label={option.label} />
-                    ))
-                }
+                                })}
+                                id={id} />
+                        } label={label? label:''} />
+                   
+                
+            </FormGroup >
+            <FormHelperText>{helperText}</FormHelperText>
+            </FormControl>
 
-            </FormGroup>
         </Container>
     );
 }
 
-export default memo(CheckBoxGroup);
+export default memo(CheckBox);

@@ -5,7 +5,7 @@ import { Row, StyledTextInput } from '../../theme/Styles';
 import MenuItem from '@mui/material/MenuItem';
 
 
-function Select({ id, title,data, placeholder, helperText, value, onChange, error, required }) {
+function Select({ id, title,data, placeholder, helperText, value, onChange,onBlur, error, required,disabled }) {
     return (
         <Container>
             <Row>
@@ -20,12 +20,15 @@ function Select({ id, title,data, placeholder, helperText, value, onChange, erro
             <StyledTextInput
                 fullWidth
                 id={id}
+                name={id}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                onBlur={onBlur}
                 helperText={helperText}
                 error={error}
                 select
+                disabled={disabled}
             >
                 {data?.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
