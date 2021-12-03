@@ -50,10 +50,12 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
+  paddingTop: ".1px",
+  boxSizing: "border-box",
   justifyContent: "center",
   marginLeft: "20%",
   bottom: "70%",
-  minHeight: "50vh",
+  minHeight: "400px",
   marginBottom: "10%",
   "@media (min-width:360px)": {
     width: "100%",
@@ -94,7 +96,7 @@ export const DefaultButton = styled(Button)({
 
 export const HomeTitle = styled("h1")({
   zIndex: 10,
-
+  height: "400px",
   width: "50%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
