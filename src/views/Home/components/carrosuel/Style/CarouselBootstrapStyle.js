@@ -1,6 +1,8 @@
 import { styled } from "@mui/system";
 
 export const ImageContainer = styled("div")((props) => ({
+  display:'flex',
+  position:'relative',
   minHeight: "100vh",
   background: `url(${props.image})`,
   backgroundSize: "cover",
