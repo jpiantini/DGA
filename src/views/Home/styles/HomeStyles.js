@@ -50,18 +50,18 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  paddingTop: ".1px",
-  boxSizing: "border-box",
-  justifyContent: "center",
-  marginLeft: "20%",
-  bottom: "70%",
-  minHeight: "400px",
-  marginBottom: "10%",
+  flexDirection: "column",
+  position: "relative",
+  marginLeft: "15%",
+  marginTop: "13%",
+  height: "500px",
+  alignSelf: "center",
+
   "@media (min-width:360px)": {
     width: "100%",
   },
   "@media (min-width:768px)": {
-    width: "70%",
+    width: "100%",
   },
   "@media (min-width:1200px)": {
     fontSize: "15px",
@@ -73,6 +73,7 @@ export const HomeTextContainer = styled("div")({
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
+
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
@@ -96,17 +97,21 @@ export const DefaultButton = styled(Button)({
 
 export const HomeTitle = styled("h1")({
   zIndex: 10,
-  height: "400px",
+  position: "absolute",
+  marginBottom: "5px",
+  top: "2%",
   width: "50%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
-  "@media (min-width:360px)": {
+  "@media (max-width:455px)": {
     fontSize: "25px",
+    width: "80%",
+    top: "15%",
   },
   "@media (min-width:768px)": {
     fontSize: "30px",
   },
-  "@media (min-width:1200px)": {
+  "@media (max-width:1200px)": {
     fontSize: "50px",
   },
 });

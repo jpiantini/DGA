@@ -10,7 +10,7 @@
 
 .item {
   position: absolute;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vh;
 }
 
@@ -46,4 +46,51 @@
 #next:hover,
 #back:hover {
   color: #ed5f30;
+}
+.containerBtn {
+  position: relative;
+  top: 40%;
+  right: 40%;
+}
+
+.btnMore {
+  position: absolute;
+  width: 175px;
+  height: 35px;
+  color: #ffffff;
+  background-color: #ed5f30;
+  font-family: "Fira Sans";
+  border-radius: 20px !important;
+}
+
+@media (max-width: 455px) {
+  .containerBtn {
+    border-radius: 20px;
+    position: absolute;
+    border-radius: 20px;
+
+    left: 05%;
+  }
+  .btnMore {
+    align-self: center;
+    width: 150px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1203px) {
+  .containerBtn {
+    border-radius: 20px;
+    position: absolute;
+    top: 62%;
+    right: 80%;
+    width: 150px;
+  }
+}
+
+.btnMore:hover,
+.btnMore:active {
+  color: white;
+  background-color: #231f20;
+  border-radius: 20px;
 }

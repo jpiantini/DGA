@@ -12,6 +12,7 @@ const Router = ({ routes }) => {
         :
         route?.loginRequired == true && authenticated == false ? //IF LOGIN IS REQUIRED AND USER IS NOT LOGGED IN CAN`T ACCESS TO ROUTE
           <Redirect
+          key={route.path}
             to='/public'
           />
           :

@@ -135,3 +135,6 @@ export const MediumHeightDivider = styled('div')({
     height:'60px'
 });
 
+export const WpRichTextContainer = styled('div')({
+    fontFamily:'Fira Sans'
+});
