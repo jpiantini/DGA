@@ -6,7 +6,8 @@ import { Drawer } from '@mui/material';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import LoggedInMenu from '../../../../components/LoggedInMenu/LoggedInMenu';
-import RegisterInformationModal from '../../../../components/RegisterInformationModal/RegisterInformationModal';
+import ImportantInformationModal from '../../../../components/ImportantInformationModal/ImportantInformationModal';
+import { isMobile } from 'react-device-detect';
 
 function Header() {
 
@@ -28,8 +29,6 @@ function Header() {
 
     return (
         <Fragment>
-            <RegisterInformationModal open={registerInformationModalVisible}
-                onCloseClick={handleregisterInformationModalVisibility} onBackDropClick={handleregisterInformationModalVisibility} />
             {
                 matchesWidth ?
                     <Container>
@@ -45,7 +44,7 @@ function Header() {
                                         Iniciar sesión
                                     </MenuButton>
                                     <div style={{ width: '1rem' }} />
-                                    <MenuButton variant="outlined" color="inherit" onClick={handleregisterInformationModalVisibility}>Registrar</MenuButton>
+                                    <MenuButton variant="outlined" color="inherit" onClick={() => goToRoute('/app/register')}>Registrar</MenuButton>
                                 </Fragment>
                                 :
                                 <LoggedInMenu />
@@ -54,6 +53,16 @@ function Header() {
                     </Container>
                     :
                     <Container>
+                        {
+                            isMobile &&
+                            <ImportantInformationModal
+                            open={registerInformationModalVisible}
+                            buttonTitle="Ir a la store"
+                            content="Para tener una mejor experiencia instale la app mitur."
+                            buttonClick={() => goToRoute('/app/register')} //SEND TO DOWNLOAD APP LINK
+                            onCloseClick={handleregisterInformationModalVisibility} onBackDropClick={handleregisterInformationModalVisibility} />
+                        }
+                       
                         <MenuButton color="inherit" startIcon={<MenuIcon style={{ fontSize: '40px' }} />} name="drawerState" onClick={() => setDrawerState(!drawerState)} />
                         <Drawer
                             anchor={'right'}
@@ -76,7 +85,12 @@ function Header() {
                                             </DrawerListItemButton>
                                         </DrawerListItemContainer>
                                         <DrawerListItemContainer>
-                                            <DrawerListItemButton color="inherit" onClick={handleregisterInformationModalVisibility}>REGISTRAR</DrawerListItemButton>
+                                            <DrawerListItemButton color="inherit" onClick={(e) => {
+                                                isMobile?
+                                                handleregisterInformationModalVisibility()
+                                                :
+                                                goToRoute('/app/register')
+                                                }}>REGISTRAR</DrawerListItemButton>
                                         </DrawerListItemContainer>
                                     </Fragment>
                                 }
