@@ -1,7 +1,7 @@
 import { Carousel } from "react-bootstrap";
 import "./Style/style.css";
 import "./Style/CarouselBootstrapStyle.scss";
-import { HomeTextContainer, HomeTitle } from "../../styles/HomeStyles";
+import { DefaultButton, HomeTextContainer, HomeTitle } from "../../styles/HomeStyles";
 import { ImageContainer } from "./Style/CarouselBootstrapStyle";
 
 export const CarouselBootstrap = (datos) => {
@@ -35,13 +35,15 @@ export const CarouselBootstrap = (datos) => {
         {datos.datos.map((item, index) => {
           return (
             <Carousel.Item className="item">
-              <ImageContainer image={item.image} />
+              <ImageContainer image={item.image}>
 
-              <Carousel.Caption>
-                <HomeTextContainer>
+              <HomeTextContainer>
                   <HomeTitle>{item.content}</HomeTitle>
+                  <DefaultButton>Saber mas</DefaultButton>
                 </HomeTextContainer>
-              </Carousel.Caption>
+              </ImageContainer>
+
+                
             </Carousel.Item>
           );
         })}
