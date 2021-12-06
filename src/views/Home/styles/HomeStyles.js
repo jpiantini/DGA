@@ -53,7 +53,7 @@ export const HomeTextContainer = styled("div")({
   flexDirection: "column",
   position: "relative",
   marginLeft: "15%",
-  marginTop: "13%",
+  marginTop: "15%",
   height: "500px",
   alignSelf: "center",
 
@@ -98,9 +98,9 @@ export const DefaultButton = styled(Button)({
 export const HomeTitle = styled("h1")({
   zIndex: 10,
   position: "absolute",
-  marginBottom: "5px",
-  top: "2%",
-  width: "50%",
+
+  top: "5%",
+  width: "55%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
   "@media (max-width:455px)": {
