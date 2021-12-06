@@ -41,7 +41,7 @@ function Header() {
                         <MenuDivider />
                         <MenuButton onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</MenuButton>
                         <MenuDivider />
-                        <MenuButton>Contacto</MenuButton>
+                        <MenuButton onClick={() => goToRoute('/app/contact')}>Contacto</MenuButton>
                         <MenuDivider />
                         {
                             !authenticated ?
@@ -70,7 +70,7 @@ function Header() {
                                     <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
-                                    <DrawerListItemButton color="inherit" >Contacto</DrawerListItemButton>
+                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/contact')}>Contacto</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 {
                                     !authenticated ?
