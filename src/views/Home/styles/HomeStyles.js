@@ -107,6 +107,9 @@ export const HomeTitle = styled("h1")({
     fontSize: "25px",
     width: "80%",
     top: "15%",
+    overflowX: "ellipsis",
+    overflow: "hidden",
+    color: COLORS.RED,
   },
   "@media (min-width:768px)": {
     fontSize: "30px",

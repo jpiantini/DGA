@@ -8,6 +8,7 @@ export const ButtonComponet = styled("div")((props) => ({
   color: COLORS.white,
   fontFamily: "Fira Sans",
   borderRadius: "20px !important",
+  backgroundColor: COLORS.primary,
 
   "@media (max-width: 455px)": {
     borderRadius: "20px",

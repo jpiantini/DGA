@@ -68,13 +68,13 @@
     border-radius: 20px;
     position: absolute;
     border-radius: 20px;
-
-    left: 05%;
   }
   .btnMore {
     align-self: center;
-    width: 150px;
+    width: 10em;
     font-size: 10px;
+    bottom: 10%;
+    left: 90%;
   }
 }
 
