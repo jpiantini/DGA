@@ -3,21 +3,20 @@
 
   width: 100%;
   min-height: 100vh;
-
+  padding: 2px;
   margin: 0;
   background-color: rgba(0, 0, 0, 0.35);
 }
 
 .item {
-  position: absolute;
   min-height: 100vh;
-  width: 100vh;
+  width: 100%;
 }
 
 #imagenes {
   height: 100%;
   position: absolute;
-  width: 100%;
+  width: 100vh;
 }
 
 .bg-img {
@@ -32,7 +31,7 @@
   font-size: 3em;
   color: #fff;
   cursor: pointer;
-  right: 25%;
+  right: 0;
 }
 
 #next {
@@ -40,7 +39,7 @@
   font-size: 3em;
   color: #fff;
   cursor: pointer;
-  left: 25%;
+  left: 0%;
 }
 
 #next:hover,
@@ -49,42 +48,49 @@
 }
 .containerBtn {
   position: relative;
-  top: 40%;
-  right: 40%;
+  top: 47%;
 }
 
 .btnMore {
   position: absolute;
-  width: 175px;
-  height: 35px;
-  color: #ffffff;
-  background-color: #ed5f30;
-  font-family: "Fira Sans";
+  right: 50%;
   border-radius: 20px !important;
+  margin: 3px;
 }
 
-@media (max-width: 455px) {
+@media (min-width: 320px) {
   .containerBtn {
     border-radius: 20px;
-    position: absolute;
+    position: relative;
     border-radius: 20px;
-
-    left: 05%;
+    left: 20%;
+    top: 55%;
   }
   .btnMore {
-    align-self: center;
-    width: 150px;
+    position: absolute;
+    right: 50%;
+    font-size: 10px;
+  }
+}
+@media (max-width: 670px) {
+  .containerBtn {
+    left: 20%;
+    position: relative;
+    top: 55%;
+  }
+  .btnMore {
+    position: absolute;
+    right: 50%;
     font-size: 10px;
   }
 }
 
-@media (max-width: 1203px) {
+@media (min-width: 1200px) {
   .containerBtn {
     border-radius: 20px;
     position: absolute;
-    top: 62%;
-    right: 80%;
-    width: 150px;
+    top: 45%;
+    right: 50%;
   }
 }
 
