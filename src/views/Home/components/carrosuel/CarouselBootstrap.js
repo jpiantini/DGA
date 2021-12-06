@@ -44,7 +44,9 @@ export const CarouselBootstrap = (datos) => {
                   <HomeTitle>{item.content}</HomeTitle>
                   <div className="containerBtn">
                     {" "}
-                    <button className="btnMore">SABER MÁS </button>
+                    <DefaultButton className="btnMore">
+                      SABER MÁS{" "}
+                    </DefaultButton>
                   </div>
                 </HomeTextContainer>
               </ImageContainer>
