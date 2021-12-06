@@ -11,6 +11,10 @@ export const ButtonContainer = styled('div')({
     marginTop:'20px'
 });
 
+export const ContactInfoContainer = styled('div')({
+    fontFamily:'Nunito Sans'
+});
+
 export const MapContainer = styled('div')({
     display: 'flex',
     flexDirection: 'column',

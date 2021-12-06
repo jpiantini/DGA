@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import { Button,TextField } from '@mui/material';
 import COLORS from './Colors';
 
+export const boxShadowConfig="5px 5px 50px -15px rgba(0,0,0,0.51)"
 
 export const Container = styled('div')({
     display: 'flex',
@@ -137,4 +138,27 @@ export const MediumHeightDivider = styled('div')({
 
 export const WpRichTextContainer = styled('div')({
     fontFamily:'Fira Sans'
+});
+
+export const ButtonsMenuContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    '@media (min-width:320px)': {
+        width: '100%',
+    },
+    '@media (min-width:768px)': {
+        width: '80%',
+    },
+    '@media (min-width:1200px)': {
+        width: '70%',
+    },
+});
+
+export const CardContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
+    boxShadow: boxShadowConfig,
 });

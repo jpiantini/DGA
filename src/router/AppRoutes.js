@@ -7,6 +7,7 @@ import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOf
 import MyDesk from '../views/MyDesk/MyDesk';
 import RequestService from '../views/RequestService/RequestService';
 import ServiceDescription from '../views/ServiceDescription/ServiceDescription';
+import ServiceRequestedDetails from '../views/ServiceRequestedDetails/ServiceRequestedDetails';
 
 const routes = [
     {
@@ -31,14 +32,14 @@ const routes = [
         loginRequired: false
     },
     {
-        path: '/serviceDescription/:id',
+        path: '/serviceDescription/:serviceID',
         component: ServiceDescription,
         exact: true,
         layout: '/app',
         loginRequired: false
     },
     {
-        path: '/listOfServices/:id',
+        path: '/listOfServices/:categoryID',
         component: ListOfServicesPerCategory,
         exact: true,
         layout: '/app',
@@ -59,8 +60,15 @@ const routes = [
         loginRequired: true
     },
     {
-        path: '/requestService/:id',
+        path: '/requestService/:serviceID',
         component: RequestService,
+        exact: true,
+        layout: '/app',
+        loginRequired: true
+    },
+    {
+        path: '/serviceRequestedDetails/:serviceID/:requestID',
+        component: ServiceRequestedDetails,
         exact: true,
         layout: '/app',
         loginRequired: true
