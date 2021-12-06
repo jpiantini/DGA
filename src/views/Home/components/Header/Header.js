@@ -34,7 +34,7 @@ function Header() {
                     <Container>
                         <MenuButton onClick={() => goToRoute('/app/listOfServices/0')}>Servicios</MenuButton>
                         <div style={{ width: '1rem' }} />
-                        <MenuButton>Contacto</MenuButton>.
+                        <MenuButton onClick={() => goToRoute('/app/contact')}>Contacto</MenuButton>.
                         <div style={{ width: '1rem' }} />
 
                         {
@@ -75,6 +75,9 @@ function Header() {
                                 </DrawerListItemContainer>
                                 <DrawerListItemContainer>
                                     <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/listOfServices/0')}>SERVICIOS</DrawerListItemButton>
+                                </DrawerListItemContainer>
+                                <DrawerListItemContainer>
+                                    <DrawerListItemButton color="inherit" onClick={() => goToRoute('/app/contact')}>CONTACTO</DrawerListItemButton>
                                 </DrawerListItemContainer>
                                 {
                                     !authenticated &&

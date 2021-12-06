@@ -1,6 +1,7 @@
 import { Redirect } from 'react-router';
 import Login from '../views/Auth/Login/Login';
 import Register from '../views/Auth/Register/Register';
+import Contact from '../views/Contact/Contact';
 import Home from '../views/Home/Home';
 import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
 import MyDesk from '../views/MyDesk/MyDesk';
@@ -39,6 +40,13 @@ const routes = [
     {
         path: '/listOfServices/:id',
         component: ListOfServicesPerCategory,
+        exact: true,
+        layout: '/app',
+        loginRequired: false
+    },
+    {
+        path: '/contact',
+        component: Contact,
         exact: true,
         layout: '/app',
         loginRequired: false
