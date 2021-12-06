@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, useEffect } from 'react';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import { SmallHeightDivider, MediumHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import {
     ButtonContainer,
+    ContactInfoContainer,
     Container,
     MapContainer
 } from './styles/ContactStyles';
@@ -14,13 +15,14 @@ import { useFormik } from 'formik';
 import { FormSchema } from './ContactConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
+import wpCall from '../../services/WpServerCall';
 
 function Contact() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
-
+    const [wordpressContent, setWordpressContent] = useState();
 
     const formik = useFormik({
         initialValues: {
@@ -37,48 +39,59 @@ function Contact() {
         },
     });
 
+    const getAndSetAllWordPressContent = async () => {
+        let response = await wpCall().get("/sucursales/v1/sucursales");
+        let data = response.data.map((data) => {
+            return {
+                title: data.title,
+                address: data.address,
+                phoneNumber: data.phoneNumber,
+                email: data.email,
+                website: data.website
+            };
+        });
+        setWordpressContent(data);
+    };
 
     useLayoutEffect(() => {
         //UPDATE APP HEADER SUBTITLE
         dispatch(UpdateAppSubHeaderTitle('Contacto')) // TITLE OF SUBHEADER APP
     }, []);
 
+    useEffect(() => {
+        getAndSetAllWordPressContent();
+    }, []);
 
     return (
         <Container>
             <TextInformation title="Información de contacto" />
             <SmallHeightDivider />
-            <div style={{ fontFamily: 'Nunito Sans' }}>
-                <label>
-                    <strong>
-                        Oficina Principal
-                    </strong>
-                </label>
 
-                <p>
-                    Av. Cayetano Germosén, esq. Av. Gral sector D. N., Av. Luperón, Santo Domingo.<br />
-
-                    809 221 4660<br />
-                    info@mitur.gob.do
-
-                </p>
-            </div>
-
-            <div style={{ fontFamily: 'Nunito Sans',margin:0 }}>
-                <label>
-                    <strong>
-                        Oficina Principal
-                    </strong>
-                </label>
-
-                <p>
-                    Av. Cayetano Germosén, esq. Av. Gral sector D. N., Av. Luperón, Santo Domingo.<br />
-
-                    809 221 4660<br />
-                    info@mitur.gob.do
-
-                </p>
-            </div>
+            <Grid alignItems="center" justifyContent="space-between" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                {
+                    wordpressContent &&
+                    wordpressContent.map((content) => (
+                        <Grid item xs={12} sm={12} md={6}>
+                            <ContactInfoContainer>
+                                <label >
+                                    <strong>
+                                        {content.title}
+                                    </strong>
+                                </label>
+                                <p style={{marginTop:'0.1%'}}>
+                                    {content.address}
+                                    <br />
+                                    {content.phoneNumber}
+                                    <br />
+                                    {content.email}
+                                    <br />
+                                    {content.website}
+                                </p>
+                            </ContactInfoContainer>
+                        </Grid>
+                    ))
+                }
+            </Grid>
 
             <TextInformation title="Ponte en contacto con nosotros" />
             <SmallHeightDivider />

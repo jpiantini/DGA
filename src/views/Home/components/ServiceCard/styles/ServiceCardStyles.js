@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import { Button, List, ListItem } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
+import { boxShadowConfig } from '../../../../../theme/Styles';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -10,7 +11,7 @@ export const Container = styled('div')({
     justifyContent:'center',
     width: '100%',
     height: '300px',
-    boxShadow: '0 8px 10px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
+    boxShadow: boxShadowConfig,
 });
 
 export const CenterContainer = styled('div')({

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useState, useLayoutEffect, useEffect,Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -20,7 +20,7 @@ function ListOfServicesPerCategory() {
 
     const matchesWidth = useMediaQuery('(min-width:867px)');
     const history = useHistory();
-    let { id } = useParams();
+    let { categoryID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
@@ -37,11 +37,11 @@ function ListOfServicesPerCategory() {
     }
 
     useLayoutEffect(() => {
-        if (id == 1 || id == 2 || id == 3) {
+        if (categoryID == 1 || categoryID == 2 || categoryID == 3) {
             //UPDATE APP HEADER SUBTITLE
-            let Title = titles.find((title) => title.id == id)?.title; //find title in mockup info need 
+            let Title = titles.find((title) => title.id == categoryID)?.title; //find title in mockup info need 
             dispatch(UpdateAppSubHeaderTitle(Title)) // TITLE OF SUBHEADER APP
-        }else if (id == 0) {
+        }else if (categoryID == 0) {
             dispatch(UpdateAppSubHeaderTitle('TODOS LOS SERVICIOS')) // IN CASE IF NEEDED SHOW ALL SERVICES
         }
          else {
@@ -69,10 +69,10 @@ function ListOfServicesPerCategory() {
 
                     {
                         matchesWidth &&
-                        <>
+                        <Fragment>
                             <TextInformation title="Servicios" />
                             <SmallHeightDivider />
-                            <Grid container direction="row" justifyContent="flex-start" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            <Grid container direction="row" alignItems="flex-start" justifyContent="space-between" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {
                                     ListServices.map((item) => (
                                         <Grid item >
@@ -81,13 +81,13 @@ function ListOfServicesPerCategory() {
                                     ))
                                 }
                             </Grid>
-                        </>
+                        </Fragment>
                     }
                 </Container>
             </Row>
             {
                 !matchesWidth &&
-                <>
+                <Fragment>
                     <TextInformation title="Servicios" />
                     <SmallHeightDivider />
                     <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -99,7 +99,7 @@ function ListOfServicesPerCategory() {
                             ))
                         }
                     </Grid>
-                </>
+                </Fragment>
             }
         </Container>
     );
