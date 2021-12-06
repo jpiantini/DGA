@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import COLORS from '../../../../../theme/Colors';
+import COLORS from '../../../theme/Colors';
 import CloseIcon from '@mui/icons-material/Close';
 
 export const Container = styled('div')({

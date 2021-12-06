@@ -1,27 +1,22 @@
 import { useState, useLayoutEffect, useEffect, Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
-import TextInformation from '../../components/TextInformation/TextInformation';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { MediumHeightDivider, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { ButtonsMenuContainer, MediumHeightDivider, SmallHeightDivider,CardContainer, StyledButtonOutlined } from '../../theme/Styles';
 import { Row, RowBodyDivider } from '../../theme/Styles';
 import { useHistory } from 'react-router';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import DeskNotification from './components/DeskNotification/DeskNotification';
-import { MockupCompletedRequests, MockupInProcessRequests, MockupNotifications, MockupRejectedRequests } from './MyDeskConstants';
+import {MockupNotifications} from './MyDeskConstants';
 import {
     Container,
-    CardContainer,
+    
     MetricsContentDivider,
     MetricsTextContainer,
     MetricsTitle,
     MetricsValue,
-    ButtonsMenuContainer,
 } from './styles/MyDeskStyles';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import RequestCard from './components/RequestCard/RequestCard';
-import RequestDetailModal from './components/RequestDetailModal/RequestDetailModal';
-import Fade from 'react-reveal/Fade';
 import MyProfile from './subViews/myProfile/MyProfile';
 import MyRequests from './subViews/MyRequests/MyRequests';
 import MyDocuments from './subViews/myDocuments/MyDocuments';

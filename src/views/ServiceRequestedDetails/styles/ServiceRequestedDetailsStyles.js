@@ -7,24 +7,27 @@ export const Container = styled('div')({
     flexDirection: 'column',
 });
 
-export const ButtonsContainer = styled('div')({
+export const CardContainer = styled('div')({
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    backgroundColor: COLORS.white,
     width: '100%',
-    justifyContent: 'space-between'
+    boxShadow: boxShadowConfig,
+    padding:'1%'
 });
 
 export const ButtonContainer = styled('div')({
-    width: '30%',
-});
-
-export const PaymentMethodsContainer = styled('div')({
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between'
-
-
+    marginTop:'20px',
+    '@media (min-width: 320px)':{
+        width:'100%',
+    },
+    '@media (min-width: 768px)':{
+        width:'250px',
+    }
+    ,
+    '@media (min-width: 1200px)':{
+        width:'300px',
+    }
 });
 
 export const ImageContainer = styled('div')({
