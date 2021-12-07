@@ -78,38 +78,27 @@ export const DefaultButton = styled(Button)({
     color: COLORS.white,
     backgroundColor: COLORS.black,
   },
-  "@media (min-width:360px)": {
+  "@media (min-width:320px)": {
     fontSize: "15px",
     borderRadius: "20px",
-    width: "150px",
   },
   "@media (min-width:768px)": {
     fontSize: "15px",
     borderRadius: "20px",
-    width: "150px",
   },
   "@media (min-width:1200px)": {
     fontSize: "15px",
     borderRadius: "20px",
-    width: "230px",
   },
 });
 
 export const HomeTitle = styled("h1")({
   zIndex: 10,
-  position: "absolute",
-
-  top: "5%",
   width: "55%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
-  "@media (max-width:455px)": {
+  "@media (max-width:320px)": {
     fontSize: "25px",
-    width: "80%",
-    top: "15%",
-    overflowX: "ellipsis",
-    overflow: "hidden",
-    color: COLORS.RED,
   },
   "@media (min-width:768px)": {
     fontSize: "30px",
