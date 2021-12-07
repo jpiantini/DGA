@@ -1,6 +1,6 @@
 import { useState, Fragment } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { MediumHeightDivider,CardContainer, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
+import { MediumHeightDivider,CardContainer,CardBodyTitle,CardBodyText,CardTextContainer, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import { FormProfileSchema, FormCompanySchema, MockupCompanies } from './MyProfileConstants';
@@ -11,9 +11,6 @@ import {
     ProfileImage,
     ProfileContainer,
     Column,
-    CardBodyTitle,
-    CardBodyText,
-    CardTextContainer
 } from './styles/MyProfileStyles';
 import Fade from 'react-reveal/Fade';
 import { useFormik } from 'formik';

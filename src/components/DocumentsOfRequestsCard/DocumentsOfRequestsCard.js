@@ -1,5 +1,5 @@
 import { Fragment, useRef, useEffect } from 'react';
-import { SmallHeightDivider, StyledButtonOutlined } from '../../../../theme/Styles';
+import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
