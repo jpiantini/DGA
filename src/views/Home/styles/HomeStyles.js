@@ -73,7 +73,8 @@ export const HomeTextContainer = styled("div")({
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
-
+  width:'100%',
+  fontFamily:'Nunito Sans',
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
@@ -81,14 +82,17 @@ export const DefaultButton = styled(Button)({
   "@media (min-width:320px)": {
     fontSize: "15px",
     borderRadius: "20px",
+    width: "150px",
   },
   "@media (min-width:768px)": {
     fontSize: "15px",
     borderRadius: "20px",
+    width: "150px",
   },
   "@media (min-width:1200px)": {
     fontSize: "15px",
     borderRadius: "20px",
+    width: "230px",
   },
 });
 
