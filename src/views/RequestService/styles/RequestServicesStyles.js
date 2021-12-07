@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import { boxShadowConfig } from '../../../theme/Styles';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -46,7 +47,7 @@ export const ImageContainer = styled('div')({
         width: '350px',
     },
     '&:hover':{
-        boxShadow: '0 8px 10px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.30)',
+        boxShadow: boxShadowConfig,
         borderColor: COLORS.primary,
     }
 });

@@ -6,7 +6,6 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import { MockupCompletedRequests, MockupInProcessRequests, MockupRejectedRequests } from '../../MyDeskConstants';
 import RequestCard from './../../components/RequestCard/RequestCard';
-import RequestDetailModal from './../../components/RequestDetailModal/RequestDetailModal';
 import Fade from 'react-reveal/Fade';
 
 function MyRequests() {
@@ -14,14 +13,6 @@ function MyRequests() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
-
-    const [openRequestDetailModal, setOpenRequestDetailModal] = useState(false);
-    const [selectedRequest, setSelectedRequest] = useState();
-
-    const handleRequestDetailModalStatus = (request) => {
-        setSelectedRequest(request);
-        setOpenRequestDetailModal(!openRequestDetailModal);
-    }
 
     return (
         <Fade right >
@@ -33,7 +24,8 @@ function MyRequests() {
                     <Fragment key={request.id}>
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={request.percent}
-                            onClick={() => handleRequestDetailModalStatus(request)}
+                            // onClick={() => handleRequestDetailModalStatus(request)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
                             variant={request.status} />
                     </Fragment>
                 ))
@@ -47,7 +39,8 @@ function MyRequests() {
                     <Fragment key={request.id}>
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={'100%'}
-                            onClick={() => handleRequestDetailModalStatus(request)}
+                            //   onClick={() => handleRequestDetailModalStatus(request)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
                             variant={request.status} />
                     </Fragment>
                 ))
@@ -61,17 +54,12 @@ function MyRequests() {
                     <Fragment key={request.id}>
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={'100%'}
-                            onClick={() => handleRequestDetailModalStatus(request)}
+                            //   onClick={() => handleRequestDetailModalStatus(request)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
                             variant={request.status} />
                     </Fragment>
                 ))
             }
-            <RequestDetailModal
-                selectedItem={selectedRequest}
-                open={openRequestDetailModal}
-                onCloseClick={handleRequestDetailModalStatus}
-            //OnContinueClick
-            />
         </Fade>
 
     );

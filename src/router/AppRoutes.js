@@ -1,11 +1,13 @@
 import { Redirect } from 'react-router';
 import Login from '../views/Auth/Login/Login';
 import Register from '../views/Auth/Register/Register';
+import Contact from '../views/Contact/Contact';
 import Home from '../views/Home/Home';
 import ListOfServicesPerCategory from '../views/ListOfServicesPerCategory/ListOfServicesPerCategory';
 import MyDesk from '../views/MyDesk/MyDesk';
 import RequestService from '../views/RequestService/RequestService';
 import ServiceDescription from '../views/ServiceDescription/ServiceDescription';
+import ServiceRequestedDetails from '../views/ServiceRequestedDetails/ServiceRequestedDetails';
 
 const routes = [
     {
@@ -26,19 +28,26 @@ const routes = [
         path: '/register',
         component: Register,
         exact: true,
-        layout: '/public',
+        layout: '/app',
         loginRequired: false
     },
     {
-        path: '/serviceDescription/:id',
+        path: '/serviceDescription/:serviceID',
         component: ServiceDescription,
         exact: true,
         layout: '/app',
         loginRequired: false
     },
     {
-        path: '/listOfServices/:id',
+        path: '/listOfServices/:categoryID',
         component: ListOfServicesPerCategory,
+        exact: true,
+        layout: '/app',
+        loginRequired: false
+    },
+    {
+        path: '/contact',
+        component: Contact,
         exact: true,
         layout: '/app',
         loginRequired: false
@@ -51,8 +60,15 @@ const routes = [
         loginRequired: true
     },
     {
-        path: '/requestService/:id',
+        path: '/requestService/:serviceID',
         component: RequestService,
+        exact: true,
+        layout: '/app',
+        loginRequired: true
+    },
+    {
+        path: '/serviceRequestedDetails/:serviceID/:requestID',
+        component: ServiceRequestedDetails,
         exact: true,
         layout: '/app',
         loginRequired: true

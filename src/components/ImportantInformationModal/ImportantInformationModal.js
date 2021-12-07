@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
-import ErrorIcon from '@mui/icons-material/Error';
-import COLORS from '../../theme/Colors';
 import { useMediaQuery } from '@mui/material';
-import { SmallHeightDivider, StyledButton, StyledButtonOutlined } from '../../theme/Styles';
+import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
 import {
   Container,
   BodyText,
@@ -14,19 +12,12 @@ import {
   CenterContainer,
   TextContainer,
   IconDivider
-} from './styles/RegisterInformationModalStyles';
+} from './styles/ImportantInformationModalStyles';
 import { useHistory } from 'react-router';
 
-export default function RegisterInformationModal({ open, onBackDropClick, onCloseClick }) {
+export default function ImportantInformationModal({ open,content,buttonTitle,buttonClick, onBackDropClick, onCloseClick }) {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
-
-
-  const goToRoute = (route) => {
-    //Probably needed save the route required in redux to send after login or sign up
-    //Example if i request a service and i press login, route of the service is required to send when login or register is done
-    history.push(route)
-  }
 
   return (
     <Dialog
@@ -46,16 +37,13 @@ export default function RegisterInformationModal({ open, onBackDropClick, onClos
         <CenterContainer>
           <TextContainer>
             <BodyText>
-              Para poder registrarse vía el Portal de Servicios,
-              es necesario que su computador posea una cámara web,
-              de lo contrario usted puede hacerlo con su teléfono inteligente descargando
-              la APP Servicios en Línea en las tiendas de Google Play o APP Store.
+             {content}
             </BodyText>
           </TextContainer>
         </CenterContainer>
         <CenterContainer>
           <ButtonsContainer>
-            <StyledButton onClick={() => goToRoute('public/register')}>Ir al Registro</StyledButton>
+            <StyledButton onClick={buttonClick}>{buttonTitle}</StyledButton>
           </ButtonsContainer>
         </CenterContainer>
         <SmallHeightDivider/>

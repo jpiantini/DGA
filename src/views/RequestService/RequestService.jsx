@@ -30,7 +30,7 @@ import UploadFile from '../../components/UploadFile/UploadFile';
 function RequestService() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { id } = useParams();
+    let { serviceID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
@@ -106,14 +106,14 @@ function RequestService() {
     };
 
     useLayoutEffect(() => {
-        let Service = ListServices.find((service) => service.id == id);
+        let Service = ListServices.find((service) => service.id == serviceID);
         if (Service) {
             //UPDATE APP HEADER SUBTITLE
             dispatch(UpdateAppSubHeaderTitle(Service.title)) // TITLE OF SUBHEADER APP
         } else {
             //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
             history.push('/app/requestService/1')
-            let Service = ListServices.find((service) => service.id == id);
+            let Service = ListServices.find((service) => service.id == serviceID);
             dispatch(UpdateAppSubHeaderTitle(Service.title))
         }
     }, []);
@@ -233,11 +233,6 @@ function RequestService() {
                                 </ImageContainer>
                             </Grid>
 
-                            <Grid item xs={4} sm={4} md={4}>
-                                <ImageContainer onClick={() => alert('click')}>
-                                    <LogoImage src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" />
-                                </ImageContainer>
-                            </Grid>
                         </Grid>
                         <MediumHeightDivider />
                         <ButtonContainer>

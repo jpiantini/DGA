@@ -1,28 +1,82 @@
 .carouselMain {
   position: relative;
-  display: flex;
   width: 100%;
   min-height: 100vh;
-
-  margin: 0;
   background-color: rgba(0, 0, 0, 0.35);
 }
 
 .item {
-  position: absolute;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
 }
 
 #imagenes {
   height: 100%;
   position: absolute;
-  width: 100%;
+  width: 100vh;
 }
 
-.bg-img {
-  min-height: 100vh;
-  background: url(https://ca-times.brightspotcdn.com/dims4/default/32d0fcf/2147483647/strip/true/crop/3900x2600+0+0/resize/1486x991!/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F17%2F4e%2Ffaa243f84b2aa16fd91959c76dbe%2Fla-photos-1staff-535590-la-me-newport-beach-hard-closure-16-ajs.jpg);
-  background-size: cover;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+#back {
+  position: absolute;
+  font-size: 3em;
+  color: #fff;
+  cursor: pointer;
+  right: 0;
+}
+
+#next {
+  position: absolute;
+  font-size: 3em;
+  color: #fff;
+  cursor: pointer;
+  left: 0%;
+}
+
+#next:hover,
+#back:hover {
+  color: #ed5f30;
+}
+.containerBtn {
+  position: relative;
+  right: 38%;
+}
+.btnMore {
+  color: #ffffff;
+  background-color: #ed5f30;
+  font-family: "Nunito Sans";
+  border-radius: 20px !important;
+}
+
+@media (min-width: 320px) {
+  .btnMore {
+    position: absolute;
+    left: 22%;
+    margin: auto;
+    width: 150px;
+    height: 35px;
+  }
+}
+
+@media (min-width: 768px) {
+  .containerBtn {
+    justify-content: center;
+    position: relative;
+    right: 57%;
+    top: 4%;
+    margin: 2px;
+  }
+  .btnMore {
+    width: 225px;
+    height: 45px;
+    padding: 5px;
+    font-family: "Nunito Sans";
+    font-size: 15px;
+  }
+}
+
+.btnMore:hover,
+.btnMore:active {
+  color: white;
+  background-color: #231f20;
+  border-radius: 20px;
 }

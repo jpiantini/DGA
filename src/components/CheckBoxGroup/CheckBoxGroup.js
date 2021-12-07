@@ -6,10 +6,11 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-function CheckBoxGroup({ id, title, options, onChange, required }) {
+function CheckBoxGroup({ id, title, options, onChange,onBlur, required }) {
 
     const HandleCheckboxChange = (e) => {
         let currentModifiedOption = options.find((option) => option.id == e.target.id);
+        console.log(currentModifiedOption)
         currentModifiedOption.value = e.target.checked
         let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
         console.log(newOptions)
@@ -30,15 +31,22 @@ function CheckBoxGroup({ id, title, options, onChange, required }) {
             <FormGroup>
 
                 {
-                    options?.map((option) => (
-                        <FormControlLabel control={
+                    options?.map((option,index) => (
+                        <FormControlLabel key={index} control={
                             <Checkbox size="medium" checked={option.value}
                                 onChange={(e) => onChange({
                                     target: {
                                         id: id,
                                         value: HandleCheckboxChange(e)
                                     }
-                                })} id={option.id} />
+                                })}
+                               /* onBlur={(e) => onBlur({
+                                    target: {
+                                        id: id,
+                                        value: HandleCheckboxChange(e)
+                                    }
+                                })}*/
+                                id={option.id} />
                         } label={option.label} />
                     ))
                 }

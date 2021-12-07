@@ -18,7 +18,7 @@ import {
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { id } = useParams();
+    let { serviceID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
@@ -34,7 +34,7 @@ function ServiceDescription() {
 
     useLayoutEffect(() => {
         const LastServiceAvailable = 1; //TEST VALUE
-        if (id == LastServiceAvailable) {
+        if (serviceID == LastServiceAvailable) {
             //UPDATE APP HEADER SUBTITLE
             dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
         } else {
@@ -70,7 +70,7 @@ function ServiceDescription() {
                     <BodyText>• Cedula de Identidad</BodyText>
                     <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(id)}>INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceID)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     {

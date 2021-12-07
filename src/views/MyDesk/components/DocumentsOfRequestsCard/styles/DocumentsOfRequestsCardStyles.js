@@ -1,13 +1,14 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../../../theme/Colors';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { boxShadowConfig } from '../../../../../theme/Styles';
 
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: COLORS.white,
     width: '100%',
-    boxShadow: '1px 2px 22px 2px rgba(0,0,0,0.31)',
+    boxShadow: boxShadowConfig,
 });
 
 export const ContentContainer = styled('div')({

@@ -1,14 +1,7 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../../../theme/Colors';
 import Button from '@mui/material/Button';
-
-export const CardContainer = styled('div')({
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    boxShadow: '1px 2px 22px 2px rgba(0,0,0,0.31)',
-});
+import { boxShadowConfig } from '../../../../../theme/Styles';
 
 export const SectionTitle = styled('h1')({
     marginTop: '3px',
@@ -75,7 +68,7 @@ export const ProfileImage = styled('img')({
 export const ProfileContainer = styled('div')({
     display: 'flex',
     width: '100%',
-    boxShadow: '1px 2px 22px 2px rgba(0,0,0,0.31)',
+    boxShadow: boxShadowConfig,
     '@media (min-width:320px)': {
         flexDirection: 'column',
         minHeight:'100%',

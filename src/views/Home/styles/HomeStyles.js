@@ -50,22 +50,18 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  zIndex: 10,
-  display: "flex",
-  justifyContent: "center",
   flexDirection: "column",
-  marginLeft: "20%",
-
-  width: "50%",
-  height: "150px",
-  minHeight: "50vh",
-  marginBottom: "10%",
+  position: "relative",
+  marginLeft: "15%",
+  marginTop: "15%",
+  height: "500px",
+  alignSelf: "center",
 
   "@media (min-width:360px)": {
     width: "100%",
   },
   "@media (min-width:768px)": {
-    width: "70%",
+    width: "100%",
   },
   "@media (min-width:1200px)": {
     fontSize: "15px",
@@ -77,11 +73,13 @@ export const HomeTextContainer = styled("div")({
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
+  width:'100%',
+  fontFamily:'Nunito Sans',
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
   },
-  "@media (min-width:360px)": {
+  "@media (min-width:320px)": {
     fontSize: "15px",
     borderRadius: "20px",
     width: "150px",
@@ -100,28 +98,27 @@ export const DefaultButton = styled(Button)({
 
 export const HomeTitle = styled("h1")({
   zIndex: 10,
-  margin: 0,
-  width: "50%",
+  width: "55%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
-  "@media (min-width:360px)": {
+  "@media (max-width:320px)": {
     fontSize: "25px",
   },
   "@media (min-width:768px)": {
     fontSize: "30px",
   },
-  "@media (min-width:1200px)": {
+  "@media (max-width:1200px)": {
     fontSize: "50px",
   },
 });
 
 export const HomeSubTitle = styled("h3")({
-  position: "absolute",
-  zIndex: 30,
-  margin: 0,
   width: "50%",
   color: COLORS.white,
   fontFamily: "Nunito Sans",
+  "@media (max-width:400px)": {
+    fontSize: "10px",
+  },
   "@media (min-width:360px)": {
     fontSize: "13px",
   },
