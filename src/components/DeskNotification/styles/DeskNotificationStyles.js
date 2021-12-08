@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import COLORS from '../../../../../theme/Colors';
+import COLORS from '../../../theme/Colors';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import CancelIcon from '@mui/icons-material/Cancel';

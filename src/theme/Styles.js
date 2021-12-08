@@ -162,3 +162,42 @@ export const CardContainer = styled('div')({
     justifyContent: 'center',
     boxShadow: boxShadowConfig,
 });
+
+export const CardBodyTitle = styled('p')({
+    margin:0,
+    fontFamily: 'Source Sans Pro',
+    color: COLORS.black,
+    '@media(min-width:320px)':{
+        fontSize: '12px',
+    },
+    '@media(min-width:768px)':{
+        fontSize: '12px',
+    },
+    '@media(min-width:1200px)':{
+        fontSize: '15px',
+    },
+});
+
+export const CardBodyText = styled('p')({
+    width:'100%',
+    margin:0,
+    fontFamily: 'Nunito Sans',
+    color: COLORS.secondary,
+    '@media(min-width:320px)':{
+        fontSize: '13px',
+    },
+    '@media(min-width:768px)':{
+        fontSize: '13px',
+    },
+    '@media(min-width:1200px)':{
+        fontSize: '17px',
+    },
+});
+
+export const CardTextContainer = styled('div')({
+    display:'flex',
+    flexDirection:'row',
+    alignSelf:'center',
+    width:'90%',
+    padding:'2%'
+});

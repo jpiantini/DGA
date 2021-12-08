@@ -6,7 +6,7 @@ import { Row, RowBodyDivider } from '../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
-import DeskNotification from './components/DeskNotification/DeskNotification';
+import DeskNotification from '../../components/DeskNotification/DeskNotification';
 import {MockupNotifications} from './MyDeskConstants';
 import {
     Container,

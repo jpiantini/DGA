@@ -12,6 +12,7 @@ import {
     LayoutBodyDivider,
     LayoutFooterDivider
 } from './styles/AppLayoutStyles';
+import ScrollToTopWithRouter from '../../router/ScrollToTopWithRouter';
 
 const AppLayout = ({ children }) => {
 
@@ -26,7 +27,9 @@ const AppLayout = ({ children }) => {
             <SubHeader />
             <LayoutBodyDivider />
             <LayoutBodyContainer>
+                <ScrollToTopWithRouter>
                 <Router routes={getAppRoutes()} />
+                </ScrollToTopWithRouter>
             </LayoutBodyContainer>
             <LayoutFooterDivider />
             <Footer />

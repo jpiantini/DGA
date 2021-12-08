@@ -1,6 +1,7 @@
 import React from 'react';
 import routes from '../../router/AppRoutes';
 import Router from '../../router/Router';
+import ScrollToTopWithRouter from '../../router/ScrollToTopWithRouter';
 const PublicLayout = () => {
     
     const getPublicRoutes = () => {
@@ -8,9 +9,9 @@ const PublicLayout = () => {
     }
     return (
 
-            <React.Fragment>
+            <ScrollToTopWithRouter>
                 <Router routes={getPublicRoutes()}/>
-            </React.Fragment>
+            </ScrollToTopWithRouter>
     );
 }
 
