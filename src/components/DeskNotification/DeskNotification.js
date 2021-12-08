@@ -20,7 +20,9 @@ function DeskNotification({ variant, message, onClose, disableAnimation, disable
     const handleOnClose = () => {
         setShowAnimation(false);
         setTimeout(() => {
-            onClose();
+            if(onClose){
+                onClose();
+            }
         }, 1000);
     }
     return (
