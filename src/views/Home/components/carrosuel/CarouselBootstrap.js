@@ -38,7 +38,7 @@ export const CarouselBootstrap = (datos) => {
       >
         {datos.datos.map((item, index) => {
           return (
-            <Carousel.Item className="item">
+            <Carousel.Item key={index} className="item">
               <ImageContainer image={item.image}>
                 <HomeTextContainer>
                   <HomeTitle>{item.content}</HomeTitle>
