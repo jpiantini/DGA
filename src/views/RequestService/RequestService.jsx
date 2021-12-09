@@ -7,7 +7,7 @@ import {
   StyledButton,
   MediumHeightDivider,
 } from "../../theme/Styles";
-import {} from "./RequestServiceConstants";
+import { } from "./RequestServiceConstants";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Grid } from "@mui/material";
-import formData from "./formData.json";
+import formData from "./formDataWithGrid.json";
 import { localToArray } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 
@@ -75,7 +75,9 @@ function RequestService() {
       <SmallHeightDivider />
       {!togglePaymentForm ? (
         <Container>
-          <Form doRequest={console.log} data={getData()} />
+          <Form
+            doRequest={console.log}
+            data={getData()} />
         </Container>
       ) : (
         <Container>

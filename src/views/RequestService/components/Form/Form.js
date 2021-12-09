@@ -20,7 +20,7 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { localToArray } from '../../../../utilities/functions/ArrayUtil';
 import { useFormik } from 'formik';
 import * as  yup from 'yup';
@@ -49,23 +49,27 @@ function Form(props) {
         enableReinitialize: true,
     });
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1 == stepsLenght ? prevActiveStep : prevActiveStep + 1);
-     /*   if (stepsLenght - 2 == activeStep) {
-            setTogglePaymentForm(true);
-        } else {
-            setTogglePaymentForm(false)
-        }*/
-    };
-
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
-     /*   if (stepsLenght - 1 == activeStep) {
-            setTogglePaymentForm(true);
-        } else {
-            setTogglePaymentForm(false)
-        }*/
     };
+
+    const handleStepsValidation = (step) => {
+        if (props.data[step]) {
+            let stepField = false
+            for (let i = 0; i < props.data[step]?.length; i++) {
+                const field = props.data[step][i];
+                console.log(field)
+                if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
+                    stepField = true;
+                }
+            }
+            if (stepField) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     useEffect(() => {
         if (localToArray(props.data).length > 0) {
@@ -90,14 +94,14 @@ function Form(props) {
         if (lastStep && typeof props.doRequest == 'function') {
             props.doRequest({ values, actions })
         } else {
-            setActiveStep(activeStep + 1)
+            setActiveStep(activeStep + 1);
             actions?.setTouched({});
             actions?.setSubmitting(false);
         }
     }
 
     const LocalRenderField = ({ item, index }) => {
-     //   console.log(item)
+        //   console.log(item)
         return (
             <RenderField
                 {...item}
@@ -120,47 +124,46 @@ function Form(props) {
             {
                 matchesWidth &&
                 <Stepper activeStep={activeStep} alternativeLabel>
-                    {/*props.data.map(({item,index}) => (
-                        <Step key={index}>
-                            <StepLabel>{index+1}</StepLabel>
-                        </Step>
-                    ))*/}
-                    <Step key={0}>
-                        <StepLabel>{0}</StepLabel>
-                    </Step>
-                    <Step key={1}>
-                        <StepLabel>{1}</StepLabel>
-                    </Step>
-                  
+                    {props.data.map((stepData, index) => {
+                        const labelProps = {};
+                        if (handleStepsValidation(index)) {
+                            labelProps.optional = (
+                                <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
+                                    Error
+                                </Typography>
+                            );
+                            labelProps.error = true;
+                        }
+                        return (
+                            <Step key={index}>
+                                <StepLabel {...labelProps}>{index}</StepLabel>
+                            </Step>
+                        );
+                    })}
                 </Stepper>
             }
             <SmallHeightDivider />
             <SmallHeightDivider />
             {
                 !togglePaymentForm ?
-                    <Container>
-
-                        {
-
-                            localToArray(props.data[activeStep]).map(( item, index ) => {
-                                console.log(item,index)
-                                return(
-                                <LocalRenderField
-                                    item={item}
-                                    index={index}
-                                    key={index}
-                                />
-                            )})
+                <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 6, md: 12 }}>
+                {
+                            localToArray(props.data[activeStep]).map((item, index) => {
+                                console.log(item, index)
+                                return (
+                                    LocalRenderField({ item, index })
+                                )
+                            })
                         }
 
-                    </Container>
+                    </Grid>
                     :
                     <Container>
 
 
                     </Container>
             }
-
+            <MediumHeightDivider />
             <ButtonsContainer>
                 <ButtonContainer>
                     <StyledButtonOutlined disabled={activeStep == 0 || togglePaymentForm} onClick={handleBack} variant="outlined">
@@ -179,16 +182,11 @@ function Form(props) {
                 }
 
                 <ButtonContainer>
-                    {
-                     /*   stepsLenght - 2 == activeStep ?
-                            <StyledButton onClick={handleNext}>
-                                Enviar Solicitud
-                            </StyledButton>
-                            :*/
-                            <StyledButtonOutlined disabled={activeStep + 1 == stepsLenght} onClick={handleNext} variant="outlined">
-                                Continuar
-                            </StyledButtonOutlined>
-                    }
+
+                    <StyledButtonOutlined onClick={handleSubmit} variant="outlined">
+                        {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                    </StyledButtonOutlined>
+
                 </ButtonContainer>
             </ButtonsContainer>
         </Container >

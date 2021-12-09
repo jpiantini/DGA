@@ -13,10 +13,12 @@ export const getFieldValidation = (field) => {
     // email: yup.string().email('Favor insertar un email válido'),
     // input: yup.string(),
     // phone: yup.string(),
-    [FIELD_TYPES.text]: yup.string(),
-    [FIELD_TYPES.select]: yup.object().shape({
+    /*[FIELD_TYPES.select]: yup.object().shape({
       Value: yup.mixed().required("Este campo es requerido"),
-    }),
+    }),*/
+    [FIELD_TYPES.text]: yup.string(),
+    [FIELD_TYPES.select]: yup.string(),
+
   }
 
   let validator = fieldType[field.type]
