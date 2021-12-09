@@ -1,5 +1,5 @@
 import { color, styled } from "@mui/system";
-import Paper from "@mui/material/Paper";
+import Paper from '@mui/material/Paper';
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import COLORS from "../../../theme/Colors";
@@ -15,37 +15,46 @@ export const NotificationContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
-  width: "400px",
-
+  width: "300px",
   "@media(max-width:768px)": {
     width: "250px",
   },
 });
 
+export const textContainer = styled("span")({
+  boxSizing: "inherit",
+  justifyContent: "center",
+  overflow: "hidden",
+  "@media(max-width:768px)": {
+    justifyContent: "center",
+  },
+});
 export const NotificationTitle = styled("h3")({
   width: "100%",
   fontFamily: "Nunito Sans",
+  textAlign: "center",
+  fontSize: "1rem",
 });
 
 export const NotificationText = styled("p")({
   width: "100%",
   fontFamily: "Nunito Sans",
+
+  textAlign: "center",
 });
 export const StyledNotificationIcon = styled(NotificationsIcon)((props) => ({
-  height: "45px",
   width: "50px",
   color: props.color === "white" ? COLORS.white : COLORS.black,
-  marginLeft: "10px",
   "&:hover,&:focus": {
     color: COLORS.primary,
   },
   "@media (min-width:768px)": {
     width: "55px",
-    height: "34.92px",
+    fontSize: (props.fontSize = "35px"),
   },
   "@media (min-width:1200px)": {
     width: "65px",
-    height: "45px",
+    fontSize: (props.fontSize = "45px"),
   },
 }));
 
