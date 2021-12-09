@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { SmallHeightDivider, StyledButtonOutlined } from '../../../../theme/Styles';
+import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../../../theme/Styles';
 import {
     Container,
     RowContainer,
@@ -15,10 +15,10 @@ import {
 
 function RequestCard({ variant, title, onClick, percent }) {
 
- const ProgressBar = ({ variant, percent }) => {
+    const ProgressBar = ({ variant, percent }) => {
         return ( //VARIANTS : success,rejected,inProcess,actionRequired
             <ProgressBarContainer>
-                <ProgressBarTitle  variant={variant}>
+                <ProgressBarTitle variant={variant}>
                     {
                         variant != 'rejected' ?
                             percent + ' COMPLETADO'
@@ -32,39 +32,63 @@ function RequestCard({ variant, title, onClick, percent }) {
     }
 
     return (
-            <Container >
-                <SmallHeightDivider />
-                <SmallHeightDivider />
-                {
-                    variant === 'actionRequired' &&
-                    <RowContainer>
-                        <IconContainer>
-                            <StyledWarningIcon />
-                        </IconContainer>
-
-                        <ActionRequiredTitle >
-                            Esta solicitud requiere de tu acción para continuar.
-                        </ActionRequiredTitle>
-                    </RowContainer>
-                }
-
-                <RowContainer style={{ justifyContent: 'space-between' }}>
-                    <Title>{title}</Title>
-                    <ButtonContainer>
-                        <StyledButtonOutlined onClick={onClick} variant="outlined">
-                            {variant === 'actionRequired' ?
-                                'COMPLETAR' : 'VER DETALLE'
-                            }
-                        </StyledButtonOutlined>
-                    </ButtonContainer>
-                </RowContainer>
-
-                <SmallHeightDivider />
+        <Container >
+            <SmallHeightDivider />
+            <SmallHeightDivider />
+            {
+                variant === 'actionRequired' &&
                 <RowContainer>
-                    <ProgressBar variant={variant} percent={percent} />
+                    <IconContainer>
+                        <StyledWarningIcon />
+                    </IconContainer>
+
+                    <ActionRequiredTitle >
+                        Esta solicitud requiere de tu acción para continuar.
+                    </ActionRequiredTitle>
                 </RowContainer>
-                <SmallHeightDivider />
-            </Container>
+            }
+
+            <RowContainer style={{ justifyContent: 'space-between' }}>
+                <Title>{title}</Title>
+                <ButtonContainer>
+                    <StyledButtonOutlined onClick={onClick} variant="outlined">
+                        {variant === 'actionRequired' ?
+                            'COMPLETAR' : 'VER DETALLE'
+                        }
+                    </StyledButtonOutlined>
+                </ButtonContainer>
+            </RowContainer>
+
+            <RowContainer style={{ justifyContent: 'flex-start' }}>
+                <BodyText>
+                    Fecha: 24/12/2021
+                </BodyText>
+            </RowContainer>
+
+            <RowContainer style={{ justifyContent: 'flex-start' }}>
+                <BodyText>
+                    Empresa: Construcciones K
+                </BodyText>
+            </RowContainer>
+
+            <RowContainer style={{ justifyContent: 'flex-start' }}>
+                <BodyText>
+                    Solicitud No.:599595944
+                </BodyText>
+            </RowContainer>
+
+            <RowContainer style={{ justifyContent: 'flex-start' }}>
+                <BodyText>
+                    Estado :En Proceso
+                </BodyText>
+            </RowContainer>
+
+            <SmallHeightDivider />
+            <RowContainer>
+                <ProgressBar variant={variant} percent={percent} />
+            </RowContainer>
+            <SmallHeightDivider />
+        </Container>
     );
 }
 

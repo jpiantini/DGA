@@ -79,15 +79,8 @@ function ServiceRequestedDetails() {
     return (
         <Container >
             <Row>
-                <ServiceDirectoryMenu />
-                <RowBodyDivider />
+
                 <Container style={{ width: '100%' }}>
-                    {
-                        //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
-                        <DeskNotification variant={'warning'}
-                        />
-                    }
-                    <SmallHeightDivider />
                     <ButtonsMenuContainer>
                         <ButtonGroup size="large" >
                             <StyledButtonOutlined active={activeMenu == 0} onClick={() => handleChangeMenu(0)}>
@@ -102,12 +95,22 @@ function ServiceRequestedDetails() {
                             {
                                 true && //IF ACTION REQUIRED IS TRUE
                                 <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
-                                Accion Requerida
-                            </StyledButtonOutlined>
+                                    Accion Requerida
+                                </StyledButtonOutlined>
                             }
                         </ButtonGroup>
                     </ButtonsMenuContainer>
-                    <MediumHeightDivider />
+                    {
+                        true ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                            <Fragment>
+                                <SmallHeightDivider />
+                                <DeskNotification variant={'warning'}
+                                />
+                                <SmallHeightDivider />
+                            </Fragment>
+                            :
+                            <MediumHeightDivider />
+                    }
                     {
                         activeMenu == 0 ?
 
@@ -122,12 +125,8 @@ function ServiceRequestedDetails() {
                                     true && <ActionsRequired /> //IF ACTION REQUIRED IS TRUE
 
                     }
-
-
                 </Container>
-
             </Row>
-
         </Container>
     );
 }

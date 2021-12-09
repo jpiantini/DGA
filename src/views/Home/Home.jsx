@@ -73,17 +73,10 @@ function Home() {
   const getAndSetAllWordPressContent = async () => {
     let data = await wpCall().get("/sliders/v1/sliders");
 
-    //TO DO CALL RESTANTS ENDPOINTS
-
-    console.log("TEST *******", data);
     const datos = data.data.map(({ content, date, image, title }) => {
       return { content, date, image, title };
     });
-
     setWordpressContent(datos);
-    console.log(datos);
-
-    console.log(wordpressContent);
   };
 
   useEffect(() => {
