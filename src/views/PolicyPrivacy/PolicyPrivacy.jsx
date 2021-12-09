@@ -9,7 +9,7 @@ export const PolicyPrivacy = () => {
   const [wordpressContent, setWordpressContent] = useState();
 
   const getAndSetAllWordPressContent = async () => {
-    let data = await wpCall().get("/pages/v1/page/terminos-y-condiciones");
+    let data = await wpCall().get("/pages/v1/page/politica-privacidad");
     setWordpressContent(data?.data?.content);
   };
 
