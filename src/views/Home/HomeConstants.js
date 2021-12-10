@@ -26,7 +26,7 @@ export const firstSelectorData = [
   },
   {
     value: 3,
-    label: 'DDP',
+    label: 'DPP',
   },
 ];
 

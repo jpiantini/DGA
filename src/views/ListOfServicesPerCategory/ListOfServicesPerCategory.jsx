@@ -50,7 +50,7 @@ function ListOfServicesPerCategory() {
             let Title = titles.find((title) => title.id == 1)?.title;
             dispatch(UpdateAppSubHeaderTitle(Title))
         }
-    }, []);
+    }, [categoryID]);
 
     return (
         <Container >

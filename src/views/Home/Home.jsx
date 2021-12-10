@@ -140,7 +140,7 @@ function Home() {
       >
         <CenterContainer>
           <SearcherSubTitle style={{ margin: 0 }}>
-            LISTADO DE SERVICIOS POR SUB-SECTOR
+            LISTADO DE SERVICIOS POR DIRECCION
           </SearcherSubTitle>
           <SearcherTitle>Usa nuestro buscador avanzado</SearcherTitle>
 
@@ -159,7 +159,7 @@ function Home() {
             />
             <CardsDivider />
             <ServiceCard
-              title="DDP"
+              title="DPP"
               bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut"
               onRequestPress={() => history.push("/app/listOfServices/3")}
             />

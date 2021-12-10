@@ -25,7 +25,7 @@ function MyRequests() {
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={request.percent}
                             // onClick={() => handleRequestDetailModalStatus(request)}
-                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}/${request.status}`)}
                             variant={request.status} />
                     </Fragment>
                 ))
@@ -40,7 +40,7 @@ function MyRequests() {
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={'100%'}
                             //   onClick={() => handleRequestDetailModalStatus(request)}
-                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}/${request.status}`)}
                             variant={request.status} />
                     </Fragment>
                 ))
@@ -55,7 +55,7 @@ function MyRequests() {
                         <SmallHeightDivider />
                         <RequestCard title={request.title} percent={'100%'}
                             //   onClick={() => handleRequestDetailModalStatus(request)}
-                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}`)}
+                            onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}/${request.status}`)}
                             variant={request.status} />
                     </Fragment>
                 ))

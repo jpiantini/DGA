@@ -22,11 +22,14 @@ import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
 function ServiceRequestedDetails() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID, requestID } = useParams();
+    let { serviceID, requestID,actionRequired } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const [activeMenu, setActiveMenu] = useState(1);
+    let ACTIONREQUIRED = actionRequired === 'actionRequired' ? true:false;
+
+
+    const [activeMenu, setActiveMenu] = useState(ACTIONREQUIRED ? 3:0);
     const [claimModalVisible, setClaimModalVisible] = useState(false);
 
     const [claims, setClaims] = useState([]);
@@ -64,9 +67,8 @@ function ServiceRequestedDetails() {
 
 
     useLayoutEffect(() => {
-        const LastServiceAvailable = 1; //TEST VALUE
         //CONSULT SERVICE INFO IN BACKEND 
-        if (serviceID == LastServiceAvailable) { //IF SERVICE EXISTS
+        if (serviceID) { //IF SERVICE EXISTS
             //UPDATE APP HEADER SUBTITLE AND SET THE SERVICE NAME
             dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
         } else {
@@ -93,7 +95,7 @@ function ServiceRequestedDetails() {
                                 Pagos
                             </StyledButtonOutlined>
                             {
-                                true && //IF ACTION REQUIRED IS TRUE
+                                ACTIONREQUIRED && //IF ACTION REQUIRED IS TRUE
                                 <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
                                     Accion Requerida
                                 </StyledButtonOutlined>
@@ -101,10 +103,10 @@ function ServiceRequestedDetails() {
                         </ButtonGroup>
                     </ButtonsMenuContainer>
                     {
-                        true ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                        ACTIONREQUIRED ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
                             <Fragment>
                                 <SmallHeightDivider />
-                                <DeskNotification variant={'warning'}
+                                <DeskNotification variant={'warning'} disableCloseButton={true}
                                 />
                                 <SmallHeightDivider />
                             </Fragment>
@@ -122,7 +124,7 @@ function ServiceRequestedDetails() {
                                 activeMenu == 2 ?
                                     <Payment />
                                     :
-                                    true && <ActionsRequired /> //IF ACTION REQUIRED IS TRUE
+                                    ACTIONREQUIRED && <ActionsRequired /> //IF ACTION REQUIRED IS TRUE
 
                     }
                 </Container>

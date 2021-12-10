@@ -5,8 +5,9 @@ import { Row } from '../../theme/Styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { FormControl, FormHelperText } from '@mui/material';
 
-function CheckBoxGroup({ id, title, options, onChange, onBlur, required }) {
+function CheckBoxGroup({ id, title, options, onChange, onBlur, required, error, helperText }) {
 
     const HandleCheckboxChange = (e) => {
         let currentModifiedOption = options.find((option) => option.id == e.target.id);
@@ -28,31 +29,32 @@ function CheckBoxGroup({ id, title, options, onChange, onBlur, required }) {
                     </Fragment>
                     : null}
             </Row>
-            <FormGroup>
-
-                {
-                    options?.map((option, index) => (
-                        <FormControlLabel key={index} control={
-                            <Checkbox size='medium' checked={option.value}
-                                onChange={(e) => onChange({
-                                    target: {
-                                        id: id,
-                                        value: HandleCheckboxChange(e)
-                                    }
-                                })}
-                                /* onBlur={(e) => onBlur({
-                                     target: {
-                                         id: id,
-                                         value: HandleCheckboxChange(e)
-                                     }
-                                 })}*/
-                                id={option.id} />
-                        } label={option.label} />
-                    ))
-                }
-
-            </FormGroup>
-        </Container>
+            <FormControl required={required} error={error} component='fieldset' variant='standard'>
+                <FormGroup>
+                    {
+                        options?.map((option, index) => (
+                            <FormControlLabel key={index} control={
+                                <Checkbox size='medium' checked={option.value}
+                                    onChange={(e) => onChange({
+                                        target: {
+                                            id: id,
+                                            value: HandleCheckboxChange(e)
+                                        }
+                                    })}
+                                    /* onBlur={(e) => onBlur({
+                                         target: {
+                                             id: id,
+                                             value: HandleCheckboxChange(e)
+                                         }
+                                     })}*/
+                                    id={option.id} />
+                            } label={option.label} />
+                        ))
+                    }
+                </FormGroup>
+                <FormHelperText>{helperText}</FormHelperText>
+            </FormControl>
+        </Container >
     );
 }
 

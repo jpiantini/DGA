@@ -4,6 +4,8 @@ export const FIELD_TYPES = {
   text: 'text',
   date: 'date',
   time: 'time',
+  radioGroup: 'radio-group',
+  file: 'file',
 }
 
 export const TEXT_FIELD_MASK= [

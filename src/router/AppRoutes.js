@@ -75,7 +75,7 @@ const routes = [
     loginRequired: true,
   },
   {
-    path: "/serviceRequestedDetails/:serviceID/:requestID",
+    path: "/serviceRequestedDetails/:serviceID/:requestID/:actionRequired",
     component: ServiceRequestedDetails,
     exact: true,
     layout: "/app",

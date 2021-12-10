@@ -78,7 +78,7 @@ export const StyledTextInput = styled(TextField)({
       },
   
       '&:hover fieldset': {
-        borderColor: COLORS.secondary,
+    //    borderColor: COLORS.secondary,
       },
       '&.Mui-focused fieldset': {
         borderColor: COLORS.secondary,

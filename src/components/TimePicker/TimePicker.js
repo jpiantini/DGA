@@ -1,14 +1,13 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/DatePickerStyles';
+import { Title, Container } from './styles/TimePickerStyles';
 import { Row, StyledTextInput } from '../../theme/Styles';
-import MenuItem from '@mui/material/MenuItem';
-import MUIDatePicker from '@mui/lab/DatePicker';
+import MUITimePicker from '@mui/lab/TimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 
-function DatePicker({ id, title, placeholder, helperText, value, onChange,onBlur,disabled, error, required }) {
+function TimePicker({ id, title, placeholder, helperText, value, onChange,onBlur,disabled, error, required }) {
     return (
         <Container>
             <Row>
@@ -21,9 +20,9 @@ function DatePicker({ id, title, placeholder, helperText, value, onChange,onBlur
                     : null}
             </Row>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <MUIDatePicker
+                <MUITimePicker
                     id={id}
-                    inputFormat='dd/MM/yyyy'
+                    
                     renderInput={props => <StyledTextInput {...props} helperText={helperText} error={error} />}
                     toolbarPlaceholder={placeholder}
                     value={value}
@@ -42,4 +41,4 @@ function DatePicker({ id, title, placeholder, helperText, value, onChange,onBlur
     );
 }
 
-export default memo(DatePicker);
+export default memo(TimePicker);

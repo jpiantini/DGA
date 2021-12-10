@@ -26,7 +26,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Grid } from "@mui/material";
-import formData from "./formDataWithGrid.json";
+import formDataWithGrid from "./formDataWithGrid.json";
+import formData from "./formData.json";
 import { localToArray } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 

@@ -18,6 +18,10 @@ export const getFieldValidation = (field) => {
     }),*/
     [FIELD_TYPES.text]: yup.string(),
     [FIELD_TYPES.select]: yup.string(),
+    [FIELD_TYPES.radioGroup]: yup.string(),
+    [FIELD_TYPES.date]: yup.date(),
+    [FIELD_TYPES.time]: yup.string(),
+    [FIELD_TYPES.file]: yup.mixed()
 
   }
 

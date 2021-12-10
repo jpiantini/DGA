@@ -36,7 +36,6 @@ function UploadFile({ id, title, placeholder, helperText, onChange, onBlur, erro
                     value={selectedFileName}
                     helperText={helperText}
                     error={error}
-
                 />
                 <RowSeparator />
                 <InputFileButtonContainer htmlFor={id}>

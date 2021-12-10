@@ -146,7 +146,7 @@ function Form(props) {
             <SmallHeightDivider />
             {
                 !togglePaymentForm ?
-                <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 6, md: 12 }}>
+                <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
                 {
                             localToArray(props.data[activeStep]).map((item, index) => {
                                 console.log(item, index)
