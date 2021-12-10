@@ -51,16 +51,16 @@ function Header() {
           {!authenticated ? (
             <Fragment>
               <MenuButton
-                variant="outlined"
-                color="inherit"
+                variant='outlined'
+                color='inherit'
                 onClick={() => goToRoute("public/login")}
               >
                 Iniciar sesión
               </MenuButton>
               <div style={{ width: "1rem" }} />
               <MenuButton
-                variant="outlined"
-                color="inherit"
+                variant='outlined'
+                color='inherit'
                 onClick={() => goToRoute("/app/register")}
               >
                 Registrar
@@ -69,8 +69,7 @@ function Header() {
           ) : (
             <Fragment>
               <LoggedInMenu />,
-              <MenuDivider />
-              <Notifications color="white" />
+              <Notifications color='white' />
             </Fragment>
           )}
         </Container>
@@ -79,8 +78,8 @@ function Header() {
           {isMobile && (
             <ImportantInformationModal
               open={registerInformationModalVisible}
-              buttonTitle="Ir a la store"
-              content="Para tener una mejor experiencia instale la app mitur."
+              buttonTitle='Ir a la store'
+              content='Para tener una mejor experiencia instale la app mitur.'
               buttonClick={() => goToRoute("/app/register")} //SEND TO DOWNLOAD APP LINK
               onCloseClick={handleregisterInformationModalVisibility}
               onBackDropClick={handleregisterInformationModalVisibility}
@@ -88,9 +87,9 @@ function Header() {
           )}
 
           <MenuButton
-            color="inherit"
+            color='inherit'
             startIcon={<MenuIcon style={{ fontSize: "40px" }} />}
-            name="drawerState"
+            name='drawerState'
             onClick={() => setDrawerState(!drawerState)}
           />
           <Drawer
@@ -100,13 +99,13 @@ function Header() {
           >
             <DrawerList>
               <DrawerListItemContainer>
-                <DrawerListItemButton color="inherit">
+                <DrawerListItemButton color='inherit'>
                   INICIO
                 </DrawerListItemButton>
               </DrawerListItemContainer>
               <DrawerListItemContainer>
                 <DrawerListItemButton
-                  color="inherit"
+                  color='inherit'
                   onClick={() => goToRoute("/app/listOfServices/0")}
                 >
                   SERVICIOS
@@ -114,7 +113,7 @@ function Header() {
               </DrawerListItemContainer>
               <DrawerListItemContainer>
                 <DrawerListItemButton
-                  color="inherit"
+                  color='inherit'
                   onClick={() => goToRoute("/app/contact")}
                 >
                   CONTACTO
@@ -124,7 +123,7 @@ function Header() {
                 <Fragment>
                   <DrawerListItemContainer>
                     <DrawerListItemButton
-                      color="inherit"
+                      color='inherit'
                       onClick={() => goToRoute("public/login")}
                     >
                       INICIAR SESIÓN
@@ -132,7 +131,7 @@ function Header() {
                   </DrawerListItemContainer>
                   <DrawerListItemContainer>
                     <DrawerListItemButton
-                      color="inherit"
+                      color='inherit'
                       onClick={(e) => {
                         isMobile
                           ? handleregisterInformationModalVisibility()

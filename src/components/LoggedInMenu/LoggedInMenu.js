@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Divider from '@mui/material/Divider';
 import { useHistory } from 'react-router';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import {
     Container, StyledPaper, UserImage,
 } from './styles/LoggedInMenuStyles';
@@ -28,13 +28,13 @@ function LoggedInMenu({ image }) {
     }
     return (
         <Container ref={containerRef} onClick={() => history.push('/app/myDesk')}
-        onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
-            <UserImage src="https://www.w3schools.com/howto/img_avatar.png" />
+            onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
+            <UserImage src='https://www.w3schools.com/howto/img_avatar.png' />
             <Popper
                 open={hover}
                 anchorEl={containerRef.current}
                 role={undefined}
-                placement="bottom-end"
+                placement='bottom-end'
                 transition
                 disablePortal
             >
@@ -52,10 +52,10 @@ function LoggedInMenu({ image }) {
                                 <Divider sx={{ width: '100%' }} />
                                 <MenuItem onClick={HandleLogOut}>Cerrar sesión</MenuItem>
                             </MenuList>
-                    </StyledPaper>
+                        </StyledPaper>
                     </Grow>
                 )}
-        </Popper>
+            </Popper>
         </Container >
     );
 }

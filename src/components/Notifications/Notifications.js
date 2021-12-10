@@ -1,11 +1,5 @@
-import { useState, useRef } from "react";
-import Grow from "@mui/material/Grow";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Divider from "@mui/material/Divider";
-import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { useState, useRef, useEffect } from 'react';
+import Popper from '@mui/material/Popper';
 import {
   Container,
   NotificationContainer,
@@ -13,71 +7,98 @@ import {
   StyledPaper,
   NotificationTitle,
   NotificationText,
-} from "./styles/NotificationStyle";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-function Notifications({ color }) {
-  //const history = useHistory();
-  const [open, setOpen] = useState(false);
+} from './styles/NotificationStyle';
+import Badge from '@mui/material/Badge';
 
-  const containerRef = useRef(null);
 
-  function notificationsLabel(count) {
-    if (count === 0) {
-      return "no notifications";
+function Notifications({ color, fontSize }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const containerRef = useRef();
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    if (anchorEl) {
+      document.addEventListener('mousedown', handleClick);
+    } else {
+      document.removeEventListener('mousedown', handleClick);
     }
-    if (count > 89) {
-      return "more than 99 notifications";
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [anchorEl]);
+  /*
+  const handleClick = (event) => {
+    if (!document.getElementById(id).contains(event.target)) {
+      setAnchorEl(null);
+      setCustomOpen(false);
     }
-    return `${count} notifications`;
-  }
-  const datos = 55;
+  };
+*/
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
-    <Container ref={containerRef}>
-      <IconButton aria-label={notificationsLabel(datos)}>
-        <Badge badgeContent={datos} color="secondary">
-          <StyledNotificationIcon
-            color={color}
-            onClick={() => setOpen(!open)}
-          />
-        </Badge>
-      </IconButton>
-
-      {/*<NotificationIcon className="material-icons md-48">
-        notifications
-  </NotificationIcon>*/}
+    <Container>
+      <Badge badgeContent={4} color='secondary' overlap="circular">
+        <StyledNotificationIcon
+          color={color}
+          fontSize={fontSize}
+          onClick={handleClick}
+        />
+      </Badge>
 
       <Popper
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        container={containerRef.current}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'rigth',
+        }}
+      >
+        {/*  <Popper
         open={open}
         onClose={() => setOpen(false)}
         role={undefined}
-        placement="bottom-end"
+        placement='bottom-end'
         transition
         disablePortal
         anchorEl={containerRef.current}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: 'top',
+          horizontal: 'right',
         }}
-      >
-        {({ TransitionProps }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin: "right top",
-            }}
-          >
-            <StyledPaper>
-              <NotificationContainer>
-                <NotificationTitle>Notificaciones</NotificationTitle>
-                <NotificationText>
-                  {" "}
-                  2021 MUI developer survey 2021 MUI developer survey
-                </NotificationText>
-              </NotificationContainer>
-            </StyledPaper>
-          </Grow>
-        )}
+      >*/}
+
+        <StyledPaper>
+          <NotificationContainer>
+            <NotificationTitle>Notificaciones</NotificationTitle>
+            <textContainer>
+              <NotificationText>
+                2021 MUI developer survey 2021 MUI developer survey
+              </NotificationText>
+            </textContainer>
+            <textContainer>
+              <NotificationText>
+                2021 MUI developer survey 2021
+              </NotificationText>
+            </textContainer>
+            <textContainer>
+              <NotificationText>
+                2021 MUI developer survey 2021 MUI developer survey
+              </NotificationText>
+            </textContainer>
+          </NotificationContainer>
+        </StyledPaper>
       </Popper>
     </Container>
   );

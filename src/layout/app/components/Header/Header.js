@@ -57,17 +57,17 @@ function Header() {
               <MenuDivider />
 
               <LoggedInMenu />
-              <MenuDivider />
-              <Notifications />
+
+              <Notifications color='black' />
             </Fragment>
           )}
         </MenuContainer>
       ) : (
         <MenuContainer>
           <MenuButton
-            color="inherit"
+            color='inherit'
             startIcon={<MenuIcon style={{ fontSize: "40px" }} />}
-            name="drawerState"
+            name='drawerState'
             onClick={() => setDrawerState(!drawerState)}
           />
           <Drawer
@@ -78,7 +78,7 @@ function Header() {
             <DrawerList>
               <DrawerListItemContainer>
                 <DrawerListItemButton
-                  color="inherit"
+                  color='inherit'
                   onClick={() => goToRoute("/")}
                 >
                   INICIO
@@ -86,7 +86,7 @@ function Header() {
               </DrawerListItemContainer>
               <DrawerListItemContainer>
                 <DrawerListItemButton
-                  color="inherit"
+                  color='inherit'
                   onClick={() => goToRoute("/app/listOfServices/0")}
                 >
                   Servicios
@@ -94,7 +94,7 @@ function Header() {
               </DrawerListItemContainer>
               <DrawerListItemContainer>
                 <DrawerListItemButton
-                  color="inherit"
+                  color='inherit'
                   onClick={() => goToRoute("/app/contact")}
                 >
                   Contacto
@@ -103,7 +103,7 @@ function Header() {
               {!authenticated ? (
                 <DrawerListItemContainer>
                   <DrawerListItemButton
-                    color="inherit"
+                    color='inherit'
                     onClick={() => goToRoute("/public/login")}
                   >
                     INICIAR SESIÓN
@@ -112,7 +112,7 @@ function Header() {
               ) : (
                 <DrawerListItemContainer>
                   <DrawerListItemButton
-                    color="inherit"
+                    color='inherit'
                     onClick={() => goToRoute("/app/myDesk")}
                   >
                     Mi escritorio
