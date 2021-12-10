@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import Popper from "@mui/material/Popper";
+import { useState, useRef, useEffect } from 'react';
+import Popper from '@mui/material/Popper';
 import {
   Container,
   NotificationContainer,
@@ -8,7 +8,7 @@ import {
   NotificationTitle,
   NotificationText,
 } from './styles/NotificationStyle';
-import Badge from "@mui/material/Badge";
+import Badge from '@mui/material/Badge';
 
 
 function Notifications({ color, fontSize }) {
@@ -24,13 +24,13 @@ function Notifications({ color, fontSize }) {
 
   useEffect(() => {
     if (anchorEl) {
-      document.addEventListener("mousedown", handleClick);
+      document.addEventListener('mousedown', handleClick);
     } else {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener('mousedown', handleClick);
     }
     // Specify how to clean up after this effect:
     return function cleanup() {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener('mousedown', handleClick);
     };
   }, [anchorEl]);
   /*
@@ -42,7 +42,7 @@ function Notifications({ color, fontSize }) {
   };
 */
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const datos = 56;
   return (
@@ -62,8 +62,8 @@ function Notifications({ color, fontSize }) {
         onClose={handleClose}
         container={containerRef.current}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "rigth",
+          vertical: 'bottom',
+          horizontal: 'rigth',
         }}
       >
         {/*  <Popper
@@ -75,8 +75,8 @@ function Notifications({ color, fontSize }) {
         disablePortal
         anchorEl={containerRef.current}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: 'top',
+          horizontal: 'right',
         }}
       >*/}
 

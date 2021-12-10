@@ -5,10 +5,10 @@ import InputMask from 'react-input-mask';
 import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function TextField({ id, title, placeholder, helperText, value, onChange,onBlur, type, error, mask, unMaskedValue, required,multiline }) {
+function TextField({ id, title, placeholder, helperText, value, onChange, onBlur, type, error, mask, unMaskedValue, required, multiline }) {
 
     const removeTextFromInputMaskValue = (value) => {
-        let NewValue = value.replace(/[^0-9\.]+/g, "");
+        let NewValue = value.replace(/[^0-9\.]+/g, '');
         return NewValue;
     }
 
@@ -65,7 +65,7 @@ function TextField({ id, title, placeholder, helperText, value, onChange,onBlur,
                             <StyledTextInput
                                 {...inputProps}
                                 fullWidth
-                                variant="outlined"
+                                variant='outlined'
                                 placeholder={placeholder}
                                 type={type}
                                 helperText={helperText}
