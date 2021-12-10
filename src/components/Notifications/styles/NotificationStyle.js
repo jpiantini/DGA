@@ -43,17 +43,17 @@ export const NotificationText = styled('p')({
   textAlign: 'center',
 });
 export const StyledNotificationIcon = styled(NotificationsIcon)((props) => ({
-  width: '50px',
+
   color: props.color === 'white' ? COLORS.white : COLORS.black,
   '&:hover,&:focus': {
     color: COLORS.primary,
   },
   '@media (min-width:768px)': {
-    width: '55px',
+
     fontSize: (props.fontSize = '35px'),
   },
   '@media (min-width:1200px)': {
-    width: '65px',
+
     fontSize: (props.fontSize = '45px'),
   },
 }));

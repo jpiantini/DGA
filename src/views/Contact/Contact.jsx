@@ -1,28 +1,28 @@
-import { useState, useLayoutEffect, useEffect } from "react";
-import TextInformation from "../../components/TextInformation/TextInformation";
+import { useState, useLayoutEffect, useEffect } from 'react';
+import TextInformation from '../../components/TextInformation/TextInformation';
 import {
   SmallHeightDivider,
   MediumHeightDivider,
   StyledButtonOutlined,
-} from "../../theme/Styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from "../../redux/actions/UiActions";
+} from '../../theme/Styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import {
   ButtonContainer,
   ContactInfoContainer,
   Container,
   MapContainer,
-} from "./styles/ContactStyles";
-import { useFormik } from "formik";
-import { FormSchema } from "./ContactConstants";
-import { Grid } from "@mui/material";
-import TextField from "../../components/TextField/TextField";
-import wpCall from "../../services/WpServerCall";
-import Swal from "sweetalert2";
+} from './styles/ContactStyles';
+import { useFormik } from 'formik';
+import { FormSchema } from './ContactConstants';
+import { Grid } from '@mui/material';
+import TextField from '../../components/TextField/TextField';
+import wpCall from '../../services/WpServerCall';
+import Swal from 'sweetalert2';
 function Contact() {
-  const matchesWidth = useMediaQuery("(min-width:768px)");
+  const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authReducer);
@@ -30,10 +30,10 @@ function Contact() {
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      message: "",
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+      message: '',
     },
     validationSchema: FormSchema,
     validateOnChange: true,
@@ -41,14 +41,17 @@ function Contact() {
     onSubmit: (values) => {
       //  handleRegister(values)
       Swal.fire({
-        title: `Empresa agregada `,
-        icon: "success",
+        title: `Mensaje enviado `,
+        text: 'Gracias por ponerse en contacto con nosotros   ',
+        icon: 'success',
+        timer: 5000,
+        timerProgressBar: true,
       });
     },
   });
 
   const getAndSetAllWordPressContent = async () => {
-    let response = await wpCall().get("/sucursales/v1/sucursales");
+    let response = await wpCall().get('/sucursales/v1/sucursales');
     let data = response.data.map((data) => {
       return {
         title: data.title,
@@ -63,7 +66,7 @@ function Contact() {
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
-    dispatch(UpdateAppSubHeaderTitle("Contacto")); // TITLE OF SUBHEADER APP
+    dispatch(UpdateAppSubHeaderTitle('Contacto')); // TITLE OF SUBHEADER APP
   }, []);
 
   useEffect(() => {
@@ -90,7 +93,7 @@ function Contact() {
                 <label>
                   <strong>{content.title}</strong>
                 </label>
-                <p style={{ marginTop: "0.1%" }}>
+                <p style={{ marginTop: '0.1%' }}>
                   {content.address}
                   <br />
                   {content.phoneNumber}

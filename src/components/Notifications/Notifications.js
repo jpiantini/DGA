@@ -44,10 +44,9 @@ function Notifications({ color, fontSize }) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const datos = 56;
   return (
     <Container>
-      <Badge badgeContent={datos} color='secondary'>
+      <Badge badgeContent={4} color='secondary' overlap="circular">
         <StyledNotificationIcon
           color={color}
           fontSize={fontSize}
