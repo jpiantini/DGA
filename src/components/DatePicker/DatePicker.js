@@ -23,8 +23,8 @@ function DatePicker({ id, title, placeholder, helperText, value, onChange, error
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <MUIDatePicker
                     id={id}
-                    inputFormat="dd/MM/yyyy"
-                    renderInput={props => <StyledTextInput  {...props} helperText={helperText} error={error}/>}
+                    inputFormat='dd/MM/yyyy'
+                    renderInput={props => <StyledTextInput  {...props} helperText={helperText} error={error} />}
                     toolbarPlaceholder={placeholder}
                     value={value}
                     onChange={onChange}

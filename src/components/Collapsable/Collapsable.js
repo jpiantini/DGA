@@ -20,13 +20,13 @@ function Collapsable({ title, content }) {
             <ItemsContainer open={open}>
                 <RowContainer>
                     <Title>{title}</Title>
-                    <Icon style={{ fontSize: '40px'}}>{open ? "expand_less" : "expand_more"}</Icon>
+                    <Icon style={{ fontSize: '40px' }}>{open ? 'expand_less' : 'expand_more'}</Icon>
                 </RowContainer>
 
-                    <BodyText open={open}>
-                        {content}
-                    </BodyText>
-           
+                <BodyText open={open}>
+                    {content}
+                </BodyText>
+
             </ItemsContainer>
         </Container>
     );

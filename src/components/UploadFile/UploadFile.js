@@ -4,7 +4,7 @@ import { Title, Container, InputFile, StyledUploadFileIcon, InputFileButtonConta
 import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function UploadFile({ id, title, placeholder, helperText, onChange,onBlur, error, required }) {
+function UploadFile({ id, title, placeholder, helperText, onChange, onBlur, error, required }) {
 
     const [selectedFileName, setSelectedFileName] = useState('');
 
@@ -42,7 +42,7 @@ function UploadFile({ id, title, placeholder, helperText, onChange,onBlur, error
                 <InputFileButtonContainer htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type="file"
+                <InputFile id={id} type='file'
                     onBlur={(e) => {
                         onBlur({
                             target: {
