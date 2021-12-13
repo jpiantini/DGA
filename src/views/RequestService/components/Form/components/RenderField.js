@@ -1,5 +1,5 @@
 import React from 'react';
-import { FIELD_TYPES } from '../FormConstants';
+import { FIELD_TYPES, MASK_TYPE } from '../FormConstants';
 import { Grid } from '@mui/material';
 import Select from '../../../../../components/Select/Select';
 import TextField from '../../../../../components/TextField/TextField';
@@ -8,15 +8,25 @@ import { SubTitle, Title } from '../../../../../theme/Styles';
 import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
+import { localToArray } from '../../../../../utilities/functions/ArrayUtil';
+import { localToString } from '../../../../../utilities/functions/StringUtil';
 
 const RenderField = (props) => {
 
   const LocalOnChange = (val) => {
-    console.log(val)
+    //call rule change
+    if (props.type == FIELD_TYPES.select && typeof props.changeRule == 'function' && localToString(val.target.value).length > 0) {
+      props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
+      //TODO add another validation for radioGroup like for select
+    } else if (props.type == FIELD_TYPES.radioGroup && typeof props.changeRule == 'function' && localToString(val.target.value).length > 0) {
+      props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
+    }
+    //change val
     if (typeof props.onChange == 'function') {
       props.onChange(props.fieldKey, val.target.value);
     }
   }
+
 
   const Field = () => {
     if (props.hidden) {
@@ -57,6 +67,26 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.text:
+        if (localToString(props.Mask).length > 0) {
+          return (
+            <TextField
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              mask={localToString(MASK_TYPE[props.Mask || ''])}
+              useMaskPresets={true}
+              unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
+              onChange={LocalOnChange}
+              onBlur={props.handleBlur?.(props.fieldKey)}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+              multiline={props.multiline}
+            />
+          )
+        }
         return (
           <TextField
             id={props.fieldKey}
@@ -120,20 +150,20 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.header:
-        if(props.subtype === 'h1'){
+        if (props.subtype === 'h1') {
           return (
             <Title id={props.fieldKey}>
               {props.label}
             </Title>
           )
-        }else{
+        } else {
           return (
             <SubTitle id={props.fieldKey}>
               {props.label}
             </SubTitle>
           )
         }
-        
+
       default:
         return null
     }
@@ -146,11 +176,11 @@ const RenderField = (props) => {
       </Grid>
       :
       props.hidden == true ?
-      null
-      :
-      <Grid item xs={3} sm={6} md={6}>
-        {Field()}
-      </Grid>
+        null
+        :
+        <Grid item xs={3} sm={6} md={6}>
+          {Field()}
+        </Grid>
 
   )
 }

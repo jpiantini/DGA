@@ -57,7 +57,7 @@ function Header() {
               <MenuDivider />
 
               <LoggedInMenu />
-
+              <div style={{ width: "0.5rem" }} />
               <Notifications color='black' />
             </Fragment>
           )}

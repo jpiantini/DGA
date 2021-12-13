@@ -68,7 +68,8 @@ function Header() {
             </Fragment>
           ) : (
             <Fragment>
-              <LoggedInMenu />,
+              <LoggedInMenu />
+              <div style={{ width: "0.5rem" }} />
               <Notifications color='white' />
             </Fragment>
           )}

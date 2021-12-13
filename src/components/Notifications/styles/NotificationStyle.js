@@ -49,12 +49,10 @@ export const StyledNotificationIcon = styled(NotificationsIcon)((props) => ({
     color: COLORS.primary,
   },
   '@media (min-width:768px)': {
-
-    fontSize: (props.fontSize = '35px'),
+    fontSize: '35px',
   },
   '@media (min-width:1200px)': {
-
-    fontSize: (props.fontSize = '45px'),
+    fontSize: '45px'
   },
 }));
 

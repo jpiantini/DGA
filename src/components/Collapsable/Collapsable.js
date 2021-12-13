@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,memo } from 'react';
 import {
     Title,
     Container,
@@ -32,4 +32,4 @@ function Collapsable({ title, content }) {
     );
 }
 
-export default Collapsable;
+export default memo(Collapsable);

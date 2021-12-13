@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef,memo } from 'react';
 import Grow from '@mui/material/Grow';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
@@ -60,4 +60,4 @@ function LoggedInMenu({ image }) {
     );
 }
 
-export default LoggedInMenu;
+export default memo(LoggedInMenu);

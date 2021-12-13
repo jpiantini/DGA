@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import Dialog from '@mui/material/Dialog';
 import ErrorIcon from '@mui/icons-material/Error';
 import COLORS from '../../theme/Colors';
@@ -7,7 +7,7 @@ import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import { Container, Title, ButtonsContainer } from './styles/LoginOrRegisterModalStyles';
 import { useHistory } from 'react-router';
 
-export default function LoginOrRegisterModal({ open, onBackDropClick, onCloseClick }) {
+ function LoginOrRegisterModal({ open, onBackDropClick, onCloseClick }) {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
 
@@ -36,3 +36,4 @@ export default function LoginOrRegisterModal({ open, onBackDropClick, onCloseCli
     </Dialog>
   );
 }
+export default memo(LoginOrRegisterModal)

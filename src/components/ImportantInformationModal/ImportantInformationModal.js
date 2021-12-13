@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import Dialog from '@mui/material/Dialog';
 import { useMediaQuery } from '@mui/material';
 import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
@@ -15,7 +15,7 @@ import {
 } from './styles/ImportantInformationModalStyles';
 import { useHistory } from 'react-router';
 
-export default function ImportantInformationModal({ open,content,buttonTitle,buttonClick, onBackDropClick, onCloseClick }) {
+ function ImportantInformationModal({ open,content,buttonTitle,buttonClick, onBackDropClick, onCloseClick }) {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
 
@@ -51,3 +51,5 @@ export default function ImportantInformationModal({ open,content,buttonTitle,but
     </Dialog>
   );
 }
+
+export default memo(ImportantInformationModal)

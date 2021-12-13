@@ -225,7 +225,7 @@
                   {
                       "label": "Pasaporte",
                       "value": "1",
-                      "rule": "10:texto5032"
+                      "rule": "9:texto5032"
                   }
               ]
           },

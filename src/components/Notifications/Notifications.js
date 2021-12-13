@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect,memo } from 'react';
 import Popper from '@mui/material/Popper';
 import {
   Container,
@@ -11,9 +11,10 @@ import {
 import Badge from '@mui/material/Badge';
 
 
-function Notifications({ color, fontSize }) {
+function Notifications({ color }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const containerRef = useRef();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,12 +46,10 @@ function Notifications({ color, fontSize }) {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Badge badgeContent={4} color='secondary' overlap="circular">
         <StyledNotificationIcon
           color={color}
-          fontSize={fontSize}
-          onClick={handleClick}
         />
       </Badge>
 
@@ -104,4 +103,4 @@ function Notifications({ color, fontSize }) {
   );
 }
 
-export default Notifications;
+export default memo(Notifications);

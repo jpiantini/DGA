@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,memo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -62,4 +62,4 @@ function DeskNotification({ variant, message, onClose, disableAnimation, disable
     );
 }
 
-export default DeskNotification;
+export default memo(DeskNotification);

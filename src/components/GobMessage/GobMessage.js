@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import { Container, TextContainer, Text, URLDivider, Image, LinkText } from './styles/GobMessageStyles';
 import EscudoRD from '../../assets/images/EscudoRD.png'
 
@@ -20,4 +20,4 @@ function GobMessage() {
     );
 }
 
-export default GobMessage;
+export default memo(GobMessage);

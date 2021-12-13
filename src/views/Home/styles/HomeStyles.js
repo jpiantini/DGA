@@ -21,7 +21,7 @@ export const HomeContainer = styled("div")({
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
 });
-export const ContainerBackground = styled("div")({
+export const ContainerBackground = styled("div")(props => ({
   display: "flex",
   flexDirection: "column",
   textAlign: "center",
@@ -31,7 +31,9 @@ export const ContainerBackground = styled("div")({
   width: "100%",
   minHeight: "70vh",
   justifyContent: "center",
-});
+  background: `url(${props.image})`,
+  boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
+}));
 
 export const MediumContainer = styled("div")({
   display: "flex",

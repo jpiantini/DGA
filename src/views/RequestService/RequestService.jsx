@@ -42,16 +42,18 @@ function RequestService() {
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
   const getData = () => {
-    return formData.fields.map((step) => {
+    return formDataWithGrid.fields.map((step) => {
       return step.map((field) => {
         return {
           ...field,
-          fieldKey: field.orden,
+          key:field.orden,
+          fieldKey: field.name,
           data: localToArray(field.values).map((item) => {
             return {
               id: item.value,
               label: item.label,
               value: item.value,
+              rule: item.rule
             };
           }),
         };

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import { MOCKUP_SERVICES } from './ServiceDirectoryMenuConstants';
 import {
     Container,
@@ -37,4 +37,4 @@ function ServiceDirectoryMenu() {
     );
 }
 
-export default ServiceDirectoryMenu;
+export default memo(ServiceDirectoryMenu);

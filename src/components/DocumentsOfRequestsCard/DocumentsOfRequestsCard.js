@@ -1,4 +1,4 @@
-import { Fragment, useRef, useEffect } from 'react';
+import { Fragment, useRef, useEffect,memo } from 'react';
 import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
@@ -96,4 +96,4 @@ function DocumentsOfRequestsCard({ title,data }) {
     );
 }
 
-export default DocumentsOfRequestsCard;
+export default memo(DocumentsOfRequestsCard);

@@ -121,7 +121,7 @@ function Home() {
             variant="outlined"
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" >
                   <StyledSearchIconForSearcher />
                 </InputAdornment>
               ),
@@ -169,11 +169,7 @@ function Home() {
         <div style={{ height: "30px" }} />
       </Container>
 
-      <ContainerBackground
-        style={{
-          backgroundImage: `url(${moreInformationBackgroundImage})`,
-        }}
-      >
+      <ContainerBackground image={moreInformationBackgroundImage}>
         <div
           style={{
             display: "flex",

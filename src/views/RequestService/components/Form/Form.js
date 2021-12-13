@@ -24,8 +24,12 @@ import { Grid, Typography } from '@mui/material';
 import { localToArray } from '../../../../utilities/functions/ArrayUtil';
 import { useFormik } from 'formik';
 import * as  yup from 'yup';
-import { getFieldValidation } from './FormFunctions';
+import { dataObjectRuleChanger, getFieldValidation } from './FormFunctions';
 import RenderField from './components/RenderField';
+import { localToString } from '../../../../utilities/functions/StringUtil';
+import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
+
+import { RULE_LIST } from './FormConstants';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -34,6 +38,7 @@ function Form(props) {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
+    const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(props.data).length;
     const [activeStep, setActiveStep] = useState(0);
     const lastStep = (stepsLenght - 1) == activeStep;
@@ -72,10 +77,10 @@ function Form(props) {
     }
 
     useEffect(() => {
-        if (localToArray(props.data).length > 0) {
+        if (localToArray(localData).length > 0) {
             const innerState = { ...state, ...values }
             const innerSchema = {}
-            props.data[activeStep].map((field) => {
+            localData[activeStep].map((field) => {
                 const validator = getFieldValidation(field)
                 if (validator) {
                     innerSchema[field.fieldKey] = getFieldValidation(field)
@@ -88,7 +93,14 @@ function Form(props) {
             setSchemaValidation(innerSchema)
         }
         return () => { }
-    }, [props.data, activeStep])
+    }, [localData, activeStep])
+
+    useEffect(() => {
+        if (localToArray(props.data).length > 0) {
+          setLocalData(localToArray(props.data))
+        }
+        return () => { }
+      }, [props.data])
 
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
@@ -100,19 +112,63 @@ function Form(props) {
         }
     }
 
+    const changeRule = (rule) => {
+        if (!rule || rule == '') {
+          return
+        }
+    
+        const ruleList = [rule]
+        let _localData = localToArray(props.data)
+    
+        for (let index = 0; index < ruleList.length; index++) {
+          const ruleSeparated = localToString(ruleList[index]).split(':')
+          const ruleAction = localToString(ruleSeparated[0]).split(',')
+          const ruleField = localToString(ruleSeparated[1]).split(',')
+    
+          _localData = localToArray(_localData).map((step) => {
+            return localToArray(step).map((field) => {
+              const findRuleField = ruleField.find(fieldName => field.fieldKey == fieldName)
+              if (!findRuleField) {
+                return field
+              } else {
+                const findIndexRuleField = ruleField.findIndex(fieldName => field.fieldKey == fieldName)
+                const _field = dataObjectRuleChanger(field, RULE_LIST[ruleAction[findIndexRuleField]], setFieldValue)
+    
+                //add more ruleList if its rule five and the other field (select) has value
+                if (
+                  RULE_LIST[ruleAction[findIndexRuleField]] == RULE_LIST[5] &&
+                  safeValExtraction(values[field.fieldKey], 'rule')
+                ) {
+                  ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
+                }
+    
+                //return the modified object
+                return _field
+              }
+            })
+          })
+        }
+    
+        setLocalData(_localData)
+      }
+
     const LocalRenderField = ({ item, index }) => {
         //   console.log(item)
         return (
             <RenderField
                 {...item}
-                key={item?.fieldKey}
+                key={item.key}
+                fieldKey={item.fieldKey}
                 index={index}
                 value={values[item.fieldKey]}
+                fatherValue={values[localToString(item.father_id)]}
                 placeholder={item.placeholder}
                 error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
                 helperText={touched[item.fieldKey] && errors[item.fieldKey]}
                 onChange={setFieldValue}
                 handleBlur={handleBlur}
+                changeRule={changeRule}
+
             //       step={step}
             //    steps={steps}
             />
@@ -124,7 +180,7 @@ function Form(props) {
             {
                 matchesWidth &&
                 <Stepper activeStep={activeStep} alternativeLabel>
-                    {props.data.map((stepData, index) => {
+                    {localData.map((stepData, index) => {
                         const labelProps = {};
                         if (handleStepsValidation(index)) {
                             labelProps.optional = (
@@ -148,7 +204,7 @@ function Form(props) {
                 !togglePaymentForm ?
                 <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
                 {
-                            localToArray(props.data[activeStep]).map((item, index) => {
+                            localToArray(localData[activeStep]).map((item, index) => {
                                 console.log(item, index)
                                 return (
                                     LocalRenderField({ item, index })
