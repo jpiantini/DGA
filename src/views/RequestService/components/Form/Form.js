@@ -63,7 +63,6 @@ function Form(props) {
             let stepField = false
             for (let i = 0; i < props.data[step]?.length; i++) {
                 const field = props.data[step][i];
-                console.log(field)
                 if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
                     stepField = true;
                 }
@@ -153,7 +152,6 @@ function Form(props) {
       }
 
     const LocalRenderField = ({ item, index }) => {
-        //   console.log(item)
         return (
             <RenderField
                 {...item}
@@ -205,7 +203,6 @@ function Form(props) {
                 <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
                 {
                             localToArray(localData[activeStep]).map((item, index) => {
-                                console.log(item, index)
                                 return (
                                     LocalRenderField({ item, index })
                                 )

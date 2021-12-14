@@ -61,7 +61,7 @@ function ComplaintsAndClaims() {
         validateOnBlur: true,
         onSubmit: (values) => {
             handleRegisterClaim(values);
-            console.log(claims)
+       //     console.log(claims)
         },
     });
 

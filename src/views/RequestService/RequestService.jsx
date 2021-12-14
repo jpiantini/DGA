@@ -42,7 +42,7 @@ function RequestService() {
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
   const getData = () => {
-    return formDataWithGrid.fields.map((step) => {
+    return formData.fields.map((step) => {
       return step.map((field) => {
         return {
           ...field,
@@ -53,14 +53,15 @@ function RequestService() {
               id: item.value,
               label: item.label,
               value: item.value,
-              rule: item.rule
+              rule: item.rule,
+              father:item.father
             };
           }),
         };
       });
     });
   };
-  console.log(getData());
+//  console.log(getData());
   useLayoutEffect(() => {
     let Service = undefined; //ListServices.find((service) => service.id == serviceID);
     if (Service) {
@@ -79,7 +80,7 @@ function RequestService() {
       {!togglePaymentForm ? (
         <Container>
           <Form
-            doRequest={console.log}
+        //    doRequest={console.log}
             data={getData()} />
         </Container>
       ) : (

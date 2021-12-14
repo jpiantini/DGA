@@ -9,7 +9,7 @@ export const localToObject = (o) => {
   return o
 }
 
-export const safeValExtraction = (o, key = 'Value') => {
+export const safeValExtraction = (o, key = 'value') => {
   return localToObject(o)[key]
 }
 

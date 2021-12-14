@@ -10,6 +10,7 @@ import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
 import { localToArray } from '../../../../../utilities/functions/ArrayUtil';
 import { localToString } from '../../../../../utilities/functions/StringUtil';
+import { safeValExtraction } from '../../../../../utilities/functions/ObjectUtil';
 
 const RenderField = (props) => {
 
@@ -27,6 +28,13 @@ const RenderField = (props) => {
     }
   }
 
+  const childrenDataFilter = (arr, fatherKey, fatherVal) => {
+    if (localToArray(arr).length === 0 || !fatherKey) {
+      return arr
+    }
+
+    return localToArray(arr).filter(item => item.father == fatherVal)
+  }
 
   const Field = () => {
     if (props.hidden) {
@@ -51,6 +59,17 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.select:
+      /*  console.log(
+          props.data,
+          props.father_id,
+          safeValExtraction(props.fatherValue),
+          childrenDataFilter(
+            props.data,
+            props.father_id,
+            safeValExtraction(props.fatherValue)
+          )
+
+        )*/
         return (
           <Select
             id={props.fieldKey}
@@ -58,7 +77,13 @@ const RenderField = (props) => {
             value={props.value}
             onChange={LocalOnChange}
             onBlur={props.handleBlur?.(props.fieldKey)}
-            data={props.data}
+            data={
+              childrenDataFilter(
+                props.data,
+                props.father_id,
+                props.fatherValue
+              )
+            }
             error={props.error}
             helperText={props.helperText}
             placeholder={props.placeholder}

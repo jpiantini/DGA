@@ -11,10 +11,8 @@ function CheckBoxGroup({ id, title, options, onChange, onBlur, required, error, 
 
     const HandleCheckboxChange = (e) => {
         let currentModifiedOption = options.find((option) => option.id == e.target.id);
-        console.log(currentModifiedOption)
         currentModifiedOption.value = e.target.checked
         let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
-        console.log(newOptions)
         return newOptions;
     }
 
