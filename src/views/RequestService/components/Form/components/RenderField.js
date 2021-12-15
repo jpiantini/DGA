@@ -14,6 +14,8 @@ import { safeValExtraction } from '../../../../../utilities/functions/ObjectUtil
 
 const RenderField = (props) => {
 
+  const [modalVisible, setModalVisible] = useState(false)
+
   const LocalOnChange = (val) => {
     //call rule change
     if (props.type == FIELD_TYPES.select && typeof props.changeRule == 'function' && localToString(val.target.value).length > 0) {
@@ -35,6 +37,37 @@ const RenderField = (props) => {
 
     return localToArray(arr).filter(item => item.father == fatherVal)
   }
+
+  const RenderGridItem = ({ item, index }) => {
+    return (
+      <div style={{display:flex,flexDirection:'column'}}>
+        {/*<TouchableHighlight
+          onPress={() => setModalVisible({ ...item, listIndex: index })}
+          underlayColor={COLORS.lightGray}
+          style={Styles.gridItemTextSection}
+        >
+          <Text>{capitalizeFirstLetter(props.label)} {index + 1}</Text>
+        </TouchableHighlight>*/}
+
+        <label style={{fontSize:'25px',fontFamily:'Nunito Sans'}}>
+          
+        </label>
+
+      {/*  <TouchableHighlight
+          onPress={() => deleteGridElement(index)}
+          underlayColor={COLORS.lightGray}
+          style={Styles.gridItemIconSection}
+        >
+          <Ionicons
+            name='trash-outline'
+            size={FONTS.mediumIcon}
+            color={COLORS.red}
+          />
+        </TouchableHighlight>*/}
+      </div>
+    )
+  }
+
 
   const Field = () => {
     if (props.hidden) {
@@ -174,6 +207,46 @@ const RenderField = (props) => {
             required={props.required}
           />
         )
+        case FIELD_TYPES.grid:
+          return (
+            <div>
+            {
+             /* <View style={ApplicationStyles.hPLarge}>
+                <Text style={Styles.title} theme='titleMedium'>
+                  {props.label}
+                </Text>
+                <Separator />
+                
+                <CheckRender allowed={!isEmpty(props.value)}>
+                  <ListRender
+                    data={localToArray(props.value)}
+                    renderItem={RenderGridItem}
+                    ItemSeparatorComponent={<HorizontalLine marginHorizontal={0} />}
+                    renderSeparator={true}
+                  />
+                  <Separator />
+                </CheckRender>
+              </View>*/
+            }
+            <div>
+            <p>
+              {props.label}
+            </p>
+            </div>
+
+            <button onClick={() => setModalVisible(true)}>
+              Agregar
+            </button>
+
+              <ModalForm
+                isVisible={modalVisible}
+                onVisibleChange={setModalVisible}
+                fields={props.fields}
+                doRequest={insertFormData}
+                fatherKey={localToString(props.fieldKey)}
+              />
+            </div>
+          )
       case FIELD_TYPES.header:
         if (props.subtype === 'h1') {
           return (
