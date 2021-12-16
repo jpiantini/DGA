@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import { Container, TextContainer, Text, URLDivider, Image, LinkText } from './styles/GobMessageStyles';
+import { Container, TextContainer, Text, URLDivider, Image, LinkText, LineContainer } from './styles/GobMessageStyles';
 import EscudoRD from '../../assets/images/EscudoRD.png'
 
 function GobMessage() {
@@ -7,7 +7,7 @@ function GobMessage() {
 
     return (
         <Container >
-
+            <LineContainer>
             <TextContainer>
                 <Text >
                     {'Este sitio pertenece al Ministerio de Turismo de la Republica Dominicana | Visitar el sitio oficial \r\n'}
@@ -15,7 +15,7 @@ function GobMessage() {
                 </Text>
             </TextContainer>
             <Image src={EscudoRD} />
-
+            </LineContainer>
         </Container>
     );
 }

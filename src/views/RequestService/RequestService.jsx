@@ -41,25 +41,34 @@ function RequestService() {
   const [activeStep, setActiveStep] = useState(0);
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
-  const getData = () => {
- //   const fields = localToArray(formDataWithGrid.fields).map(transformField)
-    return formDataWithGrid.fields.map((step) => {
-      return step.map((field) => {
+  const transformField = (field) => {
+    const fields = localToArray(field.fields).map(transformField)
+    return {
+      ...field,
+      key: field.orden,
+      fieldKey: field.name,
+      data: localToArray(field.values).map((item) => {
         return {
-          ...field,
-          key:field.orden,
-          fieldKey: field.name,
-          data: localToArray(field.values).map((item) => {
-            return {
-              id: item.value,
-              label: item.label,
-              value: item.value,
-              rule: item.rule,
-              father:item.father
-            };
-          }),
+          id: item.value,
+          label: item.label,
+          value: item.value,
+          rule: item.rule,
+          father:item.father
         };
-      });
+      }),
+      gridData: [],
+      fields,
+    }
+  }
+
+  const getData = () => {
+    console.log(
+      formDataWithGrid.map((step) => {
+        return step.map(transformField)
+      })
+    )
+    return formDataWithGrid.map((step) => {
+      return step.map(transformField)
     });
   };
 //  console.log(getData());
@@ -81,7 +90,7 @@ function RequestService() {
       {!togglePaymentForm ? (
         <Container>
           <Form
-        //    doRequest={console.log}
+            doRequest={console.log}
             data={getData()} />
         </Container>
       ) : (

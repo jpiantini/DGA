@@ -2,15 +2,24 @@ import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 
 export const Container = styled('div')({
-    zIndex:3,
+    zIndex: 3,
     display: 'flex',
-    position:'relative',
+    position: 'relative',
     flexDirection: 'row',
     backgroundColor: COLORS.secondary,
     alignItems: 'center',
-    textAlign:'center',
+    textAlign: 'center',
     justifyContent: 'space-evenly',
-    width:'100%',
+    width: '100%'
+});
+
+export const LineContainer = styled('div')({
+    display: 'flex',
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+    justifyContent: 'space-between',
     '@media (min-width:320px)': {
         flexDirection: 'column',
     },
@@ -39,7 +48,7 @@ export const URLDivider = styled('div')({
 
 export const Text = styled('p')({
     color: COLORS.white,
-    fontFamily:'Quicksand',
+    fontFamily: 'Quicksand',
     '@media (min-width:320px)': {
         fontSize: '9px',
     },
@@ -53,7 +62,7 @@ export const Text = styled('p')({
 
 export const LinkText = styled('a')({
     color: COLORS.primary,
-    fontFamily:'Quicksand',
+    fontFamily: 'Quicksand',
     '@media (min-width:320px)': {
         fontSize: '9px',
     },

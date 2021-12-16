@@ -21,7 +21,12 @@ function FormModal({ children, title, open, onClose }) {
 
         <ContentContainer>
           <Row>
-            <TextInformation title={title} />
+            {
+              title ?
+              <TextInformation title={title} />
+              :
+              <div style={{width:'100%'}}/>
+            }
             <IconButton onClick={onClose} sx={{ marginLeft: '5%' }}>
               <StyledCloseIcon />
             </IconButton>

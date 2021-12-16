@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FIELD_TYPES, MASK_TYPE } from '../FormConstants';
-import { Grid } from '@mui/material';
+import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import FeedIcon from '@mui/icons-material/Feed';
 import Select from '../../../../../components/Select/Select';
 import TextField from '../../../../../components/TextField/TextField';
 import RadioButtonGroup from '../../../../../components/RadioButtonGroup/RadioButtonGroup';
-import { SubTitle, Title } from '../../../../../theme/Styles';
+import {  Row, RowBodyDivider, SmallHeightDivider, StyledButton, StyledButtonOutlined, SubTitle, Title } from '../../../../../theme/Styles';
 import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
 import { localToArray } from '../../../../../utilities/functions/ArrayUtil';
 import { localToString } from '../../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../../utilities/functions/ObjectUtil';
+import ModalForm from './ModalForm';
+import { GridContainer, BodyText } from './Styles';
 
 const RenderField = (props) => {
 
@@ -30,6 +35,26 @@ const RenderField = (props) => {
     }
   }
 
+  const insertFormData = ({ values, fatherKey, listIndex }) => {
+    if (typeof props.onChange == 'function') {
+      const value = localToArray(props.value)
+      if (listIndex !== undefined) {
+        value[listIndex] = values
+        props.onChange(fatherKey, [...value])
+      } else {
+        props.onChange(fatherKey, [...value, values])
+      }
+      setModalVisible(false)
+    }
+  }
+
+  const deleteGridElement = (position) => {
+    if (position != undefined && typeof props.onChange == 'function') {
+      const result = localToArray(props.value).filter((doc, index) => index !== position)
+      props.onChange(props.fieldKey, result)
+    }
+  }
+
   const childrenDataFilter = (arr, fatherKey, fatherVal) => {
     if (localToArray(arr).length === 0 || !fatherKey) {
       return arr
@@ -40,31 +65,31 @@ const RenderField = (props) => {
 
   const RenderGridItem = ({ item, index }) => {
     return (
-      <div style={{display:flex,flexDirection:'column'}}>
-        {/*<TouchableHighlight
-          onPress={() => setModalVisible({ ...item, listIndex: index })}
-          underlayColor={COLORS.lightGray}
-          style={Styles.gridItemTextSection}
-        >
-          <Text>{capitalizeFirstLetter(props.label)} {index + 1}</Text>
-        </TouchableHighlight>*/}
-
-        <label style={{fontSize:'25px',fontFamily:'Nunito Sans'}}>
-          
-        </label>
-
-      {/*  <TouchableHighlight
-          onPress={() => deleteGridElement(index)}
-          underlayColor={COLORS.lightGray}
-          style={Styles.gridItemIconSection}
-        >
-          <Ionicons
-            name='trash-outline'
-            size={FONTS.mediumIcon}
-            color={COLORS.red}
-          />
-        </TouchableHighlight>*/}
-      </div>
+      <Grid item xs={12} md={12}>
+        <List >
+          <ListItem
+            secondaryAction={
+              <Row>
+                <IconButton onClick={() => setModalVisible({ ...item, listIndex: index })} edge="end" aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+                <div style={{width:'15px'}}/>
+                <IconButton onClick={() => deleteGridElement(index)} edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </Row>
+            }
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <FeedIcon />
+              </Avatar>
+            </ListItemAvatar>
+            
+            <BodyText>{`${props.label} ${index + 1}`}</BodyText>
+          </ListItem>
+        </List>
+      </Grid>
     )
   }
 
@@ -92,17 +117,6 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.select:
-      /*  console.log(
-          props.data,
-          props.father_id,
-          safeValExtraction(props.fatherValue),
-          childrenDataFilter(
-            props.data,
-            props.father_id,
-            safeValExtraction(props.fatherValue)
-          )
-
-        )*/
         return (
           <Select
             id={props.fieldKey}
@@ -207,46 +221,39 @@ const RenderField = (props) => {
             required={props.required}
           />
         )
-        case FIELD_TYPES.grid:
-          return (
-            <div>
-            {
-             /* <View style={ApplicationStyles.hPLarge}>
-                <Text style={Styles.title} theme='titleMedium'>
-                  {props.label}
-                </Text>
-                <Separator />
-                
-                <CheckRender allowed={!isEmpty(props.value)}>
-                  <ListRender
-                    data={localToArray(props.value)}
-                    renderItem={RenderGridItem}
-                    ItemSeparatorComponent={<HorizontalLine marginHorizontal={0} />}
-                    renderSeparator={true}
-                  />
-                  <Separator />
-                </CheckRender>
-              </View>*/
-            }
-            <div>
-            <p>
+      case FIELD_TYPES.grid:
+        return (
+          <div>
+
+            <SubTitle >
               {props.label}
-            </p>
-            </div>
+            </SubTitle>
+            <SmallHeightDivider />
+            <GridContainer>
+              {
+                localToArray(props.value).map((item, index) => (
+                  <RenderGridItem item={item} index={index} />
+                ))
+              }
+            </GridContainer>
+            <SmallHeightDivider />
 
-            <button onClick={() => setModalVisible(true)}>
+
+            <StyledButton onClick={() => setModalVisible(true)}>
               Agregar
-            </button>
+            </StyledButton>
 
-              <ModalForm
-                isVisible={modalVisible}
-                onVisibleChange={setModalVisible}
-                fields={props.fields}
-                doRequest={insertFormData}
-                fatherKey={localToString(props.fieldKey)}
-              />
-            </div>
-          )
+            <ModalForm
+              title={props.label}
+              isVisible={modalVisible}
+              onVisibleChange={setModalVisible}
+              fields={props.fields}
+              doRequest={insertFormData}
+              fatherKey={localToString(props.fieldKey)}
+            />
+          </div>
+        )
+
       case FIELD_TYPES.header:
         if (props.subtype === 'h1') {
           return (
@@ -267,18 +274,22 @@ const RenderField = (props) => {
     }
   }
   return (
-
-    props.type === 'header' ?
-      <Grid item xs={12} sm={12} md={12}>
-        {Field()}
-      </Grid>
+    props.hidden == true ? // dont return grid with spaces and prevent white spaces between elements
+      null
       :
-      props.hidden == true ?
-        null
-        :
-        <Grid item xs={3} sm={6} md={6}>
+      props.type === 'header' ?
+        <Grid item xs={12} sm={12} md={12}>
           {Field()}
         </Grid>
+        :
+        props.type === 'grid' ?
+          <Grid item xs={12} sm={12} md={12}>
+            {Field()}
+          </Grid>
+          :
+          <Grid item xs={3} sm={6} md={6}>
+            {Field()}
+          </Grid>
 
   )
 }
