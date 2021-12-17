@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 
-function CheckBox({ id, title, label, value, onChange, onBlur, required, error, helperText }) {
+function CheckBox({ id, title, label, value, onChange, onBlur, required, error, helperText=" " }) {
 
     const HandleCheckboxChange = (e) => {
         if (e.target.checked) {

@@ -35,6 +35,15 @@ export function cleanNumberWithDecimal(n) {
   return `${n}`.replace(/[^0-9.]/g, '')
 }
 
+
+export function cleanNumbersFromString(s) {
+  if (!s) {
+    return ''
+  }
+  return localToString(s).replace(/[\d-]/g, '')
+}
+
+
 export function containString(v1, v2, caseSensitive = false) {
   if (!v1 || !v2) {
     return false;

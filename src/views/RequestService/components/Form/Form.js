@@ -77,18 +77,13 @@ function Form(props) {
 
     useEffect(() => {
         if (localToArray(localData).length > 0) {
-            const innerState = { ...state, ...values }
             const innerSchema = {}
             localData[activeStep].map((field) => {
                 const validator = getFieldValidation(field)
                 if (validator) {
                     innerSchema[field.fieldKey] = getFieldValidation(field)
                 }
-                if (!innerState[field.fieldKey]) {
-                    innerState[field.fieldKey] = undefined
-                }
             })
-            setState(innerState)
             setSchemaValidation(innerSchema)
         }
         return () => { }
@@ -96,10 +91,19 @@ function Form(props) {
 
     useEffect(() => {
         if (localToArray(props.data).length > 0) {
-          setLocalData(localToArray(props.data))
+            setLocalData(localToArray(props.data))
+            const innerState = { ...state, ...values }
+            props.data.map((step) => {
+                step.map(field => {
+                    if (!innerState[field.fieldKey]) {
+                        innerState[field.fieldKey] = undefined
+                    }
+                })
+            })
+            setState(innerState)
         }
         return () => { }
-      }, [props.data])
+    }, [props.data])
 
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
@@ -113,43 +117,43 @@ function Form(props) {
 
     const changeRule = (rule) => {
         if (!rule || rule == '') {
-          return
+            return
         }
-    
+
         const ruleList = [rule]
         let _localData = localToArray(props.data)
-    
+
         for (let index = 0; index < ruleList.length; index++) {
-          const ruleSeparated = localToString(ruleList[index]).split(':')
-          const ruleAction = localToString(ruleSeparated[0]).split(',')
-          const ruleField = localToString(ruleSeparated[1]).split(',')
-    
-          _localData = localToArray(_localData).map((step) => {
-            return localToArray(step).map((field) => {
-              const findRuleField = ruleField.find(fieldName => field.fieldKey == fieldName)
-              if (!findRuleField) {
-                return field
-              } else {
-                const findIndexRuleField = ruleField.findIndex(fieldName => field.fieldKey == fieldName)
-                const _field = dataObjectRuleChanger(field, RULE_LIST[ruleAction[findIndexRuleField]], setFieldValue)
-    
-                //add more ruleList if its rule five and the other field (select) has value
-                if (
-                  RULE_LIST[ruleAction[findIndexRuleField]] == RULE_LIST[5] &&
-                  safeValExtraction(values[field.fieldKey], 'rule')
-                ) {
-                  ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
-                }
-    
-                //return the modified object
-                return _field
-              }
+            const ruleSeparated = localToString(ruleList[index]).split(':')
+            const ruleAction = localToString(ruleSeparated[0]).split(',')
+            const ruleField = localToString(ruleSeparated[1]).split(',')
+
+            _localData = localToArray(_localData).map((step) => {
+                return localToArray(step).map((field) => {
+                    const findRuleField = ruleField.find(fieldName => field.fieldKey == fieldName)
+                    if (!findRuleField) {
+                        return field
+                    } else {
+                        const findIndexRuleField = ruleField.findIndex(fieldName => field.fieldKey == fieldName)
+                        const _field = dataObjectRuleChanger(field, RULE_LIST[ruleAction[findIndexRuleField]], setFieldValue)
+
+                        //add more ruleList if its rule five and the other field (select) has value
+                        if (
+                            RULE_LIST[ruleAction[findIndexRuleField]] == RULE_LIST[5] &&
+                            safeValExtraction(values[field.fieldKey], 'rule')
+                        ) {
+                            ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
+                        }
+
+                        //return the modified object
+                        return _field
+                    }
+                })
             })
-          })
         }
-    
+
         setLocalData(_localData)
-      }
+    }
 
     const LocalRenderField = ({ item, index }) => {
         return (
@@ -164,7 +168,7 @@ function Form(props) {
                 error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
                 helperText={touched[item.fieldKey] && errors[item.fieldKey]}
                 onChange={setFieldValue}
-                handleBlur={handleBlur}
+                setFieldTouched={setFieldTouched}
                 changeRule={changeRule}
 
             //       step={step}
@@ -200,8 +204,8 @@ function Form(props) {
             <SmallHeightDivider />
             {
                 !togglePaymentForm ?
-                <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
-                {
+                    <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
+                        {
                             localToArray(localData[activeStep]).map((item, index) => {
                                 return (
                                     LocalRenderField({ item, index })

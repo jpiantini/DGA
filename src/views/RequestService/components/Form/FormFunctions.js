@@ -2,20 +2,13 @@ import * as yup from 'yup';
 import { FIELD_TYPES, RULE_LIST } from './FormConstants'
 
 export const getFieldValidation = (field) => {
-  if (!field || !field.type) {
+  if (!field || !field.type || field.hidden) {
+    return
+  } else if (field.type == FIELD_TYPES.select && field.required){
     return
   }
 
   const fieldType = {
-    // pickerObject: yup.object().shape({
-    //   Value: yup.mixed().required("Este campo es requerido"),
-    // }),
-    // email: yup.string().email('Favor insertar un email válido'),
-    // input: yup.string(),
-    // phone: yup.string(),
-    /*[FIELD_TYPES.select]: yup.object().shape({
-      Value: yup.mixed().required("Este campo es requerido"),
-    }),*/
     [FIELD_TYPES.text]: yup.string(),
     [FIELD_TYPES.select]: yup.string(),
     [FIELD_TYPES.radioGroup]: yup.string(),
@@ -26,6 +19,10 @@ export const getFieldValidation = (field) => {
   }
 
   let validator = fieldType[field.type]
+
+  if (field?.length && validator) { //maxLength
+    validator = validator.max(field?.length,`Este campo no puede contener mas de ${field?.length} caracteres`)
+  }  
 
   if (field?.required && validator) {
     validator = validator.required("Este campo es requerido")

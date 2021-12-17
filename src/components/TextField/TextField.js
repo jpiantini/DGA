@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask';
 import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function TextField({ id, title, placeholder, helperText, value, onChange, onBlur, type, error, mask, unMaskedValue,useMaskPresets, required, multiline }) {
+function TextField({ id, title, placeholder, helperText=" ", value, onChange, onBlur, type, error, mask, unMaskedValue,useMaskPresets, required, multiline,minLength,maxLength }) {
 
     const removeTextFromInputMaskValue = (value) => {
         let NewValue = value.replace(/[^0-9\.]+/g, '');
@@ -16,6 +16,8 @@ function TextField({ id, title, placeholder, helperText, value, onChange, onBlur
         phone: "(999)-999-9999",
         identification: "999-9999999-9",
         passport: "*",
+        rnc: "*",
+        'solo numero': "999999999999999999999999999",
       }
 
     return (
@@ -91,6 +93,9 @@ function TextField({ id, title, placeholder, helperText, value, onChange, onBlur
                         type={type}
                         helperText={helperText}
                         error={error}
+                        inputProps={{
+                            maxLength:maxLength
+                        }}
                     />
             }
         </Container>

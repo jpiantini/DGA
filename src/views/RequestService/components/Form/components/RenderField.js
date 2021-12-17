@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FIELD_TYPES, MASK_TYPE } from '../FormConstants';
+import { FIELD_TYPES, MASK_LIST, MASK_TYPE } from '../FormConstants';
 import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,7 +12,7 @@ import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
 import { localToArray } from '../../../../../utilities/functions/ArrayUtil';
-import { localToString } from '../../../../../utilities/functions/StringUtil';
+import { cleanNumbersFromString, cleanNumberWithDecimal, localToString } from '../../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../../utilities/functions/ObjectUtil';
 import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
@@ -31,9 +31,26 @@ const RenderField = (props) => {
     }
     //change val
     if (typeof props.onChange == 'function') {
-      props.onChange(props.fieldKey, val.target.value);
+      switch (MASK_LIST[props.Mask || '']) {
+        case MASK_LIST[7]:
+          props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
+          break;
+        case MASK_LIST[12]:
+          props.onChange(props.fieldKey, cleanNumberWithDecimal(val.target.value))
+          break;
+        default:
+          props.onChange(props.fieldKey, val.target.value);
+          break;
+      }
     }
   }
+
+  const handleValidationOnBlur = () => {
+    if (typeof props.setFieldTouched == 'function') {
+      props.setFieldTouched(props.fieldKey, true, true)
+    }
+  }
+
 
   const insertFormData = ({ values, fatherKey, listIndex }) => {
     if (typeof props.onChange == 'function') {
@@ -62,6 +79,8 @@ const RenderField = (props) => {
 
     return localToArray(arr).filter(item => item.father == fatherVal)
   }
+
+  
 
   const RenderGridItem = ({ item, index }) => {
     return (
@@ -107,7 +126,7 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             options={props.data}
             error={props.error}
             helperText={props.helperText}
@@ -123,7 +142,7 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             data={
               childrenDataFilter(
                 props.data,
@@ -139,7 +158,7 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.text:
-        if (localToString(props.Mask).length > 0) {
+        if (['0', '1', '2', '3', '6'].includes(localToString(props.Mask))) {
           return (
             <TextField
               id={props.fieldKey}
@@ -149,7 +168,7 @@ const RenderField = (props) => {
               useMaskPresets={true}
               unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
               onChange={LocalOnChange}
-              onBlur={props.handleBlur?.(props.fieldKey)}
+              onBlur={handleValidationOnBlur}
               error={props.error}
               helperText={props.helperText}
               placeholder={props.placeholder}
@@ -164,10 +183,9 @@ const RenderField = (props) => {
             id={props.fieldKey}
             title={props.label}
             value={props.value}
-            // mask={props.mask}
-            // unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
+            maxLength={props.length}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             error={props.error}
             helperText={props.helperText}
             placeholder={props.placeholder}
@@ -183,7 +201,7 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             error={props.error}
             helperText={props.helperText}
             placeholder={props.placeholder}
@@ -198,7 +216,7 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             error={props.error}
             helperText={props.helperText}
             placeholder={props.placeholder}
@@ -213,7 +231,7 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
-            onBlur={props.handleBlur?.(props.fieldKey)}
+            onBlur={handleValidationOnBlur}
             error={props.error}
             helperText={props.helperText}
             placeholder={props.placeholder}

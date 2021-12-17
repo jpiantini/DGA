@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { FormControl, FormHelperText } from '@mui/material';
 
-function CheckBoxGroup({ id, title, options, onChange, onBlur, required, error, helperText }) {
+function CheckBoxGroup({ id, title, options, onChange, onBlur, required, error, helperText=" " }) {
 
     const HandleCheckboxChange = (e) => {
         let currentModifiedOption = options.find((option) => option.id == e.target.id);

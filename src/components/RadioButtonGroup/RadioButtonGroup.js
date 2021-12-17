@@ -8,7 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import { FormControl, FormHelperText } from '@mui/material';
 
-function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText, error }) {
+function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText=" ", error }) {
 
 
 

@@ -4,7 +4,7 @@ import { Title, Container, InputFile, StyledUploadFileIcon, InputFileButtonConta
 import { Row, StyledTextInput } from '../../theme/Styles';
 
 
-function UploadFile({ id, title, placeholder, helperText, onChange, onBlur, error, required }) {
+function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, error, required }) {
 
     const [selectedFileName, setSelectedFileName] = useState('');
 
@@ -36,6 +36,9 @@ function UploadFile({ id, title, placeholder, helperText, onChange, onBlur, erro
                     value={selectedFileName}
                     helperText={helperText}
                     error={error}
+                    InputProps={{
+                        readOnly:true
+                    }}
                 />
                 <RowSeparator />
                 <InputFileButtonContainer htmlFor={id}>

@@ -27,7 +27,7 @@ function ModalForm(props) {
   const [schemaValidation, setSchemaValidation] = useState({});
   const listIndex = localToObject(props.isVisible).listIndex
   const isModifying = listIndex !== undefined
-  const { errors, handleBlur, setFieldValue, values, touched, handleSubmit, resetForm } = useFormik({
+  const { errors, setFieldTouched, setFieldValue, values, touched, handleSubmit, resetForm } = useFormik({
     initialValues: state,
     onSubmit: (values, actions) => localDoRequest({ values, actions }),
     validationSchema: yup.object().shape(schemaValidation),
@@ -77,7 +77,7 @@ function ModalForm(props) {
         error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
         helperText={touched[item.fieldKey] && errors[item.fieldKey]}
         onChange={setFieldValue}
-        handleBlur={handleBlur}
+        setFieldTouched={setFieldTouched}
       />
     )
   }
