@@ -4,7 +4,7 @@ import { FIELD_TYPES, RULE_LIST } from './FormConstants'
 export const getFieldValidation = (field) => {
   if (!field || !field.type || field.hidden) {
     return
-  } else if (field.type == FIELD_TYPES.select && field.required){
+  } else if (field.type == FIELD_TYPES.select && !field.required){
     return
   }
 
