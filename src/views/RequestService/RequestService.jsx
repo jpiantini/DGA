@@ -62,11 +62,6 @@ function RequestService() {
   }
 
   const getData = () => {
-    console.log(
-      formDataWithGrid.map((step) => {
-        return step.map(transformField)
-      })
-    )
     return formDataWithGrid.map((step) => {
       return step.map(transformField)
     });

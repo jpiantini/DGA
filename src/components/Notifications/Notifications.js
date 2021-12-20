@@ -1,105 +1,80 @@
-import { useState, useRef, useEffect,memo } from 'react';
+import { useState, useRef, memo, useEffect,Fragment } from 'react';
+import Grow from '@mui/material/Grow';
 import Popper from '@mui/material/Popper';
+import MenuList from '@mui/material/MenuList';
+import Divider from '@mui/material/Divider';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import {
-  Container,
-  NotificationContainer,
-  StyledNotificationIcon,
-  StyledPaper,
-  NotificationTitle,
-  NotificationText,
+  Container, NotificationContainer, NotificationText, NotificationTitle, StyledNotificationIcon, StyledPaper,
 } from './styles/NotificationStyle';
-import Badge from '@mui/material/Badge';
-
+import { getRecentNotificationsLenght, MockupNotifications } from './NotificationsConstants'
+import { Badge } from '@mui/material';
 
 function Notifications({ color }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const containerRef = useRef();
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [menuOpen, setMenuOpen] = useState(false);
+  const containerRef = useRef(null);
+  const PaperRef = useRef(null);
+
+  const PendingNotifications = getRecentNotificationsLenght();
+
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  }
 
   useEffect(() => {
-    if (anchorEl) {
-      document.addEventListener('mousedown', handleClick);
-    } else {
-      document.removeEventListener('mousedown', handleClick);
+    function handlePopoverOpen(event) {
+      if (PaperRef.current && !PaperRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
     }
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      document.removeEventListener('mousedown', handleClick);
-    };
-  }, [anchorEl]);
-  /*
-  const handleClick = (event) => {
-    if (!document.getElementById(id).contains(event.target)) {
-      setAnchorEl(null);
-      setCustomOpen(false);
-    }
-  };
-*/
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+    document.addEventListener("mousedown", handlePopoverOpen);
+  }, [PaperRef]);
 
   return (
-    <Container onClick={handleClick}>
-      <Badge badgeContent={4} color='secondary' overlap="circular">
-        <StyledNotificationIcon
-          color={color}
-        />
-      </Badge>
+    <Container ref={containerRef} onClick={handleMenuOpen}>
 
+      <Badge badgeContent={PendingNotifications} color='secondary' overlap="circular">
+        <StyledNotificationIcon color={color} />
+
+      </Badge>
       <Popper
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        container={containerRef.current}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'rigth',
-        }}
-      >
-        {/*  <Popper
-        open={open}
-        onClose={() => setOpen(false)}
+        open={menuOpen}
+        anchorEl={containerRef.current}
         role={undefined}
         placement='bottom-end'
         transition
         disablePortal
-        anchorEl={containerRef.current}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >*/}
-
-        <StyledPaper>
-          <NotificationContainer>
-            <NotificationTitle>Notificaciones</NotificationTitle>
-            <textContainer>
-              <NotificationText>
-                2021 MUI developer survey 2021 MUI developer survey
-              </NotificationText>
-            </textContainer>
-            <textContainer>
-              <NotificationText>
-                2021 MUI developer survey 2021
-              </NotificationText>
-            </textContainer>
-            <textContainer>
-              <NotificationText>
-                2021 MUI developer survey 2021 MUI developer survey
-              </NotificationText>
-            </textContainer>
-          </NotificationContainer>
-        </StyledPaper>
+      >
+        {({ TransitionProps }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                'right top',
+            }}
+          >
+            <StyledPaper>
+              <MenuList ref={PaperRef}>
+                {
+                  MockupNotifications.map((item,index) => (
+                      <NotificationContainer key={index} onClick={item.action} isRecent={item.isRecent}>
+                        <NotificationTitle>{item.title}</NotificationTitle>
+                        <NotificationText>{item.body}</NotificationText>
+                        <Divider sx={{ width: '100%' }} />
+                      </NotificationContainer>
+                  ))
+                }
+              </MenuList>
+            </StyledPaper>
+          </Grow>
+        )}
       </Popper>
-    </Container>
+    </Container >
   );
 }
 
