@@ -1,11 +1,13 @@
 import { Redirect } from "react-router";
 import Login from "../views/Auth/Login/Login";
 import Register from "../views/Auth/Register/Register";
+import RequestPassword from "../views/Auth/RequestPassword/RequestPassword";
 import Contact from "../views/Contact/Contact";
 import Home from "../views/Home/Home";
 import ListOfServicesPerCategory from "../views/ListOfServicesPerCategory/ListOfServicesPerCategory";
 import MyDesk from "../views/MyDesk/MyDesk";
 import { PolicyPrivacy } from "../views/PolicyPrivacy/PolicyPrivacy";
+import RequestedServiceList from "../views/RequestedServiceList/RequestedServiceList";
 import RequestService from "../views/RequestService/RequestService";
 import ServiceDescription from "../views/ServiceDescription/ServiceDescription";
 import ServiceRequestedDetails from "../views/ServiceRequestedDetails/ServiceRequestedDetails";
@@ -30,6 +32,13 @@ const routes = [
     component: Register,
     exact: true,
     layout: "/app",
+    loginRequired: false,
+  },
+  {
+    path: "/requestPassword",
+    component: RequestPassword,
+    exact: true,
+    layout: "/public",
     loginRequired: false,
   },
   {
@@ -77,6 +86,13 @@ const routes = [
   {
     path: "/serviceRequestedDetails/:serviceID/:requestID/:actionRequired",
     component: ServiceRequestedDetails,
+    exact: true,
+    layout: "/app",
+    loginRequired: true,
+  },
+  {
+    path: "/requestedServicesList/:servicesStatus",
+    component: RequestedServiceList,
     exact: true,
     layout: "/app",
     loginRequired: true,

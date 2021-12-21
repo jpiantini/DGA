@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../../../theme/Styles';
+import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import {
     Container,
     RowContainer,

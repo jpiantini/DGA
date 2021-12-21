@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './LoginConstants';
+import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './RequestPasswordConstants';
 import {
     LogoImage,
     Image,
-    LoginContainer,
+    RowContainer,
     LeftPanelContainer,
     Title,
     FlexStartContainer,
@@ -11,89 +11,77 @@ import {
     BodyText,
     FooterContainer,
     TextFieldContainer
-} from './styles/LoginStyles';
+} from './styles/RequestPasswordStyles';
 import { StyledButton, Row, SmallHeightDivider, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
-import { AuthLogin } from '../../../redux/actions/AuthActions';
 
-function Login() {
+function RequestPassword() {
 
     const history = useHistory();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const onLogin = (formData) => {
-        //CALL API LOGIN WITH AXIOS
-        if (formData) {//IF LOGIN SUCCESS
-            dispatch(AuthLogin(true)) //set Authenticated true is needed save token
+    const onRequest = (formData) => {
+        //CALL API passwordRequest WITH AXIOS
+        if (formData) {//IF passwordRequest SUCCESS
+            //ToggleScreen and show success message 
         }
     }
 
     const formik = useFormik({
         initialValues: {
-            id: '',
-            password: ''
+            email: '',
+            emailConfirmation: ''
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2));
-            onLogin(values);
+            onRequest(values);
         },
     });
 
-    useEffect(() => {
-        if (authenticated) {
-            history.goBack();
-        }
-    }, [authenticated]);
 
     return (
-        <LoginContainer>
+        <RowContainer>
             <LeftPanelContainer>
                 <LogoImage src={MiturLogoImage} />
                 <FlexStartContainer>
-                    <Title>Iniciar Sesión</Title>
+                    <Title>Restablecer contraseña</Title>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
                     <TextFieldContainer>
-                        <TextField
-                            type="text"
-                            placeholder="Cedúla o Pasaporte"
-                            id="id"
-                            value={formik.values.id}
+                        <TextField placeholder="Correo Electronico" type="email" id="email"
+                            value={formik.values.email}
                             onChange={formik.handleChange}
-                            error={formik.touched.id && Boolean(formik.errors.id)}
-                            helperText={formik.touched.id && formik.errors.id}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
+
                     </TextFieldContainer>
 
                     <TextFieldContainer>
-                        <TextField
-                            type="password"
-                            placeholder="Contraseña"
-                            id="password"
-                            value={formik.values.password}
+                        <TextField placeholder="Confirmar correo electronico" type="email" id="emailConfirmation"
+                            value={formik.values.emailConfirmation}
                             onChange={formik.handleChange}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.emailConfirmation && Boolean(formik.errors.emailConfirmation)}
+                            helperText={formik.touched.emailConfirmation && formik.errors.emailConfirmation}
                         />
                     </TextFieldContainer>
                     <MediumHeightDivider />
-                    <StyledButton onClick={() => formik.handleSubmit()}>Iniciar sesión</StyledButton>
+                    <StyledButton onClick={() => formik.handleSubmit()}>Restablecer contraseña</StyledButton>
                     <MediumHeightDivider />
-                    <LinkText to='/public/requestPassword'>No recuerdo mi contraseña</LinkText>
-                    <SmallHeightDivider />
-                    <BodyText>¿No tienes una cuenta?
-                        <LinkText
-                            to='/app/register'
-                            style={{
-                                color: COLORS.primary,
-                            }}>Registrarse</LinkText>
-                    </BodyText>
+
+                    <LinkText
+                        to='/public/login'
+                        style={{
+                            color: COLORS.primary,
+                        }}>Regresar</LinkText>
                     <FooterContainer>
                         <BodyText style={{
                             color: COLORS.grayPlaceholder,
@@ -106,8 +94,8 @@ function Login() {
             <Image style={{
                 backgroundImage: `url(${AuthBackgroundImage})`
             }} />
-        </LoginContainer>
+        </RowContainer>
     );
 }
 
-export default Login;
+export default RequestPassword;

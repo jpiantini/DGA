@@ -10,7 +10,7 @@ import {
 } from './styles/NotificationStyle';
 import { getRecentNotificationsLenght, MockupNotifications } from './NotificationsConstants'
 import { Badge } from '@mui/material';
-
+import useOnClickOutside from '../../utilities/hooks/useOnClickOutside'
 function Notifications({ color }) {
 
   const history = useHistory();
@@ -18,22 +18,14 @@ function Notifications({ color }) {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const containerRef = useRef(null);
-  const PaperRef = useRef(null);
 
   const PendingNotifications = getRecentNotificationsLenght();
 
   const handleMenuOpen = () => {
-    setMenuOpen(!menuOpen);
+      setMenuOpen(!menuOpen);
   }
 
-  useEffect(() => {
-    function handlePopoverOpen(event) {
-      if (PaperRef.current && !PaperRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handlePopoverOpen);
-  }, [PaperRef]);
+  useOnClickOutside(containerRef, () => setMenuOpen(false));
 
   return (
     <Container ref={containerRef} onClick={handleMenuOpen}>
@@ -59,7 +51,7 @@ function Notifications({ color }) {
             }}
           >
             <StyledPaper>
-              <MenuList ref={PaperRef}>
+              <MenuList>
                 {
                   MockupNotifications.map((item,index) => (
                       <NotificationContainer key={index} onClick={item.action} isRecent={item.isRecent}>

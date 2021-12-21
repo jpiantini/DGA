@@ -95,9 +95,9 @@ function ModalForm(props) {
 
       </Grid>
       <MediumHeightDivider />
-        <StyledButtonOutlined onClick={handleSubmit} variant="outlined">
-          {isModifying ? 'Guardar' : 'Agregar'}
-        </StyledButtonOutlined>
+        <StyledButton onClick={handleSubmit}>
+          {isModifying ? 'Guardar' : 'Añadir'}
+        </StyledButton>
       <SmallHeightDivider />
     </FormModal>
   );

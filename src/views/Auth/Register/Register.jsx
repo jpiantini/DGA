@@ -156,7 +156,6 @@ function Register() {
     }
 
     const handleRegister = async (formData) => {
-        console.log(formData)
         try {
             let response = await apiCall().post('/auth/register/portal',
                 {

@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
-import COLORS from '../../../../../theme/Colors';
+import COLORS from '../../../theme/Colors';
 import WarningIcon from '@mui/icons-material/Warning';
-import { boxShadowConfig } from '../../../../../theme/Styles';
+import { boxShadowConfig } from '../../../theme/Styles';
 
 export const Container = styled('div')({
     display: 'flex',
