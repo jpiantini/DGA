@@ -8,7 +8,7 @@ import {
 } from "../../styles/HomeStyles";
 import { ImageContainer } from "./Style/CarouselBootstrapStyle";
 
-export const CarouselBootstrap = (datos) => {
+export const CarouselBootstrap = (data) => {
   const directionButtons = (direction) => {
     if (direction === "Next") {
       return (
@@ -36,16 +36,16 @@ export const CarouselBootstrap = (datos) => {
         nextIcon={directionButtons("Next")}
         prevIcon={directionButtons("Previous")}
       >
-        {datos.datos.map((item, index) => {
+        {data.data.map((item, index) => {
           return (
             <Carousel.Item key={index} className="item">
               <ImageContainer image={item.image}>
                 <HomeTextContainer>
                   <HomeTitle>{item.content}</HomeTitle>
                   <div className="containerBtn">
-                    {" "}
+                    
                     <DefaultButton className="btnMore">
-                      SABER MÁS{" "}
+                      SABER MÁS
                     </DefaultButton>
                   </div>
                 </HomeTextContainer>

@@ -71,29 +71,25 @@ export const HomeTextContainer = styled("div")({
     width: "100%",
   },
 });
-
+ 
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
-  width:'100%',
-  fontFamily:'Nunito Sans',
+  borderRadius: "20px",
+  fontSize: "15px",
+  fontFamily:'Nunito Sans !important',
+  height:'38px',
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
   },
   "@media (min-width:320px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
     width: "150px",
   },
   "@media (min-width:768px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
     width: "150px",
   },
   "@media (min-width:1200px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
     width: "230px",
   },
 });
@@ -103,6 +99,7 @@ export const HomeTitle = styled("h1")({
   width: "55%",
   color: COLORS.white,
   fontFamily: "Fira Sans",
+  textAlign:'left',
   "@media (max-width:320px)": {
     fontSize: "25px",
   },

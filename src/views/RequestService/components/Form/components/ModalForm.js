@@ -29,7 +29,7 @@ function ModalForm(props) {
   const isModifying = listIndex !== undefined
   const { errors, setFieldTouched, setFieldValue, values, touched, handleSubmit, resetForm } = useFormik({
     initialValues: state,
-    onSubmit: (values, actions) => localDoRequest({ values, actions }),
+    onSubmit: (values, actions) => {console.log(values);localDoRequest({ values, actions })},
     validationSchema: yup.object().shape(schemaValidation),
     enableReinitialize: true,
   });
@@ -96,7 +96,7 @@ function ModalForm(props) {
       </Grid>
       <MediumHeightDivider />
         <StyledButton onClick={handleSubmit}>
-          {isModifying ? 'Guardar' : 'Añadir'}
+          {isModifying ? 'Guardar' : 'Confirmar'}
         </StyledButton>
       <SmallHeightDivider />
     </FormModal>

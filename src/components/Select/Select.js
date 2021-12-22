@@ -29,7 +29,13 @@ function Select({ id, title,data, placeholder, helperText=" ", value, onChange,o
                 error={error}
                 select
                 disabled={disabled}
+                SelectProps={{
+                    native:false
+                }}
             >
+                 <option unselectable={true}>
+                     
+                    </option>
                 {data?.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                         {option.label}

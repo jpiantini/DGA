@@ -106,10 +106,10 @@ function ServiceDescription() {
 
                     {
                         FAQDATA.map((item) => (
-                            <>
-                                <Collapsable key={item.id} title={item.question} content={item.answer} />
+                            <div key={item.id}>
+                                <Collapsable  title={item.question} content={item.answer} />
                                 <SmallHeightDivider />
-                            </>
+                            </div>
                         ))
                     }
                 </>

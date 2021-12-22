@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import COLORS from "../../theme/Colors";
 import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
-import { useMediaQuery } from "@mui/material";
+import { Autocomplete, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {
   slideImages,
@@ -57,16 +57,17 @@ import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
-
+import { useDispatch, useSelector } from "react-redux";
 import wpCall from "../../services/WpServerCall";
-
 import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
 
 //import parse from 'html-react-parser';
 
 function Home() {
-  const minServicesBreakPoint = useMediaQuery("(min-width:830px)");
+
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { authenticated } = useSelector((state) => state.authReducer);
 
   const [wordpressContent, setWordpressContent] = useState([]);
 
@@ -79,6 +80,11 @@ function Home() {
     setWordpressContent(datos);
   };
 
+  
+  const goToSelectedService = (service) => {
+      history.push(`/app/serviceDescription/${service.id}`)
+  };
+
   useEffect(() => {
     getAndSetAllWordPressContent();
   }, []);
@@ -89,7 +95,7 @@ function Home() {
 
       <Header />
 
-      <CarouselBootstrap datos={wordpressContent}></CarouselBootstrap>
+      <CarouselBootstrap data={wordpressContent}/>
 
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
@@ -116,17 +122,37 @@ function Home() {
           <SearcherSubTitle>
             Buscar por término o nombre del servicio
           </SearcherSubTitle>
-          <SearchTextInput
-            placeholder="Escriba aquí para realizar su búsqueda "
-            variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start" >
-                  <StyledSearchIconForSearcher />
-                </InputAdornment>
-              ),
+
+          <Autocomplete
+            options={ListServices}
+            getOptionLabel={(option) => option.title}
+            autoHighlight
+            freeSolo
+            style={{width:'100%'}}
+            onChange={(e,newValue) => {
+                goToSelectedService(newValue)
             }}
-            input
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.defaultMuiPrevented = true;
+              }
+            }}
+            renderInput={(params) =>
+              <SearchTextInput
+                {...params}
+                fullWidth
+                placeholder="Escriba aquí para realizar su búsqueda "
+                variant="outlined"
+                InputProps={{
+                  ...params.InputProps,
+                  autoComplete: 'new-password',
+                  startAdornment: (
+                    <InputAdornment position="start" >
+                      <StyledSearchIconForSearcher />
+                    </InputAdornment>
+                  ),
+                }}
+              />}
           />
         </SearcherContainer>
       </MediumContainer>
