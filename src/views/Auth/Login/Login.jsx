@@ -10,7 +10,8 @@ import {
     LinkText,
     BodyText,
     FooterContainer,
-    TextFieldContainer
+    TextFieldContainer,
+    TextError
 } from './styles/LoginStyles';
 import { StyledButton, Row, SmallHeightDivider, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
@@ -19,6 +20,7 @@ import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLogin } from '../../../redux/actions/AuthActions';
+import apiCall from '../../../services/ApiServerCall';
 
 function Login() {
 
@@ -26,24 +28,47 @@ function Login() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const onLogin = (formData) => {
-        //CALL API LOGIN WITH AXIOS
-        if (formData) {//IF LOGIN SUCCESS
-            dispatch(AuthLogin(true)) //set Authenticated true is needed save token
-        }
-    }
+    const [errorMessage,setErrorMessage] = useState('');
 
     const formik = useFormik({
         initialValues: {
+            //DEVELOPMENT COMMENT OR REMOVE
+            id: '40211984535',
+            password: 'david123'
+            /* PRODUCTION
             id: '',
-            password: ''
+            password: '' */
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-            onLogin(values);
+            handleLogin(values);
         },
     });
+
+    const handleLogin = async (formData) => {
+        try {
+            let response = await apiCall().post('/auth/login',
+                {
+                    citizen_id: formData.id,
+                    password: formData.password,
+                });
+            if (response.data?.success) {
+                //TODO Save TOKEN in localStorage
+                dispatch(AuthLogin({ //set Authenticated value to true and save profileImage
+                    authenticated:true,
+                    profileImg:response.data.payload.profile_img
+                })) 
+            }else{ //Handle errors
+                // TODO Handle errors
+                console.log(response.data); 
+                console.log(errorMessage)
+                setErrorMessage(response.data?.msg);
+            }
+        } catch (error) {
+            //   console.log('error', error);
+            //   alert('error');
+        }
+    }
 
     useEffect(() => {
         if (authenticated) {
@@ -82,6 +107,7 @@ function Login() {
                             helperText={formik.touched.password && formik.errors.password}
                         />
                     </TextFieldContainer>
+                    <TextError>{errorMessage}</TextError>
                     <MediumHeightDivider />
                     <StyledButton onClick={() => formik.handleSubmit()}>Iniciar sesión</StyledButton>
                     <MediumHeightDivider />

@@ -10,6 +10,10 @@ export const Container = styled('div')({
   marginTop:'10px'
 });
 
+export const StyledOption = styled('option')({
+  fontSize:'18px',
+});
+
 export const Title = styled('h1')({
   marginTop: '3px',
   color: COLORS.black,

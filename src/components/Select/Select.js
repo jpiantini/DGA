@@ -1,7 +1,7 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import {  Title, Container } from './styles/SelectStyles';
-import { Row, StyledTextInput } from '../../theme/Styles';
+import {  Title, Container, StyledOption } from './styles/SelectStyles';
+import { Row, SmallHeightDivider, StyledTextInput } from '../../theme/Styles';
 import MenuItem from '@mui/material/MenuItem';
 
 
@@ -30,16 +30,14 @@ function Select({ id, title,data, placeholder, helperText=" ", value, onChange,o
                 select
                 disabled={disabled}
                 SelectProps={{
-                    native:false
+                    native:true //for use option tag instead of MenuItem
                 }}
             >
-                 <option unselectable={true}>
-                     
-                    </option>
-                {data?.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                <option unselectable={true}/>
+                {data?.map((option) => ( //use option or StyledOption instead of MenuItem because this tag has an bug 
+                 <StyledOption key={option.value} value={option.value}>
                         {option.label}
-                    </MenuItem>
+                    </StyledOption>
                 ))}
 
             </StyledTextInput>

@@ -1,7 +1,8 @@
 import { LOGIN_SUCCESS,LOGOUT } from "../actions/AuthActions";
 
 const initialState = {
-  authenticated: false
+  authenticated: false,
+  profileImg:null
 }
 
  const AuthReducer = (state = initialState, action) => {
@@ -9,12 +10,14 @@ const initialState = {
       case LOGIN_SUCCESS:
         return {
           ...state,
-          authenticated: action.payload
+          authenticated: action.payload.authenticated,
+          profileImg: action.payload.profileImg,
         };
         case LOGOUT:
         return {
           ...state,
-          authenticated: action.payload
+          authenticated: false,
+          profileImg: null,
         };
       default: return state;
     }

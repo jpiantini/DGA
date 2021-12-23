@@ -10,11 +10,14 @@ import {
     Container, StyledPaper, UserImage,
 } from './styles/LoggedInMenuStyles';
 import { AuthLogout } from '../../redux/actions/AuthActions';
+import { useSelector } from 'react-redux';
 
 function LoggedInMenu({ image }) {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const { profileImg } = useSelector((state) => state.authReducer);
 
     const [hover, setHover] = useState(false);
     const containerRef = useRef(null);
@@ -26,10 +29,12 @@ function LoggedInMenu({ image }) {
     const HandleLogOut = () => {
         dispatch(AuthLogout());
     }
+
+    console.log(profileImg)
     return (
         <Container ref={containerRef} onClick={() => history.push('/app/myDesk')}
             onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
-            <UserImage src='https://www.w3schools.com/howto/img_avatar.png' />
+            <UserImage src={profileImg} />
             <Popper
                 open={hover}
                 anchorEl={containerRef.current}

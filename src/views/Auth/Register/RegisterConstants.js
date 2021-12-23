@@ -5,19 +5,19 @@ export const FormSchema = yup.object({
   emailConfirmation: yup.string().email('Ingrese un email valido')
     .oneOf([yup.ref('email'), null], 'Los correos no coinciden').required('Este campo es requerido'),
   password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
-  passwordConfirmation: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres')
+  password_confirmation: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres')
     .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden').required('Este campo es requerido'),
-  identification: yup.string().required('Este campo es requerido'),
+  citizen_id: yup.string().required('Este campo es requerido'),
   name: yup.string().required('Este campo es requerido'),
-  lastName: yup.string().required('Este campo es requerido'),
-  secondLastName: yup.string(),
+  first_last_name: yup.string().required('Este campo es requerido'),
+  second_last_name: yup.string(),
   occupation: yup.string(),
-  provinceId: yup.string().required('Este campo es requerido'),
-  municipalityId: yup.string().required('Este campo es requerido'),
-  sectorId: yup.string().required('Este campo es requerido'),
-  phoneNumber: yup.string().required('Este campo es requerido'),
-  secondPhoneNumber: yup.string(),
-  secondaryEmail: yup.string().email('Ingrese un email valido'),
+  province_id: yup.string().required('Este campo es requerido'),
+  municipality_id: yup.string().required('Este campo es requerido'),
+  sector_id: yup.string().required('Este campo es requerido'),
+  phone: yup.string().required('Este campo es requerido'),
+  phone2: yup.string(),
+  email2: yup.string().email('Ingrese un email valido'),
   address: yup.string().required('Este campo es requerido'),
   termsAndCondition: yup.boolean().oneOf([true], 'Debe aceptar los terminos y condiciones de uso y privacidad para continuar')
 }).required();
@@ -29,23 +29,23 @@ export const RegisterSteps = [
       'email',
       'emailConfirmation',
       'password',
-      'passwordConfirmation'
+      'password_confirmation'
     ]
   },
   {
     title: 'Datos Personales',
     elements: [
-      'identification',
+      'citizen_id',
       'name',
-      'lastName',
-      'secondLastName',
+      'first_last_name',
+      'second_last_name',
       'occupation',
-      'provinceId',
-      'municipalityId',
-      'sectorId',
-      'phoneNumber',
-      'secondPhoneNumber',
-      'secondaryEmail',
+      'province_id',
+      'municipality_id',
+      'sector_id',
+      'phone',
+      'phone2',
+      'email2',
       'address'
     ]
   },
