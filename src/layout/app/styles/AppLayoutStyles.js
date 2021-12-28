@@ -5,7 +5,8 @@ export const LayoutContainer = styled('div')({
     display:'flex',
     flexDirection:'column',
     width:'100%',
-    minHeight:'100vh'
+    minHeight:'100vh',
+    justifyContent:'space-between'
 })
 
 export const LayoutBodyContainer = styled('div')({

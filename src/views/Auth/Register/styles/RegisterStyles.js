@@ -30,3 +30,11 @@ export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
         fontSize: '250px',
     }
 });
+
+export const FinalStepContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    alignSelf: 'center',
+    alignItems: 'center'
+});

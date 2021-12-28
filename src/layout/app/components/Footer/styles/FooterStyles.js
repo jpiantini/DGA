@@ -23,7 +23,7 @@ export const FooterContainer = styled("div")({
   textAlign: "center",
   backgroundColor: COLORS.secondary,
   width: "100%",
-  minHeight: "40vh",
+  minHeight: "100%",
   justifyContent: "center",
   alignSelf: "flex-end",
 });

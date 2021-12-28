@@ -19,7 +19,6 @@ import { FormSchema, MockupCompanies, MockupInProcessRequests } from './Requeste
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import Select from '../../components/Select/Select';
-import Swal from 'sweetalert2';
 import Pagination from '@mui/material/Pagination';
 import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';

@@ -16,6 +16,7 @@ import {
     ButtonContainer,
     Container,
     StyledCheckCircleIcon,
+    FinalStepContainer,
 } from './styles/RegisterStyles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Stepper from '@mui/material/Stepper';
@@ -32,16 +33,21 @@ import apiCall from '../../../services/ApiServerCall';
 import CheckBox from '../../../components/CheckBox/CheckBox';
 import wpCall from '../../../services/WpServerCall';
 import parse from 'html-react-parser';
+import { useSnackbar } from 'notistack';
 
 function Register() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
+    const { enqueueSnackbar } = useSnackbar();
 
     const stepsLenght = RegisterSteps.length;
     const stepsTitles = RegisterSteps.map((step) => step.title);
     const [activeStep, setActiveStep] = useState(0);
+    const lastStep = (stepsLenght - 2) == activeStep; // IN THIS CASE IT IS -2 BECAUSE The last step is only a Message it does not contain a form
+    const [schemaValidation, setSchemaValidation] = useState({});
+
     const [userRegistered, setUserRegistered] = useState(false);
 
     const [provincesData, setProvincesData] = useState([]);
@@ -102,11 +108,11 @@ function Register() {
             address: '',
             termsAndCondition: false
         },
-        validationSchema: FormSchema,
+        validationSchema: schemaValidation,
         validateOnChange: true,
         validateOnBlur: true,
-        onSubmit: (values) => {
-            handleRegister(values)
+        onSubmit: (values, actions) => {
+            validateStepForm({ values, actions })
         },
     });
 
@@ -114,10 +120,30 @@ function Register() {
         let fieldsKeys = Object.keys(errors);
         for (let i = 0; i < fieldsKeys.length; i++) {
             let error = errors[fieldsKeys[i]];
-            formik.setFieldError(fieldsKeys[i],error[0])
+            formik.setFieldError(fieldsKeys[i], error[0])
         }
-      }
-    
+    }
+
+
+    const validateStepForm = ({ values, actions }) => {
+        if (lastStep) {
+            handleRegister(values);
+        } else {
+            setActiveStep(activeStep + 1);
+            actions?.setTouched({});
+            actions?.setSubmitting(false);
+        }
+    }
+
+
+    useEffect(() => {
+        const innerSchema = FormSchema[activeStep];
+        if (typeof innerSchema === 'object') {
+            setSchemaValidation(innerSchema.validations);
+        }
+        return () => { }
+    }, [activeStep])
+
 
     const getProvincesData = async () => {
         try {
@@ -164,6 +190,7 @@ function Register() {
         }
     }
 
+
     const handleRegister = async (formData) => {
         try {
             let response = await apiCall().post('/auth/register/portal',
@@ -185,15 +212,22 @@ function Register() {
                     address: formData.address,
                 });
             if (response.data?.success) {
-                handleNext();
                 setUserRegistered(true);
-            }else{
-                //handle errors use Formik setFieldTouched like dynamic forms
-                handleFieldsValidations(response.data?.msg?.error);
+                handleNext();
+            } else {
+                //handle errors from server
+                if (typeof response.data?.msg?.error === 'object') {
+                    handleFieldsValidations(response.data?.msg?.error);
+                    enqueueSnackbar('Hay uno o mas errores con la información introducida. Valídalos e inténtalo nuevamente', { variant: 'error' });
+                    window.scrollTo(0, 0);
+                } else {
+                    enqueueSnackbar('Ha sucedido un error inténtelo mas tarde o contacte a soporte', { variant: 'error' });
+                    window.scrollTo(0, 0);
+                }
             }
         } catch (error) {
-            //   console.log('error', error);
-            alert('error');
+            //handle local/network errors 
+
         }
     }
 
@@ -453,7 +487,7 @@ function Register() {
                                 />
                             </Fragment>
                             :
-                            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', alignSelf: 'center', alignItems: 'center' }}>
+                            <FinalStepContainer>
                                 <StyledCheckCircleIcon />
                                 <SmallHeightDivider />
                                 <SubTitle>
@@ -461,7 +495,7 @@ function Register() {
                                     Recibirás un correo de verificacion.
                                 </SubTitle>
 
-                            </div>
+                            </FinalStepContainer>
             }
 
             <MediumHeightDivider />
@@ -485,19 +519,15 @@ function Register() {
                 }
 
                 <ButtonContainer>
-                    {
-                        stepsLenght - 2 == activeStep ?
-                            <StyledButton onClick={() => formik.handleSubmit()}>
-                                Registrar
+                    { 
+                        userRegistered ?
+                            <StyledButton onClick={() => history.push('/public')}>
+                                Ir a inicio
                             </StyledButton>
-                            : userRegistered ?
-                                <StyledButton onClick={() => history.push('/public')}>
-                                    Ir a inicio
-                                </StyledButton>
-                                :
-                                <StyledButtonOutlined disabled={activeStep + 1 == stepsLenght} onClick={handleNext} variant="outlined">
-                                    Continuar
-                                </StyledButtonOutlined>
+                            :
+                            <StyledButtonOutlined onClick={() => formik.handleSubmit()} variant="outlined">
+                                {lastStep ? "Registrar" : "Continuar"}
+                            </StyledButtonOutlined>
                     }
                 </ButtonContainer>
             </ButtonsContainer>

@@ -20,7 +20,7 @@ import { FormSchema } from './ContactConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import wpCall from '../../services/WpServerCall';
-import Swal from 'sweetalert2';
+
 function Contact() {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
@@ -40,13 +40,7 @@ function Contact() {
     validateOnBlur: true,
     onSubmit: (values) => {
       //  handleRegister(values)
-      Swal.fire({
-        title: `Mensaje enviado `,
-        text: 'Gracias por ponerse en contacto con nosotros   ',
-        icon: 'success',
-        timer: 5000,
-        timerProgressBar: true,
-      });
+      alert('formulario enviado')
     },
   });
 
