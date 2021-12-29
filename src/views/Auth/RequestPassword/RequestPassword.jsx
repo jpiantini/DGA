@@ -83,10 +83,7 @@ function RequestPassword() {
                             color: COLORS.primary,
                         }}>Regresar</LinkText>
                     <FooterContainer>
-                        <BodyText style={{
-                            color: COLORS.grayPlaceholder,
-                            fontSize: '12px'
-                        }}>@2021 Ministerio de Turismo de la República Dominicana.
+                        <BodyText>@2021 Ministerio de Turismo de la República Dominicana.
                             Todos los derechos reservados.</BodyText>
                     </FooterContainer>
                 </FlexStartContainer>

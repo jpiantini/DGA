@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import {
     Container,
-    
     MetricsContentDivider,
     MetricsTextContainer,
     MetricsTitle,

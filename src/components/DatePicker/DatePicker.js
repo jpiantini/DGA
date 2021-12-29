@@ -1,23 +1,21 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/DatePickerStyles';
-import { Row, StyledTextInput } from '../../theme/Styles';
-import MenuItem from '@mui/material/MenuItem';
-import MUIDatePicker from '@mui/lab/DatePicker';
+import { Container } from './styles/DatePickerStyles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 
 
-function DatePicker({ id, title, placeholder, helperText=" ", value, onChange,onBlur,disabled, error, required }) {
+function DatePicker({ id, title, placeholder, helperText = " ", value, onChange, onBlur, disabled, error, required }) {
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>
@@ -32,14 +30,24 @@ function DatePicker({ id, title, placeholder, helperText=" ", value, onChange,on
                     toolbarPlaceholder={placeholder}
                     value={value}
                     onChange={(e) => {
-                        onChange({target:{
-                            id:id,
-                            value:e
-                        }})
+                        onChange({
+                            target: {
+                                id: id,
+                                value: e
+                            }
+                        })
                     }
                     }
                     inputProps={{ readOnly: true }}
-                    onBlur={onBlur}
+                    onBlur={(e) => {
+                        onBlur && onBlur({
+                            target: {
+                                id: id,
+                                value: e
+                            }
+                        });
+                    }
+                    }
                     disabled={disabled}
                 />
             </LocalizationProvider>

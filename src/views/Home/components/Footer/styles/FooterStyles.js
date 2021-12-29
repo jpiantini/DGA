@@ -1,13 +1,12 @@
 import { styled } from "@mui/system";
 import COLORS from "../../../../../theme/Colors";
-import { TextField } from "@mui/material";
-import { isMobile } from "react-device-detect";
+import FONTS_FAMILY from "../../../../../theme/FontsFamily";
 
 export const Title = styled("h3")({
   margin: 0,
   fontSize: "25px",
   color: COLORS.secondary,
-  fontFamily: "Source Sans Pro",
+  fontFamily: FONTS_FAMILY.regular.title,
   "@media (max-width:768px)": {
     fontSize: "20px",
   },
@@ -28,7 +27,7 @@ export const LinkText = styled("a")({
   color: COLORS.black,
   fontSize: "12px",
   cursor: "pointer",
-  fontFamily: "Quicksand",
+  fontFamily: FONTS_FAMILY.regular.body,
   margin: "3px",
   textDecoration: "none",
   "&:hover,&:focus": {
@@ -38,8 +37,8 @@ export const LinkText = styled("a")({
 
 export const FooterText = styled("p")({
   color: COLORS.tertiary,
-  fontSize: "12px",
-  fontFamily: "Source Sans Pro",
+  fontSize: "15px",
+  fontFamily: FONTS_FAMILY.regular.title,
 });
 
 export const CenterContainer = styled("div")({

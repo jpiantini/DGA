@@ -93,7 +93,7 @@ function Register() {
             emailConfirmation: '',
             password: '',
             password_confirmation: '',
-            identificationType: 1,
+            document_type: '1',
             citizen_id: '',
             name: '',
             first_last_name: '',
@@ -195,6 +195,7 @@ function Register() {
         try {
             let response = await apiCall().post('/auth/register/portal',
                 {
+                    document_type: formData.document_type,
                     citizen_id: formData.citizen_id,
                     email: formData.email,
                     name: formData.name,
@@ -320,17 +321,20 @@ function Register() {
                         <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <RadioButtonGroup title="Tipo de documento" id="identificationType"
+                                <RadioButtonGroup title="Tipo de documento" id="document_type"
                                     options={identificationTypes}
-                                    value={formik.values.identificationType}
+                                    value={formik.values.document_type}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur} />
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.document_type && Boolean(formik.errors.document_type)}
+                                    helperText={formik.touched.document_type && formik.errors.document_type} 
+                                    required />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
                                 <TextField title="Documento de Identidad" type="text" id="citizen_id"
                                     required
-                                    mask={formik.values.identificationType == 1 ? "999-9999999-9" : ""}
+                                    mask={formik.values.document_type === '1' ? "999-9999999-9" : ""}
                                     unMaskedValue={true}
                                     value={formik.values.citizen_id}
                                     onChange={formik.handleChange}

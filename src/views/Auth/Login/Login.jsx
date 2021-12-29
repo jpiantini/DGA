@@ -52,12 +52,19 @@ function Login() {
                     citizen_id: formData.id,
                     password: formData.password,
                 });
-            if (response.data?.success) {
+            if (true /*response.data?.success*/) {
                 //TODO Save TOKEN in localStorage
-                dispatch(AuthLogin({ //set Authenticated value to true and save profileImage
+          /*  quitar comentario cuando se arregle el registro pendiente por beato    dispatch(AuthLogin({ //set Authenticated value to true and save profileImage
                     authenticated:true,
                     profileImg:response.data.payload.profile_img
                 })) 
+           */
+                //remover cuando beato arregle el registro
+                dispatch(AuthLogin({ 
+                    authenticated:true,
+                    profileImg:'aaaa'
+                })) 
+
             }else{ //Handle errors
                 // TODO Handle errors
                 console.log(response.data); 
@@ -82,8 +89,6 @@ function Login() {
                 <LogoImage src={MiturLogoImage} />
                 <FlexStartContainer>
                     <Title>Iniciar Sesión</Title>
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
                     <TextFieldContainer>
                         <TextField
                             type="text"

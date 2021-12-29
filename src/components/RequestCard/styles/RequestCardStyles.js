@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 import WarningIcon from '@mui/icons-material/Warning';
 import { boxShadowConfig } from '../../../theme/Styles';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -22,7 +23,7 @@ export const RowContainer = styled('div')({
 export const ActionRequiredTitle = styled('p')({
     margin: 0,
     color: COLORS.black,
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     '@media (min-width:320px)': {
         fontSize: '9px',
     },
@@ -37,7 +38,7 @@ export const ActionRequiredTitle = styled('p')({
 export const Title = styled('h1')({
     margin: 0,
     color: COLORS.secondary,
-    fontFamily: 'Source Sans Pro',
+    fontFamily: FONTS_FAMILY.regular.title,
     '@media (min-width:320px)': {
         fontSize: '13px',
     },
@@ -113,7 +114,7 @@ export const ProgressBarTitle = styled('h3')(props => ({
     left:0,
     width:'100%',
     color: COLORS.white,
-    fontFamily: 'Source Sans Pro',
+    fontFamily: FONTS_FAMILY.regular.title,
     '@media (min-width:320px)': {
         fontSize: '11px',
         marginTop:'2px',

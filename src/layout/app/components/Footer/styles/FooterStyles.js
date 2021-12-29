@@ -1,7 +1,6 @@
 import { styled } from "@mui/system";
-import { TextField } from "@mui/material";
-import { isMobile } from "react-device-detect";
 import COLORS from "../../../../../theme/Colors";
+import FONTS_FAMILY from "../../../../../theme/FontsFamily";
 
 export const Image = styled("img")({
   margin: "25px",
@@ -32,7 +31,7 @@ export const LinkText = styled("a")({
   color: COLORS.white,
   fontSize: "12px",
   cursor: "pointer",
-  fontFamily: "Quicksand",
+  fontFamily:FONTS_FAMILY.regular.body,
   margin: "3px",
   textDecoration: "none",
   "&:hover,&:focus": {
@@ -43,7 +42,7 @@ export const LinkText = styled("a")({
 export const FooterText = styled("p")({
   color: COLORS.white,
   fontSize: "12px",
-  fontFamily: "Source Sans Pro",
+  fontFamily:FONTS_FAMILY.regular.body
 });
 
 export const CenterContainer = styled("div")({

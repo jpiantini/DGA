@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import { Button, List, ListItem } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
 import { boxShadowConfig } from '../../../../../theme/Styles';
+import FONTS_FAMILY from '../../../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -23,11 +24,11 @@ export const CenterContainer = styled('div')({
     justifyContent:'center',
 });
 
-export const Title = styled('p')({
-    fontFamily: 'Source Sans Pro',
+export const Title = styled('h1')({
+    fontFamily: FONTS_FAMILY.bold.title,
     width: '100%',
-    fontSize: '25px',
-    fontWeight:'700',
+    fontSize: '30px',
+    fontWeight:'bold',
     color: COLORS.secondary,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -43,7 +44,7 @@ export const Separator = styled('div')({
 });
 
 export const BodyText = styled('p')({
-    fontFamily: 'Source Sans Pro',
+    fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '13px',
     color: COLORS.secondary,
     marginTop:'20px',
@@ -53,20 +54,6 @@ export const BodyText = styled('p')({
     WebkitLineClamp: 3, /* number of lines to show */
     '-webkit-box-orient': 'vertical',
 });
-
-//DEJE DE USARLO PARA USAR EL BOTON OUTLINED QUE SE USARA EN TODA LA APP
-export const ServiceButton = styled(Button)({
-    marginTop:'20px',
-    height:'35px',
-    color: COLORS.secondary,
-    borderRadius: 0,
-    borderColor:COLORS.secondary,
-    '&:hover,&:focus,&:active': {
-        borderColor: COLORS.primary,
-        color: COLORS.primary,
-    }
-});
-
 
 
 

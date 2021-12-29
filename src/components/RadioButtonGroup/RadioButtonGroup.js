@@ -1,7 +1,7 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/RadioButtonGroupStyles';
-import { Row } from '../../theme/Styles';
+import {  Container } from './styles/RadioButtonGroupStyles';
+import { FieldTitle, Row } from '../../theme/Styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -15,11 +15,11 @@ function RadioButtonGroup({ id, title, options, value, onChange, onBlur, require
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>

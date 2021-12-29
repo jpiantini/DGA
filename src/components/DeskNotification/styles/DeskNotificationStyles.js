@@ -4,6 +4,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')(props =>({
     display: 'flex',
@@ -45,7 +46,7 @@ export const TextContainer = styled('div')({
 
 export const Text = styled('p')({
     color: COLORS.black,
-    fontFamily:'Nunito Sans',
+    fontFamily:FONTS_FAMILY.regular.body,
     '@media (min-width:320px)': {
         fontSize: '13px',
     },

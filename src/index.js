@@ -1,24 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import WebFont from "webfontloader";
 import { polyfill } from "seamless-scroll-polyfill";
-
+import './index.css';
 polyfill();
-WebFont.load({
-  google: {
-    families: [
-      "Quicksand",
-      "sans-serif",
-      "Nunito Sans",
-      "sans-serif",
-      "Source Sans Pro:400,700",
-      "sans-serif",
-      "Fira Sans:300",
-      "sans-serif",
-    ],
-  },
-});
 
 ReactDOM.render(
   <React.StrictMode>

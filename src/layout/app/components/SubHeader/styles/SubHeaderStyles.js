@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import { Button } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
+import FONTS_FAMILY from '../../../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -28,22 +29,6 @@ export const DarkOverlay = styled('div')({
     justifyContent: 'center',
 });
 
-export const MenuContainer = styled('div')({
-    display: 'flex',
-    flexDirection: 'row',
-  
-});
-
-export const MenuButton = styled(Button)({
-    fontSize:'17px',
-    color:COLORS.black,
-    fontFamily:'Source Sans Pro'
-});
-
-export const MenuDivider = styled('div')({
-   width:'18px'
-  
-});
 export const Image = styled('img')({
     width: '20%',
     heigth: '5vh',
@@ -56,7 +41,7 @@ export const Title = styled('h1')({
     margin:0,
    // textShadow: '2px 2px 10px #000000',
     color: COLORS.white,
-    fontFamily: 'Source Sans Pro',
+    fontFamily:FONTS_FAMILY.regular.title,
     '@media (min-width:320px)': {
         fontSize: '30px',
     },

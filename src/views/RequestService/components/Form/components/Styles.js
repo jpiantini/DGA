@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../../../theme/Colors';
+import FONTS_FAMILY from '../../../../../theme/FontsFamily';
 
 export const GridContainer = styled('div')({
     backgroundColor: COLORS.snow
@@ -10,6 +11,5 @@ export const BodyText = styled('p')({
     textAlign: 'left',
     fontSize: '18px',
     color: COLORS.black,
-    fontFamily: 'Source Sans Pro',
-    fontWeight: '400',
+    fontFamily: FONTS_FAMILY.regular.body,
 });

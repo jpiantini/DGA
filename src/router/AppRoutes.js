@@ -11,8 +11,9 @@ import RequestedServiceList from "../views/RequestedServiceList/RequestedService
 import RequestService from "../views/RequestService/RequestService";
 import ServiceDescription from "../views/ServiceDescription/ServiceDescription";
 import ServiceRequestedDetails from "../views/ServiceRequestedDetails/ServiceRequestedDetails";
+import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
 
-const routes = [
+const routes = [ //PUT ALL loginRequired:false routes on TOP
   {
     path: "/",
     component: Home,
@@ -30,6 +31,13 @@ const routes = [
   {
     path: "/register",
     component: Register,
+    exact: true,
+    layout: "/app",
+    loginRequired: false,
+  },
+  {  // FOR SEE ALL FORM FIELDS AND COMPONENTS
+    path: "/TESTFORM",
+    component: ExampleAppForm,
     exact: true,
     layout: "/app",
     loginRequired: false,
@@ -97,6 +105,7 @@ const routes = [
     layout: "/app",
     loginRequired: true,
   },
+ 
   {
     path: "*",
     layout: "/public",

@@ -1,8 +1,8 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/TextFieldStyles';
+import {  Container } from './styles/TextFieldStyles';
 import InputMask from 'react-input-mask';
-import { Row, StyledTextInput } from '../../theme/Styles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 
 
 function TextField({ id, title, placeholder, helperText=" ", value, onChange, onBlur, type, error, mask, unMaskedValue,useMaskPresets, required, multiline,minLength,maxLength }) {
@@ -23,11 +23,11 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
 
@@ -43,7 +43,7 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                         onBlur={
                             unMaskedValue ?
                                 (e) => {
-                                    onBlur({
+                                  onBlur && onBlur({
                                         target:
                                         {
                                             id: e.target.id,

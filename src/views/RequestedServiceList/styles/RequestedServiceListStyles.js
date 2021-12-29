@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 import Pagination from '@mui/material/Pagination';
@@ -9,7 +8,15 @@ export const Container = styled('div')({
 });
 
 export const ButtonContainer = styled('div')({
-    marginTop:'30px'
+    '@media (min-width:320px)':{
+        marginTop:0,
+    },
+    '@media (min-width:768px)':{
+        marginTop:'17px',
+    },
+    '@media (min-width:320px)':{
+        marginTop:'20px',
+    },
 });
 
 

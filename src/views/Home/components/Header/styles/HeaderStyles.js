@@ -1,6 +1,7 @@
 import { styled } from "@mui/system";
 import { Button, List, ListItem } from "@mui/material";
 import COLORS from "../../../../../theme/Colors";
+import FONTS_FAMILY from "../../../../../theme/FontsFamily";
 
 export const Container = styled("div")({
   zIndex: 11,
@@ -24,10 +25,9 @@ export const Container = styled("div")({
 });
 
 export const MenuButton = styled(Button)({
-  "@media (min-width:1200px)": {
     fontSize: "15px",
-  },
-  color: COLORS.white,
+    fontFamily: FONTS_FAMILY.regular.body,
+    color: COLORS.white,
 });
 
 export const DrawerList = styled(List)({

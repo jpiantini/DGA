@@ -5,20 +5,16 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import { FormProfileSchema, FormCompanySchema, MockupCompanies } from './MyProfileConstants';
 import {
-    SectionTitle,
     SectionLink,
-    SectionTextDivider,
     ProfileImage,
     ProfileContainer,
-    Column,
 } from './styles/MyProfileStyles';
 import Fade from 'react-reveal/Fade';
 import { useFormik } from 'formik';
 import TextField from '../../../../components/TextField/TextField';
 import { Grid } from '@mui/material';
 import FormModal from '../../../../components/FormModal/FormModal';
-
-
+import {SectionTitle,SectionTextDivider} from '../../styles/MyDeskStyles';
 function MyProfile() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');

@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { boxShadowConfig } from '../../../theme/Styles';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -40,7 +41,7 @@ export const Column = styled('div')({
 export const Title = styled('h1')({
     margin: 0,
     color: COLORS.secondary,
-    fontFamily: 'Source Sans Pro',
+    fontFamily: FONTS_FAMILY.regular.title,
     textAlign:'start',
     '@media (min-width:320px)': {
         fontSize: '13px',
@@ -58,7 +59,7 @@ export const BodyText = styled('p')({
     margin: 0,
     marginTop:'1%',
     color: COLORS.black,
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     textAlign:'start',
     '@media (min-width:320px)': {
         fontSize: '10px',

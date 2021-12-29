@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
-import { Button, List, ListItem } from '@mui/material';
 import COLORS from '../../../theme/Colors';
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -38,7 +38,7 @@ export const IconDivider = styled('div')({
 });
 
 export const Title = styled('h1')({
-    fontFamily: 'Fira Sans',
+    fontFamily: FONTS_FAMILY.regular.title,
     '@media (min-width:360px)': {
         fontSize: '25px',
     },
@@ -66,7 +66,7 @@ export const TextContainer = styled('div')({
 });
 
 export const BodyText = styled('p')({
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     '@media (min-width:360px)': {
         fontSize: '15px',
     },

@@ -1,7 +1,7 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/CheckBoxStyles';
-import { Row } from '../../theme/Styles';
+import {  Container } from './styles/CheckBoxStyles';
+import { FieldTitle, Row } from '../../theme/Styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -21,11 +21,11 @@ function CheckBox({ id, title, label, value, onChange, onBlur, required, error, 
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>
@@ -39,7 +39,7 @@ function CheckBox({ id, title, label, value, onChange, onBlur, required, error, 
                                     value: HandleCheckboxChange(e)
                                 }
                             })}
-                            onBlur={(e) => onBlur({
+                            onBlur={(e) => onBlur && onBlur({
                                 target: {
                                     id: id,
                                     value: HandleCheckboxChange(e)

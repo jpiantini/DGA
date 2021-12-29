@@ -18,6 +18,7 @@ export const FormSchema =
     step:2,
     validations:
     yup.object({
+      document_type: yup.string().required('Este campo es requerido'),
       citizen_id: yup.string().required('Este campo es requerido'),
       name: yup.string().required('Este campo es requerido'),
       first_last_name: yup.string().required('Este campo es requerido'),
@@ -54,6 +55,7 @@ export const RegisterSteps = [
   {
     title: 'Datos Personales',
     elements: [
+      'document_type',
       'citizen_id',
       'name',
       'first_last_name',

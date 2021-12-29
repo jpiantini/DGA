@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import GobMessage from "../../components/GobMessage/GobMessage";
 import Header from "./components/Header/Header";
-import DescriptionIcon from "@mui/icons-material/Description";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import SearchIcon from "@mui/icons-material/Search";
 import COLORS from "../../theme/Colors";
 import InputAdornment from "@mui/material/InputAdornment";
-import MenuItem from "@mui/material/MenuItem";
 import { Autocomplete, useMediaQuery } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import {
-  slideImages,
-  servicesListBackgroundImage,
-  firstSelectorData,
-  secondarySelectorData,
-  tertiarySelectorData,
-  quaternarySelectorData,
   ListServices,
   moreInformationBackgroundImage,
   FooterRoutes,
@@ -24,25 +13,16 @@ import {
   Container,
   ContainerBackground,
   MediumContainer,
-  HomeTextContainer,
-  HomeTitle,
-  HomeSubTitle,
-  DarkOverlay,
   Title,
   SearcherSubTitle,
   SubTitle,
   AnalyticsContainer,
-  SelectorsSearcherContainer,
   SearchTextInput,
-  SearchSelect,
-  ServicesListContainer,
-  ServicesTitle,
-  ServicesSubtitle,
+  WhiteTitle,
+  WhiteSubtitle,
   CenterContainer,
-  HomeContainer,
   DefaultButton,
   SearcherContainer,
-  SelectorContainer,
   SearcherTitle,
   StyledDescriptionIcon,
   StyledPersonAddIcon,
@@ -50,18 +30,14 @@ import {
   StyledSearchIconForSearcher,
   CardsContainer,
   CardsDivider,
-  Section,
-  SubtitleTest,
 } from "./styles/HomeStyles";
 import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
-import { SmallHeightDivider, StyledButton } from "../../theme/Styles";
 import { useDispatch, useSelector } from "react-redux";
 import wpCall from "../../services/WpServerCall";
 import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
 
-//import parse from 'html-react-parser';
 
 function Home() {
 
@@ -205,22 +181,12 @@ function Home() {
             alignItems: "center",
           }}
         >
-          <ServicesSubtitle
-            style={{
-              margin: "10px",
-              fontFamily: "Nunito Sans",
-            }}
-          >
+          <WhiteSubtitle>
             TRABAJANDO PARA TI
-          </ServicesSubtitle>
-          <ServicesTitle
-            style={{
-              margin: "10px",
-              fontFamily: "Fira Sans",
-            }}
-          >
+          </WhiteSubtitle>
+          <WhiteTitle>
             Lorem Ipsum
-          </ServicesTitle>
+          </WhiteTitle>
           <DefaultButton> SABER MÁS </DefaultButton>
         </div>
       </ContainerBackground>

@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../../theme/Colors';
 import { Link } from 'react-router-dom';
+import FONTS_FAMILY from '../../../../theme/FontsFamily';
 
 export const RowContainer = styled('div')({
     display: 'flex',
@@ -63,7 +64,7 @@ export const Image = styled('div')({
 export const Title = styled('h1')({
     margin: 0,
     color: COLORS.secondary,
-    fontFamily: 'Source Sans Pro',
+    fontFamily:FONTS_FAMILY.regular.title,
     '@media (min-width:320px)': {
         fontSize: '18px',
     },
@@ -95,16 +96,16 @@ export const TextFieldContainer = styled('div')({
 export const LinkText = styled(Link)({
     color: COLORS.black,
     fontSize: '14px',
-    fontFamily: 'Source Sans Pro',
+    fontFamily:FONTS_FAMILY.regular.body,
     fontWeight: '700',
     margin: '3px',
     textDecoration: 'underline',
 });
 
 export const BodyText = styled('p')({
-    color: COLORS.black,
-    fontSize: '14px',
-    fontFamily: 'Source Sans Pro',
+    color: COLORS.grayPlaceholder,
+    fontSize: '12px',
+    fontFamily:FONTS_FAMILY.regular.body,
     margin: '0'
 });
 

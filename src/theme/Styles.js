@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import { Button,TextField } from '@mui/material';
 import COLORS from './Colors';
+import FONTS_FAMILY from './FontsFamily';
 
 export const boxShadowConfig="5px 5px 50px -15px rgba(0,0,0,0.51)"
 
@@ -29,7 +30,7 @@ export const StyledButton = styled(Button)({
     '@media (min-width:1200px)': {
         fontSize: '15px',
     },
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
         backgroundColor: COLORS.primary,
@@ -52,7 +53,7 @@ export const StyledButtonOutlined = styled(Button)(props => ({
     '@media (min-width:1200px)': {
         fontSize: '15px',
     },
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     '&:hover,&:focus,&:active': {
         color: COLORS.white,
         backgroundColor: COLORS.primary,
@@ -92,8 +93,7 @@ export const BodyText = styled('p')({
     textAlign: 'left',
     fontSize: '15px',
     color: COLORS.black,
-    fontFamily: 'Source Sans Pro',
-    fontWeight: '400',
+    fontFamily:FONTS_FAMILY.regular.body
 });
 
 export const BodyTextBold = styled('p')({
@@ -101,13 +101,13 @@ export const BodyTextBold = styled('p')({
     textAlign: 'left',
     fontSize: '15px',
     color: COLORS.black,
-    fontFamily: 'Source Sans Pro',
-    fontWeight: '700',
+    fontFamily:FONTS_FAMILY.regular.body,
+    fontWeight: 'bold',
 });
 
 export const Title = styled('h1')({
     margin:0,
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.medium.title,
     fontSize: '40px',
     '@media(max-width:768px)':{
         fontSize: '30px',
@@ -117,7 +117,7 @@ export const Title = styled('h1')({
 
 export const SubTitle = styled('h4')({
     margin:0,
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.medium.title,
     fontSize: '30px',
     '@media(max-width:768px)':{
         fontSize: '20px',
@@ -137,7 +137,7 @@ export const MediumHeightDivider = styled('div')({
 });
 
 export const WpRichTextContainer = styled('div')({
-    fontFamily:'Fira Sans'
+    fontFamily:FONTS_FAMILY.regular.title
 });
 
 export const ButtonsMenuContainer = styled('div')({
@@ -165,7 +165,7 @@ export const CardContainer = styled('div')({
 
 export const CardBodyTitle = styled('p')({
     margin:0,
-    fontFamily: 'Source Sans Pro',
+    fontFamily:FONTS_FAMILY.regular.body,
     color: COLORS.black,
     '@media(min-width:320px)':{
         fontSize: '12px',
@@ -181,7 +181,7 @@ export const CardBodyTitle = styled('p')({
 export const CardBodyText = styled('p')({
     width:'100%',
     margin:0,
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     color: COLORS.secondary,
     '@media(min-width:320px)':{
         fontSize: '13px',
@@ -201,3 +201,18 @@ export const CardTextContainer = styled('div')({
     width:'90%',
     padding:'2%'
 });
+
+export const FieldTitle = styled('p')({
+    marginTop: '3px',
+    color: COLORS.black,
+    fontFamily: FONTS_FAMILY.regular.body,
+    '@media (min-width:320px)': {
+      fontSize: '11px',
+    },
+    '@media (min-width:768px)': {
+      fontSize: '15px',
+    },
+    '@media (min-width:1200px)': {
+      fontSize: '17px',
+    }
+  });

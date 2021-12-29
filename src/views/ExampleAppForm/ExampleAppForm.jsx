@@ -26,11 +26,12 @@ import DatePicker from '../../components/DatePicker/DatePicker';
 import CheckBoxGroup from '../../components/CheckBoxGroup/CheckBoxGroup';
 import RadioButtonGroup from '../../components/RadioButtonGroup/RadioButtonGroup';
 import UploadFile from '../../components/UploadFile/UploadFile';
+import TimePicker from '../../components/TimePicker/TimePicker';
+import CheckBox from '../../components/CheckBox/CheckBox';
 
 function ExampleAppForm() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
@@ -40,6 +41,9 @@ function ExampleAppForm() {
 
 
     const [testDate, setTestDate] = useState();
+    const [testTime, setTestTime] = useState();
+
+    const [testCheckboxValue, setTestCheckboxValue] = useState();
     const [testAdataOptions, setTestAdataOptions] = useState(
         [
             {
@@ -106,21 +110,11 @@ function ExampleAppForm() {
     };
 
     useLayoutEffect(() => {
-        let Service = ListServices.find((service) => service.id == serviceID);
-        if (Service) {
             //UPDATE APP HEADER SUBTITLE
-            dispatch(UpdateAppSubHeaderTitle(Service.title)) // TITLE OF SUBHEADER APP
-        } else {
-            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
-            history.push('/app/requestService/1')
-            let Service = ListServices.find((service) => service.id == serviceID);
-            dispatch(UpdateAppSubHeaderTitle(Service.title))
-        }
+            dispatch(UpdateAppSubHeaderTitle('Formulario de prueba')) // TITLE OF SUBHEADER APP
     }, []);
 
-    useEffect(() => {
-        //  console.log(MOCKUP_JSON_DYNAMIC_FORM[0])
-    }, []);
+
 
     return (
         <Container >
@@ -136,11 +130,9 @@ function ExampleAppForm() {
             }
             <SmallHeightDivider />
             <SmallHeightDivider />
-            {
-                !togglePaymentForm ?
                     <Container>
-                        <Title>FORMULARIO DINAMICO PASO {activeStep + 1}</Title>
-                        <SubTitle>FORMULARIO DINAMICO PASO {activeStep + 1}</SubTitle>
+                        <Title>TITULO FORMULARIO DE PRUEBA - PASO {activeStep + 1}</Title>
+                        <SubTitle>SUBTITULO FORMULARIO DE PRUEBA - PASO {activeStep + 1}</SubTitle>
                         <Select title="Select" required data={testAdata} />
 
                         <TextField title="TextField Text" type="text" required />
@@ -150,8 +142,11 @@ function ExampleAppForm() {
                             required />
                         <TextField multiline title="TextField Text Multiline" type="text" required />
 
-                        <DatePicker title="Date Picker" required value={testDate} onChange={(e) => setTestDate(e)} />
-
+                        <DatePicker title="Date Picker" required value={testDate} onChange={(e) => setTestDate(e.target.value)} />
+                        <TimePicker  title="Time Picker" required value={testTime} onChange={(e) => setTestTime(e.target.value)} />
+                        
+                        <CheckBox label="Checkbox Label" title="Checkbox" value={testCheckboxValue} onChange={(e) => setTestCheckboxValue(e.target.value)}/>
+                        
                         <CheckBoxGroup title="CheckBox Group"
                             options={testAdataOptions}
                             onChange={(e) => setTestAdataOptions(e.target.value)} />
@@ -165,85 +160,7 @@ function ExampleAppForm() {
 
                         <div style={{ height: '50px' }} />
                     </Container>
-                    :
-                    <Container>
-                        <TextInformation title="Información general" />
-                        <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 8 }}>
-                            <Grid item xs={4} sm={4} md={4}>
-                                <BodyTextBold>
-                                    Fecha:
-                                </BodyTextBold>
-                                <BodyText>
-                                    12 septiembre de 2021
-                                </BodyText>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <BodyTextBold>
-                                    Empresa:
-                                </BodyTextBold>
-                                <BodyText>
-                                    Construcciones K
-                                </BodyText>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <BodyTextBold>
-                                    Numero de solicitud:
-                                </BodyTextBold>
-                                <BodyText>
-                                    002366574553
-                                </BodyText>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <BodyTextBold>
-                                    Servicio:
-                                </BodyTextBold>
-                                <BodyText>
-                                    Solicitud de No Objeción de suelo
-                                </BodyText>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <BodyTextBold>
-                                    Costo:
-                                </BodyTextBold>
-                                <BodyText>
-                                    RD$2,000.00
-                                </BodyText>
-                            </Grid>
-                        </Grid>
-
-                        <SmallHeightDivider />
-                        <TextInformation title="Formas de pago" />
-                        <SmallHeightDivider />
-                        <SmallHeightDivider />
-
-                        <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
-                            <Grid item xs={4} sm={4} md={4}>
-                                <ImageContainer onClick={() => alert('click')}>
-                                    <LogoImage src="https://www.sirite.gob.do/o/sirit-theme-1.20190411.66/images/sirit/sirit-logo.png" />
-                                </ImageContainer>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <ImageContainer onClick={() => alert('click')}>
-                                    <LogoImage src="https://www.cardnet.com.do/capp/images/logo_nuevo_x_2.png" />
-                                </ImageContainer>
-                            </Grid>
-
-                        </Grid>
-                        <MediumHeightDivider />
-                        <ButtonContainer>
-                            <StyledButton onClick={() => history.push('/app/myDesk')}>
-                                Pagar despues
-                            </StyledButton>
-                        </ButtonContainer>
-                        <MediumHeightDivider />
-                    </Container>
-            }
-
+                  
             <ButtonsContainer>
                 <ButtonContainer>
                     <StyledButtonOutlined disabled={activeStep == 0 || togglePaymentForm} onClick={handleBack} variant="outlined">

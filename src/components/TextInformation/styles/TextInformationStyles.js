@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
   display: 'flex',
@@ -13,8 +14,8 @@ export const Title = styled('h1')({
   marginTop: '3px',
   fontSize: '20px',
   color: COLORS.secondary,
-  fontFamily: 'Source Sans Pro',
-  fontWeight: '400',
+  fontFamily:FONTS_FAMILY.regular.title,
+  fontWeight: 'bold',
   textAlign:'left',
 });
 

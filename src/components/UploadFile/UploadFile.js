@@ -1,7 +1,7 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator } from './styles/UploadFileStyles';
-import { Row, StyledTextInput } from '../../theme/Styles';
+import {  Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator } from './styles/UploadFileStyles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 
 
 function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, error, required }) {
@@ -18,11 +18,11 @@ function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, 
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
 
@@ -46,7 +46,7 @@ function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, 
                 </InputFileButtonContainer>
                 <InputFile id={id} type='file'
                     onBlur={(e) => {
-                        onBlur({
+                        onBlur && onBlur({
                             target: {
                                 id: id,
                                 value: handleFileChange(e)

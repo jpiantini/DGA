@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import COLORS from '../../../theme/Colors';
 import { MenuItem, MenuList } from '@mui/material';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
   display: 'flex',
@@ -51,7 +52,7 @@ export const NotificationTitle = styled('h3')({
   margin:'10px',
   marginTop:'5px',
   width: '100%',
-  fontFamily: 'Nunito Sans',
+  fontFamily: FONTS_FAMILY.regular.title,
   textAlign:'left',
   fontSize: '15px',
   overflow: 'hidden',
@@ -66,7 +67,7 @@ export const NotificationText = styled('p')({
   marginTop:'5px',
   width: '100%',
   textAlign:'left',
-  fontFamily: 'Nunito Sans',
+  fontFamily: FONTS_FAMILY.regular.body,
   fontSize: '13px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',

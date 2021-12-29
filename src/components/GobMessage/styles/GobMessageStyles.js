@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     zIndex: 3,
@@ -48,7 +49,7 @@ export const URLDivider = styled('div')({
 
 export const Text = styled('p')({
     color: COLORS.white,
-    fontFamily: 'Quicksand',
+    fontFamily: FONTS_FAMILY.regular.body,
     '@media (min-width:320px)': {
         fontSize: '9px',
     },
@@ -62,7 +63,7 @@ export const Text = styled('p')({
 
 export const LinkText = styled('a')({
     color: COLORS.primary,
-    fontFamily: 'Quicksand',
+    fontFamily: FONTS_FAMILY.regular.body,
     '@media (min-width:320px)': {
         fontSize: '9px',
     },

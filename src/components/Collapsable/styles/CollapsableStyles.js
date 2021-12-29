@@ -1,5 +1,6 @@
-import { height, styled } from '@mui/system';
+import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
   display: 'flex',
@@ -29,13 +30,12 @@ export const RowContainer = styled('div')({
 
 
 
-export const Title = styled('h1')({
+export const Title = styled('p')({
   textTransform: 'uppercase',
   margin: '0px',
   fontSize: '20px',
   color: COLORS.secondary,
-  fontFamily: 'Source Sans Pro',
-  fontWeight: '400',
+  fontFamily: FONTS_FAMILY.regular.body,
   textAlign: 'left',
 });
 
@@ -52,8 +52,7 @@ export const BodyText = styled('p')(props =>({
   textAlign: 'left',
   fontSize: '15px',
   color: COLORS.black,
-  fontFamily: 'Source Sans Pro',
-  fontWeight: '400',
+  fontFamily: FONTS_FAMILY.regular.body,
   maxHeight: props.open ? '500px' : '0px',
   transition:  'max-height 1.5s',
 }));

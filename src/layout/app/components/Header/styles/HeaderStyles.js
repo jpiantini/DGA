@@ -1,6 +1,8 @@
 import { styled } from "@mui/system";
 import { Button, List, ListItem } from "@mui/material";
 import COLORS from "../../../../../theme/Colors";
+import FONTS_FAMILY from "../../../../../theme/FontsFamily";
+
 export const Container = styled("div")({
   display: "flex",
   flexDirection: "row",
@@ -19,7 +21,7 @@ export const MenuContainer = styled("div")({
 export const MenuButton = styled(Button)({
   fontSize: "17px",
   color: COLORS.black,
-  fontFamily: "Source Sans Pro",
+  fontFamily:FONTS_FAMILY.regular.title,
 });
 
 export const MenuDivider = styled("div")({

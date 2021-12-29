@@ -1,8 +1,7 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/TimePickerStyles';
-import { Row, StyledTextInput } from '../../theme/Styles';
-import MUITimePicker from '@mui/lab/TimePicker';
+import { Container } from './styles/TimePickerStyles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import MobileTimePicker from '@mui/lab/MobileTimePicker';
@@ -13,11 +12,11 @@ function TimePicker({ id, title, placeholder, helperText = " ", value, onChange,
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>
@@ -40,7 +39,15 @@ function TimePicker({ id, title, placeholder, helperText = " ", value, onChange,
                     }
                     }
                     inputProps={{ readOnly: true }}
-                    onBlur={onBlur}
+                    onBlur={(e) => {
+                        onBlur && onBlur({
+                            target: {
+                                id: id,
+                                value: e
+                            }
+                        });
+                    }
+                    }
                     disabled={disabled}
                 />
             </LocalizationProvider>
