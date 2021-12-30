@@ -21,7 +21,6 @@ function MyProfile() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [openModifyProfileModal, setOpenModifyProfileModal] = useState(false);
     const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState();
 
@@ -56,9 +55,6 @@ function MyProfile() {
         },
     });
 
-    const handleModifyProfileModal = () => {
-        setOpenModifyProfileModal(!openModifyProfileModal);
-    }
 
     const handleModifyOrAddCompanyModal = (company) => {
         if (company) {
@@ -84,7 +80,7 @@ function MyProfile() {
                         Perfil del Representante
                     </SectionTitle>
                     <SectionTextDivider />
-                    <SectionLink onClick={handleModifyProfileModal}>
+                    <SectionLink onClick={() => history.push('/app/myConfiguration')}>
                         Editar Perfil
                     </SectionLink>
                 </Row>
@@ -157,74 +153,7 @@ function MyProfile() {
                     </Grid>
                 </CardTextContainer>
             </ProfileContainer>
-            <FormModal onClose={handleModifyProfileModal} open={openModifyProfileModal}
-                title="Modificar perfil"
-            >
-                <SmallHeightDivider />
-                <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item >
-                        <TextField title="Nombre" type="text" id="name"
-                            value={profileFormik.values.name}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.name && Boolean(profileFormik.errors.name)}
-                            helperText={profileFormik.touched.name && profileFormik.errors.name}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Documento de Identidad" type="text" id="identification"
-                            required
-                            mask="999-9999999-9"
-                            value={profileFormik.values.identification}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.identification && Boolean(profileFormik.errors.identification)}
-                            helperText={profileFormik.touched.identification && profileFormik.errors.identification}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Empresa" type="text" id="company"
-                            value={profileFormik.values.company}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.company && Boolean(profileFormik.errors.company)}
-                            helperText={profileFormik.touched.company && profileFormik.errors.company}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Telefono de contacto" type="text" id="phoneNumber"
-                            required
-                            mask="999-999-9999"
-                            value={profileFormik.values.phoneNumber}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.phoneNumber && Boolean(profileFormik.errors.phoneNumber)}
-                            helperText={profileFormik.touched.phoneNumber && profileFormik.errors.phoneNumber}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Ciudad" type="text" id="city"
-                            required
-                            value={profileFormik.values.city}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.city && Boolean(profileFormik.errors.city)}
-                            helperText={profileFormik.touched.city && profileFormik.errors.city}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Correo Electronico" type="text" id="email"
-                            required
-                            value={profileFormik.values.email}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.email && Boolean(profileFormik.errors.email)}
-                            helperText={profileFormik.touched.email && profileFormik.errors.email}
-                        />
-                    </Grid>
-                </Grid>
-                <SmallHeightDivider />
-                <StyledButton onClick={() => profileFormik.handleSubmit()}>
-                    CONFIRMAR
-                </StyledButton>
-                <SmallHeightDivider />
-            </FormModal>
+           
             {
                 MockupCompanies.map((company) => (
                     <Fragment key={company.id}>

@@ -12,6 +12,7 @@ import RequestService from "../views/RequestService/RequestService";
 import ServiceDescription from "../views/ServiceDescription/ServiceDescription";
 import ServiceRequestedDetails from "../views/ServiceRequestedDetails/ServiceRequestedDetails";
 import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
+import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 
 const routes = [ //PUT ALL loginRequired:false routes on TOP
   {
@@ -35,7 +36,7 @@ const routes = [ //PUT ALL loginRequired:false routes on TOP
     layout: "/app",
     loginRequired: false,
   },
-  {  // FOR SEE ALL FORM FIELDS AND COMPONENTS
+  {  // FOR SEE ALL FORM FIELDS AND COMPONENTS ONLY DEVELOPMENT
     path: "/TESTFORM",
     component: ExampleAppForm,
     exact: true,
@@ -80,6 +81,13 @@ const routes = [ //PUT ALL loginRequired:false routes on TOP
   {
     path: "/myDesk",
     component: MyDesk,
+    exact: true,
+    layout: "/app",
+    loginRequired: true,
+  },
+  {
+    path: "/myConfiguration",
+    component: MyConfiguration,
     exact: true,
     layout: "/app",
     loginRequired: true,

@@ -32,9 +32,9 @@ function LoggedInMenu({ image }) {
 
     console.log(profileImg)
     return (
-        <Container ref={containerRef} onClick={() => history.push('/app/myDesk')}
+        <Container ref={containerRef}
             onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
-            <UserImage src={profileImg} />
+            <UserImage src={profileImg} onClick={() => history.push('/app/myDesk')} />
             <Popper
                 open={hover}
                 anchorEl={containerRef.current}
@@ -53,7 +53,7 @@ function LoggedInMenu({ image }) {
                     >
                         <StyledPaper>
                             <MenuList>
-                                <MenuItem onClick={() => history.push('/app/myDesk')}>Mi configuración</MenuItem>
+                                <MenuItem onClick={() => history.push('/app/myConfiguration')}>Mi configuración</MenuItem>
                                 <Divider sx={{ width: '100%' }} />
                                 <MenuItem onClick={HandleLogOut}>Cerrar sesión</MenuItem>
                             </MenuList>

@@ -1,0 +1,417 @@
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateAppSubHeaderTitle } from "../../redux/actions/UiActions";
+import { Container, TopContainer, ProfileImage, Title, ButtonContainer, UserDataContainer, Column, ElementDivider, ButtonSaveContainer } from './styles/MyConfigurationStyles';
+import { BodyText, MediumHeightDivider, SmallHeightDivider, StyledButton, StyledButtonOutlined } from '../../theme/Styles'
+import TextInformation from '../../components/TextInformation/TextInformation';
+import { Grid } from "@mui/material";
+import { useFormik } from 'formik';
+import TextField from "../../components/TextField/TextField";
+import Select from "../../components/Select/Select";
+import CheckBox from "../../components/CheckBox/CheckBox";
+import { FormEmailSchema, FormPasswordSchema, FormSchema } from "./MyConfigurationConstants";
+import apiCall from "../../services/ApiServerCall";
+import FormModal from "../../components/FormModal/FormModal";
+
+export const MyConfiguration = () => {
+  const dispatch = useDispatch();
+  const { profileImg } = useSelector((state) => state.authReducer);
+
+  const [provincesData, setProvincesData] = useState([]);
+  const [municipalitiesData, setMunicipalitiesData] = useState([]);
+  const [sectorsData, setSectorsData] = useState([]);
+
+  const [openModifyPasswordModal, setOpenModifyPasswordModal] = useState(false);
+  const [openModifyEmailModal, setOpenModifyEmailModal] = useState(false);
+
+  useLayoutEffect(() => {
+    //UPDATE APP HEADER SUBTITLE
+    dispatch(UpdateAppSubHeaderTitle("Mi configuración")); // TITLE OF SUBHEADER APP
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      address: '',
+      province_id: '',
+      municipality_id: '',
+      sector_id: '',
+      phoneMobile: '',
+      phoneResidential: '',
+      phoneLaboral: '',
+      secundaryEmail: '',
+      notificationsWithEmail: false,
+      notificationsSms: false
+    },
+    validationSchema: FormSchema,
+    onSubmit: (values) => {
+      // handleSubmitChanges(values);
+    },
+  });
+
+  const formikPasswordChange = useFormik({
+    initialValues: {
+      actual_password: '',
+      new_password: '',
+      new_password_confirmation: ''
+    },
+    validationSchema: FormPasswordSchema,
+    onSubmit: (values) => {
+      // handlePasswordChange(values);
+    },
+  });
+
+  const formikEmailChange = useFormik({
+    initialValues: {
+      actual_email: '',
+      new_email: '',
+      new_email_confirmation: ''
+    },
+    validationSchema: FormEmailSchema,
+    onSubmit: (values) => {
+      // handleEmailChange(values);
+    },
+  });
+
+
+
+  const handleModifyPasswordModal = () => {
+    setOpenModifyPasswordModal(!openModifyPasswordModal);
+  }
+  const handleModifyEmailModal = () => {
+    setOpenModifyEmailModal(!openModifyEmailModal);
+  }
+
+
+  const getProvincesData = async () => {
+    try {
+      let provincesData = await apiCall().get('/get/provinces')
+      if (provincesData) {
+        setProvincesData(
+          provincesData.data.provinces?.map((province) => ({
+            value: province.bidclasif,
+            label: province.ctituloclas
+          })));
+      }
+      setMunicipalitiesData([]);
+      setSectorsData([]);
+    } catch (error) {
+
+    }
+  }
+
+  const getMunicipalitiesData = async (value) => {
+    try {
+      let municipalitiesData = await apiCall().get(`/get/municipalities/${value}`)
+      if (municipalitiesData) {
+        setMunicipalitiesData(
+          municipalitiesData.data.municipalities?.map((municipalities) => ({
+            value: municipalities.bidclasif,
+            label: municipalities.ctituloclas
+          })));
+      }
+      setSectorsData([]);
+    } catch (error) {
+
+    }
+  }
+
+  const getSectorsData = async (value) => {
+    try {
+      let sectorsData = await apiCall().get(`/get/sectors/${value}`)
+      if (sectorsData) {
+        setSectorsData(
+          sectorsData.data.sectors?.map((sector) => ({
+            value: sector.bidclasif,
+            label: sector.ctituloclas
+          })));
+      }
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    getProvincesData();
+  }, []);
+
+  return (
+    <Container>
+
+      <TopContainer>
+        <UserDataContainer>
+          <ProfileImage src={profileImg} />
+          <ElementDivider />
+          <div>
+            <Title>Nombre de usuario</Title>
+            <BodyText>Cedula:</BodyText>
+            <BodyText>Última modificación:</BodyText>
+            <SmallHeightDivider />
+          </div>
+        </UserDataContainer>
+        <Column >
+          <ButtonContainer>
+            <StyledButtonOutlined variant="outlined" onClick={handleModifyPasswordModal}>Cambiar contraseña</StyledButtonOutlined>
+          </ButtonContainer>
+          <MediumHeightDivider />
+          <ButtonContainer>
+            <StyledButtonOutlined variant="outlined" onClick={handleModifyEmailModal}>Cambiar Correo Principal</StyledButtonOutlined>
+          </ButtonContainer>
+        </Column>
+      </TopContainer>
+
+      <FormModal onClose={handleModifyPasswordModal} open={openModifyPasswordModal}
+        title="Modificar contraseña"
+      >
+        <SmallHeightDivider />
+        <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField title="Contraseña actual" type="password" id="actual_password"
+              value={formikPasswordChange.values.actual_password}
+              onChange={formikPasswordChange.handleChange}
+              onBlur={formikPasswordChange.handleBlur}
+              error={formikPasswordChange.touched.actual_password && Boolean(formikPasswordChange.errors.actual_password)}
+              helperText={formikPasswordChange.touched.actual_password && formikPasswordChange.errors.actual_password}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4} md={6}>
+            <TextField title="Nueva Contraseña" type="password" id="new_password"
+              value={formikPasswordChange.values.new_password}
+              onChange={formikPasswordChange.handleChange}
+              onBlur={formikPasswordChange.handleBlur}
+              error={formikPasswordChange.touched.new_password && Boolean(formikPasswordChange.errors.new_password)}
+              helperText={formikPasswordChange.touched.new_password && formikPasswordChange.errors.new_password}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4} md={6}>
+            <TextField title="Repetir nueva contraseña" type="password" id="new_password_confirmation"
+              value={formikPasswordChange.values.new_password_confirmation}
+              onChange={formikPasswordChange.handleChange}
+              onBlur={formikPasswordChange.handleBlur}
+              error={formikPasswordChange.touched.new_password_confirmation && Boolean(formikPasswordChange.errors.new_password_confirmation)}
+              helperText={formikPasswordChange.touched.new_password_confirmation && formikPasswordChange.errors.new_password_confirmation}
+              required
+            />
+          </Grid>
+        </Grid>
+
+        <SmallHeightDivider />
+        <SmallHeightDivider />
+
+        <ButtonSaveContainer>
+          <StyledButton onClick={() => formikPasswordChange.handleSubmit()}>
+            CONFIRMAR
+          </StyledButton>
+        </ButtonSaveContainer>
+
+        <SmallHeightDivider />
+        <SmallHeightDivider />
+
+      </FormModal>
+
+      <FormModal onClose={handleModifyEmailModal} open={openModifyEmailModal}
+        title="Modificar email"
+      >
+        <SmallHeightDivider />
+        <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField title="Email actual" type="text" id="actual_email"
+              value={formikEmailChange.values.actual_email}
+              onChange={formikEmailChange.handleChange}
+              onBlur={formikEmailChange.handleBlur}
+              error={formikEmailChange.touched.actual_email && Boolean(formikEmailChange.errors.actual_email)}
+              helperText={formikEmailChange.touched.actual_email && formikEmailChange.errors.actual_email}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4} md={6}>
+            <TextField title="Nuevo email" type="text" id="new_email"
+              value={formikEmailChange.values.new_email}
+              onChange={formikEmailChange.handleChange}
+              onBlur={formikEmailChange.handleBlur}
+              error={formikEmailChange.touched.new_email && Boolean(formikEmailChange.errors.new_email)}
+              helperText={formikEmailChange.touched.new_email && formikEmailChange.errors.new_email}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4} md={6}>
+            <TextField title="Repetir nuevo email" type="text" id="new_email_confirmation"
+              value={formikEmailChange.values.new_email_confirmation}
+              onChange={formikEmailChange.handleChange}
+              onBlur={formikEmailChange.handleBlur}
+              error={formikEmailChange.touched.new_email_confirmation && Boolean(formikEmailChange.errors.new_email_confirmation)}
+              helperText={formikEmailChange.touched.new_email_confirmation && formikEmailChange.errors.new_email_confirmation}
+              required
+            />
+          </Grid>
+        </Grid>
+        
+        <SmallHeightDivider />
+        <SmallHeightDivider />
+
+        <ButtonSaveContainer>
+          <StyledButton onClick={() => formikPasswordChange.handleSubmit()}>
+            CONFIRMAR
+          </StyledButton>
+        </ButtonSaveContainer>
+
+        <SmallHeightDivider />
+        <SmallHeightDivider />
+
+      </FormModal>
+
+      <MediumHeightDivider />
+      <TextInformation title="Datos de contacto" />
+      <SmallHeightDivider />
+      <SmallHeightDivider />
+
+      <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <TextField title="Dirección" type="text" id="address"
+            required
+            value={formik.values.address}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <Select title="Provincia" type="text" id="province_id"
+            data={provincesData}
+            value={formik.values.province_id}
+            onChange={(e) => {
+              formik.setFieldValue('municipality_id', '');
+              formik.setFieldValue('sector_id', '');
+              formik.handleChange(e);
+              getMunicipalitiesData(e.target.value)
+            }}
+            onBlur={formik.handleBlur}
+            error={formik.touched.province_id && Boolean(formik.errors.province_id)}
+            helperText={formik.touched.province_id && formik.errors.province_id}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <Select title="Municipio" type="text" id="municipality_id"
+            disabled={formik.values['province_id'].length <= 0}
+            data={municipalitiesData}
+            value={formik.values.municipality_id}
+            onChange={(e) => {
+              formik.setFieldValue('sector_id', '');
+              formik.handleChange(e);
+              getSectorsData(e.target.value);
+            }}
+            onBlur={formik.handleBlur}
+            error={formik.touched.municipality_id && Boolean(formik.errors.municipality_id)}
+            helperText={formik.touched.municipality_id && formik.errors.municipality_id}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <Select title="Sector" type="text" id="sector_id"
+            disabled={formik.values['municipality_id'].length <= 0}
+            data={sectorsData}
+            value={formik.values.sector_id}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.sector_id && Boolean(formik.errors.sector_id)}
+            helperText={formik.touched.sector_id && formik.errors.sector_id}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <TextField title="Teléfono móvil" type="text" id="phoneMobile"
+            mask="999-999-9999"
+            value={formik.values.phoneMobile}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.phoneMobile && Boolean(formik.errors.phoneMobile)}
+            helperText={formik.touched.phoneMobile && formik.errors.phoneMobile}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <TextField title="Teléfono residencial" type="text" id="phoneResidential"
+            mask="999-999-9999"
+            value={formik.values.phoneResidential}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.phoneResidential && Boolean(formik.errors.phoneResidential)}
+            helperText={formik.touched.phoneResidential && formik.errors.phoneResidential}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={8} sm={4} md={6}>
+          <TextField title="Teléfono laboral" type="text" id="phoneLaboral"
+            mask="999-999-9999"
+            value={formik.values.phoneLaboral}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.phoneLaboral && Boolean(formik.errors.phoneLaboral)}
+            helperText={formik.touched.phoneLaboral && formik.errors.phoneLaboral}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={4} md={6}>
+          <TextField title="Correo electrónico secundario" type="text" id="secundaryEmail"
+            required
+            value={formik.values.secundaryEmail}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.secundaryEmail && Boolean(formik.errors.secundaryEmail)}
+            helperText={formik.touched.secundaryEmail && formik.errors.secundaryEmail}
+          />
+        </Grid>
+      </Grid>
+
+      <SmallHeightDivider />
+      <SmallHeightDivider />
+      <TextInformation title="Preferencias de Notificación" />
+      <SmallHeightDivider />
+
+      <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+        <Grid item xs={12} sm={4} md={6}>
+          <CheckBox label="Correo Electrónico" id="notificationsWithEmail"
+            value={formik.values.notificationsWithEmail}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.notificationsWithEmail && Boolean(formik.errors.notificationsWithEmail)}
+            helperText={formik.touched.notificationsWithEmail && formik.errors.notificationsWithEmail}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={4} md={6}>
+          <CheckBox label="SMS" id="notificationsSms"
+            value={formik.values.notificationsSms}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.notificationsSms && Boolean(formik.errors.notificationsSms)}
+            helperText={formik.touched.notificationsSms && formik.errors.notificationsSms}
+          />
+        </Grid>
+      </Grid>
+      <MediumHeightDivider />
+
+      <ButtonSaveContainer>
+        <StyledButtonOutlined variant="outlined">Guardar</StyledButtonOutlined>
+      </ButtonSaveContainer>
+      <MediumHeightDivider />
+    </Container>
+  );
+};

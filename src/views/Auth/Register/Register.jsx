@@ -155,6 +155,8 @@ function Register() {
                         label: province.ctituloclas
                     })));
             }
+            setMunicipalitiesData([]);
+            setSectorsData([]);
         } catch (error) {
 
         }
@@ -170,6 +172,7 @@ function Register() {
                         label: municipalities.ctituloclas
                     })));
             }
+            setSectorsData([]);
         } catch (error) {
 
         }
@@ -327,7 +330,7 @@ function Register() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.document_type && Boolean(formik.errors.document_type)}
-                                    helperText={formik.touched.document_type && formik.errors.document_type} 
+                                    helperText={formik.touched.document_type && formik.errors.document_type}
                                     required />
                             </Grid>
 
@@ -393,6 +396,8 @@ function Register() {
                                     data={provincesData}
                                     value={formik.values.province_id}
                                     onChange={(e) => {
+                                        formik.setFieldValue('municipality_id', '');
+                                        formik.setFieldValue('sector_id', '');
                                         formik.handleChange(e);
                                         getMunicipalitiesData(e.target.value)
                                     }}
@@ -409,6 +414,7 @@ function Register() {
                                     data={municipalitiesData}
                                     value={formik.values.municipality_id}
                                     onChange={(e) => {
+                                        formik.setFieldValue('sector_id', '');
                                         formik.handleChange(e);
                                         getSectorsData(e.target.value);
                                     }}
@@ -523,7 +529,7 @@ function Register() {
                 }
 
                 <ButtonContainer>
-                    { 
+                    {
                         userRegistered ?
                             <StyledButton onClick={() => history.push('/public')}>
                                 Ir a inicio

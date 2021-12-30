@@ -62,7 +62,7 @@ function Login() {
                 //remover cuando beato arregle el registro
                 dispatch(AuthLogin({ 
                     authenticated:true,
-                    profileImg:'aaaa'
+                    profileImg:'http://www.w3bai.com/w3css/img_avatar3.png'
                 })) 
 
             }else{ //Handle errors
