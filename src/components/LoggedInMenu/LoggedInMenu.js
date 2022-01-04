@@ -10,6 +10,7 @@ import {
     Container, StyledPaper, UserImage,
 } from './styles/LoggedInMenuStyles';
 import { AuthLogout } from '../../redux/actions/AuthActions';
+import { ShowGlobalLoading,HideGlobalLoading } from '../../redux/actions/UiActions';
 import { useSelector } from 'react-redux';
 
 function LoggedInMenu({ image }) {
@@ -27,7 +28,12 @@ function LoggedInMenu({ image }) {
     }
 
     const HandleLogOut = () => {
-        dispatch(AuthLogout());
+        dispatch(ShowGlobalLoading('Cerrando sesión'));
+        setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
+            dispatch(AuthLogout());
+            dispatch(HideGlobalLoading());
+        }, 2000);
+
     }
 
     console.log(profileImg)

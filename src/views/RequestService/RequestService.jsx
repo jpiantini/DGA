@@ -26,8 +26,9 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Grid } from "@mui/material";
-import formDataWithGrid from "./formDataWithGrid.json";
-import formData from "./formData.json";
+import formDataWithGrid from "./formDataWithGrid.json"; //DEVELOPMENT REMOVE
+import formData from "./formData.json"; //DEVELOPMENT REMOVE
+import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
 import { localToArray } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 
@@ -62,7 +63,8 @@ function RequestService() {
   }
 
   const getData = () => {
-    return formDataWithGrid.map((step) => {
+   // return formDataWithGrid.map((step) => {
+    return formDataMitur.fields.map((step) => {
       return step.map(transformField)
     });
   };

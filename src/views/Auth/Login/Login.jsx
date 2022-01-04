@@ -20,6 +20,7 @@ import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLogin } from '../../../redux/actions/AuthActions';
+import { HideGlobalLoading,ShowGlobalLoading } from '../../../redux/actions/UiActions';
 import apiCall from '../../../services/ApiServerCall';
 
 function Login() {
@@ -46,24 +47,26 @@ function Login() {
     });
 
     const handleLogin = async (formData) => {
+        dispatch(ShowGlobalLoading('Iniciando sesión'));
         try {
             let response = await apiCall().post('/auth/login',
                 {
                     citizen_id: formData.id,
                     password: formData.password,
                 });
-            if (true /*response.data?.success*/) {
+            if ( response.data?.success) {
                 //TODO Save TOKEN in localStorage
-          /*  quitar comentario cuando se arregle el registro pendiente por beato    dispatch(AuthLogin({ //set Authenticated value to true and save profileImage
+            dispatch(AuthLogin({
                     authenticated:true,
                     profileImg:response.data.payload.profile_img
                 })) 
-           */
-                //remover cuando beato arregle el registro
+           
+                /*only for development
                 dispatch(AuthLogin({ 
                     authenticated:true,
                     profileImg:'http://www.w3bai.com/w3css/img_avatar3.png'
                 })) 
+                    */
 
             }else{ //Handle errors
                 // TODO Handle errors
@@ -75,6 +78,7 @@ function Login() {
             //   console.log('error', error);
             //   alert('error');
         }
+        dispatch(HideGlobalLoading());
     }
 
     useEffect(() => {

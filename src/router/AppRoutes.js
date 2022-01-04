@@ -13,6 +13,7 @@ import ServiceDescription from "../views/ServiceDescription/ServiceDescription";
 import ServiceRequestedDetails from "../views/ServiceRequestedDetails/ServiceRequestedDetails";
 import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
 import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
+import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
 
 const routes = [ //PUT ALL loginRequired:false routes on TOP
   {
@@ -44,10 +45,10 @@ const routes = [ //PUT ALL loginRequired:false routes on TOP
     loginRequired: false,
   },
   {
-    path: "/requestPassword",
-    component: RequestPassword,
+    path: "/activateAccount/:activationToken",
+    component: ActivateAccount,
     exact: true,
-    layout: "/public",
+    layout: "/app",
     loginRequired: false,
   },
   {

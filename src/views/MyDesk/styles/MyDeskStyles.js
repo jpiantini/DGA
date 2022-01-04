@@ -25,12 +25,15 @@ export const MetricsTitle = styled('h1')({
     alignSelf: 'center',
     '@media (min-width:320px)': {
         fontSize: '10px',
+        height:'30px',
     },
     '@media (min-width:768px)': {
         fontSize: '15px',
+        height:'45px',
     },
     '@media (min-width:1200px)': {
         fontSize: '17px',
+        height:'45px',
     },
 });
 

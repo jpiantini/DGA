@@ -8,7 +8,8 @@ import Store from './redux/store/Store';
 import DateFnsUtils from '@date-io/date-fns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Zoom from '@mui/material/Zoom';
-import {SnackbarProvider} from 'notistack'
+import { SnackbarProvider } from 'notistack'
+import GlobalLoading from './components/GlobalLoading/GlobalLoading';
 //ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
 function App() {
@@ -28,11 +29,15 @@ function App() {
         }}
         TransitionComponent={Zoom}
       >
+        <GlobalLoading />
         <LocalizationProvider dateAdapter={DateFnsUtils}>
           <BrowserRouter>
             <Router routes={Layouts} />
           </BrowserRouter>
         </LocalizationProvider>
+
+
+
       </SnackbarProvider>
 
     </Provider>
