@@ -20,7 +20,7 @@ import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLogin } from '../../../redux/actions/AuthActions';
-import { HideGlobalLoading,ShowGlobalLoading } from '../../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiActions';
 import apiCall from '../../../services/ApiServerCall';
 
 function Login() {
@@ -29,7 +29,7 @@ function Login() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const [errorMessage,setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const formik = useFormik({
         initialValues: {
@@ -47,30 +47,25 @@ function Login() {
     });
 
     const handleLogin = async (formData) => {
-        dispatch(ShowGlobalLoading('Iniciando sesión'));
         try {
             let response = await apiCall().post('/auth/login',
                 {
                     citizen_id: formData.id,
                     password: formData.password,
                 });
-            if ( response.data?.success) {
+            if (response.data?.success) {
                 //TODO Save TOKEN in localStorage
-            dispatch(AuthLogin({
-                    authenticated:true,
-                    profileImg:response.data.payload.profile_img
-                })) 
-           
-                /*only for development
-                dispatch(AuthLogin({ 
-                    authenticated:true,
-                    profileImg:'http://www.w3bai.com/w3css/img_avatar3.png'
-                })) 
-                    */
-
-            }else{ //Handle errors
+                dispatch(ShowGlobalLoading('Iniciando sesión'));
+                setTimeout(() => {
+                    dispatch(AuthLogin({
+                        authenticated: true,
+                        profileImg: response.data.payload.profile_img
+                    }))
+                    dispatch(HideGlobalLoading());
+                }, 1500);
+            } else { //Handle errors
                 // TODO Handle errors
-                console.log(response.data); 
+                console.log(response.data);
                 console.log(errorMessage)
                 setErrorMessage(response.data?.msg);
             }
@@ -78,7 +73,6 @@ function Login() {
             //   console.log('error', error);
             //   alert('error');
         }
-        dispatch(HideGlobalLoading());
     }
 
     useEffect(() => {

@@ -53,31 +53,23 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
+  display:'flex',
   flexDirection: "column",
   position: "relative",
   marginLeft: "15%",
-  marginTop: "15%",
+  marginTop: "8%",
   height: "500px",
   alignSelf: "center",
-
-  "@media (min-width:360px)": {
-    width: "100%",
-  },
-  "@media (min-width:768px)": {
-    width: "100%",
-  },
-  "@media (min-width:1200px)": {
-    fontSize: "15px",
-
-    width: "100%",
-  },
+  fontSize: "15px",
+  width: "100%",
+  justifyContent:'center'
 });
  
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
   borderRadius: "20px",
-  fontSize: "15px",
+  fontSize: "15px !important",
   fontFamily:`${FONTS_FAMILY.regular.body} !important`,
   height:'38px',
   "&:hover,&:focus,&:active": {
@@ -85,10 +77,10 @@ export const DefaultButton = styled(Button)({
     backgroundColor: COLORS.black,
   },
   "@media (min-width:320px)": {
-    width: "150px",
+    width: "180px",
   },
   "@media (min-width:768px)": {
-    width: "150px",
+    width: "230px",
   },
   "@media (min-width:1200px)": {
     width: "230px",
@@ -101,14 +93,24 @@ export const HomeTitle = styled("h1")({
   color: COLORS.white,
   fontFamily: FONTS_FAMILY.regular.title,
   textAlign:'left',
-  "@media (max-width:320px)": {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  '-webkit-box-orient': 'vertical',
+  "@media (min-width:320px)": {
     fontSize: "25px",
+    height: "280px",
+    WebkitLineClamp: 8, /* number of lines to show */
   },
   "@media (min-width:768px)": {
     fontSize: "30px",
+    WebkitLineClamp: 6, /* number of lines to show */
+    height: "250px",
   },
-  "@media (max-width:1200px)": {
+  "@media (min-width:1200px)": {
     fontSize: "50px",
+    height: "200px",
+    WebkitLineClamp: 5, /* number of lines to show */
   },
 });
 

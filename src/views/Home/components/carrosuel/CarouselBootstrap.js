@@ -4,9 +4,10 @@ import "./Style/CarouselBootstrapStyle.scss";
 import {
   DefaultButton,
   HomeTextContainer,
-  HomeTitle,
 } from "../../styles/HomeStyles";
-import { ImageContainer } from "./Style/CarouselBootstrapStyle";
+import { ButtonContainer, ImageContainer,Title,SubTitle} from "./Style/CarouselBootstrapStyle";
+import { format,parse  } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 export const CarouselBootstrap = (data) => {
   const directionButtons = (direction) => {
@@ -37,17 +38,22 @@ export const CarouselBootstrap = (data) => {
         prevIcon={directionButtons("Previous")}
       >
         {data.data.map((item, index) => {
+          console.log(item.date.replace(" ", "T"))
           return (
             <Carousel.Item key={index} className="item">
               <ImageContainer image={item.image}>
                 <HomeTextContainer>
-                  <HomeTitle>{item.content}</HomeTitle>
-                  <div className="containerBtn">
-                    
-                    <DefaultButton className="btnMore">
+                  <SubTitle>
+                  {format(new Date(item.date.replace(" ", "T")), "dd 'de' MMMM yyyy" ,{ locale: es })  }
+                  </SubTitle>
+                  <Title>
+                    {item.content}
+                  </Title>
+                  <ButtonContainer>
+                    <DefaultButton onClick={() => window.open(item.notice_url, '_blank')} className="btnMore">
                       SABER MÁS
                     </DefaultButton>
-                  </div>
+                  </ButtonContainer>
                 </HomeTextContainer>
               </ImageContainer>
             </Carousel.Item>

@@ -32,7 +32,7 @@ function LoggedInMenu({ image }) {
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
             dispatch(AuthLogout());
             dispatch(HideGlobalLoading());
-        }, 2000);
+        }, 1500);
 
     }
 

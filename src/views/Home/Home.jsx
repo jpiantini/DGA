@@ -48,12 +48,11 @@ function Home() {
   const [wordpressContent, setWordpressContent] = useState([]);
 
   const getAndSetAllWordPressContent = async () => {
-    let data = await wpCall().get("/sliders/v1/sliders");
-
-    const datos = data.data.map(({ content, date, image, title }) => {
-      return { content, date, image, title };
+    let response = await wpCall().get("/sliders/v1/sliders");
+    const data = response.data.map(({ content, date, image, title, notice_url}) => {
+      return { content, date, image, title,notice_url };
     });
-    setWordpressContent(datos);
+    setWordpressContent(data);
   };
 
   
@@ -150,19 +149,19 @@ function Home() {
           <CardsContainer>
             <ServiceCard
               title="CONFOTUR"
-              bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut"
+              bodyText="Solicita tu licencia y otros servicios otorgados por el Ministerio de Turismo, para operar como proveedor de servicios turísticos."
               onRequestPress={() => history.push("/app/listOfServices/1")}
             />
             <CardsDivider />
             <ServiceCard
               title="EMPRESAS Y SERVICIOS"
-              bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut"
+              bodyText="Solicita tu licencia y otros servicios otorgados por el Ministerio de Turismo, para operar como proveedor de servicios turísticos."
               onRequestPress={() => history.push("/app/listOfServices/2")}
             />
             <CardsDivider />
             <ServiceCard
               title="DPP"
-              bodyText="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut"
+              bodyText="Conozca la Dirección de Planificación y Proyectos y obtenga toda la información necesaria para solicitar sus servicios"
               onRequestPress={() => history.push("/app/listOfServices/3")}
             />
           </CardsContainer>
