@@ -22,7 +22,6 @@ export const PolicyPrivacy = () => {
     getAndSetAllWordPressContent();
   }, []);
 
-  console.log(wordpressContent);
 
   return (
     <div>

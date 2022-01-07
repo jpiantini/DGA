@@ -1,12 +1,10 @@
-import axios  from 'axios';
-import sessionStorageService from "./SessionStorageService";
+import axios from 'axios';
+import LocalStorageService from "./LocalStorageService";
 
 
-export default  function apiCall() {
-    let Token = sessionStorageService.getItem('token');
-    console.log('llamada hecha con el token',Token);
+export default function apiCall() {
+    let Token = LocalStorageService.getItem('token');
     const axiosInstance = axios.create({
-        //baseURL: 'http://localhost:4000',
         baseURL: 'http://159.223.159.17/api',
         headers: {
             Accept: 'application/json',
@@ -16,30 +14,29 @@ export default  function apiCall() {
         timeout: 60000,
     });
 
-    axiosInstance.interceptors.response.use((response) => {
-        return response
-      }, async function (error) {
-    //    const originalRequest = error.config;
-        if (error.response.status === 401 /*&& !originalRequest._retry*/) {
-         /* originalRequest._retry = true;
-          const access_token = await refreshToken();            
-         axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-          return axiosInstance(originalRequest);*/
-          
-         //TOKEN EXPIRED LOGOUT();
+    axiosInstance.interceptors.response.use(async (response) => {
+        //refreshToken NEED TEST
+        const originalRequest = response.config;
+        if (response.data?.msg === 'Token expirado' && !originalRequest._retry) { //CHANGE CONDITION 401 FOR MESSAGE FROM BACKEND
+            originalRequest._retry = true;
+            const access_token = await refreshToken();
+            axios.defaults.headers.common['Authorization'] = 'beater ' + access_token;
+            return axiosInstance(originalRequest);
         }
+        //Probably i need put a logOut here for my condition 
+        //  console.log(response)
+        return response //return response
+    }, async function (error) {
         return Promise.reject(error);
-      });
+    });
     return axiosInstance;
 }
 
-/*const refreshToken = async () => {
-    let Token = sessionStorageService.getItem('token');
-    let response =  await apiCall().post('/refreshToken',{
-        token : Token
-    });
-    console.log('nuevo token',response);
-    return response;
-}*/
+const refreshToken = async () => {
+    let response =  await apiCall().get('/refresh/token');
+    //if token be refreshed - Save token in sessionStorage
+    //if token cant be refreshed - logout
+    console.log('nuevo token',response.data?.payload.token);
+    return response.data?.payload.token; //RETURN NEW TOKEN - NEED TEST
+}
 
-  

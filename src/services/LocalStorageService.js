@@ -1,5 +1,5 @@
-class sessionStorageService {
-    ls = window.sessionStorage
+class localStorageService {
+    ls = window.localStorage
   
     setItem(key, value) {
       value = JSON.stringify(value)
@@ -21,4 +21,4 @@ class sessionStorageService {
     }
   }
   
-  export default new sessionStorageService();
+  export default new localStorageService();

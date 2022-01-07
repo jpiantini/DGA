@@ -9,14 +9,15 @@ import { FormControl, FormHelperText, FormLabel, Typography } from '@mui/materia
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
 function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, error, helperText = " ", disabled }) {
-
+   /*   IN CASE OF USE Checkboxgroup from material-ui use this function for return an array with options updated 
     const HandleCheckboxChange = (e) => {
-        console.log(e)
-        /*   let currentModifiedOption = options.find((option) => option.id == e.target.id);
+     
+           let currentModifiedOption = options.find((option) => option.id == e.target.id);
            currentModifiedOption.value = e.target.checked
            let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
-           return newOptions;*/
+           return newOptions;
     }
+    */
 
     return (
         <Container>
@@ -32,7 +33,7 @@ function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, 
 
             <FormControl disabled={disabled} error={error} component='fieldset' variant='standard'>
                 <FormGroup>
-                    {/*
+                    {/* checkboxgroup from material-ui
                         options?.map((option, index) => (
                             <FormControlLabel key={index} control={
                                 <Checkbox size='medium' checked={option.value}

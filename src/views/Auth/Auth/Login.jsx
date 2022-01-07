@@ -71,7 +71,6 @@ function Login() {
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {
-                        //LOCAL ERRORS NETWORK ETC
             //   console.log('error', error);
             //   alert('error');
         }

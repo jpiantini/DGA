@@ -103,6 +103,9 @@ function Form(props) {
 
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
+            console.log('entro a la condicion de localDoRequest')
+            console.log({ values, actions })
+
             props.doRequest({ values, actions })
         } else {
             setActiveStep(activeStep + 1);

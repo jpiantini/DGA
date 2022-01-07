@@ -12,6 +12,7 @@ import {
 import { AuthLogout } from '../../redux/actions/AuthActions';
 import { ShowGlobalLoading,HideGlobalLoading } from '../../redux/actions/UiActions';
 import { useSelector } from 'react-redux';
+import LocalStorageService from '../../services/LocalStorageService';
 
 function LoggedInMenu({ image }) {
 
@@ -30,13 +31,13 @@ function LoggedInMenu({ image }) {
     const HandleLogOut = () => {
         dispatch(ShowGlobalLoading('Cerrando sesión'));
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
+            LocalStorageService.removeItem('token');
             dispatch(AuthLogout());
             dispatch(HideGlobalLoading());
         }, 1500);
 
     }
 
-    console.log(profileImg)
     return (
         <Container ref={containerRef}
             onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>

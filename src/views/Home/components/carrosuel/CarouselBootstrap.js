@@ -38,7 +38,6 @@ export const CarouselBootstrap = (data) => {
         prevIcon={directionButtons("Previous")}
       >
         {data.data.map((item, index) => {
-          console.log(item.date.replace(" ", "T"))
           return (
             <Carousel.Item key={index} className="item">
               <ImageContainer image={item.image}>

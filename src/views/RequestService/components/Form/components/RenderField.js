@@ -36,14 +36,9 @@ const RenderField = (props) => {
       case FIELD_TYPES.checkboxGroup:
         const selectedOption = mapArrayDiff(val.target.value, props.value)[0]
         if (selectedOption) {
-          console.log('el valor seleccionado del checkbox es', selectedOption) //trabajar
-          console.log(props.values.find(item => item.value == selectedOption))
-
           props.changeRule(props.values.find(item => item.value == selectedOption)?.rule)
         } else {
           const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
-          console.log('el valor deseleccionado del checkbox es', unselectedOption) //trabajar
-          console.log(props.values.find(item => item.value == unselectedOption))
           props.changeRule(props.values.find(item => item.value == unselectedOption)?.invertRule)
         }
         break;

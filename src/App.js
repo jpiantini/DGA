@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { Global } from '@emotion/react';
 import Router from './router/Router';
 import { BrowserRouter } from "react-router-dom";
@@ -10,6 +10,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Zoom from '@mui/material/Zoom';
 import { SnackbarProvider } from 'notistack'
 import GlobalLoading from './components/GlobalLoading/GlobalLoading';
+import Auth from './auth/Auth';
 //ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
 function App() {
@@ -32,16 +33,13 @@ function App() {
         <GlobalLoading />
         <LocalizationProvider dateAdapter={DateFnsUtils}>
           <BrowserRouter>
-            <Router routes={Layouts} />
+            <Auth>
+              <Router routes={Layouts} />
+            </Auth>
           </BrowserRouter>
         </LocalizationProvider>
-
-
-
       </SnackbarProvider>
-
     </Provider>
-
   );
 }
 

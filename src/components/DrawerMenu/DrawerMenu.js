@@ -16,6 +16,7 @@ import ImportantInformationModal from "../../components/ImportantInformationModa
 import { isMobile } from "react-device-detect";
 import { HideGlobalLoading, ShowGlobalLoading } from "../../redux/actions/UiActions";
 import { AuthLogout } from "../../redux/actions/AuthActions";
+import LocalStorageService from "../../services/LocalStorageService";
 
 function DrawerMenu({ layout }) {
     const matchesWidth = useMediaQuery("(min-width:768px)");
@@ -38,6 +39,7 @@ function DrawerMenu({ layout }) {
     const HandleLogOut = () => {
         dispatch(ShowGlobalLoading('Cerrando sesión'));
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
+            LocalStorageService.removeItem('token');
             dispatch(AuthLogout());
             dispatch(HideGlobalLoading());
         }, 1500);
