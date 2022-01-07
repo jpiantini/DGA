@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 
-function CheckBox({ id, title, label, value, onChange, onBlur, required, error, helperText=" " }) {
+function CheckBox({ id, title, label, value, onChange, onBlur, required, error, helperText=" ",disabled }) {
 
     const HandleCheckboxChange = (e) => {
         if (e.target.checked) {
@@ -29,10 +29,10 @@ function CheckBox({ id, title, label, value, onChange, onBlur, required, error, 
                     </Fragment>
                     : null}
             </Row>
-            <FormControl required={required} error={error} component='fieldset' variant='standard'>
+            <FormControl disabled={disabled} required={required} error={error} component='fieldset' variant='standard'>
                 <FormGroup>
                     <FormControlLabel control={
-                        <Checkbox size='medium' checked={value}
+                        <Checkbox size='medium' disabled={disabled} checked={value}
                             onChange={(e) => onChange({
                                 target: {
                                     id: id,

@@ -70,3 +70,41 @@ export function divideString(string = '', symbol = '/') {
 
   return array.map(str => localToString(str).trim())
 }
+
+export const invertRule = (rule) => {
+  if (!rule) {
+    return ''
+  }
+  const ruleSeparated = localToString(rule).split(':')
+  const ruleAction = localToString(ruleSeparated[0]).split(',')
+  const ruleField = localToString(ruleSeparated[1]).split(',')
+
+  const invertedRule = ruleAction.map(rule => {
+    switch (rule) {
+      case '0':
+        return '1'
+      case '1':
+        return '0'
+      case '2':
+        return '3'
+      case '3':
+        return '2'
+      case '4':
+        return '6'
+      case '6':
+        return '4'
+      default:
+        return '7'
+    }
+  })
+  return `${invertedRule}:${ruleField}`
+}
+
+
+export const defaultString = {
+  requiredText: 'Este campo es requerido',
+  validEmail: 'Favor digitar un email válido',
+  validUrl: 'Favor digitar un URL válido',
+  validPhone: 'Favor digitar un teléfono válido',
+  validRnc: 'Favor digitar un Rnc válido',
+}

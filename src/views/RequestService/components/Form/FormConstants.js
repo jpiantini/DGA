@@ -5,6 +5,7 @@ export const FIELD_TYPES = {
   date: 'date',
   time: 'time',
   radioGroup: 'radio-group',
+  checkboxGroup: "checkbox-group",
   file: 'file',
   grid:'grid'
 }

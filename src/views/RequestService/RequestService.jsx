@@ -29,7 +29,7 @@ import { Grid } from "@mui/material";
 import formDataWithGrid from "./formDataWithGrid.json"; //DEVELOPMENT REMOVE
 import formData from "./formData.json"; //DEVELOPMENT REMOVE
 import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
-import { localToArray } from "../../utilities/functions/ArrayUtil";
+import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 
 function RequestService() {
@@ -42,32 +42,13 @@ function RequestService() {
   const [activeStep, setActiveStep] = useState(0);
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
-  const transformField = (field) => {
-    const fields = localToArray(field.fields).map(transformField)
-    return {
-      ...field,
-      key: field.orden,
-      fieldKey: field.name,
-      data: localToArray(field.values).map((item) => {
-        return {
-          id: item.value,
-          label: item.label,
-          value: item.value,
-          rule: item.rule,
-          father:item.father
-        };
-      }),
-      gridData: [],
-      fields,
-    }
-  }
-
   const getData = () => {
-   // return formDataWithGrid.map((step) => {
-    return formDataMitur.fields.map((step) => {
+    //return formDataWithGrid.map((step) => {
+     return formDataMitur.fields.map((step) => {
       return step.map(transformField)
     });
   };
+
 //  console.log(getData());
   useLayoutEffect(() => {
     let Service = undefined; //ListServices.find((service) => service.id == serviceID);
@@ -79,6 +60,7 @@ function RequestService() {
       dispatch(UpdateAppSubHeaderTitle("TITULO DE SERVICIO SOLICITADO")); // TITLE OF SUBHEADER APP
     }
   }, []);
+
 
   return (
     <Container>

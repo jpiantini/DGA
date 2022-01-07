@@ -1,10 +1,7 @@
-import { useState, useLayoutEffect, useEffect, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import {
-    BodyText,
-    BodyTextBold,
     SmallHeightDivider,
     StyledButtonOutlined,
-    StyledButton,
     MediumHeightDivider
 } from '../../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -28,7 +25,6 @@ import { dataObjectRuleChanger, getFieldValidation } from './FormFunctions';
 import RenderField from './components/RenderField';
 import { localToString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
-
 import { RULE_LIST } from './FormConstants';
 
 function Form(props) {
@@ -39,7 +35,7 @@ function Form(props) {
     const { authenticated } = useSelector((state) => state.authReducer);
 
     const [localData, setLocalData] = useState([]);
-    const stepsLenght = localToArray(props.data).length;
+    const stepsLenght = localToArray(localData).length;
     const [activeStep, setActiveStep] = useState(0);
     const lastStep = (stepsLenght - 1) == activeStep;
 
@@ -59,10 +55,10 @@ function Form(props) {
     };
 
     const handleStepsValidation = (step) => {
-        if (props.data[step]) {
+        if (localData[step]) {
             let stepField = false
-            for (let i = 0; i < props.data[step]?.length; i++) {
-                const field = props.data[step][i];
+            for (let i = 0; i < localData[step]?.length; i++) {
+                const field = localData[step][i];
                 if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
                     stepField = true;
                 }
@@ -121,7 +117,7 @@ function Form(props) {
         }
 
         const ruleList = [rule]
-        let _localData = localToArray(props.data)
+        let _localData = localToArray(localData)
 
         for (let index = 0; index < ruleList.length; index++) {
             const ruleSeparated = localToString(ruleList[index]).split(':')
@@ -154,6 +150,7 @@ function Form(props) {
 
         setLocalData(_localData)
     }
+
 
     const LocalRenderField = ({ item, index }) => {
         return (

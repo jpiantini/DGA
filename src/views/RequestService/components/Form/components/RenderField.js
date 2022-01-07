@@ -1,36 +1,63 @@
 import React, { useState } from 'react';
 import { FIELD_TYPES, MASK_LIST, MASK_TYPE } from '../FormConstants';
-import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FeedIcon from '@mui/icons-material/Feed';
 import Select from '../../../../../components/Select/Select';
 import TextField from '../../../../../components/TextField/TextField';
 import RadioButtonGroup from '../../../../../components/RadioButtonGroup/RadioButtonGroup';
-import {  Row, RowBodyDivider, SmallHeightDivider, StyledButton, StyledButtonOutlined, SubTitle, Title } from '../../../../../theme/Styles';
+import { Row, SmallHeightDivider, StyledButton, SubTitle, Title } from '../../../../../theme/Styles';
 import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
-import { localToArray } from '../../../../../utilities/functions/ArrayUtil';
+import { localToArray, mapArrayDiff } from '../../../../../utilities/functions/ArrayUtil';
 import { cleanNumbersFromString, cleanNumberWithDecimal, localToString } from '../../../../../utilities/functions/StringUtil';
-import { safeValExtraction } from '../../../../../utilities/functions/ObjectUtil';
 import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
+import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup';
 
 const RenderField = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false)
 
   const LocalOnChange = (val) => {
+    
     //call rule change
-    if (props.type == FIELD_TYPES.select && typeof props.changeRule == 'function' && localToString(val.target.value).length > 0) {
-      props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
-      //TODO add another validation for radioGroup like for select
-    } else if (props.type == FIELD_TYPES.radioGroup && typeof props.changeRule == 'function' && localToString(val.target.value).length > 0) {
-      props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
+    switch (props.type) {
+      case FIELD_TYPES.select:
+        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); // data object of form json. reference -> ArrayUtil/dataToSelect.js
+        if (val?.target.value) { //new selectedValue
+          props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
+        } else if (currentSelectedValue?.invertRule) { //current selectedValue
+          props.changeRule(localToString(currentSelectedValue.invertRule));
+        }
+        break;
+      case FIELD_TYPES.checkboxGroup:
+        const selectedOption = mapArrayDiff(val.target.value, props.value)[0]
+        if (selectedOption) {
+          console.log('el valor seleccionado del checkbox es', selectedOption) //trabajar
+          console.log(props.values.find(item => item.value == selectedOption))
+
+          props.changeRule(props.values.find(item => item.value == selectedOption)?.rule)
+        } else {
+          const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
+          console.log('el valor deseleccionado del checkbox es', unselectedOption) //trabajar
+          console.log(props.values.find(item => item.value == unselectedOption))
+          props.changeRule(props.values.find(item => item.value == unselectedOption)?.invertRule)
+        }
+        break;
+      case FIELD_TYPES.radioGroup:
+        if (localToString(val.target.value).length > 0) {
+          props.changeRule(props.values.find(item => item.value == val.target.value)?.rule)
+        } else {
+          props.changeRule(props.values.find(item => item.value == props.value)?.invertRule)
+        }
+        break;
     }
+
     //change val
-    if (typeof props.onChange == 'function') {
+  //  if (typeof props.onChange == 'function') {
       switch (MASK_LIST[props.Mask || '']) {
         case MASK_LIST[7]:
           props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
@@ -42,7 +69,8 @@ const RenderField = (props) => {
           props.onChange(props.fieldKey, val.target.value);
           break;
       }
-    }
+ //   }
+
   }
 
   const handleValidationOnBlur = () => {
@@ -80,7 +108,7 @@ const RenderField = (props) => {
     return localToArray(arr).filter(item => item.father == fatherVal)
   }
 
-  
+
 
   const RenderGridItem = ({ item, index }) => {
     return (
@@ -92,7 +120,7 @@ const RenderField = (props) => {
                 <IconButton onClick={() => setModalVisible({ ...item, listIndex: index })} edge="end" aria-label="edit">
                   <EditIcon />
                 </IconButton>
-                <div style={{width:'15px'}}/>
+                <div style={{ width: '15px' }} />
                 <IconButton onClick={() => deleteGridElement(index)} edge="end" aria-label="delete">
                   <DeleteIcon />
                 </IconButton>
@@ -104,7 +132,7 @@ const RenderField = (props) => {
                 <FeedIcon />
               </Avatar>
             </ListItemAvatar>
-            
+
             <BodyText>{`${props.label} ${index + 1}`}</BodyText>
           </ListItem>
         </List>
@@ -126,6 +154,22 @@ const RenderField = (props) => {
             title={props.label}
             value={props.value}
             onChange={LocalOnChange}
+            onBlur={handleValidationOnBlur}
+            options={props.data}
+            error={props.error}
+            helperText={props.helperText}
+            placeholder={props.placeholder}
+            disabled={!props.enabled}
+            required={props.required}
+          />
+        )
+      case FIELD_TYPES.checkboxGroup:
+        return (
+          <CheckBoxGroup
+            id={props.fieldKey}
+            title={props.label}
+            onChange={LocalOnChange}
+            value={props.value}
             onBlur={handleValidationOnBlur}
             options={props.data}
             error={props.error}
@@ -242,7 +286,6 @@ const RenderField = (props) => {
       case FIELD_TYPES.grid:
         return (
           <div>
-
             <SubTitle >
               {props.label}
             </SubTitle>
@@ -255,12 +298,9 @@ const RenderField = (props) => {
               }
             </GridContainer>
             <SmallHeightDivider />
-
-
             <StyledButton onClick={() => setModalVisible(true)}>
               Agregar
             </StyledButton>
-
             <ModalForm
               title={props.label}
               isVisible={modalVisible}

@@ -19,7 +19,7 @@
         "label": "Propietario",
         "mask": null,
         "hidden": false,
-        "enabled": false,
+        "enabled": true,
         "group": "grp01",
         "orden": "100177100103",
         "name": "check37",
@@ -27,17 +27,17 @@
           {
             "label": "Propietario",
             "value": "check36",
-            "rule": ""
+            "rule": "0:check38"
           },
           {
             "label": "Abogado",
             "value": "check37",
-            "rule": ""
+            "rule": "2:check38"
           },
           {
             "label": "Informante",
             "value": "check38",
-            "rule": ""
+            "rule": "4:check38"
           }
         ]
       },
@@ -46,7 +46,7 @@
         "label": "Profesional  Responsable del Proyecto",
         "mask": null,
         "hidden": false,
-        "enabled": false,
+        "enabled": true,
         "group": "grp01",
         "orden": "100179100304",
         "name": "check38",
@@ -63,7 +63,7 @@
         "label": "Solicitante/Representante",
         "mask": null,
         "hidden": false,
-        "enabled": false,
+        "enabled": true,
         "group": "grp01",
         "orden": "100179100603",
         "name": "check39",
@@ -105,11 +105,13 @@
         "values": [
           {
             "label": "Si",
-            "value": "1"
+            "value": "1",
+            "rule": "0:check38"
           },
           {
             "label": "No",
-            "value": "2"
+            "value": "2",
+            "rule": "0:check38"
           }
         ]
       },

@@ -1,6 +1,6 @@
 import { Carousel } from "react-bootstrap";
 import "./Style/style.css";
-import "./Style/CarouselBootstrapStyle.scss";
+import "../../../../theme/BootstrapStyles.scss";
 import {
   DefaultButton,
   HomeTextContainer,

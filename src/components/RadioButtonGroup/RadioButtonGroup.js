@@ -8,7 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import { FormControl, FormHelperText } from '@mui/material';
 
-function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText=" ", error }) {
+function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText=" ", error,disabled }) {
 
 
 
@@ -23,8 +23,8 @@ function RadioButtonGroup({ id, title, options, value, onChange, onBlur, require
                     </Fragment>
                     : null}
             </Row>
-            <FormControl required={required} error={error} component='fieldset' variant='standard'>
-                <FormGroup>
+            <FormControl disabled={disabled} required={required} error={error} component='fieldset' variant='standard'>
+                <FormGroup >
                     <RadioGroup name={id} value={value} onChange={onChange} onBlur={onBlur} row={row}>
                         {
                             options?.map((option) => (
