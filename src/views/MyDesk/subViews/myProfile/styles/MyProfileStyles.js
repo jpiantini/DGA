@@ -29,19 +29,19 @@ export const ProfileImage = styled('img')({
     alignSelf:'center',
     '@media (min-width:320px)': {
         width: '100px',
-        height:'100%',
+        height:'150px',
         borderRadius:'100%',
         marginTop:'5px',
     },
     '@media (min-width:768px)': {
         width: '125px',
-        height:'100%',
+        height:'150px',
         borderRadius:0,
         marginTop:0,
     },
     '@media (min-width:1200px)': {
         width: '150px',
-        height:'100%',
+        height:'150px',
         borderRadius:0,
         marginTop:0,
     },
@@ -53,17 +53,17 @@ export const ProfileContainer = styled('div')({
     boxShadow: boxShadowConfig,
     '@media (min-width:320px)': {
         flexDirection: 'column',
-        minHeight:'100%',
+        height:'250px',
         justifyContent: 'center',
     },
     '@media (min-width:768px)': {
         flexDirection: 'row',
-        height:'100%',
+        height:'150px',
         justifyContent: 'flex-start',
     },
     '@media (min-width:1200px)': {
         flexDirection: 'row',
-        height:'100%',
+        height:'150px',
         justifyContent: 'flex-start',
     },
     

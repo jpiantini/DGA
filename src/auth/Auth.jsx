@@ -30,6 +30,7 @@ function Auth({children}) {
                     dispatch(HideGlobalLoading());
                 }, 1500);
             } else {
+                //delete token and cache
                 history.push('/public');
             }
         } catch (error) {

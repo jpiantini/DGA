@@ -17,7 +17,7 @@ export default function apiCall() {
     axiosInstance.interceptors.response.use(async (response) => {
         //refreshToken NEED TEST
         const originalRequest = response.config;
-        if (response.data?.msg === 'Token expirado' && !originalRequest._retry) { //CHANGE CONDITION 401 FOR MESSAGE FROM BACKEND
+        if (response.data?.msg === 'El token ha expirado' && !originalRequest._retry) { //CHANGE CONDITION 401 FOR MESSAGE FROM BACKEND
             originalRequest._retry = true;
             const access_token = await refreshToken();
             axios.defaults.headers.common['Authorization'] = 'beater ' + access_token;
@@ -34,9 +34,13 @@ export default function apiCall() {
 
 const refreshToken = async () => {
     let response =  await apiCall().get('/refresh/token');
-    //if token be refreshed - Save token in sessionStorage
-    //if token cant be refreshed - logout
     console.log('nuevo token',response.data?.payload.token);
-    return response.data?.payload.token; //RETURN NEW TOKEN - NEED TEST
+    if(response.data.success){
+        LocalStorageService.setItem('token',response.data.payload.token);
+        return response.data?.payload.token;
+    }else{
+        //logout();
+        return null;
+    }
 }
 

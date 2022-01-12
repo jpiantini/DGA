@@ -14,17 +14,19 @@ export const FormSchema = yup.object({
 }).required();
 
 export const FormPasswordSchema = yup.object({
-  actual_password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
-  new_password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
+  old_password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
+  password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
   new_password_confirmation: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres')
-    .oneOf([yup.ref('new_password'), null], 'Las contraseñas no coinciden').required('Este campo es requerido'),
+    .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden').required('Este campo es requerido'),
 
 }).required();
 
 export const FormEmailSchema = yup.object({
-  actual_email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
-  new_email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
+  password: yup.string().min(6, 'La contraseña debe tener minimo 6 caracteres').required('Este campo es requerido'),
+  email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
   new_email_confirmation: yup.string().email('Ingrese un email valido')
-    .oneOf([yup.ref('new_email'), null], 'Los correos no coinciden').required('Este campo es requerido'),
+    .oneOf([yup.ref('email'), null], 'Los correos no coinciden').required('Este campo es requerido'),
 
 }).required();
+
+

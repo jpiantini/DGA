@@ -12,9 +12,13 @@ import CheckBox from "../../components/CheckBox/CheckBox";
 import { FormEmailSchema, FormPasswordSchema, FormSchema } from "./MyConfigurationConstants";
 import apiCall from "../../services/ApiServerCall";
 import FormModal from "../../components/FormModal/FormModal";
+import { modifyEmail, modifyPassword } from "../../api/myConfiguration";
+import { useSnackbar } from 'notistack';
 
 export const MyConfiguration = () => {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
   const { profileImg } = useSelector((state) => state.authReducer);
 
   const [provincesData, setProvincesData] = useState([]);
@@ -24,10 +28,7 @@ export const MyConfiguration = () => {
   const [openModifyPasswordModal, setOpenModifyPasswordModal] = useState(false);
   const [openModifyEmailModal, setOpenModifyEmailModal] = useState(false);
 
-  useLayoutEffect(() => {
-    //UPDATE APP HEADER SUBTITLE
-    dispatch(UpdateAppSubHeaderTitle("Mi configuración")); // TITLE OF SUBHEADER APP
-  }, []);
+
 
   const formik = useFormik({
     initialValues: {
@@ -50,34 +51,55 @@ export const MyConfiguration = () => {
 
   const formikPasswordChange = useFormik({
     initialValues: {
-      actual_password: '',
-      new_password: '',
+      old_password: '',
+      password: '',
       new_password_confirmation: ''
     },
     validationSchema: FormPasswordSchema,
     onSubmit: (values) => {
-      // handlePasswordChange(values);
+      handleModifyPassword(values)
     },
   });
 
   const formikEmailChange = useFormik({
     initialValues: {
-      actual_email: '',
-      new_email: '',
+      password: '',
+      email: '',
       new_email_confirmation: ''
     },
     validationSchema: FormEmailSchema,
     onSubmit: (values) => {
-      // handleEmailChange(values);
+       handleModifyEmail(values);
     },
   });
 
+  const handleModifyPassword = async (formData) => {
+    const response = await modifyPassword(formData);
+    if (response.data.success){
+      enqueueSnackbar('Se ha modificado su contraseña', { variant: 'success' });
+      handleModifyPasswordModal();
+    }else{
+      enqueueSnackbar(response.data.msg, { variant: 'error' });
+    }
+  }
 
+  const handleModifyEmail = async (formData) => {
+    const response = await modifyEmail(formData);
+    if (response.data.success){
+      enqueueSnackbar('Se ha modificado su correo electrónico', { variant: 'success' });
+      handleModifyEmailModal();
+    }else{
+      enqueueSnackbar(response.data.msg, { variant: 'error' });
+    }
+  }
 
   const handleModifyPasswordModal = () => {
+    formikPasswordChange.resetForm();
     setOpenModifyPasswordModal(!openModifyPasswordModal);
+    
   }
   const handleModifyEmailModal = () => {
+    formikEmailChange.resetForm();
     setOpenModifyEmailModal(!openModifyEmailModal);
   }
 
@@ -130,6 +152,11 @@ export const MyConfiguration = () => {
     }
   }
 
+  useLayoutEffect(() => {
+    //UPDATE APP HEADER SUBTITLE
+    dispatch(UpdateAppSubHeaderTitle("Mi configuración")); // TITLE OF SUBHEADER APP
+  }, []);
+
   useEffect(() => {
     getProvincesData();
   }, []);
@@ -166,23 +193,23 @@ export const MyConfiguration = () => {
         <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
           <Grid item xs={12} sm={12} md={12}>
-            <TextField title="Contraseña actual" type="password" id="actual_password"
-              value={formikPasswordChange.values.actual_password}
+            <TextField title="Contraseña actual" type="password" id="old_password"
+              value={formikPasswordChange.values.old_password}
               onChange={formikPasswordChange.handleChange}
               onBlur={formikPasswordChange.handleBlur}
-              error={formikPasswordChange.touched.actual_password && Boolean(formikPasswordChange.errors.actual_password)}
-              helperText={formikPasswordChange.touched.actual_password && formikPasswordChange.errors.actual_password}
+              error={formikPasswordChange.touched.old_password && Boolean(formikPasswordChange.errors.old_password)}
+              helperText={formikPasswordChange.touched.old_password && formikPasswordChange.errors.old_password}
               required
             />
           </Grid>
 
           <Grid item xs={12} sm={4} md={6}>
-            <TextField title="Nueva Contraseña" type="password" id="new_password"
-              value={formikPasswordChange.values.new_password}
+            <TextField title="Nueva Contraseña" type="password" id="password"
+              value={formikPasswordChange.values.password}
               onChange={formikPasswordChange.handleChange}
               onBlur={formikPasswordChange.handleBlur}
-              error={formikPasswordChange.touched.new_password && Boolean(formikPasswordChange.errors.new_password)}
-              helperText={formikPasswordChange.touched.new_password && formikPasswordChange.errors.new_password}
+              error={formikPasswordChange.touched.password && Boolean(formikPasswordChange.errors.password)}
+              helperText={formikPasswordChange.touched.password && formikPasswordChange.errors.password}
               required
             />
           </Grid>
@@ -219,24 +246,13 @@ export const MyConfiguration = () => {
         <SmallHeightDivider />
         <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
-          <Grid item xs={12} sm={12} md={12}>
-            <TextField title="Email actual" type="text" id="actual_email"
-              value={formikEmailChange.values.actual_email}
-              onChange={formikEmailChange.handleChange}
-              onBlur={formikEmailChange.handleBlur}
-              error={formikEmailChange.touched.actual_email && Boolean(formikEmailChange.errors.actual_email)}
-              helperText={formikEmailChange.touched.actual_email && formikEmailChange.errors.actual_email}
-              required
-            />
-          </Grid>
-
           <Grid item xs={12} sm={4} md={6}>
-            <TextField title="Nuevo email" type="text" id="new_email"
-              value={formikEmailChange.values.new_email}
+            <TextField title="Email" type="text" id="email"
+              value={formikEmailChange.values.email}
               onChange={formikEmailChange.handleChange}
               onBlur={formikEmailChange.handleBlur}
-              error={formikEmailChange.touched.new_email && Boolean(formikEmailChange.errors.new_email)}
-              helperText={formikEmailChange.touched.new_email && formikEmailChange.errors.new_email}
+              error={formikEmailChange.touched.email && Boolean(formikEmailChange.errors.email)}
+              helperText={formikEmailChange.touched.email && formikEmailChange.errors.email}
               required
             />
           </Grid>
@@ -251,13 +267,25 @@ export const MyConfiguration = () => {
               required
             />
           </Grid>
+
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField title="Contraseña" type="password" id="password"
+              value={formikEmailChange.values.password}
+              onChange={formikEmailChange.handleChange}
+              onBlur={formikEmailChange.handleBlur}
+              error={formikEmailChange.touched.password && Boolean(formikEmailChange.errors.password)}
+              helperText={formikEmailChange.touched.password && formikEmailChange.errors.password}
+              required
+            />
+          </Grid>
+
         </Grid>
         
         <SmallHeightDivider />
         <SmallHeightDivider />
 
         <ButtonSaveContainer>
-          <StyledButton onClick={() => formikPasswordChange.handleSubmit()}>
+          <StyledButton onClick={() => formikEmailChange.handleSubmit()}>
             CONFIRMAR
           </StyledButton>
         </ButtonSaveContainer>

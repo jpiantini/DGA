@@ -43,8 +43,8 @@ function RequestService() {
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
   const getData = () => {
-    return formDataWithGrid.map((step) => {
-    // return formDataMitur.fields.map((step) => {
+   // return formDataWithGrid.map((step) => {
+     return formDataMitur.fields.map((step) => {
       return step.map(transformField)
     });
   };

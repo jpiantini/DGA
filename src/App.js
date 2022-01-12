@@ -11,9 +11,22 @@ import Zoom from '@mui/material/Zoom';
 import { SnackbarProvider } from 'notistack'
 import GlobalLoading from './components/GlobalLoading/GlobalLoading';
 import Auth from './auth/Auth';
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { hourToMilliseconds } from './utilities/functions/TimeUtil';
 //ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: hourToMilliseconds(24) // 24 hours / 1 day time of data from server is considered fresh
+    }
+  }
+})
+
+
 function App() {
+
   return (
     <Provider store={Store}>
       <Global
@@ -23,22 +36,25 @@ function App() {
           }
         `}
       />
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        TransitionComponent={Zoom}
-      >
-        <GlobalLoading />
-        <LocalizationProvider dateAdapter={DateFnsUtils}>
-          <BrowserRouter>
-            <Auth>
-              <Router routes={Layouts} />
-            </Auth>
-          </BrowserRouter>
-        </LocalizationProvider>
-      </SnackbarProvider>
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          TransitionComponent={Zoom}
+        >
+          <GlobalLoading />
+          <LocalizationProvider dateAdapter={DateFnsUtils}>
+            <BrowserRouter>
+              <Auth>
+                <Router routes={Layouts} />
+              </Auth>
+            </BrowserRouter>
+          </LocalizationProvider>
+        </SnackbarProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Provider>
   );
 }

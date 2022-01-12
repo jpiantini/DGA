@@ -100,7 +100,7 @@
         "name": "radiobutt03",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "100271100077",
         "values": [
           {
@@ -131,7 +131,7 @@
         "name": "radiobutt18",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "100329100058",
         "values": [
           {
@@ -425,7 +425,7 @@
         "name": "radiobutt19",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "100905100132",
         "values": [
           {
@@ -662,7 +662,7 @@
         "name": "radiobutt20",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "101251100043",
         "values": [
           {
@@ -1225,7 +1225,7 @@
         "name": "radiobutt04",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "102466100101",
         "values": [
           {
@@ -1366,7 +1366,7 @@
         "name": "radiobutt05",
         "hidden": false,
         "enabled": false,
-        "required": true,
+        "required": false,
         "orden": "102754100216",
         "values": [
           {
