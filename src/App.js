@@ -20,6 +20,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: hourToMilliseconds(24) // 24 hours / 1 day time of data from server is considered fresh
+      //TO DO CONFIGURATE  DATA INACTIVE TIME
     }
   }
 })

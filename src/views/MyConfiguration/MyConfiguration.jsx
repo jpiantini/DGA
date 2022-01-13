@@ -12,12 +12,17 @@ import CheckBox from "../../components/CheckBox/CheckBox";
 import { FormEmailSchema, FormPasswordSchema, FormSchema } from "./MyConfigurationConstants";
 import apiCall from "../../services/ApiServerCall";
 import FormModal from "../../components/FormModal/FormModal";
-import { modifyEmail, modifyPassword } from "../../api/myConfiguration";
+import { modifyEmail, modifyPassword, modifyUserData } from "../../api/myConfiguration";
 import { useSnackbar } from 'notistack';
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { stringToDominicanCedula } from "../../utilities/functions/FormatterUtil";
+import { getUser } from "../../api/Auth";
 
 export const MyConfiguration = () => {
+
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient()
 
   const { profileImg } = useSelector((state) => state.authReducer);
 
@@ -28,24 +33,26 @@ export const MyConfiguration = () => {
   const [openModifyPasswordModal, setOpenModifyPasswordModal] = useState(false);
   const [openModifyEmailModal, setOpenModifyEmailModal] = useState(false);
 
-
+  const { isLoading, error, data, isFetching } = useQuery(['userData'], () => getUser())
+  const mutation = useMutation(modifyUserData);
 
   const formik = useFormik({
-    initialValues: {
-      address: '',
-      province_id: '',
-      municipality_id: '',
-      sector_id: '',
-      phoneMobile: '',
-      phoneResidential: '',
+    initialValues: { // TO DO COMPLETE FORM INFORMATION
+      address: data?.data?.payload?.address || '',
+      province_id: data?.data?.payload?.province_id || '',
+      municipality_id: data?.data?.payload?.municipality_id || '',
+      sector_id: data?.data?.payload?.sector_id || '',
+      phoneMobile: data?.data?.payload?.phone || '',
+      phone2: data?.data?.payload?.phone2 || '',
       phoneLaboral: '',
-      secundaryEmail: '',
+      secundaryEmail:data?.data?.payload?.email2 || '',
       notificationsWithEmail: false,
       notificationsSms: false
     },
     validationSchema: FormSchema,
+    enableReinitialize:true,
     onSubmit: (values) => {
-      // handleSubmitChanges(values);
+      handleModifyUserData(values);
     },
   });
 
@@ -69,39 +76,59 @@ export const MyConfiguration = () => {
     },
     validationSchema: FormEmailSchema,
     onSubmit: (values) => {
-       handleModifyEmail(values);
+      handleModifyEmail(values);
     },
   });
 
+  const handleModifyPasswordModal = () => {
+    formikPasswordChange.resetForm();
+    setOpenModifyPasswordModal(!openModifyPasswordModal);
+
+  }
+  const handleModifyEmailModal = () => {
+    formikEmailChange.resetForm();
+    setOpenModifyEmailModal(!openModifyEmailModal);
+  }
+
   const handleModifyPassword = async (formData) => {
     const response = await modifyPassword(formData);
-    if (response.data.success){
+    if (response.data.success) {
       enqueueSnackbar('Se ha modificado su contraseña', { variant: 'success' });
       handleModifyPasswordModal();
-    }else{
+    } else {
       enqueueSnackbar(response.data.msg, { variant: 'error' });
     }
   }
 
   const handleModifyEmail = async (formData) => {
     const response = await modifyEmail(formData);
-    if (response.data.success){
+    if (response.data.success) {
       enqueueSnackbar('Se ha modificado su correo electrónico', { variant: 'success' });
       handleModifyEmailModal();
-    }else{
+    } else {
       enqueueSnackbar(response.data.msg, { variant: 'error' });
     }
   }
 
-  const handleModifyPasswordModal = () => {
-    formikPasswordChange.resetForm();
-    setOpenModifyPasswordModal(!openModifyPasswordModal);
+  const handleModifyUserData = async (formData) => {
+    alert(formData);
+
+    /*  TO DO change the modifyUserData endpoint
     
+    mutation.mutate(formData, {
+      onSuccess: (data) => {
+        if (data.data.success) {
+          enqueueSnackbar('Se ha modificado su información de usuario', { variant: 'success' });
+          queryClient.invalidateQueries('userData') // refresh cache of userData
+        }else{
+          enqueueSnackbar(data.data.msg, { variant: 'error' });
+        }
+      }
+    })
+       */
   }
-  const handleModifyEmailModal = () => {
-    formikEmailChange.resetForm();
-    setOpenModifyEmailModal(!openModifyEmailModal);
-  }
+
+
 
 
   const getProvincesData = async () => {
@@ -169,8 +196,8 @@ export const MyConfiguration = () => {
           <ProfileImage src={profileImg} />
           <ElementDivider />
           <div>
-            <Title>Nombre de usuario</Title>
-            <BodyText>Cedula:</BodyText>
+            <Title>{data && data.data.payload.name + " " + data.data.payload.first_last_name + " " + data.data.payload.second_last_name}</Title>
+            <BodyText>Cedula: <strong>{data && stringToDominicanCedula(data.data.payload.citizen_id)}</strong></BodyText>
             <BodyText>Última modificación:</BodyText>
             <SmallHeightDivider />
           </div>
@@ -280,7 +307,7 @@ export const MyConfiguration = () => {
           </Grid>
 
         </Grid>
-        
+
         <SmallHeightDivider />
         <SmallHeightDivider />
 
@@ -373,13 +400,13 @@ export const MyConfiguration = () => {
         </Grid>
 
         <Grid item xs={8} sm={4} md={6}>
-          <TextField title="Teléfono residencial" type="text" id="phoneResidential"
+          <TextField title="Teléfono secundario" type="text" id="phone2"
             mask="999-999-9999"
-            value={formik.values.phoneResidential}
+            value={formik.values.phone2}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.phoneResidential && Boolean(formik.errors.phoneResidential)}
-            helperText={formik.touched.phoneResidential && formik.errors.phoneResidential}
+            error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
+            helperText={formik.touched.phone2 && formik.errors.phone2}
             required
           />
         </Grid>
