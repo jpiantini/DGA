@@ -10,7 +10,8 @@ import {
   Image,
   MenuButton,
   MenuDivider,
-  DrawerMenuContainer
+  DrawerMenuContainer,
+  LineContainer
 } from "./styles/HeaderStyles";
 import Notifications from "../../../../components/Notifications/Notifications";
 import DrawerMenu from "../../../../components/DrawerMenu/DrawerMenu";
@@ -28,6 +29,7 @@ function Header() {
 
   return (
     <Container>
+      <LineContainer>
       <Image src={MiturLogo} />
       {matchesWidth ?
         <MenuContainer>
@@ -63,7 +65,7 @@ function Header() {
           <DrawerMenu layout="app"/>
         </DrawerMenuContainer>
       }
-      
+      </LineContainer>
     </Container>
   );
 }

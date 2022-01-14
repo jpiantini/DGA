@@ -13,6 +13,15 @@ export const Container = styled("div")({
   width: "100%",
 });
 
+export const LineContainer = styled('div')({
+  display: 'flex',
+  position: 'relative',
+  flexDirection: 'row',
+  alignItems: 'center',
+  width: '80%',
+  justifyContent: 'space-between',
+});
+
 export const MenuContainer = styled("div")({
   display: "flex",
   flexDirection: "row",

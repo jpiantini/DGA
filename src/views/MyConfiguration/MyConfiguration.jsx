@@ -24,7 +24,7 @@ export const MyConfiguration = () => {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient()
 
-  const { profileImg } = useSelector((state) => state.authReducer);
+  const { profileImg } = useSelector((state) => state.authReducer); 
 
   const [provincesData, setProvincesData] = useState([]);
   const [municipalitiesData, setMunicipalitiesData] = useState([]);

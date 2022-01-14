@@ -45,17 +45,21 @@ function Contact() {
   });
 
   const getAndSetAllWordPressContent = async () => {
-    let response = await wpCall().get('/sucursales/v1/sucursales');
-    let data = response.data.map((data) => {
-      return {
-        title: data.title,
-        address: data.address,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-        website: data.website,
-      };
-    });
-    setWordpressContent(data);
+    try {
+      let response = await wpCall().get('/sucursales/v1/sucursales');
+      let data = response.data.map((data) => {
+        return {
+          title: data.title,
+          address: data.address,
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          website: data.website,
+        };
+      });
+      setWordpressContent(data);
+    } catch (error) {
+
+    }
   };
 
   useLayoutEffect(() => {

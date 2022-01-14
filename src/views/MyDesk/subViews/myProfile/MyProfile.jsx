@@ -17,6 +17,8 @@ import FormModal from '../../../../components/FormModal/FormModal';
 import { SectionTitle, SectionTextDivider } from '../../styles/MyDeskStyles';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { addNewCompany, getAllCompanies, modifyCompany } from '../../../../api/myProfile';
+import { getUser } from '../../../../api/Auth';
+import { stringToDominicanCedula, stringToDominicanPhoneNumber } from '../../../../utilities/functions/FormatterUtil';
 
 
 function MyProfile() {
@@ -26,11 +28,13 @@ function MyProfile() {
     const dispatch = useDispatch();
     const queryClient = useQueryClient()
 
+    const { profileImg } = useSelector((state) => state.authReducer);
+
     const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState();
 
-
-    const { isLoading, error, data, refetch, isFetching } = useQuery(['allCompaniesData'], () => getAllCompanies())
+    const userQuery = useQuery(['userData'], () => getUser())
+    const companiesQuery = useQuery(['allCompaniesData'], () => getAllCompanies())
     const mutationForModifyCompany = useMutation(modifyCompany);
     const mutationForAddCompany = useMutation(addNewCompany);
 
@@ -87,7 +91,6 @@ function MyProfile() {
         }
         setOpenModifyOrAddCompanyModal(!openModifyOrAddCompanyModal);
     }
-
     return (
         <Fade right>
             <Fragment>
@@ -111,15 +114,15 @@ function MyProfile() {
                 <div style={{ height: '1px' }} />
 
                 <ProfileContainer>
-                    <ProfileImage src="https://www.w3schools.com/howto/img_avatar.png" />
+                    <ProfileImage src={profileImg} />
                     <CardTextContainer>
-                        <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                        <Grid alignItems="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
                             <Grid item xs={4} sm={4} md={4}>
                                 <CardBodyTitle>
                                     Nombre
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    Roberto Enrique M.
+                                    {userQuery.data && userQuery.data.data.payload.name + " " + userQuery.data.data.payload.first_last_name + " " + userQuery.data.data.payload.second_last_name}
                                 </CardBodyText>
                             </Grid>
 
@@ -128,16 +131,7 @@ function MyProfile() {
                                     Documento de Identidad
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    001-6585665-5
-                                </CardBodyText>
-                            </Grid>
-
-                            <Grid item xs={4} sm={4} md={4}>
-                                <CardBodyTitle>
-                                    Empresa
-                                </CardBodyTitle>
-                                <CardBodyText>
-                                    Restaurant & Bar Grill
+                                    {userQuery.data && stringToDominicanCedula(userQuery.data.data.payload.citizen_id)}
                                 </CardBodyText>
                             </Grid>
 
@@ -146,7 +140,7 @@ function MyProfile() {
                                     Telefono de contacto
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    809-777-6666
+                                    {userQuery.data && stringToDominicanPhoneNumber(userQuery.data.data.payload.phone)}
                                 </CardBodyText>
                             </Grid>
 
@@ -155,7 +149,7 @@ function MyProfile() {
                                     Ciudad
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    Santo Domingo
+                                    {userQuery.data && userQuery.data.data.payload.province}
                                 </CardBodyText>
                             </Grid>
 
@@ -164,7 +158,7 @@ function MyProfile() {
                                     Correo Electrónico
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    Robert@gmail.com
+                                    {userQuery.data && userQuery.data.data.payload.email}
                                 </CardBodyText>
 
                             </Grid>
@@ -173,8 +167,8 @@ function MyProfile() {
                 </ProfileContainer>
 
                 {
-                    isLoading || isFetching ? null :
-                        data?.map((company) => (
+                    companiesQuery.isLoading || companiesQuery.isFetching ? null :
+                        companiesQuery.data?.map((company) => (
                             <div key={company.id}>
                                 <MediumHeightDivider />
                                 <Row style={{ alignItems: 'center' }}>

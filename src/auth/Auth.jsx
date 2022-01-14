@@ -65,6 +65,7 @@ function Auth({ children }) {
                } else {
                    //delete token and cache
                    history.push('/public');
+                   dispatch(HideGlobalLoading());
                }
            } catch (error) {
                //LOCAL ERRORS NETWORK ETC

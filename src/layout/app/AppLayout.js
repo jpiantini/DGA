@@ -33,6 +33,7 @@ const AppLayout = ({ children }) => {
             </LayoutBodyContainer>
             <LayoutFooterDivider />
             <Footer />
+
         </LayoutContainer>
 
     );
