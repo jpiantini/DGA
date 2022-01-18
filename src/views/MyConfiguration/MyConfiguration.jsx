@@ -186,7 +186,13 @@ export const MyConfiguration = () => {
 
   useEffect(() => {
     getProvincesData();
-  }, []);
+    if(data){
+      (async () => {
+      await getMunicipalitiesData(formik.values.province_id);
+      await getSectorsData(formik.values.municipality_id);
+      })();
+    }
+  }, [data]);
 
   return (
     <Container>

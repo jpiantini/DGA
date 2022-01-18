@@ -5,9 +5,7 @@ import {
   MediumHeightDivider,
   StyledButtonOutlined,
 } from '../../theme/Styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useHistory } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import {
   ButtonContainer,
@@ -19,14 +17,14 @@ import { useFormik } from 'formik';
 import { FormSchema } from './ContactConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
-import wpCall from '../../services/WpServerCall';
+import { useQuery } from 'react-query'
+import { getContactDataFromWordpress } from '../../api/Contact';
 
 function Contact() {
-  const matchesWidth = useMediaQuery('(min-width:768px)');
-  const history = useHistory();
+
   const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authReducer);
-  const [wordpressContent, setWordpressContent] = useState();
+
+  const {data} = useQuery(['contactData'], () => getContactDataFromWordpress())
 
   const formik = useFormik({
     initialValues: {
@@ -44,32 +42,11 @@ function Contact() {
     },
   });
 
-  const getAndSetAllWordPressContent = async () => {
-    try {
-      let response = await wpCall().get('/sucursales/v1/sucursales');
-      let data = response.data.map((data) => {
-        return {
-          title: data.title,
-          address: data.address,
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          website: data.website,
-        };
-      });
-      setWordpressContent(data);
-    } catch (error) {
-
-    }
-  };
-
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle('Contacto')); // TITLE OF SUBHEADER APP
   }, []);
 
-  useEffect(() => {
-    getAndSetAllWordPressContent();
-  }, []);
 
   return (
     <Container>
@@ -84,8 +61,8 @@ function Contact() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 8, sm: 8, md: 12 }}
       >
-        {wordpressContent &&
-          wordpressContent.map((content) => (
+        {data &&
+          data.map((content) => (
             <Grid item xs={12} sm={12} md={6}>
               <ContactInfoContainer>
                 <label>

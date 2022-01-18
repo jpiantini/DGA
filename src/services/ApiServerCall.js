@@ -23,8 +23,6 @@ export default function apiCall() {
             axios.defaults.headers.common['Authorization'] = 'beater ' + access_token;
             return axiosInstance(originalRequest);
         }
-        //Probably i need put a logOut here for my condition 
-        //  console.log(response)
         return response //return response
     }, async function (error) {
         return Promise.reject(error);
@@ -34,12 +32,10 @@ export default function apiCall() {
 
 const refreshToken = async () => {
     let response =  await apiCall().get('/refresh/token');
-    console.log('nuevo token',response.data?.payload.token);
     if(response.data.success){
         LocalStorageService.setItem('token',response.data.payload.token);
         return response.data?.payload.token;
     }else{
-        //logout();
         return null;
     }
 }
