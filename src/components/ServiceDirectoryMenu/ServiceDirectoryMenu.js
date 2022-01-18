@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import { MOCKUP_SERVICES } from './ServiceDirectoryMenuConstants';
 import {
     Container,
@@ -18,12 +18,12 @@ function ServiceDirectoryMenu() {
                 <MinDivider />
                 {
                     MOCKUP_SERVICES.map((item) => (
-                        <div key={item.id} style={{ marginTop: '10px',width:'100%' }}>
+                        <div key={item.id} style={{ marginTop: '10px', width: '100%' }}>
                             <Subtitle >{item.title}</Subtitle>
                             {
                                 item.subMenus.map((subItem) => (
-                                    <div key={subItem.id} style={{width:'100%'}}>
-                                        <LinkText href="https://www.mitur.gob.do/politicas-de-privacidad/" >{subItem.title}</LinkText>
+                                    <div key={subItem.id} style={{ width: '100%' }}>
+                                        <LinkText href='https://www.mitur.gob.do/politicas-de-privacidad/' >{subItem.title}</LinkText>
                                     </div>
                                 ))
                             }
@@ -37,4 +37,4 @@ function ServiceDirectoryMenu() {
     );
 }
 
-export default ServiceDirectoryMenu;
+export default memo(ServiceDirectoryMenu);

@@ -6,11 +6,8 @@ import { Row, RowBodyDivider } from '../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
-import DeskNotification from './components/DeskNotification/DeskNotification';
-import {MockupNotifications} from './MyDeskConstants';
 import {
     Container,
-    
     MetricsContentDivider,
     MetricsTextContainer,
     MetricsTitle,
@@ -28,7 +25,6 @@ function MyDesk() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [NotificationList, setNotificationsList] = useState(MockupNotifications);
     const [ActiveMenu, setActiveMenu] = useState(0); //0 MI PERFIL , 2 MIS SOLICITUDES, 3 MIS DOCUMENTOS
     const [ActiveDocumentMenu, setActiveDocumentMenu] = useState(0); //0 DOCUMENTOS PERSONALES ,1 DOCUMENTOS INSTITUCIONALES
 
@@ -39,11 +35,6 @@ function MyDesk() {
     const [openRequestDetailModal, setOpenRequestDetailModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState();
 
-    const removeMockupNotifications = (notificationID) => {
-        setNotificationsList(
-            NotificationList.filter((notification) => notification.id != notificationID)
-        )
-    }
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID)
@@ -74,17 +65,7 @@ function MyDesk() {
                     </Fragment>
                 }
                 <Container>
-                    {
-                        NotificationList.map((notification) => (
-                            <Fragment>
-                                <DeskNotification key={notification.id} variant={notification.type}
-                                    onClose={() => removeMockupNotifications(notification.id)}
-                                />
-                                <SmallHeightDivider />
-                            </Fragment>
 
-                        ))
-                    }
                     <SmallHeightDivider />
                     <CardContainer>
                         <MetricsTextContainer>

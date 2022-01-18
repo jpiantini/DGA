@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,memo } from 'react';
 import {
     Title,
     Container,
@@ -7,7 +7,7 @@ import {
     BodyText
 } from './styles/CollapsableStyles';
 import Icon from '@mui/material/Icon';
-
+import {SmallHeightDivider} from '../../theme/Styles';
 function Collapsable({ title, content }) {
 
     const [open, setOpen] = useState(false);
@@ -20,16 +20,15 @@ function Collapsable({ title, content }) {
             <ItemsContainer open={open}>
                 <RowContainer>
                     <Title>{title}</Title>
-                    <Icon style={{ fontSize: '40px'}}>{open ? "expand_less" : "expand_more"}</Icon>
+                    <Icon style={{ fontSize: '40px' }}>{open ? 'expand_less' : 'expand_more'}</Icon>
                 </RowContainer>
-
-                    <BodyText open={open}>
-                        {content}
-                    </BodyText>
-           
+                <BodyText open={open}>
+                    {content}
+                </BodyText>
             </ItemsContainer>
+            <div style={{height:'5px'}}/>
         </Container>
     );
 }
 
-export default Collapsable;
+export default memo(Collapsable);

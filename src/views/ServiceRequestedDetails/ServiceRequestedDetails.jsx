@@ -1,36 +1,35 @@
 import { useState, useLayoutEffect, Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
-import TextInformation from '../../components/TextInformation/TextInformation';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, ButtonsMenuContainer, MediumHeightDivider, BodyTextBold } from '../../theme/Styles';
-import { claimsOptions, FormSchema } from './ServiceRequestedDetailsConstants';
+import { Row, RowBodyDivider, StyledButtonOutlined, ButtonsMenuContainer, MediumHeightDivider, SmallHeightDivider } from '../../theme/Styles';
+import { FormSchema } from './ServiceRequestedDetailsConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
 import {
-    ButtonContainer,
     Container,
 } from './styles/ServiceRequestedDetailsStyles';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Select from '../../components/Select/Select';
-import TextField from '../../components/TextField/TextField';
-import UploadFile from '../../components/UploadFile/UploadFile';
-import FormModal from '../../components/FormModal/FormModal';
 import { useFormik } from 'formik';
-import ClaimCard from './components/ClaimCard/ClaimCard';
 import ComplaintsAndClaims from './subViews/complaintsAndClaims/ComplaintsAndClaims';
 import Payment from './subViews/payments/Payments';
+import Details from './subViews/details/Details';
+import DeskNotification from '../../components/DeskNotification/DeskNotification';
+import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
 
 
 function ServiceRequestedDetails() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID, requestID } = useParams();
+    let { serviceID, requestID,actionRequired } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const [activeMenu, setActiveMenu] = useState(1);
+    let ACTIONREQUIRED = actionRequired === 'actionRequired' ? true:false;
+
+
+    const [activeMenu, setActiveMenu] = useState(ACTIONREQUIRED ? 3:0);
     const [claimModalVisible, setClaimModalVisible] = useState(false);
 
     const [claims, setClaims] = useState([]);
@@ -62,21 +61,19 @@ function ServiceRequestedDetails() {
         validateOnBlur: true,
         onSubmit: (values) => {
             handleRegisterClaim(values);
-            console.log(claims)
+       //     console.log(claims)
         },
     });
 
 
     useLayoutEffect(() => {
-        const LastServiceAvailable = 1; //TEST VALUE
-        if (serviceID == LastServiceAvailable) {
-            //UPDATE APP HEADER SUBTITLE
+        //CONSULT SERVICE INFO IN BACKEND 
+        if (serviceID) { //IF SERVICE EXISTS
+            //UPDATE APP HEADER SUBTITLE AND SET THE SERVICE NAME
             dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
         } else {
-            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
-            history.push('/app/serviceDescription/1')
-            //  let Title = titles.find((title) => title.id == 1)?.title;
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
+            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO MyDesk
+            history.push('/app/myDesk')
         }
     }, []);
 
@@ -84,8 +81,7 @@ function ServiceRequestedDetails() {
     return (
         <Container >
             <Row>
-                <ServiceDirectoryMenu />
-                <RowBodyDivider />
+
                 <Container style={{ width: '100%' }}>
                     <ButtonsMenuContainer>
                         <ButtonGroup size="large" >
@@ -98,26 +94,41 @@ function ServiceRequestedDetails() {
                             <StyledButtonOutlined active={activeMenu == 2} onClick={() => handleChangeMenu(2)}>
                                 Pagos
                             </StyledButtonOutlined>
+                            {
+                                ACTIONREQUIRED && //IF ACTION REQUIRED IS TRUE
+                                <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
+                                    Accion Requerida
+                                </StyledButtonOutlined>
+                            }
                         </ButtonGroup>
                     </ButtonsMenuContainer>
-                    <MediumHeightDivider />
+                    {
+                        ACTIONREQUIRED ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                            <Fragment>
+                                <SmallHeightDivider />
+                                <DeskNotification variant={'warning'} disableCloseButton={true}
+                                />
+                                <SmallHeightDivider />
+                            </Fragment>
+                            :
+                            <MediumHeightDivider />
+                    }
                     {
                         activeMenu == 0 ?
 
-                            <h1>detayes</h1>
+                            <Details />
                             :
                             activeMenu == 1 ?
-                                <ComplaintsAndClaims/>
+                                <ComplaintsAndClaims />
                                 :
-                                <Payment/>
+                                activeMenu == 2 ?
+                                    <Payment />
+                                    :
+                                    ACTIONREQUIRED && <ActionsRequired /> //IF ACTION REQUIRED IS TRUE
 
                     }
-
-
                 </Container>
-
             </Row>
-
         </Container>
     );
 }

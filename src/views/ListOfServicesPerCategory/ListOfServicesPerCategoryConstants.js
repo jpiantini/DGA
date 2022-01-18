@@ -9,7 +9,7 @@ export const titles = [
   },
   {
     id:3,
-    title:'DDP',
+    title:'DPP',
   },
  
   

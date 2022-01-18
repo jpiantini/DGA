@@ -7,14 +7,6 @@ export const Container = styled('div')({
     flexDirection: 'column',
 });
 
-export const CardContainer = styled('div')({
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: COLORS.white,
-    width: '100%',
-    boxShadow: boxShadowConfig,
-    padding:'1%'
-});
 
 export const ButtonContainer = styled('div')({
     marginTop:'20px',

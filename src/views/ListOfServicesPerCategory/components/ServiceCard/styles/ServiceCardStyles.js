@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import { Button, List, ListItem } from '@mui/material';
 import COLORS from '../../../../../theme/Colors';
 import { boxShadowConfig } from '../../../../../theme/Styles';
+import FONTS_FAMILY from '../../../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -24,14 +25,14 @@ export const RowContainer = styled('div')({
 });
 
 export const Subtitle = styled('p')({
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '10px',
     margin: '3px',
 });
 
 export const SpecialSubtitle = styled('p')({
     width: '50%',
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '10px',
     margin: '3px',
     overflow: 'hidden',
@@ -42,7 +43,7 @@ export const SpecialSubtitle = styled('p')({
 });
 
 export const Title = styled('p')({
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '13px',
     color: COLORS.secondary,
     margin: '3px',
@@ -69,7 +70,7 @@ export const FullSeparator = styled('div')({
 })
 
 export const BodyText = styled('p')({
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '13px',
     color: COLORS.black,
     margin: '10px',

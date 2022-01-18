@@ -1,22 +1,12 @@
 import * as yup from "yup";
 
-export const FormProfileSchema = yup.object({
-  name: yup.string().required('Este campo es requerido'),
-  identification: yup.string().required('Este campo es requerido'),
-  city: yup.string().required('Este campo es requerido'),
-  company: yup.string().required('Este campo es requerido'),
-  phoneNumber: yup.string().required('Este campo es requerido'),
-  email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
-}).required();
-
 export const FormCompanySchema = yup.object({
-  identification: yup.string().required('Este campo es requerido'),
-  phoneNumber: yup.string().required('Este campo es requerido'),
-  city: yup.string().required('Este campo es requerido'),
-  companyName: yup.string().required('Este campo es requerido'),
-  email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
-  address: yup.string().required('Este campo es requerido'),
-  category: yup.string().required('Este campo es requerido'),
+  company_name: yup.string().required('Este campo es requerido'),
+  company_rnc: yup.string().required('Este campo es requerido'),
+  company_phone: yup.string().required('Este campo es requerido'),
+ // email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
+ company_address: yup.string().required('Este campo es requerido'),
+ company_url_web: yup.string(),
 }).required();
 
 

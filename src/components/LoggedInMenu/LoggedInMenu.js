@@ -1,20 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef,memo } from 'react';
 import Grow from '@mui/material/Grow';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Divider from '@mui/material/Divider';
 import { useHistory } from 'react-router';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import {
     Container, StyledPaper, UserImage,
 } from './styles/LoggedInMenuStyles';
 import { AuthLogout } from '../../redux/actions/AuthActions';
+import { ShowGlobalLoading,HideGlobalLoading } from '../../redux/actions/UiActions';
+import { useSelector } from 'react-redux';
+import LocalStorageService from '../../services/LocalStorageService';
 
 function LoggedInMenu({ image }) {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const { profileImg } = useSelector((state) => state.authReducer);
 
     const [hover, setHover] = useState(false);
     const containerRef = useRef(null);
@@ -24,17 +29,24 @@ function LoggedInMenu({ image }) {
     }
 
     const HandleLogOut = () => {
-        dispatch(AuthLogout());
+        dispatch(ShowGlobalLoading('Cerrando sesión'));
+        setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
+            LocalStorageService.removeItem('token');
+            dispatch(AuthLogout());
+            dispatch(HideGlobalLoading());
+        }, 1500);
+
     }
+
     return (
-        <Container ref={containerRef} onClick={() => history.push('/app/myDesk')}
-        onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
-            <UserImage src="https://www.w3schools.com/howto/img_avatar.png" />
+        <Container ref={containerRef}
+            onMouseOver={() => handleHovering(true)} onMouseOut={() => handleHovering(false)}>
+            <UserImage src={profileImg} onClick={() => history.push('/app/myDesk')} />
             <Popper
                 open={hover}
                 anchorEl={containerRef.current}
                 role={undefined}
-                placement="bottom-end"
+                placement='bottom-end'
                 transition
                 disablePortal
             >
@@ -48,16 +60,16 @@ function LoggedInMenu({ image }) {
                     >
                         <StyledPaper>
                             <MenuList>
-                                <MenuItem onClick={() => history.push('/app/myDesk')}>Mi configuración</MenuItem>
+                                <MenuItem onClick={() => history.push('/app/myConfiguration')}>Mi configuración</MenuItem>
                                 <Divider sx={{ width: '100%' }} />
                                 <MenuItem onClick={HandleLogOut}>Cerrar sesión</MenuItem>
                             </MenuList>
-                    </StyledPaper>
+                        </StyledPaper>
                     </Grow>
                 )}
-        </Popper>
+            </Popper>
         </Container >
     );
 }
 
-export default LoggedInMenu;
+export default memo(LoggedInMenu);

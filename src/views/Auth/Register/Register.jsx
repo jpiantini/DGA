@@ -16,6 +16,7 @@ import {
     ButtonContainer,
     Container,
     StyledCheckCircleIcon,
+    FinalStepContainer,
 } from './styles/RegisterStyles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Stepper from '@mui/material/Stepper';
@@ -32,16 +33,21 @@ import apiCall from '../../../services/ApiServerCall';
 import CheckBox from '../../../components/CheckBox/CheckBox';
 import wpCall from '../../../services/WpServerCall';
 import parse from 'html-react-parser';
+import { useSnackbar } from 'notistack';
 
 function Register() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
+    const { enqueueSnackbar } = useSnackbar();
 
     const stepsLenght = RegisterSteps.length;
     const stepsTitles = RegisterSteps.map((step) => step.title);
     const [activeStep, setActiveStep] = useState(0);
+    const lastStep = (stepsLenght - 2) == activeStep; // IN THIS CASE IT IS -2 BECAUSE The last step is only a Message it does not contain a form
+    const [schemaValidation, setSchemaValidation] = useState({});
+
     const [userRegistered, setUserRegistered] = useState(false);
 
     const [provincesData, setProvincesData] = useState([]);
@@ -86,29 +92,58 @@ function Register() {
             email: '',
             emailConfirmation: '',
             password: '',
-            passwordConfirmation: '',
-            identificationType: 1,
-            identification: '',
+            password_confirmation: '',
+            document_type: '1',
+            citizen_id: '',
             name: '',
-            lastName: '',
-            secondLastName: '',
+            first_last_name: '',
+            second_last_name: '',
             occupation: '',
-            provinceId: '',
-            municipalityId: '',
-            sectorId: '',
-            phoneNumber: '',
-            secondPhoneNumber: '',
-            secondaryEmail: '',
+            province_id: '',
+            municipality_id: '',
+            sector_id: '',
+            phone: '',
+            phone2: '',
+            email2: '',
             address: '',
             termsAndCondition: false
         },
-        validationSchema: FormSchema,
+        validationSchema: schemaValidation,
         validateOnChange: true,
         validateOnBlur: true,
-        onSubmit: (values) => {
-            handleRegister(values)
+        onSubmit: (values, actions) => {
+            validateStepForm({ values, actions })
         },
     });
+
+    const handleFieldsValidations = (errors) => {
+        let fieldsKeys = Object.keys(errors);
+        for (let i = 0; i < fieldsKeys.length; i++) {
+            let error = errors[fieldsKeys[i]];
+            formik.setFieldError(fieldsKeys[i], error[0])
+        }
+    }
+
+
+    const validateStepForm = ({ values, actions }) => {
+        if (lastStep) {
+            handleRegister(values);
+        } else {
+            setActiveStep(activeStep + 1);
+            actions?.setTouched({});
+            actions?.setSubmitting(false);
+        }
+    }
+
+
+    useEffect(() => {
+        const innerSchema = FormSchema[activeStep];
+        if (typeof innerSchema === 'object') {
+            setSchemaValidation(innerSchema.validations);
+        }
+        return () => { }
+    }, [activeStep])
+
 
     const getProvincesData = async () => {
         try {
@@ -120,6 +155,8 @@ function Register() {
                         label: province.ctituloclas
                     })));
             }
+            setMunicipalitiesData([]);
+            setSectorsData([]);
         } catch (error) {
 
         }
@@ -135,6 +172,7 @@ function Register() {
                         label: municipalities.ctituloclas
                     })));
             }
+            setSectorsData([]);
         } catch (error) {
 
         }
@@ -155,34 +193,45 @@ function Register() {
         }
     }
 
+
     const handleRegister = async (formData) => {
-        console.log(formData)
         try {
             let response = await apiCall().post('/auth/register/portal',
                 {
-                    citizen_id: formData.identification,
+                    document_type: formData.document_type,
+                    citizen_id: formData.citizen_id,
                     email: formData.email,
                     name: formData.name,
-                    first_last_name: formData.lastName,
-                    second_last_name: formData.secondLastName,
+                    first_last_name: formData.first_last_name,
+                    second_last_name: formData.second_last_name,
                     occupation: formData.occupation,
                     password: formData.password,
-                    password_confirmation: formData.passwordConfirmation,
-                    province_id: formData.provinceId,
-                    municipality_id: formData.municipalityId,
-                    sector_id: formData.sectorId,
-                    phone: formData.phoneNumber,
-                    phone2: formData.secondPhoneNumber,
-                    email2: formData.secondaryEmail,
+                    password_confirmation: formData.password_confirmation,
+                    province_id: formData.province_id,
+                    municipality_id: formData.municipality_id,
+                    sector_id: formData.sector_id,
+                    phone: formData.phone,
+                    phone2: formData.phone2,
+                    email2: formData.email2,
                     address: formData.address,
                 });
-            if (response) {
-                handleNext();
+            if (response.data?.success) {
                 setUserRegistered(true);
+                handleNext();
+            } else {
+                //handle errors from server
+                if (typeof response.data?.msg?.error === 'object') {
+                    handleFieldsValidations(response.data?.msg?.error);
+                    enqueueSnackbar('Hay uno o mas errores con la información introducida. Valídalos e inténtalo nuevamente', { variant: 'error' });
+                    window.scrollTo(0, 0);
+                } else {
+                    enqueueSnackbar('Ha sucedido un error inténtelo mas tarde o contacte a soporte', { variant: 'error' });
+                    window.scrollTo(0, 0);
+                }
             }
         } catch (error) {
-            //   console.log('error', error);
-            alert('error');
+            //handle local/network errors 
+
         }
     }
 
@@ -259,12 +308,12 @@ function Register() {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Confirmar contraseña" type="password" id="passwordConfirmation"
-                                value={formik.values.passwordConfirmation}
+                            <TextField title="Confirmar contraseña" type="password" id="password_confirmation"
+                                value={formik.values.password_confirmation}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                error={formik.touched.passwordConfirmation && Boolean(formik.errors.passwordConfirmation)}
-                                helperText={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
+                                error={formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)}
+                                helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
                                 required
                             />
                         </Grid>
@@ -275,23 +324,26 @@ function Register() {
                         <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <RadioButtonGroup title="Tipo de documento" id="identificationType"
+                                <RadioButtonGroup title="Tipo de documento" id="document_type"
                                     options={identificationTypes}
-                                    value={formik.values.identificationType}
+                                    value={formik.values.document_type}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur} />
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.document_type && Boolean(formik.errors.document_type)}
+                                    helperText={formik.touched.document_type && formik.errors.document_type}
+                                    required />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Documento de Identidad" type="text" id="identification"
+                                <TextField title="Documento de Identidad" type="text" id="citizen_id"
                                     required
-                                    mask={formik.values.identificationType == 1 ? "999-9999999-9" : ""}
+                                    mask={formik.values.document_type === '1' ? "999-9999999-9" : ""}
                                     unMaskedValue={true}
-                                    value={formik.values.identification}
+                                    value={formik.values.citizen_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.identification && Boolean(formik.errors.identification)}
-                                    helperText={formik.touched.identification && formik.errors.identification}
+                                    error={formik.touched.citizen_id && Boolean(formik.errors.citizen_id)}
+                                    helperText={formik.touched.citizen_id && formik.errors.citizen_id}
                                 />
                             </Grid>
 
@@ -307,23 +359,23 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Primer apellido" type="text" id="lastName"
-                                    value={formik.values.lastName}
+                                <TextField title="Primer apellido" type="text" id="first_last_name"
+                                    value={formik.values.first_last_name}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                                    helperText={formik.touched.lastName && formik.errors.lastName}
+                                    error={formik.touched.first_last_name && Boolean(formik.errors.first_last_name)}
+                                    helperText={formik.touched.first_last_name && formik.errors.first_last_name}
                                     required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Segundo Apellido" type="text" id="secondLastName"
-                                    value={formik.values.secondLastName}
+                                <TextField title="Segundo Apellido" type="text" id="second_last_name"
+                                    value={formik.values.second_last_name}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.secondLastName && Boolean(formik.errors.secondLastName)}
-                                    helperText={formik.touched.secondLastName && formik.errors.secondLastName}
+                                    error={formik.touched.second_last_name && Boolean(formik.errors.second_last_name)}
+                                    helperText={formik.touched.second_last_name && formik.errors.second_last_name}
                                 //required
                                 />
                             </Grid>
@@ -340,69 +392,72 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <Select title="Provincia" type="text" id="provinceId"
+                                <Select title="Provincia" type="text" id="province_id"
                                     data={provincesData}
-                                    value={formik.values.provinceId}
+                                    value={formik.values.province_id}
                                     onChange={(e) => {
+                                        formik.setFieldValue('municipality_id', '');
+                                        formik.setFieldValue('sector_id', '');
                                         formik.handleChange(e);
                                         getMunicipalitiesData(e.target.value)
                                     }}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.provinceId && Boolean(formik.errors.provinceId)}
-                                    helperText={formik.touched.provinceId && formik.errors.provinceId}
+                                    error={formik.touched.province_id && Boolean(formik.errors.province_id)}
+                                    helperText={formik.touched.province_id && formik.errors.province_id}
                                     required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <Select title="Municipio" type="text" id="municipalityId"
+                                <Select title="Municipio" type="text" id="municipality_id"
                                     disabled={!municipalitiesData.length > 0}
                                     data={municipalitiesData}
-                                    value={formik.values.municipalityId}
+                                    value={formik.values.municipality_id}
                                     onChange={(e) => {
+                                        formik.setFieldValue('sector_id', '');
                                         formik.handleChange(e);
                                         getSectorsData(e.target.value);
                                     }}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.municipalityId && Boolean(formik.errors.municipalityId)}
-                                    helperText={formik.touched.municipalityId && formik.errors.municipalityId}
+                                    error={formik.touched.municipality_id && Boolean(formik.errors.municipality_id)}
+                                    helperText={formik.touched.municipality_id && formik.errors.municipality_id}
                                     required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <Select title="Sector" type="text" id="sectorId"
+                                <Select title="Sector" type="text" id="sector_id"
                                     disabled={!sectorsData.length > 0}
                                     data={sectorsData}
-                                    value={formik.values.sectorId}
+                                    value={formik.values.sector_id}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.sectorId && Boolean(formik.errors.sectorId)}
-                                    helperText={formik.touched.sectorId && formik.errors.sectorId}
+                                    error={formik.touched.sector_id && Boolean(formik.errors.sector_id)}
+                                    helperText={formik.touched.sector_id && formik.errors.sector_id}
                                     required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Telefono de contacto" type="text" id="phoneNumber"
+                                <TextField title="Telefono de contacto" type="text" id="phone"
                                     mask="999-999-9999"
-                                    value={formik.values.phoneNumber}
+                                    value={formik.values.phone}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                                    helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                    helperText={formik.touched.phone && formik.errors.phone}
                                     required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Telefono de contacto secundario" type="text" id="secondPhoneNumber"
+                                <TextField title="Telefono de contacto secundario" type="text" id="phone2"
                                     mask="999-999-9999"
-                                    value={formik.values.secondPhoneNumber}
+                                    value={formik.values.phone2}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.secondPhoneNumber && Boolean(formik.errors.secondPhoneNumber)}
-                                    helperText={formik.touched.secondPhoneNumber && formik.errors.secondPhoneNumber}
+                                    error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
+                                    helperText={formik.touched.phone2 && formik.errors.phone2}
                                 //     required
                                 />
                             </Grid>
@@ -442,7 +497,7 @@ function Register() {
                                 />
                             </Fragment>
                             :
-                            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', alignSelf: 'center', alignItems: 'center' }}>
+                            <FinalStepContainer>
                                 <StyledCheckCircleIcon />
                                 <SmallHeightDivider />
                                 <SubTitle>
@@ -450,7 +505,7 @@ function Register() {
                                     Recibirás un correo de verificacion.
                                 </SubTitle>
 
-                            </div>
+                            </FinalStepContainer>
             }
 
             <MediumHeightDivider />
@@ -475,18 +530,14 @@ function Register() {
 
                 <ButtonContainer>
                     {
-                        stepsLenght - 2 == activeStep ?
-                            <StyledButton onClick={() => formik.handleSubmit()}>
-                                Registrar
+                        userRegistered ?
+                            <StyledButton onClick={() => history.push('/public')}>
+                                Ir a inicio
                             </StyledButton>
-                            : userRegistered ?
-                                <StyledButton onClick={() => history.push('/public')}>
-                                    Ir a inicio
-                                </StyledButton>
-                                :
-                                <StyledButtonOutlined disabled={activeStep + 1 == stepsLenght} onClick={handleNext} variant="outlined">
-                                    Continuar
-                                </StyledButtonOutlined>
+                            :
+                            <StyledButtonOutlined onClick={() => formik.handleSubmit()} variant="outlined">
+                                {lastStep ? "Registrar" : "Continuar"}
+                            </StyledButtonOutlined>
                     }
                 </ButtonContainer>
             </ButtonsContainer>

@@ -18,7 +18,7 @@ function Footer({FooterRoutes}) {
                         {
                             FooterRoutes.map((item) => (
                                 <Grid item direction="column" key={item.value}>
-                                    <FooterText style={{ fontSize: '15px' }}>{item.title}</FooterText>
+                                    <FooterText>{item.title}</FooterText>
                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                         {
                                             item.routes.map((subItem) => (

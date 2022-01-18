@@ -2,7 +2,7 @@ import { useState,useLayoutEffect } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider } from '../../theme/Styles';
 import { FAQDATA } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
@@ -61,6 +61,7 @@ function ServiceDescription() {
                     />
                     <BodyText>Costo del servicio: Gratuito</BodyText>
                     <SmallHeightDivider />
+                    <SmallHeightDivider />
                     <TextInformation title="Requisitos"
                         content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
                       sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
@@ -72,6 +73,7 @@ function ServiceDescription() {
                     <ButtonContainer>
                         <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceID)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
+                    <SmallHeightDivider />
                     <SmallHeightDivider />
                     {
                         matchesWidth &&
@@ -95,6 +97,7 @@ function ServiceDescription() {
                     }
                 </Container>
             </Row>
+            <MediumHeightDivider/>
             {
                 !matchesWidth &&
                 <>
@@ -106,10 +109,10 @@ function ServiceDescription() {
 
                     {
                         FAQDATA.map((item) => (
-                            <>
-                                <Collapsable key={item.id} title={item.question} content={item.answer} />
+                            <div key={item.id}>
+                                <Collapsable  title={item.question} content={item.answer} />
                                 <SmallHeightDivider />
-                            </>
+                            </div>
                         ))
                     }
                 </>

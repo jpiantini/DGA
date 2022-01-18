@@ -10,7 +10,8 @@ import {
     LinkText,
     BodyText,
     FooterContainer,
-    TextFieldContainer
+    TextFieldContainer,
+    TextError
 } from './styles/LoginStyles';
 import { StyledButton, Row, SmallHeightDivider, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
@@ -19,6 +20,9 @@ import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLogin } from '../../../redux/actions/AuthActions';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiActions';
+import apiCall from '../../../services/ApiServerCall';
+import LocalStorageService from '../../../services/LocalStorageService';
 
 function Login() {
 
@@ -26,24 +30,52 @@ function Login() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const onLogin = (formData) => {
-        //CALL API LOGIN WITH AXIOS
-        if (formData) {//IF LOGIN SUCCESS
-            dispatch(AuthLogin(true)) //set Authenticated true is needed save token
-        }
-    }
+    const [errorMessage, setErrorMessage] = useState('');
 
     const formik = useFormik({
         initialValues: {
+            //DEVELOPMENT COMMENT OR REMOVE
+            id: '40211984535',
+            password: 'david123'
+            /* PRODUCTION
             id: '',
-            password: ''
+            password: '' */
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-            onLogin(values);
+            handleLogin(values);
         },
     });
+
+    const handleLogin = async (formData) => {
+        try {
+            let response = await apiCall().post('/auth/login',
+                {
+                    citizen_id: formData.id,
+                    password: formData.password,
+                });
+            if (response.data?.success) {
+                dispatch(ShowGlobalLoading('Iniciando sesión'));
+                setTimeout(() => {
+                    LocalStorageService.setItem('token', response.data?.payload.token); //save token in localStorage
+                    dispatch(AuthLogin({
+                        authenticated: true,
+                        profileImg: response.data.payload.profile_img
+                    }))
+                    dispatch(HideGlobalLoading());
+                }, 1500);
+            } else { //Handle errors
+                // TODO Handle errors
+                console.log(response.data);
+                console.log(errorMessage)
+                setErrorMessage(response.data?.msg);
+            }
+        } catch (error) {
+                        //LOCAL ERRORS NETWORK ETC
+            //   console.log('error', error);
+            //   alert('error');
+        }
+    }
 
     useEffect(() => {
         if (authenticated) {
@@ -57,8 +89,6 @@ function Login() {
                 <LogoImage src={MiturLogoImage} />
                 <FlexStartContainer>
                     <Title>Iniciar Sesión</Title>
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
                     <TextFieldContainer>
                         <TextField
                             type="text"
@@ -82,10 +112,11 @@ function Login() {
                             helperText={formik.touched.password && formik.errors.password}
                         />
                     </TextFieldContainer>
+                    <TextError>{errorMessage}</TextError>
                     <MediumHeightDivider />
                     <StyledButton onClick={() => formik.handleSubmit()}>Iniciar sesión</StyledButton>
                     <MediumHeightDivider />
-                    <LinkText>No recuerdo mi contraseña</LinkText>
+                    <LinkText to='/public/requestPassword'>No recuerdo mi contraseña</LinkText>
                     <SmallHeightDivider />
                     <BodyText>¿No tienes una cuenta?
                         <LinkText

@@ -1,46 +1,41 @@
-import { TextField } from '@mui/material';
-
+import { FormLabel } from '@mui/material';
 import { styled } from '@mui/system';
+import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import COLORS from '../../../theme/Colors';
+
 
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    paddingTop:'10px'
 });
 
-export const StyledTextInput = styled(TextField)({
-    width: '100%',
-    alignSelf: 'center',
-    borderWidth: '5px',
+export const CheckboxContainer = styled('div')(props => ({
+    display:'flex',
+    flexDirection: 'row',
+    marginTop: props.index == 0 ? 0: '40px',
+    alignItems:'center'
+}));
 
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: COLORS.secondary,
+export const StyledCheckBoxGroup = styled(ToggleButtonGroup)({
+    display: 'flex ',
+    flexDirection: 'column !important',
+    ' & .btn-check': {
+        width: '20px !important',
+        height: '20px !important',
+        cursor:'pointer',
+        'accent-color': COLORS.tertiary
     },
-    '&:hover fieldset': {
-      borderColor: COLORS.secondary,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: COLORS.secondary,
-      borderWidth: '1px'
-    },
-  },
+
 });
 
-export const Title = styled('h1')({
-    marginTop: '3px',
-    color: COLORS.black,
-    fontFamily: 'Nunito Sans',
-    fontWeight: '400',
-    '@media (min-width:320px)': {
-      fontSize: '11px',
-  },
-  '@media (min-width:768px)': {
-      fontSize: '15px',
-  },
-  '@media (min-width:1200px)': {
-    fontSize: '17px',
-  }
+
+export const StyledFormLabel = styled(FormLabel)({
+   color:COLORS.black,
+   display:'flex',
+   marginLeft:'40px',
+  bottom:25
+});
+export const StyledToggleButton = styled(ToggleButton)({
+
 });

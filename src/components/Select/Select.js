@@ -1,19 +1,17 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import {  Title, Container } from './styles/SelectStyles';
-import { Row, StyledTextInput } from '../../theme/Styles';
-import MenuItem from '@mui/material/MenuItem';
+import {  Title, Container, StyledOption } from './styles/SelectStyles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 
-
-function Select({ id, title,data, placeholder, helperText, value, onChange,onBlur, error, required,disabled }) {
+function Select({ id, title,data, placeholder, helperText=" ", value, onChange,onBlur, error, required,disabled }) {
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>
@@ -29,11 +27,15 @@ function Select({ id, title,data, placeholder, helperText, value, onChange,onBlu
                 error={error}
                 select
                 disabled={disabled}
+                SelectProps={{
+                    native:true //for use option tag instead of MenuItem
+                }}
             >
-                {data?.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                <option unselectable={true}/>
+                {data?.map((option) => ( //use option or StyledOption instead of MenuItem because this tag has an bug 
+                 <StyledOption key={option.value} value={option.value}>
                         {option.label}
-                    </MenuItem>
+                    </StyledOption>
                 ))}
 
             </StyledTextInput>

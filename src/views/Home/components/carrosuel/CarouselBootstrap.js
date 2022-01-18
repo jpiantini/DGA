@@ -1,14 +1,15 @@
 import { Carousel } from "react-bootstrap";
 import "./Style/style.css";
-import "./Style/CarouselBootstrapStyle.scss";
+import "../../../../theme/BootstrapStyles.scss";
 import {
   DefaultButton,
   HomeTextContainer,
-  HomeTitle,
 } from "../../styles/HomeStyles";
-import { ImageContainer } from "./Style/CarouselBootstrapStyle";
+import { ButtonContainer, ImageContainer,Title,SubTitle} from "./Style/CarouselBootstrapStyle";
+import { format,parse  } from 'date-fns'
+import { es } from 'date-fns/locale'
 
-export const CarouselBootstrap = (datos) => {
+export const CarouselBootstrap = (data) => {
   const directionButtons = (direction) => {
     if (direction === "Next") {
       return (
@@ -36,18 +37,22 @@ export const CarouselBootstrap = (datos) => {
         nextIcon={directionButtons("Next")}
         prevIcon={directionButtons("Previous")}
       >
-        {datos.datos.map((item, index) => {
+        {data.data.map((item, index) => {
           return (
-            <Carousel.Item className="item">
+            <Carousel.Item key={index} className="item">
               <ImageContainer image={item.image}>
                 <HomeTextContainer>
-                  <HomeTitle>{item.content}</HomeTitle>
-                  <div className="containerBtn">
-                    {" "}
-                    <DefaultButton className="btnMore">
-                      SABER MÁS{" "}
+                  <SubTitle>
+                  {format(new Date(item.date.replace(" ", "T")), "dd 'de' MMMM yyyy" ,{ locale: es })  }
+                  </SubTitle>
+                  <Title>
+                    {item.content}
+                  </Title>
+                  <ButtonContainer>
+                    <DefaultButton onClick={() => window.open(item.notice_url, '_blank')} className="btnMore">
+                      SABER MÁS
                     </DefaultButton>
-                  </div>
+                  </ButtonContainer>
                 </HomeTextContainer>
               </ImageContainer>
             </Carousel.Item>

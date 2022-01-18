@@ -1,0 +1,2796 @@
+{
+  "fields": [
+    [
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Datos de Solicitud",
+        "hidden": false,
+        "orden": "100132100022"
+      },
+      {
+        "type": "select",
+        "entity": "Tipo de solicitud",
+        "group": "grp00",
+        "label_persist": "texto5049",
+        "hidden": false,
+        "required": true,
+        "enabled": true,
+        "label": "Tipo de Solicitud:",
+        "orden": "100172100040",
+        "name": "texto5050",
+        "values": [
+          {
+            "label": "Cumbres",
+            "rule": "",
+            "value": "S05"
+          },
+          {
+            "label": "Delegaciones",
+            "rule": "",
+            "value": "S04"
+          },
+          {
+            "label": "Familiar",
+            "rule": "",
+            "value": "S02"
+          },
+          {
+            "label": "Grupal",
+            "rule": "",
+            "value": "S03"
+          },
+          {
+            "label": "Invitados",
+            "rule": "",
+            "value": "S06"
+          },
+          {
+            "label": "Personal",
+            "rule": "",
+            "value": "S01"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "select",
+        "entity": "Tipo de Servicio",
+        "group": "grp00",
+        "label_persist": "texto5031",
+        "hidden": false,
+        "required": true,
+        "enabled": true,
+        "label": "Tipo de Servicio:",
+        "orden": "100173100195",
+        "name": "texto5058",
+        "values": [
+          {
+            "label": "Salida",
+            "rule": "",
+            "value": "02"
+          },
+          {
+            "label": "Llegada",
+            "rule": "",
+            "value": "01"
+          },
+          {
+            "label": "Salida \/ llegada",
+            "rule": "",
+            "value": "03"
+          },
+          {
+            "label": "Llegada \/ Salida",
+            "rule": "",
+            "value": "04"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      }
+    ],
+    [
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Datos del Titular (Funcionario) \/Invitado ",
+        "hidden": false,
+        "orden": "100238100022"
+      },
+      {
+        "type": "radio-group",
+        "group": "grp01",
+        "label": "Tipo de Documento",
+        "name": "radiobutt02",
+        "hidden": false,
+        "enabled": true,
+        "orden": "100244100042",
+        "values": [
+          {
+            "label": "C\u00e9dula",
+            "value": "0",
+            "rule": "7,10:texto5032,texto5032"
+          },
+          {
+            "label": "Pasaporte",
+            "value": "1",
+            "rule": "7,8:texto5032,texto5032"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "label": "No. de Identidad:",
+        "Mask": "0",
+        "group": "grp01",
+        "orden": "100244100193",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5032",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Nombres",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100244100359",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5030",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "1er Apellido",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100244100577",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5034",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "2do Apellido",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100284100041",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5035",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Nacionalidad",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100284100234",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "b7nacionalidad",
+        "subtype": "text"
+      },
+      {
+        "type": "select",
+        "entity": "sexo",
+        "group": "grp01",
+        "label_persist": "c2sexo",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Sexo",
+        "orden": "100284100440",
+        "name": "texto5086",
+        "values": [
+          {
+            "label": "Masculino",
+            "rule": "",
+            "value": "M"
+          },
+          {
+            "label": "Femenino",
+            "rule": "",
+            "value": "F"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "text",
+        "label": "Tel\u00e9fono",
+        "Mask": "3",
+        "group": "grp01",
+        "orden": "100285100578",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5037",
+        "subtype": "text"
+      },
+      {
+        "type": "select",
+        "entity": "Cargo",
+        "group": "grp01",
+        "label_persist": "texto25505",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Cargo :",
+        "orden": "100319100041",
+        "name": "texto5029",
+        "values": [
+          {
+            "label": "Administrador del Banco de Reservas",
+            "rule": "",
+            "value": "C004"
+          },
+          {
+            "label": "Alcalde de Santo Domingo",
+            "rule": "",
+            "value": "C040"
+          },
+          {
+            "label": "Alcaldes y Vice-Alcaldes ",
+            "rule": "",
+            "value": "C015"
+          },
+          {
+            "label": "Apoyo a grupo, convenciones y eventos de car\u00e1cter y trascendencia nacional",
+            "rule": "",
+            "value": "C019"
+          },
+          {
+            "label": "Cardenales y Obispos",
+            "rule": "",
+            "value": "C035"
+          },
+          {
+            "label": "Consultor Jur\u00eddico del Poder Ejecutivo",
+            "rule": "",
+            "value": "C021"
+          },
+          {
+            "label": "Director de la Oficina Supervisora de Obras del Estado",
+            "rule": "",
+            "value": "C048"
+          },
+          {
+            "label": "Director del Ceremonial y Protocolo del Poder Ejecutivo",
+            "rule": "",
+            "value": "C033"
+          },
+          {
+            "label": "Director Ejecutivo del Depto. Aeroportuario ",
+            "rule": "",
+            "value": "C020"
+          },
+          {
+            "label": "Director General de Aduanas",
+            "rule": "",
+            "value": "C052"
+          },
+          {
+            "label": "Director General de Migraci\u00f3n ",
+            "rule": "",
+            "value": "C051"
+          },
+          {
+            "label": "Director General del IDAC",
+            "rule": "",
+            "value": "C053"
+          },
+          {
+            "label": "Directores Generales y sus C\u00f3nyugues ",
+            "rule": "",
+            "value": "C013"
+          },
+          {
+            "label": "Embajadores de Buena Voluntad y Atletas de Alto Rendimiento",
+            "rule": "",
+            "value": "C018"
+          },
+          {
+            "label": "Encargado del Protocolo del Ministerio de Relaciones Exteriores",
+            "rule": "",
+            "value": "C032"
+          },
+          {
+            "label": "Encargados de Negocios a.i., en calidad de Jefes de Misi\u00f3n Exclusivamente",
+            "rule": "",
+            "value": "C037"
+          },
+          {
+            "label": "Ex-directores del Departamento Aeroportuario ",
+            "rule": "",
+            "value": "C058"
+          },
+          {
+            "label": "Ex-ministros de las Fuerzas Armadas ",
+            "rule": "",
+            "value": "C056"
+          },
+          {
+            "label": "Ex-ministros de las Relaciones Exteriores",
+            "rule": "",
+            "value": "C057"
+          },
+          {
+            "label": "Ex-presidente de la C\u00e1mara de Diputados ",
+            "rule": "",
+            "value": "C055"
+          },
+          {
+            "label": "Ex-presidente del Senado",
+            "rule": "",
+            "value": "C054"
+          },
+          {
+            "label": "Ex-vicepresidentes y sus familiares directos",
+            "rule": "",
+            "value": "C001"
+          },
+          {
+            "label": "Expresidentes de la Rep\u00fablica ",
+            "rule": "",
+            "value": "C010"
+          },
+          {
+            "label": "Familiares Directos de los Ex-presidentes y de Otras Naciones",
+            "rule": "",
+            "value": "C007"
+          },
+          {
+            "label": "Familiares Directos del Presidente",
+            "rule": "",
+            "value": "C011"
+          },
+          {
+            "label": "Fiscal del Distrito ",
+            "rule": "",
+            "value": "C047"
+          },
+          {
+            "label": "Fiscal del Distrito Nacional",
+            "rule": "",
+            "value": "C047"
+          },
+          {
+            "label": "Fiscales y Procuradores",
+            "rule": "",
+            "value": "C017"
+          },
+          {
+            "label": "Gobernador del Banco Central",
+            "rule": "",
+            "value": "C003"
+          },
+          {
+            "label": "Jefes de Misiones Diplom\u00e1ticas de la RD en el Exterior en Funciones",
+            "rule": "",
+            "value": "C039"
+          },
+          {
+            "label": "Jefes de Misiones Diplomaticas, Organismos Internacionales acreditados en el pais",
+            "rule": "",
+            "value": "C036"
+          },
+          {
+            "label": "Miembros de la Junta de Aviaci\u00f3n Civil ",
+            "rule": "",
+            "value": "C050"
+          },
+          {
+            "label": "Miembros Titulares de la Comisi\u00f3n Aeroportuaria ",
+            "rule": "",
+            "value": "C049"
+          },
+          {
+            "label": "Ministros Consejeros y Personal Diplom\u00e1tico Acreditado",
+            "rule": "",
+            "value": "C016"
+          },
+          {
+            "label": "Ministros y Secretarios de Estado y sus conyugues ",
+            "rule": "",
+            "value": "C002"
+          },
+          {
+            "label": "Oficiales Mayores Generales y Generales de las Fuerzas Armadas y la Polic\u00eda Nacional, exclusivamente",
+            "rule": "",
+            "value": "C038"
+          },
+          {
+            "label": "Personalidades Internacionales que sean acreedoras al uso",
+            "rule": "",
+            "value": "C041"
+          },
+          {
+            "label": "Presidente de la C\u00e1mara de Diputados",
+            "rule": "",
+            "value": "C028"
+          },
+          {
+            "label": "Presidente de la Junta Central Electoral y los Jueces Titulares",
+            "rule": "",
+            "value": "C023"
+          },
+          {
+            "label": "Presidente de la Rep\u00fablica",
+            "rule": "",
+            "value": "C006"
+          },
+          {
+            "label": "Presidente de la Suprema Corte de Justicia y los Jueces Titulares",
+            "rule": "",
+            "value": "C022"
+          },
+          {
+            "label": "Presidente del INDOTEL",
+            "rule": "",
+            "value": "C046"
+          },
+          {
+            "label": "Presidente del Senado",
+            "rule": "",
+            "value": "C027"
+          },
+          {
+            "label": "Presidente del Tribunal Constitucional y los Jueces Titulares",
+            "rule": "",
+            "value": "C024"
+          },
+          {
+            "label": "Presidente del Tribunal Superior Electoral y los Jueces Titulares",
+            "rule": "",
+            "value": "C025"
+          },
+          {
+            "label": "Presidente Superior Administrativo",
+            "rule": "",
+            "value": "C026"
+          },
+          {
+            "label": "Presidentes y Primeros Ministros Extranjeros en Funciones",
+            "rule": "",
+            "value": "C012"
+          },
+          {
+            "label": "Procurador General de la Rep\u00fablica ",
+            "rule": "",
+            "value": "C029"
+          },
+          {
+            "label": "Representantes Organismos Internacionales (ONU, UNICEF, OPS\/OMS, OTROS)",
+            "rule": "",
+            "value": "C059"
+          },
+          {
+            "label": "Senadores y Diputados (Exclusivamente)",
+            "rule": "",
+            "value": "C034"
+          },
+          {
+            "label": "Subdirectores Generales",
+            "rule": "",
+            "value": "C014"
+          },
+          {
+            "label": "Superintendente de Bancos",
+            "rule": "",
+            "value": "C043"
+          },
+          {
+            "label": "Superintendente de Electricidad ",
+            "rule": "",
+            "value": "C045"
+          },
+          {
+            "label": "Superintendente de Pensiones",
+            "rule": "",
+            "value": "C044"
+          },
+          {
+            "label": "Superintendente de Seguros",
+            "rule": "",
+            "value": "C042"
+          },
+          {
+            "label": "Viceministros de Estados y sus C\u00f3nyuges",
+            "rule": "",
+            "value": "C009"
+          },
+          {
+            "label": "Viceministros de la Presidencia ",
+            "rule": "",
+            "value": "C030"
+          },
+          {
+            "label": "Viceministros Relaciones Exteriores",
+            "rule": "",
+            "value": "C031"
+          },
+          {
+            "label": "Vicepresidente de la Rep\u00fablica",
+            "rule": "",
+            "value": "C005"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Datos de Familiares:",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "100371100022"
+      },
+      {
+        "type": "radio-group",
+        "group": "grp01",
+        "label": "Tipo de Documento",
+        "name": "radiobutt07",
+        "hidden": false,
+        "enabled": true,
+        "orden": "100376100035",
+        "values": [
+          {
+            "label": "Cedula",
+            "value": "0"
+          },
+          {
+            "label": "Pasaporte",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "label": "No. de Identidad:",
+        "Mask": "0",
+        "group": "grp01",
+        "orden": "100376100178",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5045",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Nombres Pasajero Principal",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100376100320",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5048",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "1er Apellido:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100376100574",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5047",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "2do. Apellido:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100410100044",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5046",
+        "subtype": "text"
+      },
+      {
+        "type": "select",
+        "entity": "Vinculo",
+        "group": "grp01",
+        "label_persist": "texto5052",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Vinculo con el Titular",
+        "orden": "100410100240",
+        "name": "texto5053",
+        "values": [
+          {
+            "label": "Esposo(a)",
+            "rule": "",
+            "value": "V03"
+          },
+          {
+            "label": "Hijo(a)",
+            "rule": "",
+            "value": "V04"
+          },
+          {
+            "label": "Padre",
+            "rule": "",
+            "value": "V01"
+          },
+          {
+            "label": "Madre",
+            "rule": "",
+            "value": "V02"
+          },
+          {
+            "label": "Hermano(a)",
+            "rule": "",
+            "value": "V05"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "text",
+        "label": "Cantidad de Personas Adicionales:",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "100410100432",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "numero02",
+        "subtype": "text"
+      },
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Datos de La Institucion",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "100474100022"
+      },
+      {
+        "type": "select",
+        "entity": "Institucion",
+        "group": "grp01",
+        "label_persist": "texto5056",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Nombre de la Institucion",
+        "orden": "100482100034",
+        "name": "texto5057",
+        "values": [
+          {
+            "label": "Academia Regional Penitenciaria",
+            "rule": "",
+            "value": "04"
+          },
+          {
+            "label": "Alcald\u00eda del Municipio de San Jose de Ocoa",
+            "rule": "",
+            "value": "05"
+          },
+          {
+            "label": "ALEH",
+            "rule": "",
+            "value": "06"
+          },
+          {
+            "label": "Ayuntamiento de Santo Domingo Este",
+            "rule": "",
+            "value": "08"
+          },
+          {
+            "label": "Ayuntamiento del Distrito Nacional",
+            "rule": "",
+            "value": "07"
+          },
+          {
+            "label": "Banco Central",
+            "rule": "",
+            "value": "09"
+          },
+          {
+            "label": "Banco de Reservas",
+            "rule": "",
+            "value": "10"
+          },
+          {
+            "label": "Biblioteca Nacional",
+            "rule": "",
+            "value": "11"
+          },
+          {
+            "label": "Camara de Cuentas",
+            "rule": "",
+            "value": "12"
+          },
+          {
+            "label": "C\u00e1mara de Diputados",
+            "rule": "",
+            "value": "13"
+          },
+          {
+            "label": "CDEEE",
+            "rule": "",
+            "value": "14"
+          },
+          {
+            "label": "CEI-RD",
+            "rule": "",
+            "value": "15"
+          },
+          {
+            "label": "Codopesca",
+            "rule": "",
+            "value": "16"
+          },
+          {
+            "label": "Comisi\u00f3n Nacional de Energ\u00eda",
+            "rule": "",
+            "value": "17"
+          },
+          {
+            "label": "Conani",
+            "rule": "",
+            "value": "18"
+          },
+          {
+            "label": "Conep",
+            "rule": "",
+            "value": "19"
+          },
+          {
+            "label": "Consejo Nacional para el VIH\/SIDA",
+            "rule": "",
+            "value": "20"
+          },
+          {
+            "label": "Direcci\u00f3n de Ceremonial Mirex",
+            "rule": "",
+            "value": "21"
+          },
+          {
+            "label": "Ministerio de Agricultura",
+            "rule": "",
+            "value": "23"
+          },
+          {
+            "label": "Ministerio de Cultura",
+            "rule": "",
+            "value": "24"
+          },
+          {
+            "label": "Ministerio de Cultura \/ Orquesta Sinfonica",
+            "rule": "",
+            "value": "25"
+          },
+          {
+            "label": "Ministerio de Defensa",
+            "rule": "",
+            "value": "02"
+          },
+          {
+            "label": "Ministerio de Deportes",
+            "rule": "",
+            "value": "27"
+          },
+          {
+            "label": "Ministerio de Econom\u00eda, Planificaci\u00f3n y Desarrollo",
+            "rule": "",
+            "value": "28"
+          },
+          {
+            "label": "Ministerio de Educaci\u00f3n",
+            "rule": "",
+            "value": "29"
+          },
+          {
+            "label": "Ministerio de Energ\u00eda y Minas",
+            "rule": "",
+            "value": "30"
+          },
+          {
+            "label": "Ministerio de Hacienda",
+            "rule": "",
+            "value": "31"
+          },
+          {
+            "label": "Ministerio de Hacienda ADUANAS",
+            "rule": "",
+            "value": "32"
+          },
+          {
+            "label": "Ministerio de Industria, Comercio Mpymes",
+            "rule": "",
+            "value": "33"
+          },
+          {
+            "label": "Ministerio de la Administraci\u00f3n Publica (MAP)",
+            "rule": "",
+            "value": "22"
+          },
+          {
+            "label": "Ministerio de la Juventud",
+            "rule": "",
+            "value": "34"
+          },
+          {
+            "label": "Ministerio de la Mujer",
+            "rule": "",
+            "value": "35"
+          },
+          {
+            "label": "Ministerio de Medio Ambiente",
+            "rule": "",
+            "value": "36"
+          },
+          {
+            "label": "Ministerio de Obras Publicas y Comunicaciones",
+            "rule": "",
+            "value": "56"
+          },
+          {
+            "label": "Ministerio de Trabajo",
+            "rule": "",
+            "value": "55"
+          },
+          {
+            "label": "Ministerio de Turismo",
+            "rule": "",
+            "value": "03"
+          },
+          {
+            "label": "Ministro sin Cartera",
+            "rule": "",
+            "value": "37"
+          },
+          {
+            "label": "Organismo Dominicano de Acreditaci\u00f3n ",
+            "rule": "",
+            "value": "38"
+          },
+          {
+            "label": "Parlamento Parlacen",
+            "rule": "",
+            "value": "39"
+          },
+          {
+            "label": "Presidencia de la Rep\u00fablica Dominicana",
+            "rule": "",
+            "value": "40"
+          },
+          {
+            "label": "Pro Competencia",
+            "rule": "",
+            "value": "41"
+          },
+          {
+            "label": "Procuradur\u00eda General de la Rep\u00fablica",
+            "rule": "",
+            "value": "42"
+          },
+          {
+            "label": "Refidomsa",
+            "rule": "",
+            "value": "43"
+          },
+          {
+            "label": "Senado de la Rep\u00fablica",
+            "rule": "",
+            "value": "44"
+          },
+          {
+            "label": "Super Canal",
+            "rule": "",
+            "value": "45"
+          },
+          {
+            "label": "Superintendencia de Bancos",
+            "rule": "",
+            "value": "47"
+          },
+          {
+            "label": "Superintendencia de Electricidad",
+            "rule": "",
+            "value": "48"
+          },
+          {
+            "label": "Superintendencia del Mercado de Valores",
+            "rule": "",
+            "value": "46"
+          },
+          {
+            "label": "Suprema Corte de Justicia",
+            "rule": "",
+            "value": "49"
+          },
+          {
+            "label": "Tesorer\u00eda de la Seguridad Social (TSS)",
+            "rule": "",
+            "value": "52"
+          },
+          {
+            "label": "Tesorer\u00eda Nacional",
+            "rule": "",
+            "value": "50"
+          },
+          {
+            "label": "Tribunal Constitucional Electoral ",
+            "rule": "",
+            "value": "51"
+          },
+          {
+            "label": "Universidad Aut\u00f3noma de Santo Domingo (UASD)",
+            "rule": "",
+            "value": "53"
+          },
+          {
+            "label": "Vicepresidencia de la Rep\u00fablica Dominicana",
+            "rule": "",
+            "value": "54"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "text",
+        "label": "Correo electr\u00f3nico Laboral de Asistente:",
+        "Mask": "5",
+        "group": "grp01",
+        "orden": "100520100440",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto25506",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Tel\u00e9fono Oficina",
+        "Mask": "2",
+        "group": "grp01",
+        "orden": "100557100034",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5078",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Ext. Oficina",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "100557100216",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5013",
+        "subtype": "text"
+      },
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "DATOS DEL VIAJE",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "100623100022"
+      },
+      {
+        "type": "header",
+        "subtype": "h2",
+        "name": "fsSalida",
+        "label": "Datos de Salida",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "100641100030"
+      },
+      {
+        "type": "date",
+        "label": "Fecha ",
+        "Mask": "10",
+        "group": "grp01",
+        "orden": "100653100050",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "fecha01",
+        "subtype": "text"
+      },
+      {
+        "type": "time",
+        "label": "Hora Programada:",
+        "Mask": "11",
+        "group": "grp01",
+        "orden": "100654100207",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "hora1",
+        "subtype": "text"
+      },
+      {
+        "type": "select",
+        "entity": "Linea Aerea",
+        "group": "grp01",
+        "label_persist": "texto5004",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Linea A\u00e9rea",
+        "orden": "100656100313",
+        "name": "texto5059",
+        "values": [
+          {
+            "label": "VENEZOLANA",
+            "rule": "",
+            "value": "L06"
+          },
+          {
+            "label": "AIR CARAIBES",
+            "rule": "",
+            "value": "L11"
+          },
+          {
+            "label": "LASER AIRLINES",
+            "rule": "",
+            "value": "L08"
+          },
+          {
+            "label": "JET BLUE",
+            "rule": "",
+            "value": "L13"
+          },
+          {
+            "label": "AMERICAN AIRLINES",
+            "rule": "",
+            "value": "L02"
+          },
+          {
+            "label": "DELTA AIR LINES",
+            "rule": "",
+            "value": "L04"
+          },
+          {
+            "label": "UNITED AIRLINES",
+            "rule": "",
+            "value": "L07"
+          },
+          {
+            "label": "SKY",
+            "rule": "",
+            "value": "L14"
+          },
+          {
+            "label": "AEROMEXICO",
+            "rule": "",
+            "value": "L05"
+          },
+          {
+            "label": "AVIANCA",
+            "rule": "",
+            "value": "L10"
+          },
+          {
+            "label": "AIR EUROPA",
+            "rule": "",
+            "value": "L12"
+          },
+          {
+            "label": "SPIRIT AIRLINES",
+            "rule": "",
+            "value": "L03"
+          },
+          {
+            "label": "COPA AIRLINES",
+            "rule": "",
+            "value": "L01"
+          },
+          {
+            "label": "IBERIA",
+            "rule": "",
+            "value": "L09"
+          },
+          {
+            "label": "AIRLINES BELGIUM",
+            "rule": "",
+            "value": "L07"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "select",
+        "entity": "Vuelos",
+        "group": "grp01",
+        "label_persist": "texto5060",
+        "father": "Linea Aerea",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "No. de Vuelo",
+        "orden": "100656100581",
+        "name": "texto5072",
+        "values": [
+          {
+            "label": "107",
+            "rule": "",
+            "value": "VS02"
+          },
+          {
+            "label": "493",
+            "rule": "",
+            "value": "VL14"
+          },
+          {
+            "label": "391",
+            "rule": "",
+            "value": "VS13"
+          },
+          {
+            "label": "142",
+            "rule": "",
+            "value": "VS12"
+          },
+          {
+            "label": "2137",
+            "rule": "",
+            "value": "VL34"
+          },
+          {
+            "label": "957",
+            "rule": "",
+            "value": "VL40"
+          },
+          {
+            "label": "267",
+            "rule": "",
+            "value": "VS01"
+          },
+          {
+            "label": "487",
+            "rule": "",
+            "value": "VL16"
+          },
+          {
+            "label": "510",
+            "rule": "",
+            "value": "VS31"
+          },
+          {
+            "label": "987",
+            "rule": "",
+            "value": "VS08"
+          },
+          {
+            "label": "509",
+            "rule": "",
+            "value": "VL35"
+          },
+          {
+            "label": "1154",
+            "rule": "",
+            "value": "VS07"
+          },
+          {
+            "label": "2138",
+            "rule": "",
+            "value": "vs37"
+          },
+          {
+            "label": "6500",
+            "rule": "",
+            "value": "VS23"
+          },
+          {
+            "label": "145",
+            "rule": "",
+            "value": "VL12"
+          },
+          {
+            "label": "1481",
+            "rule": "",
+            "value": "VL09"
+          },
+          {
+            "label": "2966",
+            "rule": "",
+            "value": "VL22"
+          },
+          {
+            "label": "1473",
+            "rule": "",
+            "value": "VS20"
+          },
+          {
+            "label": "1638",
+            "rule": "",
+            "value": "VS29"
+          },
+          {
+            "label": "178",
+            "rule": "",
+            "value": "VS21"
+          },
+          {
+            "label": "901",
+            "rule": "",
+            "value": "VS14"
+          },
+          {
+            "label": "609",
+            "rule": "",
+            "value": "VL28"
+          },
+          {
+            "label": "250",
+            "rule": "",
+            "value": "VL24"
+          },
+          {
+            "label": "1985",
+            "rule": "",
+            "value": "VS19"
+          },
+          {
+            "label": "128",
+            "rule": "",
+            "value": "VL05"
+          },
+          {
+            "label": "2238",
+            "rule": "",
+            "value": "VS34"
+          },
+          {
+            "label": "1337",
+            "rule": "",
+            "value": "VL06"
+          },
+          {
+            "label": "410",
+            "rule": "",
+            "value": "VS35"
+          },
+          {
+            "label": "1706",
+            "rule": "",
+            "value": "VS30"
+          },
+          {
+            "label": "108",
+            "rule": "",
+            "value": "VL02"
+          },
+          {
+            "label": "1511",
+            "rule": "",
+            "value": "VL07"
+          },
+          {
+            "label": "1026",
+            "rule": "",
+            "value": "VS06"
+          },
+          {
+            "label": "1035",
+            "rule": "",
+            "value": "VL11"
+          },
+          {
+            "label": "1204",
+            "rule": "",
+            "value": "VS33"
+          },
+          {
+            "label": "209",
+            "rule": "",
+            "value": "VL31"
+          },
+          {
+            "label": "1042",
+            "rule": "",
+            "value": "VS11"
+          },
+          {
+            "label": "1637",
+            "rule": "",
+            "value": "VL29"
+          },
+          {
+            "label": "2037",
+            "rule": "",
+            "value": "VL37"
+          },
+          {
+            "label": "177",
+            "rule": "",
+            "value": "VL21"
+          },
+          {
+            "label": "610",
+            "rule": "",
+            "value": "VS36"
+          },
+          {
+            "label": "129",
+            "rule": "",
+            "value": "VL27"
+          },
+          {
+            "label": "129",
+            "rule": "",
+            "value": "VS04"
+          },
+          {
+            "label": "1984",
+            "rule": "",
+            "value": "VL19"
+          },
+          {
+            "label": "512",
+            "rule": "",
+            "value": "VL18"
+          },
+          {
+            "label": "268",
+            "rule": "",
+            "value": "VL01"
+          },
+          {
+            "label": "655",
+            "rule": "",
+            "value": "VS17"
+          },
+          {
+            "label": "848",
+            "rule": "",
+            "value": "VS32"
+          },
+          {
+            "label": "1036",
+            "rule": "",
+            "value": "VS10"
+          },
+          {
+            "label": "6501",
+            "rule": "",
+            "value": "VL23"
+          },
+          {
+            "label": "308",
+            "rule": "",
+            "value": "VL04"
+          },
+          {
+            "label": "1938",
+            "rule": "",
+            "value": "VS38"
+          },
+          {
+            "label": "1203",
+            "rule": "",
+            "value": "VL33"
+          },
+          {
+            "label": "654",
+            "rule": "",
+            "value": "VL17"
+          },
+          {
+            "label": "089",
+            "rule": "",
+            "value": "VL26"
+          },
+          {
+            "label": "849",
+            "rule": "",
+            "value": "VL32"
+          },
+          {
+            "label": "830",
+            "rule": "",
+            "value": "VS27"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VL25"
+          },
+          {
+            "label": "1705",
+            "rule": "",
+            "value": "VL30"
+          },
+          {
+            "label": "1049",
+            "rule": "",
+            "value": "VL10"
+          },
+          {
+            "label": "513",
+            "rule": "",
+            "value": "VS18"
+          },
+          {
+            "label": "1937",
+            "rule": "",
+            "value": "VL38"
+          },
+          {
+            "label": "088",
+            "rule": "",
+            "value": "VS25"
+          },
+          {
+            "label": "307",
+            "rule": "",
+            "value": "VS05"
+          },
+          {
+            "label": "686",
+            "rule": "",
+            "value": "VL15"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VS25"
+          },
+          {
+            "label": "9140",
+            "rule": "",
+            "value": "VS40"
+          },
+          {
+            "label": "985",
+            "rule": "",
+            "value": "VS15"
+          },
+          {
+            "label": "557",
+            "rule": "",
+            "value": "VS03"
+          },
+          {
+            "label": "993",
+            "rule": "",
+            "value": "VL39"
+          },
+          {
+            "label": "251",
+            "rule": "",
+            "value": "VS24"
+          },
+          {
+            "label": "987",
+            "rule": "",
+            "value": "VL08"
+          },
+          {
+            "label": "985",
+            "rule": "",
+            "value": "VS16"
+          },
+          {
+            "label": "497",
+            "rule": "",
+            "value": "VL13"
+          },
+          {
+            "label": "2967",
+            "rule": "",
+            "value": "VS22"
+          },
+          {
+            "label": "1010",
+            "rule": "",
+            "value": "VS28"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VL03"
+          },
+          {
+            "label": "972",
+            "rule": "",
+            "value": "VS39"
+          },
+          {
+            "label": "2509",
+            "rule": "",
+            "value": "VL36"
+          },
+          {
+            "label": "1470",
+            "rule": "",
+            "value": "VL20"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "text",
+        "label": "Destino:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100688100050",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5016",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Persona que despide:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "100688100384",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5020",
+        "subtype": "text"
+      },
+      {
+        "type": "grid",
+        "label": "ACOMPA\u00d1ANTES Y\/O PERSONAS ADICIONALES",
+        "group": "grp01",
+        "orden": "100752100044",
+        "name": "DAfmDetAcomp",
+        "relationship": "relsolacompsal",
+        "fields": [
+          {
+            "type": "text",
+            "label": "Nombre",
+            "Mask": null,
+            "group": "grp01",
+            "orden": "100266100184",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "nombres",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "Apellidos",
+            "Mask": null,
+            "group": "grp01",
+            "orden": "100266100399",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "apellidos",
+            "subtype": "text"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "subtype": "h2",
+        "name": "fsLlegada",
+        "label": "Datos de Llegada",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "101122100031"
+      },
+      {
+        "type": "date",
+        "label": "Fecha:",
+        "Mask": "10",
+        "group": "grp01",
+        "orden": "101134100051",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "fecha06",
+        "subtype": "text"
+      },
+      {
+        "type": "time",
+        "label": "Hora Programada:",
+        "Mask": "11",
+        "group": "grp01",
+        "orden": "101134100206",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "hora5",
+        "subtype": "text"
+      },
+      {
+        "type": "select",
+        "entity": "Vuelos",
+        "group": "grp01",
+        "label_persist": "texto5064",
+        "father": "Linea Aerea",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "No. de Vuelo",
+        "orden": "101134100578",
+        "name": "texto5070",
+        "values": [
+          {
+            "label": "107",
+            "rule": "",
+            "value": "VS02"
+          },
+          {
+            "label": "493",
+            "rule": "",
+            "value": "VL14"
+          },
+          {
+            "label": "391",
+            "rule": "",
+            "value": "VS13"
+          },
+          {
+            "label": "142",
+            "rule": "",
+            "value": "VS12"
+          },
+          {
+            "label": "2137",
+            "rule": "",
+            "value": "VL34"
+          },
+          {
+            "label": "957",
+            "rule": "",
+            "value": "VL40"
+          },
+          {
+            "label": "267",
+            "rule": "",
+            "value": "VS01"
+          },
+          {
+            "label": "487",
+            "rule": "",
+            "value": "VL16"
+          },
+          {
+            "label": "510",
+            "rule": "",
+            "value": "VS31"
+          },
+          {
+            "label": "987",
+            "rule": "",
+            "value": "VS08"
+          },
+          {
+            "label": "509",
+            "rule": "",
+            "value": "VL35"
+          },
+          {
+            "label": "1154",
+            "rule": "",
+            "value": "VS07"
+          },
+          {
+            "label": "2138",
+            "rule": "",
+            "value": "vs37"
+          },
+          {
+            "label": "6500",
+            "rule": "",
+            "value": "VS23"
+          },
+          {
+            "label": "145",
+            "rule": "",
+            "value": "VL12"
+          },
+          {
+            "label": "1481",
+            "rule": "",
+            "value": "VL09"
+          },
+          {
+            "label": "2966",
+            "rule": "",
+            "value": "VL22"
+          },
+          {
+            "label": "1473",
+            "rule": "",
+            "value": "VS20"
+          },
+          {
+            "label": "1638",
+            "rule": "",
+            "value": "VS29"
+          },
+          {
+            "label": "178",
+            "rule": "",
+            "value": "VS21"
+          },
+          {
+            "label": "901",
+            "rule": "",
+            "value": "VS14"
+          },
+          {
+            "label": "609",
+            "rule": "",
+            "value": "VL28"
+          },
+          {
+            "label": "250",
+            "rule": "",
+            "value": "VL24"
+          },
+          {
+            "label": "1985",
+            "rule": "",
+            "value": "VS19"
+          },
+          {
+            "label": "128",
+            "rule": "",
+            "value": "VL05"
+          },
+          {
+            "label": "2238",
+            "rule": "",
+            "value": "VS34"
+          },
+          {
+            "label": "1337",
+            "rule": "",
+            "value": "VL06"
+          },
+          {
+            "label": "410",
+            "rule": "",
+            "value": "VS35"
+          },
+          {
+            "label": "1706",
+            "rule": "",
+            "value": "VS30"
+          },
+          {
+            "label": "108",
+            "rule": "",
+            "value": "VL02"
+          },
+          {
+            "label": "1511",
+            "rule": "",
+            "value": "VL07"
+          },
+          {
+            "label": "1026",
+            "rule": "",
+            "value": "VS06"
+          },
+          {
+            "label": "1035",
+            "rule": "",
+            "value": "VL11"
+          },
+          {
+            "label": "1204",
+            "rule": "",
+            "value": "VS33"
+          },
+          {
+            "label": "209",
+            "rule": "",
+            "value": "VL31"
+          },
+          {
+            "label": "1042",
+            "rule": "",
+            "value": "VS11"
+          },
+          {
+            "label": "1637",
+            "rule": "",
+            "value": "VL29"
+          },
+          {
+            "label": "2037",
+            "rule": "",
+            "value": "VL37"
+          },
+          {
+            "label": "177",
+            "rule": "",
+            "value": "VL21"
+          },
+          {
+            "label": "610",
+            "rule": "",
+            "value": "VS36"
+          },
+          {
+            "label": "129",
+            "rule": "",
+            "value": "VL27"
+          },
+          {
+            "label": "129",
+            "rule": "",
+            "value": "VS04"
+          },
+          {
+            "label": "1984",
+            "rule": "",
+            "value": "VL19"
+          },
+          {
+            "label": "512",
+            "rule": "",
+            "value": "VL18"
+          },
+          {
+            "label": "268",
+            "rule": "",
+            "value": "VL01"
+          },
+          {
+            "label": "655",
+            "rule": "",
+            "value": "VS17"
+          },
+          {
+            "label": "848",
+            "rule": "",
+            "value": "VS32"
+          },
+          {
+            "label": "1036",
+            "rule": "",
+            "value": "VS10"
+          },
+          {
+            "label": "6501",
+            "rule": "",
+            "value": "VL23"
+          },
+          {
+            "label": "308",
+            "rule": "",
+            "value": "VL04"
+          },
+          {
+            "label": "1938",
+            "rule": "",
+            "value": "VS38"
+          },
+          {
+            "label": "1203",
+            "rule": "",
+            "value": "VL33"
+          },
+          {
+            "label": "654",
+            "rule": "",
+            "value": "VL17"
+          },
+          {
+            "label": "089",
+            "rule": "",
+            "value": "VL26"
+          },
+          {
+            "label": "849",
+            "rule": "",
+            "value": "VL32"
+          },
+          {
+            "label": "830",
+            "rule": "",
+            "value": "VS27"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VL25"
+          },
+          {
+            "label": "1705",
+            "rule": "",
+            "value": "VL30"
+          },
+          {
+            "label": "1049",
+            "rule": "",
+            "value": "VL10"
+          },
+          {
+            "label": "513",
+            "rule": "",
+            "value": "VS18"
+          },
+          {
+            "label": "1937",
+            "rule": "",
+            "value": "VL38"
+          },
+          {
+            "label": "088",
+            "rule": "",
+            "value": "VS25"
+          },
+          {
+            "label": "307",
+            "rule": "",
+            "value": "VS05"
+          },
+          {
+            "label": "686",
+            "rule": "",
+            "value": "VL15"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VS25"
+          },
+          {
+            "label": "9140",
+            "rule": "",
+            "value": "VS40"
+          },
+          {
+            "label": "985",
+            "rule": "",
+            "value": "VS15"
+          },
+          {
+            "label": "557",
+            "rule": "",
+            "value": "VS03"
+          },
+          {
+            "label": "993",
+            "rule": "",
+            "value": "VL39"
+          },
+          {
+            "label": "251",
+            "rule": "",
+            "value": "VS24"
+          },
+          {
+            "label": "987",
+            "rule": "",
+            "value": "VL08"
+          },
+          {
+            "label": "985",
+            "rule": "",
+            "value": "VS16"
+          },
+          {
+            "label": "497",
+            "rule": "",
+            "value": "VL13"
+          },
+          {
+            "label": "2967",
+            "rule": "",
+            "value": "VS22"
+          },
+          {
+            "label": "1010",
+            "rule": "",
+            "value": "VS28"
+          },
+          {
+            "label": "556",
+            "rule": "",
+            "value": "VL03"
+          },
+          {
+            "label": "972",
+            "rule": "",
+            "value": "VS39"
+          },
+          {
+            "label": "2509",
+            "rule": "",
+            "value": "VL36"
+          },
+          {
+            "label": "1470",
+            "rule": "",
+            "value": "VL20"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "select",
+        "entity": "Linea Aerea",
+        "group": "grp01",
+        "label_persist": "texto5063",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "label": "Linea Aerea",
+        "orden": "101135100314",
+        "name": "texto5071",
+        "values": [
+          {
+            "label": "VENEZOLANA",
+            "rule": "",
+            "value": "L06"
+          },
+          {
+            "label": "AIR CARAIBES",
+            "rule": "",
+            "value": "L11"
+          },
+          {
+            "label": "LASER AIRLINES",
+            "rule": "",
+            "value": "L08"
+          },
+          {
+            "label": "JET BLUE",
+            "rule": "",
+            "value": "L13"
+          },
+          {
+            "label": "AMERICAN AIRLINES",
+            "rule": "",
+            "value": "L02"
+          },
+          {
+            "label": "DELTA AIR LINES",
+            "rule": "",
+            "value": "L04"
+          },
+          {
+            "label": "UNITED AIRLINES",
+            "rule": "",
+            "value": "L07"
+          },
+          {
+            "label": "SKY",
+            "rule": "",
+            "value": "L14"
+          },
+          {
+            "label": "AEROMEXICO",
+            "rule": "",
+            "value": "L05"
+          },
+          {
+            "label": "AVIANCA",
+            "rule": "",
+            "value": "L10"
+          },
+          {
+            "label": "AIR EUROPA",
+            "rule": "",
+            "value": "L12"
+          },
+          {
+            "label": "SPIRIT AIRLINES",
+            "rule": "",
+            "value": "L03"
+          },
+          {
+            "label": "COPA AIRLINES",
+            "rule": "",
+            "value": "L01"
+          },
+          {
+            "label": "IBERIA",
+            "rule": "",
+            "value": "L09"
+          },
+          {
+            "label": "AIRLINES BELGIUM",
+            "rule": "",
+            "value": "L07"
+          }
+        ],
+        "data_portal": false,
+        "select_portal_type": null
+      },
+      {
+        "type": "text",
+        "label": "Origen:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "101167100051",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5065",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Persona que recibe:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "101168100385",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5066",
+        "subtype": "text"
+      },
+      {
+        "type": "grid",
+        "label": "ACOMPA\u00d1ANTES Y\/O PERSONAS ADICIONALES",
+        "group": "grp01",
+        "orden": "101227100046",
+        "name": "DAfmDetAcomp",
+        "relationship": "relsolacomplleg",
+        "fields": [
+          {
+            "type": "text",
+            "label": "Nombre",
+            "Mask": null,
+            "group": "grp01",
+            "orden": "100266100184",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "nombres",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "Apellidos",
+            "Mask": null,
+            "group": "grp01",
+            "orden": "100266100399",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "apellidos",
+            "subtype": "text"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Datos de Grupo \/ Delegaciones \/ Cumbres",
+        "group": "grp01",
+        "hidden": false,
+        "orden": "101625100020"
+      },
+      {
+        "type": "text",
+        "label": "Nombre del Evento:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "101640100040",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5009",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Total de Vuelos:",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "101641100468",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "numero03",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Total de Personas:",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "101642100600",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "numero04",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Celular:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "101672100298",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5062",
+        "subtype": "text"
+      },
+      {
+        "type": "text",
+        "label": "Personal de Contacto - Cumbre:",
+        "Mask": null,
+        "group": "grp01",
+        "orden": "101674100040",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "texto5061",
+        "subtype": "text"
+      },
+      {
+        "type": "date",
+        "label": "Fecha Inicio:",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "101674100470",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "fecha04",
+        "subtype": "text"
+      },
+      {
+        "type": "date",
+        "label": "Fecha Termino:",
+        "Mask": "6",
+        "group": "grp01",
+        "orden": "101674100600",
+        "hidden": false,
+        "required": false,
+        "enabled": true,
+        "name": "fecha05",
+        "subtype": "text"
+      },
+      {
+        "type": "grid",
+        "label": "DATOS DE LOS VUELOS",
+        "group": "grp01",
+        "orden": "101727100035",
+        "name": "da01fmdatosvuelos",
+        "relationship": "relsoldatvuelos",
+        "fields": [
+          {
+            "type": "text",
+            "label": "Tipo de Servicio",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100269100074",
+            "hidden": true,
+            "required": false,
+            "enabled": true,
+            "name": "texto25507",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "L\u00ednea A\u00e9rea",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100269100272",
+            "hidden": true,
+            "required": false,
+            "enabled": false,
+            "name": "texto25501",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "Vuelo",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100269100486",
+            "hidden": true,
+            "required": false,
+            "enabled": true,
+            "name": "texto5004",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "Origen o Destino",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100316100272",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "texto5003",
+            "subtype": "text"
+          },
+          {
+            "type": "text",
+            "label": "Cantidad de personas",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100316100486",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "numero1",
+            "subtype": "text"
+          },
+          {
+            "type": "select",
+            "entity": "Vuelos",
+            "group": "grp00",
+            "label_persist": "texto5004",
+            "father": "Linea Aerea",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "label": "Vuelo",
+            "orden": "100269100486",
+            "name": "texto25504",
+            "values": [
+              {
+                "label": "107",
+                "rule": "",
+                "value": "VS02"
+              },
+              {
+                "label": "493",
+                "rule": "",
+                "value": "VL14"
+              },
+              {
+                "label": "391",
+                "rule": "",
+                "value": "VS13"
+              },
+              {
+                "label": "142",
+                "rule": "",
+                "value": "VS12"
+              },
+              {
+                "label": "2137",
+                "rule": "",
+                "value": "VL34"
+              },
+              {
+                "label": "957",
+                "rule": "",
+                "value": "VL40"
+              },
+              {
+                "label": "267",
+                "rule": "",
+                "value": "VS01"
+              },
+              {
+                "label": "487",
+                "rule": "",
+                "value": "VL16"
+              },
+              {
+                "label": "510",
+                "rule": "",
+                "value": "VS31"
+              },
+              {
+                "label": "987",
+                "rule": "",
+                "value": "VS08"
+              },
+              {
+                "label": "509",
+                "rule": "",
+                "value": "VL35"
+              },
+              {
+                "label": "1154",
+                "rule": "",
+                "value": "VS07"
+              },
+              {
+                "label": "2138",
+                "rule": "",
+                "value": "vs37"
+              },
+              {
+                "label": "6500",
+                "rule": "",
+                "value": "VS23"
+              },
+              {
+                "label": "145",
+                "rule": "",
+                "value": "VL12"
+              },
+              {
+                "label": "1481",
+                "rule": "",
+                "value": "VL09"
+              },
+              {
+                "label": "2966",
+                "rule": "",
+                "value": "VL22"
+              },
+              {
+                "label": "1473",
+                "rule": "",
+                "value": "VS20"
+              },
+              {
+                "label": "1638",
+                "rule": "",
+                "value": "VS29"
+              },
+              {
+                "label": "178",
+                "rule": "",
+                "value": "VS21"
+              },
+              {
+                "label": "901",
+                "rule": "",
+                "value": "VS14"
+              },
+              {
+                "label": "609",
+                "rule": "",
+                "value": "VL28"
+              },
+              {
+                "label": "250",
+                "rule": "",
+                "value": "VL24"
+              },
+              {
+                "label": "1985",
+                "rule": "",
+                "value": "VS19"
+              },
+              {
+                "label": "128",
+                "rule": "",
+                "value": "VL05"
+              },
+              {
+                "label": "2238",
+                "rule": "",
+                "value": "VS34"
+              },
+              {
+                "label": "1337",
+                "rule": "",
+                "value": "VL06"
+              },
+              {
+                "label": "410",
+                "rule": "",
+                "value": "VS35"
+              },
+              {
+                "label": "1706",
+                "rule": "",
+                "value": "VS30"
+              },
+              {
+                "label": "108",
+                "rule": "",
+                "value": "VL02"
+              },
+              {
+                "label": "1511",
+                "rule": "",
+                "value": "VL07"
+              },
+              {
+                "label": "1026",
+                "rule": "",
+                "value": "VS06"
+              },
+              {
+                "label": "1035",
+                "rule": "",
+                "value": "VL11"
+              },
+              {
+                "label": "1204",
+                "rule": "",
+                "value": "VS33"
+              },
+              {
+                "label": "209",
+                "rule": "",
+                "value": "VL31"
+              },
+              {
+                "label": "1042",
+                "rule": "",
+                "value": "VS11"
+              },
+              {
+                "label": "1637",
+                "rule": "",
+                "value": "VL29"
+              },
+              {
+                "label": "2037",
+                "rule": "",
+                "value": "VL37"
+              },
+              {
+                "label": "177",
+                "rule": "",
+                "value": "VL21"
+              },
+              {
+                "label": "610",
+                "rule": "",
+                "value": "VS36"
+              },
+              {
+                "label": "129",
+                "rule": "",
+                "value": "VL27"
+              },
+              {
+                "label": "129",
+                "rule": "",
+                "value": "VS04"
+              },
+              {
+                "label": "1984",
+                "rule": "",
+                "value": "VL19"
+              },
+              {
+                "label": "512",
+                "rule": "",
+                "value": "VL18"
+              },
+              {
+                "label": "268",
+                "rule": "",
+                "value": "VL01"
+              },
+              {
+                "label": "655",
+                "rule": "",
+                "value": "VS17"
+              },
+              {
+                "label": "848",
+                "rule": "",
+                "value": "VS32"
+              },
+              {
+                "label": "1036",
+                "rule": "",
+                "value": "VS10"
+              },
+              {
+                "label": "6501",
+                "rule": "",
+                "value": "VL23"
+              },
+              {
+                "label": "308",
+                "rule": "",
+                "value": "VL04"
+              },
+              {
+                "label": "1938",
+                "rule": "",
+                "value": "VS38"
+              },
+              {
+                "label": "1203",
+                "rule": "",
+                "value": "VL33"
+              },
+              {
+                "label": "654",
+                "rule": "",
+                "value": "VL17"
+              },
+              {
+                "label": "089",
+                "rule": "",
+                "value": "VL26"
+              },
+              {
+                "label": "849",
+                "rule": "",
+                "value": "VL32"
+              },
+              {
+                "label": "830",
+                "rule": "",
+                "value": "VS27"
+              },
+              {
+                "label": "556",
+                "rule": "",
+                "value": "VL25"
+              },
+              {
+                "label": "1705",
+                "rule": "",
+                "value": "VL30"
+              },
+              {
+                "label": "1049",
+                "rule": "",
+                "value": "VL10"
+              },
+              {
+                "label": "513",
+                "rule": "",
+                "value": "VS18"
+              },
+              {
+                "label": "1937",
+                "rule": "",
+                "value": "VL38"
+              },
+              {
+                "label": "088",
+                "rule": "",
+                "value": "VS25"
+              },
+              {
+                "label": "307",
+                "rule": "",
+                "value": "VS05"
+              },
+              {
+                "label": "686",
+                "rule": "",
+                "value": "VL15"
+              },
+              {
+                "label": "556",
+                "rule": "",
+                "value": "VS25"
+              },
+              {
+                "label": "9140",
+                "rule": "",
+                "value": "VS40"
+              },
+              {
+                "label": "985",
+                "rule": "",
+                "value": "VS15"
+              },
+              {
+                "label": "557",
+                "rule": "",
+                "value": "VS03"
+              },
+              {
+                "label": "993",
+                "rule": "",
+                "value": "VL39"
+              },
+              {
+                "label": "251",
+                "rule": "",
+                "value": "VS24"
+              },
+              {
+                "label": "987",
+                "rule": "",
+                "value": "VL08"
+              },
+              {
+                "label": "985",
+                "rule": "",
+                "value": "VS16"
+              },
+              {
+                "label": "497",
+                "rule": "",
+                "value": "VL13"
+              },
+              {
+                "label": "2967",
+                "rule": "",
+                "value": "VS22"
+              },
+              {
+                "label": "1010",
+                "rule": "",
+                "value": "VS28"
+              },
+              {
+                "label": "556",
+                "rule": "",
+                "value": "VL03"
+              },
+              {
+                "label": "972",
+                "rule": "",
+                "value": "VS39"
+              },
+              {
+                "label": "2509",
+                "rule": "",
+                "value": "VL36"
+              },
+              {
+                "label": "1470",
+                "rule": "",
+                "value": "VL20"
+              }
+            ],
+            "data_portal": false,
+            "select_portal_type": null
+          },
+          {
+            "type": "date",
+            "label": "Fecha",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100316100074",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "fecha",
+            "subtype": "text"
+          },
+          {
+            "type": "time",
+            "label": "Hora",
+            "Mask": null,
+            "group": "grp00",
+            "orden": "100316100198",
+            "hidden": false,
+            "required": false,
+            "enabled": true,
+            "name": "hora",
+            "subtype": "text"
+          }
+        ]
+      },
+      {
+        "type": "file",
+        "label": "Carta de Instituci\u00f3n",
+        "group": "grp01",
+        "orden": "102961100037",
+        "hidden": false,
+        "required": true,
+        "enabled": true,
+        "name": "anexo1"
+      }
+    ]
+  ]
+}

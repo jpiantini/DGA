@@ -5,6 +5,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import { Translate } from "@mui/icons-material";
+import FONTS_FAMILY from "../../../theme/FontsFamily";
 
 export const Container = styled("div")({
   display: "flex",
@@ -21,7 +22,7 @@ export const HomeContainer = styled("div")({
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
 });
-export const ContainerBackground = styled("div")({
+export const ContainerBackground = styled("div")(props => ({
   display: "flex",
   flexDirection: "column",
   textAlign: "center",
@@ -31,7 +32,9 @@ export const ContainerBackground = styled("div")({
   width: "100%",
   minHeight: "70vh",
   justifyContent: "center",
-});
+  background: `url(${props.image})`,
+  boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
+}));
 
 export const MediumContainer = styled("div")({
   display: "flex",
@@ -50,48 +53,36 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
+  display:'flex',
   flexDirection: "column",
   position: "relative",
   marginLeft: "15%",
-  marginTop: "15%",
+  marginTop: "8%",
   height: "500px",
   alignSelf: "center",
-
-  "@media (min-width:360px)": {
-    width: "100%",
-  },
-  "@media (min-width:768px)": {
-    width: "100%",
-  },
-  "@media (min-width:1200px)": {
-    fontSize: "15px",
-
-    width: "100%",
-  },
+  fontSize: "15px",
+  width: "100%",
+  justifyContent:'center'
 });
-
+ 
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
-  width:'100%',
-  fontFamily:'Nunito Sans',
+  borderRadius: "20px",
+  fontSize: "15px !important",
+  fontFamily:`${FONTS_FAMILY.regular.body} !important`,
+  height:'38px',
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
   },
   "@media (min-width:320px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
-    width: "150px",
+    width: "180px",
   },
   "@media (min-width:768px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
-    width: "150px",
+    width: "230px",
   },
   "@media (min-width:1200px)": {
-    fontSize: "15px",
-    borderRadius: "20px",
     width: "230px",
   },
 });
@@ -100,49 +91,30 @@ export const HomeTitle = styled("h1")({
   zIndex: 10,
   width: "55%",
   color: COLORS.white,
-  fontFamily: "Fira Sans",
-  "@media (max-width:320px)": {
+  fontFamily: FONTS_FAMILY.regular.title,
+  textAlign:'left',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  '-webkit-box-orient': 'vertical',
+  "@media (min-width:320px)": {
     fontSize: "25px",
+    height: "280px",
+    WebkitLineClamp: 8, /* number of lines to show */
   },
   "@media (min-width:768px)": {
     fontSize: "30px",
-  },
-  "@media (max-width:1200px)": {
-    fontSize: "50px",
-  },
-});
-
-export const HomeSubTitle = styled("h3")({
-  width: "50%",
-  color: COLORS.white,
-  fontFamily: "Nunito Sans",
-  "@media (max-width:400px)": {
-    fontSize: "10px",
-  },
-  "@media (min-width:360px)": {
-    fontSize: "13px",
-  },
-  "@media (min-width:768px)": {
-    fontSize: "14px",
+    WebkitLineClamp: 6, /* number of lines to show */
+    height: "250px",
   },
   "@media (min-width:1200px)": {
-    fontSize: "18px",
+    fontSize: "50px",
+    height: "200px",
+    WebkitLineClamp: 5, /* number of lines to show */
   },
 });
 
-export const DarkOverlay = styled("div")({
-  zIndex: 1,
-  position: "relative",
-  backgroundColor: "rgba(0, 0, 0, 0.35)",
-  top: 0,
-  left: 0,
-  width: "100%",
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "space-evenly",
-});
+
 
 export const Section = styled("section")({
   marginBlock: "0.67em",
@@ -179,30 +151,6 @@ export const Section = styled("section")({
   },
 });
 
-export const SubtitleTest = styled("h3")({
-  position: "relative",
-  margin: 0,
-
-  bottom: "2%",
-  width: "50%",
-  color: COLORS.white,
-  fontFamily: "Nunito Sans",
-  "@media (min-width:360px)": {
-    fontSize: "13px",
-  },
-  "@media (min-width:768px)": {
-    fontSize: "14px",
-  },
-  "@media (min-width:1200px)": {
-    fontSize: "18px",
-  },
-  "@media (min-width:2048px)": {
-    fontSize: "30px",
-  },
-  "@media (min-width:3840px)": {
-    fontSize: "55px",
-  },
-});
 export const StyledDescriptionIcon = styled(DescriptionIcon)({
   color: COLORS.primary,
   "@media (min-width:320px)": {
@@ -246,7 +194,7 @@ export const Title = styled("h1")({
   margin: 0,
   textAlign: "center",
   color: COLORS.white,
-  fontFamily: "Source Sans Pro",
+  fontFamily: FONTS_FAMILY.bold.title,
   "@media (min-width:320px)": {
     fontSize: "30px",
   },
@@ -262,7 +210,7 @@ export const SubTitle = styled("h3")({
   margin: 0,
   textAlign: "center",
   color: COLORS.white,
-  fontFamily: "Source Sans Pro",
+  fontFamily: FONTS_FAMILY.bold.title,
   "@media (min-width:320px)": {
     fontSize: "15px",
   },
@@ -274,11 +222,11 @@ export const SubTitle = styled("h3")({
   },
 });
 
-export const SearcherSubTitle = styled("h3")({
+export const SearcherSubTitle = styled("p")({
   color: COLORS.secondary,
   marginBottom: "10px",
   textAlign: "left",
-  fontFamily: "Nunito Sans",
+  fontFamily: FONTS_FAMILY.regular.body,
   "@media (min-width:320px)": {
     fontSize: "15px",
   },
@@ -295,7 +243,7 @@ export const SearcherTitle = styled("h3")({
   margin: "0",
   textAlign: "left",
   fontSize: "30px",
-  fontFamily: "Nunito Sans",
+  fontFamily: FONTS_FAMILY.regular.title,
   "@media (max-width:768px)": {
     fontSize: "23px",
   },
@@ -396,36 +344,27 @@ export const ServicesListContainer = styled("div")({
   minHeight: "100vh",
 });
 
-export const ServicesTitle = styled("h1")({
+export const WhiteTitle = styled("h1")({
+  margin: "10px",
   fontSize: "50px",
   textAlign: "center",
   color: COLORS.white,
-  fontFamily: "Source Sans Pro",
+  fontFamily: FONTS_FAMILY.regular.title,
   //   textShadow: '2px 2px 10px #000000',
   "@media (max-width:768px)": {
     fontSize: "30px",
   },
 });
 
-export const ServicesSubtitle = styled("h1")({
-  fontSize: "30px",
+export const WhiteSubtitle = styled("h1")({
+  margin: "10px",
+  fontSize: "20px",
   textAlign: "center",
   color: COLORS.white,
-  fontFamily: "Source Sans Pro",
+  fontFamily: FONTS_FAMILY.regular.body,
   //  textShadow: '2px 2px 10px #000000',
   "@media (max-width:768px)": {
     fontSize: "20px",
-  },
-});
-
-export const LinkText = styled("a")({
-  color: COLORS.white,
-  fontSize: "12px",
-  fontFamily: "Quicksand",
-  margin: "3px",
-  textDecoration: "none",
-  "&:hover,&:focus": {
-    textDecoration: "underline",
   },
 });
 

@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import { MediumHeightDivider, SmallHeightDivider } from '../../../../theme/Styles';
 import Fade from 'react-reveal/Fade';
-import DocumentsOfRequestsCard from '../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
+import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { MockupDocuments } from './MyInstitutionalDocumentsConstants';
 
 function MyInstitutionalDocuments() {

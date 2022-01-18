@@ -1,58 +1,77 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/CheckBoxGroupStyles';
-import { Row } from '../../theme/Styles';
+import { CheckboxContainer, Container, StyledCheckBoxGroup, StyledFormLabel, StyledToggleButton } from './styles/CheckBoxGroupStyles';
+import { FieldTitle, Row } from '../../theme/Styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { FormControl, FormHelperText, FormLabel, Typography } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
-function CheckBoxGroup({ id, title, options, onChange,onBlur, required }) {
-
+function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, error, helperText = " ", disabled }) {
+   /*   IN CASE OF USE Checkboxgroup from material-ui use this function for return an array with options updated 
     const HandleCheckboxChange = (e) => {
-        let currentModifiedOption = options.find((option) => option.id == e.target.id);
-        console.log(currentModifiedOption)
-        currentModifiedOption.value = e.target.checked
-        let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
-        console.log(newOptions)
-        return newOptions;
+     
+           let currentModifiedOption = options.find((option) => option.id == e.target.id);
+           currentModifiedOption.value = e.target.checked
+           let newOptions = options.map((option) => option.id == currentModifiedOption.id ? currentModifiedOption : option);
+           return newOptions;
     }
+    */
 
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
             </Row>
-            <FormGroup>
 
-                {
-                    options?.map((option,index) => (
-                        <FormControlLabel key={index} control={
-                            <Checkbox size="medium" checked={option.value}
-                                onChange={(e) => onChange({
-                                    target: {
-                                        id: id,
-                                        value: HandleCheckboxChange(e)
-                                    }
-                                })}
-                               /* onBlur={(e) => onBlur({
-                                    target: {
-                                        id: id,
-                                        value: HandleCheckboxChange(e)
-                                    }
-                                })}*/
-                                id={option.id} />
-                        } label={option.label} />
-                    ))
-                }
+            <FormControl disabled={disabled} error={error} component='fieldset' variant='standard'>
+                <FormGroup>
+                    {/* checkboxgroup from material-ui
+                        options?.map((option, index) => (
+                            <FormControlLabel key={index} control={
+                                <Checkbox size='medium' checked={option.value}
+                                    onChange={(e) => onChange({
+                                        target: {
+                                            id: id,
+                                            value: HandleCheckboxChange(e)
+                                        }
+                                    })}
+                                     onBlur={(e) =>  onBlur &&  onBlur({
+                                         target: {
+                                             id: id,
+                                             value: HandleCheckboxChange(e)
+                                         }
+                                     })}
+                                    id={option.id} />
+                            } label={option.label} />
+                        ))
+                        */}
 
-            </FormGroup>
-        </Container>
+                    <StyledCheckBoxGroup size="lg" type="checkbox" value={value} onChange={(e) => onChange({
+                        target: {
+                            id: id,
+                            value: e
+                        }
+                    })}>
+                        {options?.map((option, index) => (
+                                <StyledToggleButton type="checkbox" key={option.value} id={option.id} value={option.value} disabled={disabled}>
+                                    <StyledFormLabel >
+                                        {option.label}
+                                    </StyledFormLabel>
+                                </StyledToggleButton>
+                        ))}
+                    </StyledCheckBoxGroup>
+                </FormGroup>
+                <FormHelperText>{helperText}</FormHelperText>
+            </FormControl>
+        </Container >
     );
 }
 

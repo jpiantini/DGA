@@ -80,7 +80,7 @@ export const MOCKUP_SERVICES = [
     },
     {
         id: 3,
-        title: 'DDP',
+        title: 'DPP',
         subMenus: [
             {
                 id: 1,

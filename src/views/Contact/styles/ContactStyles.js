@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import COLORS from '../../../theme/Colors';
+import FONT_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -12,7 +12,7 @@ export const ButtonContainer = styled('div')({
 });
 
 export const ContactInfoContainer = styled('div')({
-    fontFamily:'Nunito Sans'
+    fontFamily: FONT_FAMILY.regular.body
 });
 
 export const MapContainer = styled('div')({

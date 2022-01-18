@@ -1,6 +1,7 @@
 import { styled } from "@mui/system";
-import { Button, List, ListItem } from "@mui/material";
+import { Button} from "@mui/material";
 import COLORS from "../../../../../theme/Colors";
+import FONTS_FAMILY from "../../../../../theme/FontsFamily";
 
 export const Container = styled("div")({
   zIndex: 11,
@@ -9,13 +10,13 @@ export const Container = styled("div")({
   flexDirection: "row",
   alignSelf: "flex-end",
   marginTop: "40px",
-  marginRight: "14vw",
+  marginRight: "7%",
   "@media (min-width:360px)": {
-    right: "3vw",
+    right: "3%",
     marginTop: "80px",
   },
   "@media (min-width:768px)": {
-    right: "3vw",
+    right: "3%",
     marginTop: "100px",
   },
   "@media (min-width:1200px)": {
@@ -23,27 +24,20 @@ export const Container = styled("div")({
   },
 });
 
+
 export const MenuButton = styled(Button)({
-  "@media (min-width:1200px)": {
     fontSize: "15px",
-  },
-  color: COLORS.white,
+    fontFamily: FONTS_FAMILY.regular.body,
+    color: COLORS.white,
 });
 
-export const DrawerList = styled(List)({
-  flex: 1,
-  width: "200px",
-  backgroundColor: COLORS.secondary,
-  alignSelf: "center",
-});
-export const DrawerListItemContainer = styled(ListItem)({
-  flex: 1,
-  color: COLORS.white,
-  "&:hover": {
-    color: COLORS.black,
-    backgroundColor: COLORS.white,
-  },
-});
-export const DrawerListItemButton = styled(Button)({
-  width: "100%",
+export const DrawerMenuContainer = styled("div")({
+  display: "flex",
+  zIndex: 11,
+  position: "absolute",
+  display: "flex",
+  flexDirection: "row",
+  alignSelf: "flex-end",
+  marginTop: "130px",
+
 });

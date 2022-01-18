@@ -3,6 +3,7 @@ import COLORS from '../../../../theme/Colors';
 import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { Link } from 'react-router-dom';
+import FONTS_FAMILY from '../../../../theme/FontsFamily';
 
 export const LoginContainer = styled('div')({
     display: 'flex',
@@ -14,7 +15,7 @@ export const LeftPanelContainer = styled('div')({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent:'center',
-    minHeight: '100vh',
+    minHeight: '90vh',
     '@media (min-width:320px)': {
         width: '100%',
     },
@@ -38,7 +39,7 @@ export const LogoImage = styled('img')({
     },
     '@media (min-width:1200px)': {
         width: '50%',
-        margin: '18%',
+        margin: '15%',
 
     },
 });
@@ -65,7 +66,7 @@ export const Image = styled('div')({
 export const Title = styled('h1')({
     margin: 0,
     color: COLORS.secondary,
-    fontFamily: 'Source Sans Pro',
+    fontFamily:FONTS_FAMILY.regular.title,
     '@media (min-width:320px)': {
         fontSize: '18px',
     },
@@ -97,8 +98,7 @@ export const TextFieldContainer = styled('div')({
 export const LinkText = styled(Link)({
     color: COLORS.black,
     fontSize: '14px',
-    fontFamily: 'Source Sans Pro',
-    fontWeight: '700',
+    fontFamily: FONTS_FAMILY.bold.body,
     margin: '3px',
     textDecoration: 'underline',
 });
@@ -106,7 +106,15 @@ export const LinkText = styled(Link)({
 export const BodyText = styled('p')({
     color: COLORS.black,
     fontSize: '14px',
-    fontFamily: 'Source Sans Pro',
+    fontFamily: FONTS_FAMILY.regular.body,
+    margin: '0'
+});
+
+export const TextError = styled('p')({
+    color: COLORS.error,
+    fontSize: '15px',
+    fontFamily: FONTS_FAMILY.regular.body,
+    fontWeight:'bold',
     margin: '0'
 });
 

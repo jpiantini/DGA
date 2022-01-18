@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -24,7 +25,7 @@ export const Title = styled('p')({
     '@media (max-width:768px)': {
         fontSize: '12px',
     },
-    fontFamily:'Source Sans Pro'
+    fontFamily:FONTS_FAMILY.regular.title
 });
 
 
@@ -37,7 +38,7 @@ export const Subtitle = styled('p')({
     '@media (max-width:768px)': {
         fontSize: '10px',
     },
-    fontFamily:'Source Sans Pro'
+    fontFamily:FONTS_FAMILY.regular.title
 });
 
 export const LinkText = styled('a')({
@@ -54,5 +55,5 @@ export const LinkText = styled('a')({
     '@media (max-width:768px)': {
         fontSize: '9px',
     },
-    fontFamily:'Source Sans Pro'
+    fontFamily:FONTS_FAMILY.regular.body
 });

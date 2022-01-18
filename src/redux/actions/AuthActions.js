@@ -1,17 +1,16 @@
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGOUT = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
 
 
-export const AuthLogin = (authenticated) => {
+export const AuthLogin = (payload) => {
     return {
-        type: "LOGIN_SUCCESS",
-        payload: authenticated
+        type: LOGIN_SUCCESS,
+        payload: payload
     }
 }
 
 export const AuthLogout = () => {
     return {
-        type: "LOGIN_SUCCESS",
-        payload: false
+        type: LOGOUT,
     }
 }

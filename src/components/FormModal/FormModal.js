@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {memo} from 'react';
 import Dialog from '@mui/material/Dialog';
 import TextInformation from '../TextInformation/TextInformation';
 import IconButton from '@mui/material/IconButton';
@@ -9,7 +9,7 @@ import {
   StyledCloseIcon
 } from './styles/FormModalStyles';
 
-export default function FormModal({ children, title, open, onClose }) {
+function FormModal({ children, title, open, onClose }) {
   return (
     <Dialog
       open={open}
@@ -21,7 +21,12 @@ export default function FormModal({ children, title, open, onClose }) {
 
         <ContentContainer>
           <Row>
-            <TextInformation title={title} />
+            {
+              title ?
+              <TextInformation title={title} />
+              :
+              <div style={{width:'100%'}}/>
+            }
             <IconButton onClick={onClose} sx={{ marginLeft: '5%' }}>
               <StyledCloseIcon />
             </IconButton>
@@ -35,3 +40,5 @@ export default function FormModal({ children, title, open, onClose }) {
     </Dialog>
   );
 }
+
+export default memo(FormModal)

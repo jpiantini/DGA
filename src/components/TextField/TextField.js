@@ -1,25 +1,33 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import { Title, Container } from './styles/TextFieldStyles';
+import {  Container } from './styles/TextFieldStyles';
 import InputMask from 'react-input-mask';
-import { Row, StyledTextInput } from '../../theme/Styles';
+import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 
 
-function TextField({ id, title, placeholder, helperText, value, onChange,onBlur, type, error, mask, unMaskedValue, required,multiline }) {
+function TextField({ id, title, placeholder, helperText=" ", value, onChange, onBlur, type, error, mask, unMaskedValue,useMaskPresets, required, multiline,minLength,maxLength,disabled }) {
 
     const removeTextFromInputMaskValue = (value) => {
-        let NewValue = value.replace(/[^0-9\.]+/g, "");
+        let NewValue = value.replace(/[^0-9\.]+/g, '');
         return NewValue;
     }
+
+    const maskPresets = {
+        phone: "(999)-999-9999",
+        identification: "999-9999999-9",
+        passport: "*",
+        rnc: "*",
+        'solo numero': "999999999999999999999999999",
+      }
 
     return (
         <Container>
             <Row>
-                <Title>{title} </Title>
+                <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
                 {required ?
                     <Fragment>
-                        <Title style={{ color: COLORS.red }}>*</Title>
+                        <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
 
@@ -29,13 +37,14 @@ function TextField({ id, title, placeholder, helperText, value, onChange,onBlur,
                 mask ?
                     <InputMask
                         id={id}
-                        mask={mask}
+                        mask={useMaskPresets ? maskPresets[mask] || maskPresets['passport'] : mask}
                         maskChar={null}
                         value={value}
+                        disabled={disabled}
                         onBlur={
                             unMaskedValue ?
                                 (e) => {
-                                    onBlur({
+                                  onBlur && onBlur({
                                         target:
                                         {
                                             id: e.target.id,
@@ -65,7 +74,7 @@ function TextField({ id, title, placeholder, helperText, value, onChange,onBlur,
                             <StyledTextInput
                                 {...inputProps}
                                 fullWidth
-                                variant="outlined"
+                                variant='outlined'
                                 placeholder={placeholder}
                                 type={type}
                                 helperText={helperText}
@@ -76,6 +85,7 @@ function TextField({ id, title, placeholder, helperText, value, onChange,onBlur,
                     :
                     <StyledTextInput
                         fullWidth
+                        disabled={disabled}
                         multiline={multiline}
                         id={id}
                         placeholder={placeholder}
@@ -85,6 +95,9 @@ function TextField({ id, title, placeholder, helperText, value, onChange,onBlur,
                         type={type}
                         helperText={helperText}
                         error={error}
+                        inputProps={{
+                            maxLength:maxLength
+                        }}
                     />
             }
         </Container>

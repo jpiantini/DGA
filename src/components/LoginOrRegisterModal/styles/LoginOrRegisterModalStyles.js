@@ -1,6 +1,7 @@
 import { styled } from '@mui/system';
 import { Button, List, ListItem } from '@mui/material';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',
@@ -18,7 +19,7 @@ export const Container = styled('div')({
 });
 
 export const Title = styled('h1')({
-    fontFamily: 'Nunito Sans',
+    fontFamily: FONTS_FAMILY.regular.title,
     fontSize: '35px',
     '@media(max-width:768px)':{
         fontSize: '20px',

@@ -1,25 +1,24 @@
 import { useState, Fragment } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { MediumHeightDivider,CardContainer, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
+import { MediumHeightDivider, CardContainer, CardBodyTitle, CardBodyText, CardTextContainer, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { FormProfileSchema, FormCompanySchema, MockupCompanies } from './MyProfileConstants';
+import { FormCompanySchema } from './MyProfileConstants';
 import {
-    SectionTitle,
     SectionLink,
-    SectionTextDivider,
     ProfileImage,
     ProfileContainer,
-    Column,
-    CardBodyTitle,
-    CardBodyText,
-    CardTextContainer
 } from './styles/MyProfileStyles';
 import Fade from 'react-reveal/Fade';
 import { useFormik } from 'formik';
 import TextField from '../../../../components/TextField/TextField';
 import { Grid } from '@mui/material';
 import FormModal from '../../../../components/FormModal/FormModal';
+import { SectionTitle, SectionTextDivider } from '../../styles/MyDeskStyles';
+import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { addNewCompany, getAllCompanies, modifyCompany } from '../../../../api/myProfile';
+import { getUser } from '../../../../api/Auth';
+import { stringToDominicanCedula, stringToDominicanPhoneNumber } from '../../../../utilities/functions/FormatterUtil';
 
 
 function MyProfile() {
@@ -27,45 +26,56 @@ function MyProfile() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
+    const queryClient = useQueryClient()
 
-    const [openModifyProfileModal, setOpenModifyProfileModal] = useState(false);
+    const { profileImg } = useSelector((state) => state.authReducer);
+
     const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState();
 
-    const profileFormik = useFormik({
-        initialValues: {
-            name: '',
-            identification: '',
-            phoneNumber: '',
-            city: '',
-            company: '',
-            email: ''
-        },
-        validationSchema: FormProfileSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
-        },
-    });
+    const userQuery = useQuery(['userData'], () => getUser())
+    const companiesQuery = useQuery(['allCompaniesData'], () => getAllCompanies())
+    const mutationForModifyCompany = useMutation(modifyCompany);
+    const mutationForAddCompany = useMutation(addNewCompany);
+
+    const registerCompany = (formData) => {
+        mutationForAddCompany.mutate(formData, {
+            onSuccess: (data) => {
+                if (data.data.success) {
+                    queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
+                }
+            }
+        });
+    }
+
+    const modifySelectedCompany = (formData) => {
+        mutationForModifyCompany.mutate(formData, {
+            onSuccess: (data) => {
+                if (data.data.success) {
+                    queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
+                }
+            }
+        });
+    }
 
     const companyFormik = useFormik({
         initialValues: {
-            identification: '',
-            phoneNumber: '',
-            city: '',
-            companyName: '',
-            email: '',
-            address: '',
-            category: ''
+            company_rnc: '',
+            company_phone: '',
+            company_name: '',
+            company_address: '',
+            company_url_web: ''
         },
         validationSchema: FormCompanySchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            if (selectedCompany) {
+                modifySelectedCompany(values);
+            } else {
+                registerCompany(values);
+            }
+            handleModifyOrAddCompanyModal();
         },
     });
-
-    const handleModifyProfileModal = () => {
-        setOpenModifyProfileModal(!openModifyProfileModal);
-    }
 
     const handleModifyOrAddCompanyModal = (company) => {
         if (company) {
@@ -81,319 +91,207 @@ function MyProfile() {
         }
         setOpenModifyOrAddCompanyModal(!openModifyOrAddCompanyModal);
     }
-
     return (
         <Fade right>
-            <MediumHeightDivider />
-            <Row style={{ justifyContent: 'space-between' }}>
-                <Row style={{ alignItems: 'center', width: '75%' }}>
-                    <SectionTitle>
-                        Perfil del Representante
-                    </SectionTitle>
-                    <SectionTextDivider />
-                    <SectionLink onClick={handleModifyProfileModal}>
-                        Editar Perfil
-                    </SectionLink>
+            <Fragment>
+                <MediumHeightDivider />
+                <Row style={{ justifyContent: 'space-between' }}>
+                    <Row style={{ alignItems: 'center', width: '75%' }}>
+                        <SectionTitle>
+                            Perfil del Representante
+                        </SectionTitle>
+                        <SectionTextDivider />
+                        <SectionLink onClick={() => history.push('/app/myConfiguration')}>
+                            Editar Perfil
+                        </SectionLink>
+                    </Row>
+                    <div style={{ width: '25%' }}>
+                        <StyledButtonOutlined onClick={() => handleModifyOrAddCompanyModal()} variant="outlined">
+                            Agregar empresa
+                        </StyledButtonOutlined>
+                    </div>
                 </Row>
-                <div style={{ width: '25%' }}>
-                    <StyledButtonOutlined onClick={() => handleModifyOrAddCompanyModal()} variant="outlined">
-                        Agregar empresa
-                    </StyledButtonOutlined>
-                </div>
-            </Row>
-            <div style={{ height:'1px' }}/>
+                <div style={{ height: '1px' }} />
 
-            <ProfileContainer>
-                <ProfileImage src="https://www.w3schools.com/howto/img_avatar.png" />
-                <CardTextContainer>
-                    <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Nombre
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                Roberto Enrique M.
-                            </CardBodyText>
+                <ProfileContainer>
+                    <ProfileImage src={profileImg} />
+                    <CardTextContainer>
+                        <Grid alignItems="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                            <Grid item xs={4} sm={4} md={4}>
+                                <CardBodyTitle>
+                                    Nombre
+                                </CardBodyTitle>
+                                <CardBodyText>
+                                    {userQuery.data && userQuery.data.data.payload.name + " " + userQuery.data.data.payload.first_last_name + " " + userQuery.data.data.payload.second_last_name}
+                                </CardBodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <CardBodyTitle>
+                                    Documento de Identidad
+                                </CardBodyTitle>
+                                <CardBodyText>
+                                    {userQuery.data && stringToDominicanCedula(userQuery.data.data.payload.citizen_id)}
+                                </CardBodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <CardBodyTitle>
+                                    Telefono de contacto
+                                </CardBodyTitle>
+                                <CardBodyText>
+                                    {userQuery.data && stringToDominicanPhoneNumber(userQuery.data.data.payload.phone)}
+                                </CardBodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <CardBodyTitle>
+                                    Ciudad
+                                </CardBodyTitle>
+                                <CardBodyText>
+                                    {userQuery.data && userQuery.data.data.payload.province}
+                                </CardBodyText>
+                            </Grid>
+
+                            <Grid item xs={4} sm={4} md={4}>
+                                <CardBodyTitle>
+                                    Correo Electrónico
+                                </CardBodyTitle>
+                                <CardBodyText>
+                                    {userQuery.data && userQuery.data.data.payload.email}
+                                </CardBodyText>
+
+                            </Grid>
+                        </Grid>
+                    </CardTextContainer>
+                </ProfileContainer>
+
+                {
+                    companiesQuery.isLoading || companiesQuery.isFetching ? null :
+                        companiesQuery.data?.map((company) => (
+                            <div key={company.id}>
+                                <MediumHeightDivider />
+                                <Row style={{ alignItems: 'center' }}>
+                                    <SectionTitle>
+                                        {company.company_name}
+                                    </SectionTitle>
+                                    <SectionTextDivider />
+                                    <SectionLink onClick={() => handleModifyOrAddCompanyModal(company)}>
+                                        Editar Empresa
+                                    </SectionLink>
+                                </Row>
+                                <CardContainer>
+                                    <CardTextContainer>
+                                        <Grid alignItems="center" justifyContent="flex-start" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                                            <Grid item xs={4} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    RNC
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {company.company_rnc}
+                                                </CardBodyText>
+                                            </Grid>
+
+                                            <Grid item xs={4} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Teléfono
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {company.company_phone}
+                                                </CardBodyText>
+                                            </Grid>
+
+                                            <Grid item xs={4} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Dirección
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {company.company_address}
+                                                </CardBodyText>
+                                            </Grid>
+
+                                            <Grid item xs={4} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Web
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {company.company_url_web}
+                                                </CardBodyText>
+                                            </Grid>
+
+                                        </Grid>
+
+                                    </CardTextContainer>
+                                </CardContainer>
+                            </div>
+                        ))
+                }
+                <FormModal onClose={() => handleModifyOrAddCompanyModal()} open={openModifyOrAddCompanyModal}
+                    title={selectedCompany ? "Modificar empresa" : "Agregar empresa"}
+                >
+                    <SmallHeightDivider />
+                    <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        <Grid item >
+                            <TextField title="Documento de Identidad" type="text" id="company_rnc"
+                                required
+                                disabled={selectedCompany ? true : false}
+                                mask="999-9999999-9"
+                                unMaskedValue
+                                value={companyFormik.values.company_rnc}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_rnc && Boolean(companyFormik.errors.company_rnc)}
+                                helperText={companyFormik.touched.company_rnc && companyFormik.errors.company_rnc}
+                            />
+                        </Grid>
+                        <Grid item >
+                            <TextField title="Nombre comercial" type="text" id="company_name"
+                                value={companyFormik.values.company_name}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_name && Boolean(companyFormik.errors.company_name)}
+                                helperText={companyFormik.touched.company_name && companyFormik.errors.company_name}
+                                required
+                            />
                         </Grid>
 
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Documento de Identidad
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                001-6585665-5
-                            </CardBodyText>
+                        <Grid item >
+                            <TextField title="Teléfono" type="text" id="company_phone"
+                                required
+                                mask="999-999-9999"
+                                value={companyFormik.values.company_phone}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_phone && Boolean(companyFormik.errors.company_phone)}
+                                helperText={companyFormik.touched.company_phone && companyFormik.errors.company_phone}
+                            />
                         </Grid>
 
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Empresa
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                Restaurant & Bar Grill
-                            </CardBodyText>
+
+                        <Grid item >
+                            <TextField title="Dirección" type="text" id="company_address"
+                                value={companyFormik.values.company_address}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_address && Boolean(companyFormik.errors.company_address)}
+                                helperText={companyFormik.touched.company_address && companyFormik.errors.company_address}
+                                required
+                            />
                         </Grid>
 
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Telefono de contacto
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                809-777-6666
-                            </CardBodyText>
-                        </Grid>
-
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Ciudad
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                Santo Domingo
-                            </CardBodyText>
-                        </Grid>
-
-                        <Grid item xs={4} sm={4} md={4}>
-                            <CardBodyTitle>
-                                Correo Electrónico
-                            </CardBodyTitle>
-                            <CardBodyText>
-                                Robert@gmail.com
-                            </CardBodyText>
-
+                        <Grid item >
+                            <TextField title="Web" type="text" id="company_url_web"
+                                value={companyFormik.values.company_url_web}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_url_web && Boolean(companyFormik.errors.company_url_web)}
+                                helperText={companyFormik.touched.company_url_web && companyFormik.errors.company_url_web}
+                                required
+                            />
                         </Grid>
                     </Grid>
-                </CardTextContainer>
-            </ProfileContainer>
-            <FormModal onClose={handleModifyProfileModal} open={openModifyProfileModal}
-                title="Modificar perfil"
-            >
-                <SmallHeightDivider />
-                <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item >
-                        <TextField title="Nombre" type="text" id="name"
-                            value={profileFormik.values.name}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.name && Boolean(profileFormik.errors.name)}
-                            helperText={profileFormik.touched.name && profileFormik.errors.name}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Documento de Identidad" type="text" id="identification"
-                            required
-                            mask="999-9999999-9"
-                            value={profileFormik.values.identification}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.identification && Boolean(profileFormik.errors.identification)}
-                            helperText={profileFormik.touched.identification && profileFormik.errors.identification}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Empresa" type="text" id="company"
-                            value={profileFormik.values.company}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.company && Boolean(profileFormik.errors.company)}
-                            helperText={profileFormik.touched.company && profileFormik.errors.company}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Telefono de contacto" type="text" id="phoneNumber"
-                            required
-                            mask="999-999-9999"
-                            value={profileFormik.values.phoneNumber}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.phoneNumber && Boolean(profileFormik.errors.phoneNumber)}
-                            helperText={profileFormik.touched.phoneNumber && profileFormik.errors.phoneNumber}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Ciudad" type="text" id="city"
-                            required
-                            value={profileFormik.values.city}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.city && Boolean(profileFormik.errors.city)}
-                            helperText={profileFormik.touched.city && profileFormik.errors.city}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Correo Electronico" type="text" id="email"
-                            required
-                            value={profileFormik.values.email}
-                            onChange={profileFormik.handleChange}
-                            error={profileFormik.touched.email && Boolean(profileFormik.errors.email)}
-                            helperText={profileFormik.touched.email && profileFormik.errors.email}
-                        />
-                    </Grid>
-                </Grid>
-                <SmallHeightDivider />
-                <StyledButton onClick={() => profileFormik.handleSubmit()}>
-                    CONFIRMAR
-                </StyledButton>
-                <SmallHeightDivider />
-            </FormModal>
-            {
-                MockupCompanies.map((company) => (
-                    <Fragment key={company.id}>
-                        <MediumHeightDivider />
-                        <Row style={{ alignItems: 'center' }}>
-                            <SectionTitle>
-                                {company.title}
-                            </SectionTitle>
-                            <SectionTextDivider />
-                            <SectionLink onClick={() => handleModifyOrAddCompanyModal(company)}>
-                                Editar Empresa
-                            </SectionLink>
-                        </Row>
-                        <CardContainer>
-                            <CardTextContainer>
-                                <Grid alignItems="center" justifyContent="flex-start" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            RNC
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.identification}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Teléfono
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.phoneNumber}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Ciudad
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.city}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Nombre Comercial
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.companyName}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Correo Electrónico
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.email}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Dirección
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.address}
-                                        </CardBodyText>
-                                    </Grid>
-
-                                    <Grid item xs={4} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Área/Rubro
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {company.category}
-                                        </CardBodyText>
-                                    </Grid>
-                                </Grid>
-
-                            </CardTextContainer>
-                        </CardContainer>
-                    </Fragment>
-                ))
-            }
-            <FormModal onClose={() => handleModifyOrAddCompanyModal()} open={openModifyOrAddCompanyModal}
-                title={selectedCompany ? "Modificar empresa" : "Agregar empresa"}
-            >
-                <SmallHeightDivider />
-                <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item >
-                        <TextField title="Documento de Identidad" type="text" id="identification"
-                            required
-                            mask="999-9999999-9"
-                            value={companyFormik.values.identification}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.identification && Boolean(companyFormik.errors.identification)}
-                            helperText={companyFormik.touched.identification && companyFormik.errors.identification}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Nombre comercial" type="text" id="companyName"
-                            value={companyFormik.values.companyName}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.companyName && Boolean(companyFormik.errors.companyName)}
-                            helperText={companyFormik.touched.companyName && companyFormik.errors.companyName}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Área/Rubro" type="text" id="category"
-                            value={companyFormik.values.category}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.category && Boolean(companyFormik.errors.category)}
-                            helperText={companyFormik.touched.category && companyFormik.errors.category}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Teléfono" type="text" id="phoneNumber"
-                            required
-                            mask="999-999-9999"
-                            value={companyFormik.values.phoneNumber}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.phoneNumber && Boolean(companyFormik.errors.phoneNumber)}
-                            helperText={companyFormik.touched.phoneNumber && companyFormik.errors.phoneNumber}
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Correo Electrónico" type="text" id="email"
-                            value={companyFormik.values.email}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.email && Boolean(companyFormik.errors.email)}
-                            helperText={companyFormik.touched.email && companyFormik.errors.email}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Ciudad" type="text" id="city"
-                            value={companyFormik.values.city}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.city && Boolean(companyFormik.errors.city)}
-                            helperText={companyFormik.touched.city && companyFormik.errors.city}
-                            required
-                        />
-                    </Grid>
-                    <Grid item >
-                        <TextField title="Dirección" type="text" id="address"
-                            value={companyFormik.values.address}
-                            onChange={companyFormik.handleChange}
-                            error={companyFormik.touched.address && Boolean(companyFormik.errors.address)}
-                            helperText={companyFormik.touched.address && companyFormik.errors.address}
-                            required
-                        />
-                    </Grid>
-                </Grid>
-                <SmallHeightDivider />
-                <StyledButton onClick={() => companyFormik.handleSubmit()}>
-                    CONFIRMAR
-                </StyledButton>
-                <SmallHeightDivider />
-            </FormModal>
+                    <SmallHeightDivider />
+                    <StyledButton onClick={() => companyFormik.handleSubmit()}>
+                        CONFIRMAR
+                    </StyledButton>
+                    <SmallHeightDivider />
+                </FormModal>
+            </Fragment>
         </Fade>
 
     );

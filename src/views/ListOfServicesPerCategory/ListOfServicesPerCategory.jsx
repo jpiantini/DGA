@@ -50,7 +50,7 @@ function ListOfServicesPerCategory() {
             let Title = titles.find((title) => title.id == 1)?.title;
             dispatch(UpdateAppSubHeaderTitle(Title))
         }
-    }, []);
+    }, [categoryID]);
 
     return (
         <Container >
@@ -75,7 +75,7 @@ function ListOfServicesPerCategory() {
                             <Grid container direction="row" alignItems="flex-start" justifyContent="space-between" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {
                                     ListServices.map((item) => (
-                                        <Grid item >
+                                        <Grid item key={item.id}>
                                             <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
                                         </Grid>
                                     ))
@@ -93,8 +93,8 @@ function ListOfServicesPerCategory() {
                     <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {
                             ListServices.map((item) => (
-                                <Grid item >
-                                    <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
+                                <Grid item key={item.id}>
+                                <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
                                 </Grid>
                             ))
                         }
