@@ -36,6 +36,9 @@ const refreshToken = async () => {
         LocalStorageService.setItem('token',response.data.payload.token);
         return response.data?.payload.token;
     }else{
+        //if token cant be refreshed logOut
+        LocalStorageService.removeItem('token');
+        window.location.reload();
         return null;
     }
 }

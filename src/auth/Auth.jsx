@@ -53,7 +53,7 @@ function Auth({ children }) {
                //Test current token & refreshToken (apiCall internal refresh the token in case of server return token invalid)
                dispatch(ShowGlobalLoading('Restaurando sesión'));
                let response = await getUser();
-               if (response.data.success) {
+               if (response.success) {
                    setTimeout(() => {
                        dispatch(AuthLogin({
                            authenticated: true,

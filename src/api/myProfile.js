@@ -5,9 +5,9 @@ export const getAllCompanies = () => {
 }
 
 export const addNewCompany = ( data ) => {
-    return apiCall().post('/auth/register/createnewcompany', data);
+    return apiCall().post('/auth/register/createnewcompany', data).then(({data}) => data);
 }
 
 export const modifyCompany = ( data ) => {
-    return apiCall().post('/auth/update/updatecompany', data);
+    return apiCall().post('/auth/update/updatecompany', data).then(({data}) => data);
 }

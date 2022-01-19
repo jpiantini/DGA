@@ -31,9 +31,14 @@ export const DrawerMenuContainer = styled("div")({
 });
 
 export const MenuButton = styled(Button)({
-  fontSize: "17px",
   color: COLORS.black,
   fontFamily: FONTS_FAMILY.regular.title,
+  "@media (min-width:768px)": {
+    fontSize: "12.5px",
+  },
+  "@media (min-width:1200px)": {
+    fontSize: "17px",
+  },
 });
 
 export const MenuDivider = styled("div")({

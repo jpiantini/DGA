@@ -41,7 +41,8 @@ function DrawerMenu({ layout }) {
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
             LocalStorageService.removeItem('token');
             dispatch(AuthLogout());
-            dispatch(HideGlobalLoading());
+            window.location.reload();
+         //   dispatch(HideGlobalLoading());
         }, 1500);
 
     }
@@ -146,15 +147,15 @@ function DrawerMenu({ layout }) {
                 {
                     authenticated &&
                     <div>
-                    <DrawerListItemContainer layout={layout}>
-                        <DrawerListItemButton
-                            color='inherit'
-                            onClick={HandleLogOut}
-                        >
-                            Cerrar sesión 
-                        </DrawerListItemButton>
-                    </DrawerListItemContainer>
-                </div>
+                        <DrawerListItemContainer layout={layout}>
+                            <DrawerListItemButton
+                                color='inherit'
+                                onClick={HandleLogOut}
+                            >
+                                Cerrar sesión
+                            </DrawerListItemButton>
+                        </DrawerListItemContainer>
+                    </div>
                 }
             </StyledDrawer>
         </Container>

@@ -3,7 +3,7 @@ import GobMessage from "../../components/GobMessage/GobMessage";
 import Header from "./components/Header/Header";
 import COLORS from "../../theme/Colors";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Autocomplete, useMediaQuery } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 import {
   ListServices,
   moreInformationBackgroundImage,
@@ -34,35 +34,20 @@ import {
 import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import wpCall from "../../services/WpServerCall";
-import { CarouselBootstrap } from "./components/carrosuel/CarouselBootstrap";
+import CarouselBootstrap from "./components/carrosuel/CarouselBootstrap";
+import { useQuery } from "react-query";
+import { getSlidersDataFromWordpress } from "../../api/Home";
 
 
 function Home() {
 
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authReducer);
 
-  const [wordpressContent, setWordpressContent] = useState([]);
+  const { data: wordpressContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
 
-  const getAndSetAllWordPressContent = async () => {
-    let response = await wpCall().get("/sliders/v1/sliders");
-    const data = response.data.map(({ content, date, image, title, notice_url}) => {
-      return { content, date, image, title,notice_url };
-    });
-    setWordpressContent(data);
-  };
-
-  
   const goToSelectedService = (service) => {
-      history.push(`/app/serviceDescription/${service.id}`)
+    history.push(`/app/serviceDescription/${service.id}`)
   };
-
-  useEffect(() => {
-    getAndSetAllWordPressContent();
-  }, []);
 
   return (
     <Container>
@@ -70,8 +55,7 @@ function Home() {
 
       <Header />
 
-      <CarouselBootstrap data={wordpressContent}/>
-
+      {wordpressContent && <CarouselBootstrap data={wordpressContent} />}
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>
@@ -103,9 +87,9 @@ function Home() {
             getOptionLabel={(option) => option.title}
             autoHighlight
             freeSolo
-            style={{width:'100%'}}
-            onChange={(e,newValue) => {
-                goToSelectedService(newValue)
+            style={{ width: '100%' }}
+            onChange={(e, newValue) => {
+              goToSelectedService(newValue)
             }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {

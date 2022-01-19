@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import COLORS from "../../../../../theme/Colors";
 import FONTS_FAMILY from "../../../../../theme/FontsFamily";
 
@@ -26,9 +26,14 @@ export const Container = styled("div")({
 
 
 export const MenuButton = styled(Button)({
-    fontSize: "15px",
-    fontFamily: FONTS_FAMILY.regular.body,
-    color: COLORS.white,
+  fontFamily: FONTS_FAMILY.regular.title,
+  color: COLORS.white,
+  "@media (min-width:768px)": {
+    fontSize: "12.5px",
+  },
+  "@media (min-width:1200px)": {
+    fontSize: "17px",
+  },
 });
 
 export const DrawerMenuContainer = styled("div")({
