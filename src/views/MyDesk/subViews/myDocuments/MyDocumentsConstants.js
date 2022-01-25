@@ -10,6 +10,7 @@ export const MockupDocuments = [
     documentType: 'CERTIFICACIÓN NO ANTECEDENTES',
     date: '10/09/2021',
     url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ export const MockupDocuments = [
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
     url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id:3,
@@ -24,20 +26,23 @@ export const MockupDocuments = [
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
     url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id: 4,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    url: 'https://res.cloudinary.com/demo/image/upload/sample_document.docx.png',
+    documentFormat:'png'
   },
   {
     id: 5,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    url: 'https://res.cloudinary.com/demo/image/upload/sample_document.docx.png',
+    documentFormat:'png'
   },
 ]}
 ]

@@ -1,5 +1,5 @@
 import { Fragment, useState, memo } from 'react';
-import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { SmallHeightDivider, StyledButton, StyledButtonOutlined } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -11,11 +11,29 @@ import {
     StyledDescriptionIcon,
     Column,
 } from './styles/DocumentsOfRequestsCardStyles';
-import DocViewer, { PDFRenderer, PNGRenderer } from "react-doc-viewer";
+import { DocumentViewer } from 'react-documents';
+import { Dialog } from '@mui/material';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useDispatch } from 'react-redux';
+import { ShowGlobalLoading,HideGlobalLoading } from '../../redux/actions/UiActions';
 
 function DocumentsOfRequestsCard({ title, data }) {
 
+    const dispatch = useDispatch();
+
     const [currentDocumentURL, setCurrentCurrentURL] = useState();
+    const [viewerOpen, setViewerOpen] = useState(false);
+
+    const handleViewer = ({ url, type }) => {
+        if (url) {
+           // dispatch(ShowGlobalLoading('Cargando'))
+            setCurrentCurrentURL({ url, type });
+            setViewerOpen(true);
+        } else {
+            setCurrentCurrentURL(undefined);
+            setViewerOpen(false);
+        }
+    };
 
     return (
         <Container >
@@ -72,7 +90,7 @@ function DocumentsOfRequestsCard({ title, data }) {
                                 </Column>
 
                                 <Column style={{ width: '5%' }}>
-                                    <IconButton onClick={() => setCurrentCurrentURL(item.url)} sx={{ padding: 0 }}>
+                                    <IconButton onClick={() => handleViewer({ url: item.url, type: item.documentFormat })} sx={{ padding: 0 }}>
                                         <StyledDescriptionIcon />
                                     </IconButton>
                                 </Column>
@@ -84,14 +102,36 @@ function DocumentsOfRequestsCard({ title, data }) {
 
                     ))
                 }
-                {
-                    currentDocumentURL &&
-                    <div>
-                        <DocViewer pluginRenderers={[PDFRenderer, PNGRenderer]} documents={[{ uri: currentDocumentURL }]} />
-                    </div>
+                <Dialog
+                    open={viewerOpen}
+                    onClose={handleViewer}
+                    onBackdropClick={handleViewer}
+                    fullWidth
+                    maxWidth="xl"
+                >
 
-                }
+                    {
+                        currentDocumentURL?.type === "pdf" ?
+                            <DocumentViewer  style={{ height: '90vh', width: '100%' }} url={currentDocumentURL?.url} />
+                            :
+                            <TransformWrapper>
+                                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                                    <Fragment>
+                                        <TransformComponent>
+                                            <img src={currentDocumentURL?.url} />
+                                        </TransformComponent>
 
+                                        <div>
+                                            <StyledButton onClick={() => zoomIn()}>Zoom +</StyledButton>
+                                            <StyledButton onClick={() => zoomOut()}>Zoom -</StyledButton>
+                                            <StyledButton onClick={() => resetTransform()}>Reiniciar</StyledButton>
+                                        </div>
+                                    </Fragment>
+                                )}
+
+                            </TransformWrapper>
+                    }
+                </Dialog>
 
             </ContentContainer>
             <SmallHeightDivider />
