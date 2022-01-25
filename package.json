@@ -24,6 +24,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
     "react-device-detect": "^2.1.2",
+    "react-doc-viewer": "^0.1.5",
     "react-dom": "^17.0.2",
     "react-input-mask": "^2.0.4",
     "react-query": "^3.34.8",

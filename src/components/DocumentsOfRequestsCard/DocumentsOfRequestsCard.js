@@ -1,4 +1,4 @@
-import { Fragment, useRef, useEffect,memo } from 'react';
+import { Fragment, useState, memo } from 'react';
 import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
@@ -11,12 +11,11 @@ import {
     StyledDescriptionIcon,
     Column,
 } from './styles/DocumentsOfRequestsCardStyles';
+import DocViewer, { PDFRenderer, PNGRenderer } from "react-doc-viewer";
 
-function DocumentsOfRequestsCard({ title,data }) {
+function DocumentsOfRequestsCard({ title, data }) {
 
-    const openDocument = (url) => {
-        window.open(url, '_blank');  
-    }
+    const [currentDocumentURL, setCurrentCurrentURL] = useState();
 
     return (
         <Container >
@@ -49,8 +48,8 @@ function DocumentsOfRequestsCard({ title,data }) {
                         </BodyText>
                     </Column>
                 </RowContainer>
-                <SmallHeightDivider/>
-                {   
+                <SmallHeightDivider />
+                {
                     data?.map((item) => (
                         <Fragment>
                             <RowContainer >
@@ -62,31 +61,36 @@ function DocumentsOfRequestsCard({ title,data }) {
 
                                 <Column style={{ width: '42%' }}>
                                     <BodyText>
-                                    {item.documentType}
+                                        {item.documentType}
                                     </BodyText>
                                 </Column>
 
                                 <Column style={{ width: '18%' }}>
                                     <BodyText>
-                                    {item.date}
+                                        {item.date}
                                     </BodyText>
                                 </Column>
 
                                 <Column style={{ width: '5%' }}>
-                                    <IconButton onClick={() => openDocument(item.url)} sx={{ padding: 0 }}>
+                                    <IconButton onClick={() => setCurrentCurrentURL(item.url)} sx={{ padding: 0 }}>
                                         <StyledDescriptionIcon />
                                     </IconButton>
                                 </Column>
 
                             </RowContainer>
                             <LineDivider />
+
                         </Fragment>
 
                     ))
                 }
+                {
+                    currentDocumentURL &&
+                    <div>
+                        <DocViewer pluginRenderers={[PDFRenderer, PNGRenderer]} documents={[{ uri: currentDocumentURL }]} />
+                    </div>
 
-
-
+                }
 
 
             </ContentContainer>

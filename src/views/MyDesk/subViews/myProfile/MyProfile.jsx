@@ -168,7 +168,7 @@ function MyProfile() {
 
                 {
                     companiesQuery.isLoading || companiesQuery.isFetching ? null :
-                        companiesQuery.data?.map((company) => (
+                        companiesQuery.data?.payload?.map((company) => (
                             <div key={company.id}>
                                 <MediumHeightDivider />
                                 <Row style={{ alignItems: 'center' }}>
