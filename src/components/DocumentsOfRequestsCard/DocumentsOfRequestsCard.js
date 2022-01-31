@@ -110,15 +110,15 @@ function DocumentsOfRequestsCard({ title, data }) {
                     maxWidth="xl"
                 >
 
-                    {
+{
                         currentDocumentURL?.type === "pdf" ?
-                            <DocumentViewer  style={{ height: '90vh', width: '100%' }} url={currentDocumentURL?.url} />
+                            <DocumentViewer style={{ height: '90vh', width: '100%' }} viewer="pdf" url={currentDocumentURL?.url}/>
                             :
                             <TransformWrapper>
                                 {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                                     <Fragment>
-                                        <TransformComponent>
-                                            <img src={currentDocumentURL?.url} />
+                                        <TransformComponent wrapperStyle={{alignSelf:'center',alignItems:'center',justifyContent:'center'}}>
+                                            <img src={currentDocumentURL?.url} style={{ maxWidth: '100%',alignSelf:'center' }} />
                                         </TransformComponent>
 
                                         <div>
@@ -128,7 +128,6 @@ function DocumentsOfRequestsCard({ title, data }) {
                                         </div>
                                     </Fragment>
                                 )}
-
                             </TransformWrapper>
                     }
                 </Dialog>

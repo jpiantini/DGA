@@ -4,7 +4,6 @@ import { MediumHeightDivider, SmallHeightDivider } from '../../../../theme/Style
 import Fade from 'react-reveal/Fade';
 import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { MockupDocuments } from './MyDocumentsConstants';
-import DocViewer from "react-doc-viewer";
 
 function MyDocuments() {
 
