@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 function RequestPassword() {
 
     const history = useHistory();
-    const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
     const onRequest = (formData) => {
@@ -43,6 +42,13 @@ function RequestPassword() {
             onRequest(values);
         },
     });
+
+    useEffect(() => {
+        if (authenticated) {
+            history.push('/app/myDesk')
+            return;
+        }
+    }, []);
 
 
     return (

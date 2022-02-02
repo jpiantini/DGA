@@ -299,6 +299,10 @@ function Register() {
     }, []);
 
     useEffect(() => {
+        if(authenticated){
+            history.push('/app/myDesk')
+            return;
+        }
         getProvincesData();
         getRegisterQuestionsData();
         getAndSetAllWordPressContent();

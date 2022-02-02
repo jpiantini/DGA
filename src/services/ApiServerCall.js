@@ -32,7 +32,7 @@ export default function apiCall() {
 
 const refreshToken = async () => {
     let response =  await apiCall().get('/refresh/token');
-    if(response.data.success){
+    if(response.data?.success){
         LocalStorageService.setItem('token',response.data.payload.token);
         return response.data?.payload.token;
     }else{

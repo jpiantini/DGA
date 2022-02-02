@@ -14,6 +14,7 @@ import ServiceRequestedDetails from "../views/ServiceRequestedDetails/ServiceReq
 import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
 import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
+import ValidatePayment from "../views/ValidatePayment/ValidatePayment";
 
 const routes = [ //PUT ALL loginRequired:false routes on TOP
   {
@@ -113,6 +114,13 @@ const routes = [ //PUT ALL loginRequired:false routes on TOP
     exact: true,
     layout: "/app",
     loginRequired: true,
+  },
+  {
+    path: "/validatePayment",
+    component: ValidatePayment,
+    exact: false,
+    layout: "/app",
+    loginRequired: false,
   },
  
   {
