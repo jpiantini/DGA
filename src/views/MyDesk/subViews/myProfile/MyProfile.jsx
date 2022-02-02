@@ -41,7 +41,7 @@ function MyProfile() {
     const registerCompany = (formData) => {
         mutationForAddCompany.mutate(formData, {
             onSuccess: (data) => {
-                if (data.data.success) {
+                if (data.success) {
                     queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
                 }
             }
@@ -51,7 +51,7 @@ function MyProfile() {
     const modifySelectedCompany = (formData) => {
         mutationForModifyCompany.mutate(formData, {
             onSuccess: (data) => {
-                if (data.data.success) {
+                if (data.success) {
                     queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
                 }
             }
@@ -122,7 +122,7 @@ function MyProfile() {
                                     Nombre
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    {userQuery.data && userQuery.data.data.payload.name + " " + userQuery.data.data.payload.first_last_name + " " + userQuery.data.data.payload.second_last_name}
+                                    {userQuery.data && userQuery.data.payload.name + " " + userQuery.data.payload.first_last_name + " " + userQuery.data.payload.second_last_name}
                                 </CardBodyText>
                             </Grid>
 
@@ -131,7 +131,7 @@ function MyProfile() {
                                     Documento de Identidad
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    {userQuery.data && stringToDominicanCedula(userQuery.data.data.payload.citizen_id)}
+                                    {userQuery.data && stringToDominicanCedula(userQuery.data.payload.citizen_id)}
                                 </CardBodyText>
                             </Grid>
 
@@ -140,7 +140,7 @@ function MyProfile() {
                                     Telefono de contacto
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    {userQuery.data && stringToDominicanPhoneNumber(userQuery.data.data.payload.phone)}
+                                    {userQuery.data && stringToDominicanPhoneNumber(userQuery.data.payload.phone)}
                                 </CardBodyText>
                             </Grid>
 
@@ -149,7 +149,7 @@ function MyProfile() {
                                     Ciudad
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    {userQuery.data && userQuery.data.data.payload.province}
+                                    {userQuery.data && userQuery.data.payload.province}
                                 </CardBodyText>
                             </Grid>
 
@@ -158,7 +158,7 @@ function MyProfile() {
                                     Correo Electrónico
                                 </CardBodyTitle>
                                 <CardBodyText>
-                                    {userQuery.data && userQuery.data.data.payload.email}
+                                    {userQuery.data && userQuery.data.payload.email}
                                 </CardBodyText>
 
                             </Grid>
@@ -168,7 +168,7 @@ function MyProfile() {
 
                 {
                     companiesQuery.isLoading || companiesQuery.isFetching ? null :
-                        companiesQuery.data?.map((company) => (
+                        companiesQuery.data?.payload?.map((company) => (
                             <div key={company.id}>
                                 <MediumHeightDivider />
                                 <Row style={{ alignItems: 'center' }}>

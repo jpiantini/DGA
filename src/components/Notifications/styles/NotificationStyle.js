@@ -36,6 +36,7 @@ export const StyledPaper = styled(Paper)({
 });
 
 export const NotificationContainer = styled('div')(props =>({
+  paddingTop:'20px',
   display:'flex',
   flexDirection:'column',
   textAlign:'left',

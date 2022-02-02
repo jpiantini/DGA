@@ -1,5 +1,5 @@
-import { Fragment, useRef, useEffect,memo } from 'react';
-import { SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { Fragment, useState, memo } from 'react';
+import { SmallHeightDivider, StyledButton, StyledButtonOutlined } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -11,12 +11,29 @@ import {
     StyledDescriptionIcon,
     Column,
 } from './styles/DocumentsOfRequestsCardStyles';
+import { DocumentViewer } from 'react-documents';
+import { Dialog } from '@mui/material';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useDispatch } from 'react-redux';
+import { ShowGlobalLoading,HideGlobalLoading } from '../../redux/actions/UiActions';
 
-function DocumentsOfRequestsCard({ title,data }) {
+function DocumentsOfRequestsCard({ title, data }) {
 
-    const openDocument = (url) => {
-        window.open(url, '_blank');  
-    }
+    const dispatch = useDispatch();
+
+    const [currentDocumentURL, setCurrentCurrentURL] = useState();
+    const [viewerOpen, setViewerOpen] = useState(false);
+
+    const handleViewer = ({ url, type }) => {
+        if (url) {
+           // dispatch(ShowGlobalLoading('Cargando'))
+            setCurrentCurrentURL({ url, type });
+            setViewerOpen(true);
+        } else {
+            setCurrentCurrentURL(undefined);
+            setViewerOpen(false);
+        }
+    };
 
     return (
         <Container >
@@ -49,8 +66,8 @@ function DocumentsOfRequestsCard({ title,data }) {
                         </BodyText>
                     </Column>
                 </RowContainer>
-                <SmallHeightDivider/>
-                {   
+                <SmallHeightDivider />
+                {
                     data?.map((item) => (
                         <Fragment>
                             <RowContainer >
@@ -62,32 +79,58 @@ function DocumentsOfRequestsCard({ title,data }) {
 
                                 <Column style={{ width: '42%' }}>
                                     <BodyText>
-                                    {item.documentType}
+                                        {item.documentType}
                                     </BodyText>
                                 </Column>
 
                                 <Column style={{ width: '18%' }}>
                                     <BodyText>
-                                    {item.date}
+                                        {item.date}
                                     </BodyText>
                                 </Column>
 
                                 <Column style={{ width: '5%' }}>
-                                    <IconButton onClick={() => openDocument(item.url)} sx={{ padding: 0 }}>
+                                    <IconButton onClick={() => handleViewer({ url: item.url, type: item.documentFormat })} sx={{ padding: 0 }}>
                                         <StyledDescriptionIcon />
                                     </IconButton>
                                 </Column>
 
                             </RowContainer>
                             <LineDivider />
+
                         </Fragment>
 
                     ))
                 }
+                <Dialog
+                    open={viewerOpen}
+                    onClose={handleViewer}
+                    onBackdropClick={handleViewer}
+                    fullWidth
+                    maxWidth="xl"
+                >
 
+{
+                        currentDocumentURL?.type === "pdf" ?
+                            <DocumentViewer style={{ height: '90vh', width: '100%' }} viewer="pdf" url={currentDocumentURL?.url}/>
+                            :
+                            <TransformWrapper>
+                                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                                    <Fragment>
+                                        <TransformComponent wrapperStyle={{alignSelf:'center',alignItems:'center',justifyContent:'center'}}>
+                                            <img src={currentDocumentURL?.url} style={{ maxWidth: '100%',alignSelf:'center' }} />
+                                        </TransformComponent>
 
-
-
+                                        <div>
+                                            <StyledButton onClick={() => zoomIn()}>Zoom +</StyledButton>
+                                            <StyledButton onClick={() => zoomOut()}>Zoom -</StyledButton>
+                                            <StyledButton onClick={() => resetTransform()}>Reiniciar</StyledButton>
+                                        </div>
+                                    </Fragment>
+                                )}
+                            </TransformWrapper>
+                    }
+                </Dialog>
 
             </ContentContainer>
             <SmallHeightDivider />

@@ -1,8 +1,6 @@
-import { useState, useLayoutEffect, Fragment } from 'react';
+import { Fragment } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import {
-
-    MediumHeightDivider,
     SmallHeightDivider,
     CardBodyText,
     CardContainer,
@@ -22,11 +20,38 @@ import { ImageContainer, LogoImage } from '../../styles/ServiceRequestedDetailsS
 
 
 function Payment() {
-    const matchesWidth = useMediaQuery('(min-width:768px)');
-    const history = useHistory();
-    let { serviceID, requestID } = useParams();
-    const dispatch = useDispatch();
-    const { authenticated } = useSelector((state) => state.authReducer);
+
+    const handleSiritePayment = () => {
+
+        const siritePaymentConfig = {
+            codigoCentroRecaudacion: "1001",
+            codigoServicio: "1",
+            montoServicio: 2500,
+            nombre: "Juan Daniel Beato",
+            numeroDocumento: "40212345671",
+            tipoDocumento: "C",
+            medioPago: "PagoEnLinea",
+            idAutorizacionPortal: "010101",
+            urlRetorno: "http://127.0.0.1:3000/app/validatePayment",
+        }
+
+        let form = document.createElement('form');
+        form.style.display = 'none'
+        form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
+        form.method = 'POST';
+        //  form.target = 'blank';
+
+        let siriteConfigKeys = Object.keys(siritePaymentConfig)
+        siriteConfigKeys.forEach((key, index) => {
+            const input = document.createElement('input')
+            input.name = key
+            input.value = siritePaymentConfig[key]
+            form.appendChild(input)
+        })
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
 
 
     return (
@@ -36,17 +61,10 @@ function Payment() {
             <SmallHeightDivider />
             <Grid alignItems="center" justifyContent="space-around" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
                 <Grid item xs={6} sm={4} md={4}>
-                    <ImageContainer onClick={() => alert('click')}>
+                    <ImageContainer onClick={() => handleSiritePayment()}>
                         <LogoImage src="https://www.sirite.gob.do/o/sirit-theme-1.20190411.66/images/sirit/sirit-logo.png" />
                     </ImageContainer>
                 </Grid>
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <ImageContainer onClick={() => alert('click')}>
-                        <LogoImage src="https://www.cardnet.com.do/capp/images/logo_nuevo_x_2.png" />
-                    </ImageContainer>
-                </Grid>
-
             </Grid>
             <SmallHeightDivider />
             <SmallHeightDivider />
@@ -69,8 +87,8 @@ function Payment() {
                                     </Grid>
 
                                     <Grid item xs={6} sm={4} md={4}>
-                                    <CardBodyTitle>
-                                           ID de pago
+                                        <CardBodyTitle>
+                                            ID de pago
                                         </CardBodyTitle>
                                         <CardBodyText>
                                             {payment.confirmationID}
@@ -78,7 +96,7 @@ function Payment() {
                                     </Grid>
 
                                     <Grid item xs={6} sm={4} md={4}>
-                                    <CardBodyTitle>
+                                        <CardBodyTitle>
                                             Monto pagado
                                         </CardBodyTitle>
                                         <CardBodyText>
@@ -87,14 +105,14 @@ function Payment() {
                                     </Grid>
 
                                     <Grid item xs={6} sm={4} md={4}>
-                                    <CardBodyTitle>
+                                        <CardBodyTitle>
                                             Fecha de pago
                                         </CardBodyTitle>
                                         <CardBodyText>
                                             {payment.date}
                                         </CardBodyText>
                                     </Grid>
-
+                                    
                                 </Grid>
                             </CardTextContainer>
                         </CardContainer>

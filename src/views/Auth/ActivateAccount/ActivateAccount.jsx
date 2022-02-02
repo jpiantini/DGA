@@ -6,7 +6,7 @@ import {
     SubTitle
 } from '../../../theme/Styles';
 import { useHistory } from 'react-router';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateAppSubHeaderTitle, ShowGlobalLoading, HideGlobalLoading } from '../../../redux/actions/UiActions';
 import {
     ButtonContainer,
@@ -15,74 +15,76 @@ import {
     CenterContainer,
     StyledCancelIcon,
 } from './styles/ActivateAccountStyles';
-import { useSnackbar } from 'notistack';
 import { useParams } from "react-router-dom";
+import { confirmAccount } from '../../../api/ActivateAccount';
 
 function ActivateAccount() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { enqueueSnackbar } = useSnackbar();
+    const { authenticated } = useSelector((state) => state.authReducer);
     let { activationToken } = useParams();
+
     const [accountSuccessActivated, setAccountSuccessActivated] = useState()
 
-    const handleAccountActivation = () => {
+    const handleAccountActivation = async () => {
         dispatch(ShowGlobalLoading('Activando cuenta'));
-        setTimeout(() => { //Mockup async timing for account activation
-            if (activationToken === 'TOKEN') {
-                setAccountSuccessActivated(true);
-            } else {
-                setAccountSuccessActivated(false);
-            }
-            dispatch(HideGlobalLoading());
-        }, 3000);
+        let response = await confirmAccount(activationToken);
+        if (response.success) {
+            setAccountSuccessActivated(true);
+        } else {
+            setAccountSuccessActivated(false);
+        }
+        dispatch(HideGlobalLoading());
     }
 
-
     useLayoutEffect(() => {
-        handleAccountActivation();
         //UPDATE APP HEADER SUBTITLE
         dispatch(UpdateAppSubHeaderTitle('Activacion de cuenta')) // TITLE OF SUBHEADER APP
     }, []);
 
     useEffect(() => {
-        
+        if(authenticated){
+            history.push('/app/myDesk')
+            return;
+        }
+        handleAccountActivation();
     }, []);
 
     return (
         <Container >
             <SmallHeightDivider />
             {
-                accountSuccessActivated == undefined ? 
-                null
-                :
-                <div>
-                <CenterContainer>
-                    
-                    {
-                      accountSuccessActivated? <StyledCheckCircleIcon /> : <StyledCancelIcon />
-                    }
-                    <SmallHeightDivider />
-                    <SubTitle>
-                    {
-                      accountSuccessActivated? 
-                      "¡Su cuenta ha sido activada satisfactoriamente!" 
-                      :
-                      "¡Enlace expirado!" 
-                    }
-                       
-                    </SubTitle>
-    
-                </CenterContainer>
-                <MediumHeightDivider />
-                <MediumHeightDivider />
-    
-                <ButtonContainer>
-                    <StyledButton onClick={() => history.push('/public')}>
-                        Ir a inicio
-                    </StyledButton>
-    
-                </ButtonContainer>
-                </div>
+                accountSuccessActivated == undefined ?
+                    null
+                    :
+                    <div>
+                        <CenterContainer>
+
+                            {
+                                accountSuccessActivated ? <StyledCheckCircleIcon /> : <StyledCancelIcon />
+                            }
+                            <SmallHeightDivider />
+                            <SubTitle>
+                                {
+                                    accountSuccessActivated ?
+                                        "¡Su cuenta ha sido activada satisfactoriamente!"
+                                        :
+                                        "Ha ocurrido un error!"
+                                }
+
+                            </SubTitle>
+
+                        </CenterContainer>
+                        <MediumHeightDivider />
+                        <MediumHeightDivider />
+
+                        <ButtonContainer>
+                            <StyledButton onClick={() => history.push('/public')}>
+                                Ir a inicio
+                            </StyledButton>
+
+                        </ButtonContainer>
+                    </div>
             }
             <MediumHeightDivider />
             <MediumHeightDivider />

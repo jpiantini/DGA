@@ -37,6 +37,18 @@ export const FormSchema =
     step:3,
     validations:
     yup.object({
+      first_citizen_question: yup.number().required('Este campo es requerido'),
+      first_citizen_answer: yup.string().required('Este campo es requerido'),
+      second_citizen_question: yup.number().required('Este campo es requerido'),
+      second_citizen_answer: yup.string().required('Este campo es requerido'),
+      third_citizen_question: yup.number().required('Este campo es requerido'),
+      third_citizen_answer: yup.string().required('Este campo es requerido'),
+    }).required()
+  },
+  {
+    step:4,
+    validations:
+    yup.object({
       termsAndCondition: yup.boolean().oneOf([true], 'Debe aceptar los terminos y condiciones de uso y privacidad para continuar')
     }).required()
   },
@@ -68,6 +80,17 @@ export const RegisterSteps = [
       'phone2',
       'email2',
       'address'
+    ]
+  },
+  {
+    title: 'Información de seguridad',
+    elements: [
+      'first_citizen_question',
+      'first_citizen_answer',
+      'second_citizen_question',
+      'second_citizen_answer',
+      'third_citizen_question',
+      'third_citizen_answer',
     ]
   },
   {

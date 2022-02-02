@@ -192,7 +192,7 @@ function Form(props) {
                         }
                         return (
                             <Step key={index}>
-                                <StepLabel {...labelProps}>{index}</StepLabel>
+                                <StepLabel {...labelProps}>{localData[index][0].label}</StepLabel>
                             </Step>
                         );
                     })}

@@ -54,6 +54,9 @@ function Register() {
     const [municipalitiesData, setMunicipalitiesData] = useState([]);
     const [sectorsData, setSectorsData] = useState([]);
 
+    const [questionsData, setQuestionsData] = useState([]);
+
+
     const [wordpressContent, setWordpressContent] = useState();
 
     const getAndSetAllWordPressContent = async () => {
@@ -106,6 +109,12 @@ function Register() {
             phone2: '',
             email2: '',
             address: '',
+            first_citizen_question: '',
+            first_citizen_answer: '',
+            second_citizen_question: '',
+            second_citizen_answer: '',
+            third_citizen_question: '',
+            third_citizen_answer: '',
             termsAndCondition: false
         },
         validationSchema: schemaValidation,
@@ -162,6 +171,21 @@ function Register() {
         }
     }
 
+    const getRegisterQuestionsData = async () => {
+        try {
+            let questionsData = await apiCall().get('/auth/get/getquestionandanswer')
+            if (questionsData) {
+                setQuestionsData(
+                    questionsData.data.payload?.map((question) => ({
+                        value: question.id,
+                        label: question.questions
+                    })));
+            }
+        } catch (error) {
+
+        }
+    }
+
     const getMunicipalitiesData = async (value) => {
         try {
             let municipalitiesData = await apiCall().get(`/get/municipalities/${value}`)
@@ -193,6 +217,21 @@ function Register() {
         }
     }
 
+    const handleSecurityQuestionChange = (e) => {
+        if (formik.values.first_citizen_question == e.target.value) {
+            formik.setFieldValue("first_citizen_question", "");
+            formik.setFieldValue("first_citizen_answer", "");
+        }
+        if (formik.values.second_citizen_question == e.target.value) {
+            formik.setFieldValue("second_citizen_question", "");
+            formik.setFieldValue("second_citizen_answer", "");
+        }
+        if (formik.values.third_citizen_question == e.target.value) {
+            formik.setFieldValue("third_citizen_question", "");
+            formik.setFieldValue("third_citizen_answer", "");
+        }
+        formik.setFieldValue(e.target.id, e.target.value);
+    }
 
     const handleRegister = async (formData) => {
         try {
@@ -216,6 +255,25 @@ function Register() {
                     address: formData.address,
                 });
             if (response.data?.success) {
+
+                await apiCall().post('/auth/register/questionandanswer',
+                    [
+                        {
+                            citizen_question: formData.first_citizen_question,
+                            citizen_answer: formData.first_citizen_answer,
+                            citizen_id: formData.citizen_id,
+                        },
+                        {
+                            citizen_question: formData.second_citizen_question,
+                            citizen_answer: formData.second_citizen_answer,
+                            citizen_id: formData.citizen_id,
+                        },
+                        {
+                            citizen_question: formData.third_citizen_question,
+                            citizen_answer: formData.third_citizen_answer,
+                            citizen_id: formData.citizen_id,
+                        },
+                    ])
                 setUserRegistered(true);
                 handleNext();
             } else {
@@ -241,7 +299,12 @@ function Register() {
     }, []);
 
     useEffect(() => {
+        if(authenticated){
+            history.push('/app/myDesk')
+            return;
+        }
         getProvincesData();
+        getRegisterQuestionsData();
         getAndSetAllWordPressContent();
     }, []);
 
@@ -476,36 +539,116 @@ function Register() {
                         </Grid>
                         :
                         activeStep == 2 ?
-                            <Fragment>
-                                {/*<Title>TERMINOS Y CONDICIONES</Title>*/}
 
-                                <WpRichTextContainer>
-                                    {
-                                        wordpressContent && parse(wordpressContent)
-                                    }
-                                </WpRichTextContainer>
+                            <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
 
-                                <SmallHeightDivider />
-                                <CheckBox
-                                    id="termsAndCondition"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.termsAndCondition && Boolean(formik.errors.termsAndCondition)}
-                                    helperText={formik.touched.termsAndCondition && formik.errors.termsAndCondition}
-                                    value={formik.values.termsAndCondition}
-                                    label="Acepto los terminos y condiciones de uso y privacidad"
-                                />
-                            </Fragment>
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <Select title="Pregunta de seguridad primaria" id="first_citizen_question"
+                                        data={questionsData}
+                                        value={formik.values.first_citizen_question}
+                                        onChange={handleSecurityQuestionChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.first_citizen_question && Boolean(formik.errors.first_citizen_question)}
+                                        helperText={formik.touched.first_citizen_question && formik.errors.first_citizen_question}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <TextField title="Respuesta de seguridad primaria" type="text" id="first_citizen_answer"
+                                        required
+                                        value={formik.values.first_citizen_answer}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.first_citizen_answer && Boolean(formik.errors.first_citizen_answer)}
+                                        helperText={formik.touched.first_citizen_answer && formik.errors.first_citizen_answer}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <Select title="Pregunta de seguridad secundaria" id="second_citizen_question"
+                                        data={questionsData}
+                                        value={formik.values.second_citizen_question}
+                                        onChange={handleSecurityQuestionChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.second_citizen_question && Boolean(formik.errors.second_citizen_question)}
+                                        helperText={formik.touched.second_citizen_question && formik.errors.second_citizen_question}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <TextField title="Respuesta de seguridad secundaria" type="text" id="second_citizen_answer"
+                                        required
+                                        value={formik.values.second_citizen_answer}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.second_citizen_answer && Boolean(formik.errors.second_citizen_answer)}
+                                        helperText={formik.touched.second_citizen_answer && formik.errors.second_citizen_answer}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <Select title="Pregunta de seguridad terciaria" id="third_citizen_question"
+                                        data={questionsData}
+                                        value={formik.values.third_citizen_question}
+                                        onChange={handleSecurityQuestionChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.third_citizen_question && Boolean(formik.errors.third_citizen_question)}
+                                        helperText={formik.touched.third_citizen_question && formik.errors.third_citizen_question}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <TextField title="Respuesta de seguridad terciaria" type="text" id="third_citizen_answer"
+                                        required
+                                        value={formik.values.third_citizen_answer}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.third_citizen_answer && Boolean(formik.errors.third_citizen_answer)}
+                                        helperText={formik.touched.third_citizen_answer && formik.errors.third_citizen_answer}
+                                    />
+                                </Grid>
+
+
+                            </Grid>
+
                             :
-                            <FinalStepContainer>
-                                <StyledCheckCircleIcon />
-                                <SmallHeightDivider />
-                                <SubTitle>
-                                    ¡Gracias!
-                                    Recibirás un correo de verificacion.
-                                </SubTitle>
+                            activeStep == 3 ?
 
-                            </FinalStepContainer>
+                                <Fragment>
+                                    {/*<Title>TERMINOS Y CONDICIONES</Title>*/}
+
+                                    <WpRichTextContainer>
+                                        {
+                                            wordpressContent && parse(wordpressContent)
+                                        }
+                                    </WpRichTextContainer>
+
+                                    <SmallHeightDivider />
+                                    <CheckBox
+                                        id="termsAndCondition"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.termsAndCondition && Boolean(formik.errors.termsAndCondition)}
+                                        helperText={formik.touched.termsAndCondition && formik.errors.termsAndCondition}
+                                        value={formik.values.termsAndCondition}
+                                        label="Acepto los terminos y condiciones de uso y privacidad"
+                                    />
+                                </Fragment>
+
+                                :
+
+                                <FinalStepContainer>
+                                    <StyledCheckCircleIcon />
+                                    <SmallHeightDivider />
+                                    <SubTitle>
+                                        ¡Gracias!
+                                        Recibirás un correo de verificacion.
+                                    </SubTitle>
+
+                                </FinalStepContainer>
             }
 
             <MediumHeightDivider />

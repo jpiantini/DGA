@@ -33,7 +33,8 @@ function LoggedInMenu({ image }) {
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
             LocalStorageService.removeItem('token');
             dispatch(AuthLogout());
-            dispatch(HideGlobalLoading());
+            window.location.reload();
+         //   dispatch(HideGlobalLoading());
         }, 1500);
 
     }

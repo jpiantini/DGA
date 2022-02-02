@@ -9,35 +9,40 @@ export const MockupDocuments = [
     name: 'CERTIFICACIÓN.PDF',
     documentType: 'CERTIFICACIÓN NO ANTECEDENTES',
     date: '10/09/2021',
-    url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
+    url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id: 2,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
+    url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id:3,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
+    url: 'https://www.proturbiomarspa.com/files/_pdf-prueba.pdf',
+    documentFormat:'pdf'
   },
   {
     id: 4,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
+    url: 'https://res.cloudinary.com/demo/image/upload/sample_document.docx.png',
+    documentFormat:'png'
   },
   {
     id: 5,
     name: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD.PDF',
     documentType: 'CERTIFICACIÓN ESPECIAL DE SOLICITUD',
     date: '22/08/2021',
-    url: 'http://www.cervantesvirtual.com/obra/la-divina-comedia-2/bdeee91a-7358-11e1-b1fb-00163ebf5e63.pdf',
+    url: 'https://res.cloudinary.com/demo/image/upload/sample_document.docx.png',
+    documentFormat:'png'
   },
 ]}
 ]

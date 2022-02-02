@@ -44,7 +44,8 @@ function RequestService() {
 
   const getData = () => {
    // return formDataWithGrid.map((step) => {
-     return formDataMitur.fields.map((step) => {
+   //  return formDataMitur.fields.map((step) => {  
+    return formData.fields.map((step) => {
       return step.map(transformField)
     });
   };

@@ -24,7 +24,7 @@ export const MyConfiguration = () => {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient()
 
-  const { profileImg } = useSelector((state) => state.authReducer); 
+  const { profileImg } = useSelector((state) => state.authReducer);
 
   const [provincesData, setProvincesData] = useState([]);
   const [municipalitiesData, setMunicipalitiesData] = useState([]);
@@ -38,19 +38,19 @@ export const MyConfiguration = () => {
 
   const formik = useFormik({
     initialValues: { // TO DO COMPLETE FORM INFORMATION
-      address: data?.data?.payload?.address || '',
-      province_id: data?.data?.payload?.province_id || '',
-      municipality_id: data?.data?.payload?.municipality_id || '',
-      sector_id: data?.data?.payload?.sector_id || '',
-      phoneMobile: data?.data?.payload?.phone || '',
-      phone2: data?.data?.payload?.phone2 || '',
+      address: data?.payload?.address || '',
+      province_id: data?.payload?.province_id || '',
+      municipality_id: data?.payload?.municipality_id || '',
+      sector_id: data?.payload?.sector_id || '',
+      phoneMobile: data?.payload?.phone || '',
+      phone2: data?.payload?.phone2 || '',
       phoneLaboral: '',
-      secundaryEmail:data?.data?.payload?.email2 || '',
+      secundaryEmail: data?.payload?.email2 || '',
       notificationsWithEmail: false,
       notificationsSms: false
     },
     validationSchema: FormSchema,
-    enableReinitialize:true,
+    enableReinitialize: true,
     onSubmit: (values) => {
       handleModifyUserData(values);
     },
@@ -91,22 +91,30 @@ export const MyConfiguration = () => {
   }
 
   const handleModifyPassword = async (formData) => {
-    const response = await modifyPassword(formData);
-    if (response.data.success) {
-      enqueueSnackbar('Se ha modificado su contraseña', { variant: 'success' });
-      handleModifyPasswordModal();
-    } else {
-      enqueueSnackbar(response.data.msg, { variant: 'error' });
+    try {
+      const response = await modifyPassword(formData);
+      if (response.data.success) {
+        enqueueSnackbar('Se ha modificado su contraseña', { variant: 'success' });
+        handleModifyPasswordModal();
+      } else {
+        enqueueSnackbar(response.data.msg, { variant: 'error' });
+      }
+    } catch (error) {
+      enqueueSnackbar("Ha sucedido un error intentelo mas tarde", { variant: 'error' });
     }
   }
 
   const handleModifyEmail = async (formData) => {
-    const response = await modifyEmail(formData);
-    if (response.data.success) {
-      enqueueSnackbar('Se ha modificado su correo electrónico', { variant: 'success' });
-      handleModifyEmailModal();
-    } else {
-      enqueueSnackbar(response.data.msg, { variant: 'error' });
+    try {
+      const response = await modifyEmail(formData);
+      if (response.data.success) {
+        enqueueSnackbar('Se ha modificado su correo electrónico', { variant: 'success' });
+        handleModifyEmailModal();
+      } else {
+        enqueueSnackbar(response.data.msg, { variant: 'error' });
+      }
+    } catch (error) {
+      enqueueSnackbar("Ha sucedido un error intentelo mas tarde", { variant: 'error' });
     }
   }
 
@@ -128,9 +136,6 @@ export const MyConfiguration = () => {
        */
   }
 
-
-
-
   const getProvincesData = async () => {
     try {
       let provincesData = await apiCall().get('/get/provinces')
@@ -151,7 +156,7 @@ export const MyConfiguration = () => {
   const getMunicipalitiesData = async (value) => {
     try {
       let municipalitiesData = await apiCall().get(`/get/municipalities/${value}`)
-      if (municipalitiesData) {
+      if (municipalitiesData.data.success) {
         setMunicipalitiesData(
           municipalitiesData.data.municipalities?.map((municipalities) => ({
             value: municipalities.bidclasif,
@@ -167,7 +172,7 @@ export const MyConfiguration = () => {
   const getSectorsData = async (value) => {
     try {
       let sectorsData = await apiCall().get(`/get/sectors/${value}`)
-      if (sectorsData) {
+      if (sectorsData.data.success) {
         setSectorsData(
           sectorsData.data.sectors?.map((sector) => ({
             value: sector.bidclasif,
@@ -185,13 +190,15 @@ export const MyConfiguration = () => {
   }, []);
 
   useEffect(() => {
-    getProvincesData();
-    if(data){
-      (async () => {
-      await getMunicipalitiesData(formik.values.province_id);
-      await getSectorsData(formik.values.municipality_id);
-      })();
+    (async () => {
+      await getProvincesData();
+      if (data) {
+        await getMunicipalitiesData(formik.values.province_id);
+        await getSectorsData(formik.values.municipality_id);
+      }
     }
+    )();
+    console.log(data)
   }, [data]);
 
   return (
@@ -202,8 +209,8 @@ export const MyConfiguration = () => {
           <ProfileImage src={profileImg} />
           <ElementDivider />
           <div>
-            <Title>{data && data.data.payload.name + " " + data.data.payload.first_last_name + " " + data.data.payload.second_last_name}</Title>
-            <BodyText>Cedula: <strong>{data && stringToDominicanCedula(data.data.payload.citizen_id)}</strong></BodyText>
+            <Title>{data && data.payload.name + " " + data.payload.first_last_name + " " + data.payload.second_last_name}</Title>
+            <BodyText>Cedula: <strong>{data && stringToDominicanCedula(data.payload.citizen_id)}</strong></BodyText>
             <BodyText>Última modificación:</BodyText>
             <SmallHeightDivider />
           </div>

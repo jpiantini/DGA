@@ -6,10 +6,10 @@ import {
   HomeTextContainer,
 } from "../../styles/HomeStyles";
 import { ButtonContainer, ImageContainer,Title,SubTitle} from "./Style/CarouselBootstrapStyle";
-import { format,parse  } from 'date-fns'
+import { format  } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-export const CarouselBootstrap = (data) => {
+ const CarouselBootstrap = (data) => {
   const directionButtons = (direction) => {
     if (direction === "Next") {
       return (
@@ -62,3 +62,6 @@ export const CarouselBootstrap = (data) => {
     </div>
   );
 };
+
+
+export default CarouselBootstrap;
