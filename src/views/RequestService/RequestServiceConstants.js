@@ -18,7 +18,7 @@ export const ListServices = [
   },
   {
     id: 2,
-    iconName: "receipt",
+    iconName: "note_add",
     relationTo: 'CONFOTUR',
     title: 'CLASIFICACIÓN PROVISIONAL',
     subTitle: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
@@ -27,7 +27,7 @@ export const ListServices = [
   },
   {
     id: 3,
-    iconName: "apartment",
+    iconName: "note_add",
     relationTo: 'EMPRESAS Y SERVICIOS',
     title: 'HOTELES, RESTAURANTES, BARES Y SPA',
     subTitle: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
@@ -36,7 +36,7 @@ export const ListServices = [
   },
   {
     id: 4,
-    iconName: "kayaking",
+    iconName: "note_add",
     relationTo: 'EMPRESAS Y SERVICIOS',
     title: 'TURISMO DE AVENTURA',
     subTitle: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
@@ -45,7 +45,7 @@ export const ListServices = [
   },
   {
     id: 5,
-    iconName: "storefront",
+    iconName: "note_add",
     relationTo: 'EMPRESAS Y SERVICIOS',
     title: 'GIFT SHOPS',
     subTitle: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
@@ -54,7 +54,7 @@ export const ListServices = [
   },
   {
     id: 6,
-    iconName: "person_pin_circle",
+    iconName: "note_add",
     relationTo: 'EMPRESAS Y SERVICIOS',
     title: 'GUÍAS TURISTICOS',
     subTitle: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',

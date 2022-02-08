@@ -168,9 +168,8 @@ function Home() {
             TRABAJANDO PARA TI
           </WhiteSubtitle>
           <WhiteTitle>
-            Lorem Ipsum
+          Trabajamos para promover e impulsar el turismo del mejor país del mundo
           </WhiteTitle>
-          <DefaultButton> SABER MÁS </DefaultButton>
         </div>
       </ContainerBackground>
 

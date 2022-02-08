@@ -24,14 +24,15 @@ function Payment() {
     const handleSiritePayment = () => {
 
         const siritePaymentConfig = {
-            codigoCentroRecaudacion: "1001",
-            codigoServicio: "1",
-            montoServicio: 2500,
-            nombre: "Juan Daniel Beato",
+            codigoCentroRecaudacion: "0018",
+            codigoServicio: "0251",
+            montoServicio: "2500.00",
+            nombre: "Juan",
             numeroDocumento: "40212345671",
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
-            idAutorizacionPortal: "010101",
+            idAutorizacionPortal: "12345678912345",
+            numeroAutorizacion:"",
             urlRetorno: "http://127.0.0.1:3000/app/validatePayment",
         }
 
@@ -112,7 +113,7 @@ function Payment() {
                                             {payment.date}
                                         </CardBodyText>
                                     </Grid>
-                                    
+
                                 </Grid>
                             </CardTextContainer>
                         </CardContainer>

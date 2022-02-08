@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect,Fragment } from 'react';
+import { useState, useLayoutEffect, useEffect, Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -15,6 +15,8 @@ import { useParams } from "react-router-dom";
 import {
     Container,
 } from './styles/ListOfServicesPerCategoryStyles';
+import { getConfoturGeneralInformationFromWordpress } from '../../api/ListOfServicesPerCategory';
+import { useQuery } from 'react-query';
 
 function ListOfServicesPerCategory() {
 
@@ -23,13 +25,17 @@ function ListOfServicesPerCategory() {
     let { categoryID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
+    /*Copy this line for others direction
+     const { data: confoturContent } = useQuery(['confoturGeneralInformationData'], () => getConfoturGeneralInformationFromWordpress())
+    */
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
+    const [generalInformation, setGeneralInformation] = useState("");
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
             //send to service request 
-     //       alert('Servicio solicitado');
+            //       alert('Servicio solicitado');
             history.push(`/app/requestService/${serviceID}`)
         } else {
             setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
@@ -37,18 +43,15 @@ function ListOfServicesPerCategory() {
     }
 
     useLayoutEffect(() => {
-        if (categoryID == 1 || categoryID == 2 || categoryID == 3) {
+        if (categoryID == 1 || categoryID == 2 || categoryID == 3 || categoryID == 0) {
             //UPDATE APP HEADER SUBTITLE
-            let Title = titles.find((title) => title.id == categoryID)?.title; //find title in mockup info need 
-            dispatch(UpdateAppSubHeaderTitle(Title)) // TITLE OF SUBHEADER APP
-        }else if (categoryID == 0) {
-            dispatch(UpdateAppSubHeaderTitle('TODOS LOS SERVICIOS')) // IN CASE IF NEEDED SHOW ALL SERVICES
+            let currentDirection = titles.find((title) => title.id == categoryID); //find title in mockup info need 
+            dispatch(UpdateAppSubHeaderTitle(currentDirection.title)) // TITLE OF SUBHEADER APP
+            setGeneralInformation(currentDirection.descriptionGeneral);
         }
-         else {
+        else {
             //IF ENTERED CATEGORY AS PARAM DOES`NT EXISTS REDIRECT TO FIRST CATEGORY
-            history.push('/app/listOfServices/1')
-            let Title = titles.find((title) => title.id == 1)?.title;
-            dispatch(UpdateAppSubHeaderTitle(Title))
+            history.push('/app/listOfServices/0')
         }
     }, [categoryID]);
 
@@ -59,12 +62,7 @@ function ListOfServicesPerCategory() {
                 <ServiceDirectoryMenu />
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
-                    <TextInformation title="Información general"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                     Stet clita"
-                    />
+                    <TextInformation title="Información general" content={generalInformation} />
                     <SmallHeightDivider />
 
                     {
@@ -94,7 +92,7 @@ function ListOfServicesPerCategory() {
                         {
                             ListServices.map((item) => (
                                 <Grid item key={item.id}>
-                                <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
+                                    <ServiceCard itemId={item.id} {...item} onRequestPress={() => handleServiceRequest(item.id)} OnViewInformationPress={() => history.push('/app/serviceDescription/1') /*1 is the service ID*/} />
                                 </Grid>
                             ))
                         }

@@ -1,4 +1,4 @@
-import  React, { useState } from 'react';
+import React, { useState } from 'react';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Icon from '@mui/material/Icon';
@@ -18,13 +18,16 @@ import {
     ServiceSecondaryButton
 } from './styles/ServiceCardStyles';
 
-function ServiceCard({iconName,relationTo,title,subTitle,onRequestPress,OnViewInformationPress}) {
+function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, OnViewInformationPress }) {
 
 
     return (
         <Container>
-            <div style={{ width:'95%', alignSelf:'center'}}>
-                <Icon style={{ color: COLORS.tertiary, fontSize: '40px' }}>{iconName}</Icon>
+            <div style={{ width: '95%', alignSelf: 'center' }}>
+   
+                <span style={{ color: COLORS.tertiary, fontSize: '40px' }} className="material-icons">
+                {iconName}
+                </span>
                 <RowContainer>
                     <Subtitle>RELACIONADO A: </Subtitle>
                     <SpecialSubtitle style={{ color: COLORS.tertiary }}>{relationTo}</SpecialSubtitle>
