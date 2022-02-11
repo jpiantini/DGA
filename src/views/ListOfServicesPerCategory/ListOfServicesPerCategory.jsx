@@ -25,12 +25,11 @@ function ListOfServicesPerCategory() {
     let { categoryID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
-    /*Copy this line for others direction
-     const { data: confoturContent } = useQuery(['confoturGeneralInformationData'], () => getConfoturGeneralInformationFromWordpress())
-    */
+
+    const { data, isLoading } = useQuery(['generalInformationData'], () => getConfoturGeneralInformationFromWordpress())
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
-    const [generalInformation, setGeneralInformation] = useState("");
+    const [currentDirection, setCurrentDirection] = useState();
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
@@ -45,9 +44,9 @@ function ListOfServicesPerCategory() {
     useLayoutEffect(() => {
         if (categoryID == 1 || categoryID == 2 || categoryID == 3 || categoryID == 0) {
             //UPDATE APP HEADER SUBTITLE
-            let currentDirection = titles.find((title) => title.id == categoryID); //find title in mockup info need 
-            dispatch(UpdateAppSubHeaderTitle(currentDirection.title)) // TITLE OF SUBHEADER APP
-            setGeneralInformation(currentDirection.descriptionGeneral);
+            let localCurrentDirection = titles.find((title) => title.id == categoryID); //find title in mockup info need 
+            dispatch(UpdateAppSubHeaderTitle(localCurrentDirection.title)) // TITLE OF SUBHEADER APP
+            setCurrentDirection(localCurrentDirection);
         }
         else {
             //IF ENTERED CATEGORY AS PARAM DOES`NT EXISTS REDIRECT TO FIRST CATEGORY
@@ -62,7 +61,9 @@ function ListOfServicesPerCategory() {
                 <ServiceDirectoryMenu />
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
-                    <TextInformation title="Información general" content={generalInformation} />
+                    <TextInformation title="Información general" content={
+                        data?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
+                    } />
                     <SmallHeightDivider />
 
                     {

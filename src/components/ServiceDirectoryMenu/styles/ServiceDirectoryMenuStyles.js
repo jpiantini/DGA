@@ -38,6 +38,10 @@ export const Subtitle = styled('p')({
     '@media (max-width:768px)': {
         fontSize: '10px',
     },
+    '&:hover,&:focus': {
+        textDecoration: 'underline',
+        cursor:'pointer'
+    },
     fontFamily:FONTS_FAMILY.regular.title
 });
 
@@ -51,6 +55,7 @@ export const LinkText = styled('a')({
     textDecoration: 'none',
     '&:hover,&:focus': {
         textDecoration: 'underline',
+        cursor:'pointer'
     },
     '@media (max-width:768px)': {
         fontSize: '9px',

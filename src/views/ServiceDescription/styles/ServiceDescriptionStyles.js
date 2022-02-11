@@ -10,3 +10,9 @@ export const ButtonContainer = styled('div')({
     width:'200px',
     marginTop:'20px'
 });
+
+export const TextListContainer = styled('ul')({
+    margin:0,
+    paddingLeft:17
+});
+

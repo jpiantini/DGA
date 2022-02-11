@@ -1,9 +1,9 @@
-import { useState,useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, Fragment } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider } from '../../theme/Styles';
-import { FAQDATA } from './ServiceDescriptionConstants';
+import { FAQDATA, mockupServiceInformation } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 import { useHistory } from 'react-router';
@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import {
     ButtonContainer,
     Container,
+    TextListContainer,
 } from './styles/ServiceDescriptionStyles';
 
 function ServiceDescription() {
@@ -33,17 +34,13 @@ function ServiceDescription() {
     }
 
     useLayoutEffect(() => {
-        const LastServiceAvailable = 1; //TEST VALUE
-        if (serviceID == LastServiceAvailable) {
+        if (serviceID == 1) { //VALIDATE IF SERVICE EXIST EXAMPLE CALLING BACKEND AND SEND ID TO GET INFO 
             //UPDATE APP HEADER SUBTITLE
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
+            dispatch(UpdateAppSubHeaderTitle(mockupServiceInformation.serviceTitle)) // TITLE OF SUBHEADER APP
         } else {
-            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
             history.push('/app/serviceDescription/1')
-          //  let Title = titles.find((title) => title.id == 1)?.title;
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
         }
-    }, []);
+    }, [serviceID]);
 
 
     return (
@@ -54,22 +51,30 @@ function ServiceDescription() {
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                     Stet clita"
+                        content={mockupServiceInformation.generalInformation}
                     />
-                    <BodyText>Costo del servicio: Gratuito</BodyText>
+                    <BodyText>
+                        Costo del servicio: &nbsp;
+                        <strong>
+                            {mockupServiceInformation.serviceCost}
+                        </strong>
+                    </BodyText>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
                     <TextInformation title="Requisitos"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                      sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                      Stet clita."
+                        content={mockupServiceInformation.requerimentsInformation}
                     />
-                    <BodyText>• Cedula de Identidad</BodyText>
-                    <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
+                    <TextListContainer>
+                        {
+                            mockupServiceInformation.requerimentsList.map((value, index) => (
+                                <li key={index}>
+                                    <BodyText>
+                                        {value}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextListContainer>
                     <ButtonContainer>
                         <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceID)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
@@ -77,12 +82,9 @@ function ServiceDescription() {
                     <SmallHeightDivider />
                     {
                         matchesWidth &&
-                        <>
-                            <TextInformation title="Preguntas Frecuentes"
-                                content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                        sed diam voluptua."
-                            />
+                        <Fragment>
+                            <TextInformation title="Preguntas Frecuentes"  />
+                            <SmallHeightDivider />
 
                             {
                                 FAQDATA.map((item) => (
@@ -92,30 +94,27 @@ function ServiceDescription() {
                                     </div>
                                 ))
                             }
-                        </>
+                        </Fragment>
 
                     }
                 </Container>
             </Row>
-            <MediumHeightDivider/>
+            <MediumHeightDivider />
             {
                 !matchesWidth &&
-                <>
-                    <TextInformation title="Preguntas Frecuentes"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                        sed diam voluptua."
-                    />
+                <Fragment>
+                    <TextInformation title="Preguntas Frecuentes"/>
+                    <SmallHeightDivider />
 
                     {
                         FAQDATA.map((item) => (
                             <div key={item.id}>
-                                <Collapsable  title={item.question} content={item.answer} />
+                                <Collapsable title={item.question} content={item.answer} />
                                 <SmallHeightDivider />
                             </div>
                         ))
                     }
-                </>
+                </Fragment>
 
             }
         </Container>

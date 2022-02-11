@@ -1,24 +1,25 @@
 //descriptionGeneral is mockup this value is fetched from wordpress
+
 export const titles = [
   {
     id:0,
+    wordpressID:130,
     title:'TODOS LOS SERVICIOS',
-    descriptionGeneral:"Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión turística. Desde el análisis del suelo, obtención de incentivos y su licencia de operación."
   },
   {
     id:1,
+    wordpressID:132,
     title:'CONFOTUR',
-    descriptionGeneral:"Una Clasificación, sea esta Provisional o Definitiva, no es más que la aprobación por el Consejo de Fomento Turístico (CONFOTUR) de un proyecto turístico dado, como susceptible de acogerse a los beneficios e incentivos de la Ley No. 158-01."
   },
   {
     id:2,
+    wordpressID:134,
     title:'EMPRESAS Y SERVICIOS',
-    descriptionGeneral:"Se emite licencia mediante resolución para operar como proveedor de servicios turísticos."
   },
   {
     id:3,
+    wordpressID:133,
     title:'DPP',
-    descriptionGeneral:" Con estos servicios puedes planificar mejor tu inversión en el sector turístico, y te otorga los permisos e informaciones correspondientes para la construcción de la infraestructura."
   },
 ]
 

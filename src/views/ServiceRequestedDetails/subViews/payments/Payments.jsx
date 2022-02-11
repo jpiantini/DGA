@@ -26,13 +26,12 @@ function Payment() {
         const siritePaymentConfig = {
             codigoCentroRecaudacion: "0018",
             codigoServicio: "0251",
-            montoServicio: "2500.00",
-            nombre: "Juan",
+            montoServicio: 2500,
+            nombre: "Juan Daniel Beato",
             numeroDocumento: "40212345671",
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
-            idAutorizacionPortal: "12345678912345",
-            numeroAutorizacion:"",
+            idAutorizacionPortal: "010101",
             urlRetorno: "http://127.0.0.1:3000/app/validatePayment",
         }
 

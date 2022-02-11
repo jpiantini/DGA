@@ -1,28 +1,35 @@
 
+
+export const mockupServiceInformation = {
+    serviceTitle : "SOLICITUD DE NO OBJECIÓN DE SUELO",
+    generalInformation : "Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo, respecto a las normas establecidas y todos los parámetros considerados según el Plan de Ordenamiento Territorial mediante su guía normativa.",
+    serviceCost : "Gratuito",
+    requerimentsInformation : "Carta de solicitud de no objeción dirigida al director de planeamiento urbano, debe contener una breve descripción del proyecto que se está solicitando y proporcionar los siguientes datos:",
+    requerimentsList : ["Debe estar firmada por un arquitecto colegiado (CODIA o carta de autorización de la compañía o institución correspondiente).","Tipo de uso solicitado (comercio, vivienda, apartamento, etc.).","Cantidad de niveles y altura total.","Unidades por nivel.","Indicar informaciones de solar (parcela, solar, designación catastral, manzana, distrito catastral, etc.)."]
+}
+
+
+
+
 export const FAQDATA = [
-    {
-        id:1,
-        question:'¿Para que sirve la clasificación definitiva?',
-        answer:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
     {
         id:2,
         question:'¿Qué documentos son requeridos?',
-        answer:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        answer:'Para esta solicitud se requiere su cedula',
     },
     {
         id:3,
         question:'¿en cuanto tiempo se procesa mi solicitud?',
-        answer:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        answer:'De 7 a 30 Dias laborables',
     },
     {
         id:4,
         question:'¿Cuáles son las formas de pago?',
-        answer:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        answer:'Pago en linea y Deposito',
     },
     {
         id:5,
         question:'¿Cómo puedo realizar una reclamación?',
-        answer:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        answer:'"Cuando el servicio sea solicitado puede hacer una reclamacion en el apartado de Detalles en la lista de servicios solicitados',
     }
 ]

@@ -31,15 +31,28 @@ export default function apiCall() {
 }
 
 const refreshToken = async () => {
-    let response =  await apiCall().get('/refresh/token');
-    if(response.data?.success){
-        LocalStorageService.setItem('token',response.data.payload.token);
-        return response.data?.payload.token;
-    }else{
+    try {
+        let response = await apiCall().get('/refresh/token');
+        console.log('refrescando token')
+        if (response.data?.success) {
+            console.log('token refrescado')
+
+            LocalStorageService.setItem('token', response.data.payload.token);
+            return response.data?.payload.token;
+        } else {
+            //if token cant be refreshed logOut
+            console.log('no se refresco el token')
+            LocalStorageService.removeItem('token');
+            window.location.reload();
+            return null;
+        }
+    } catch (error) {
         //if token cant be refreshed logOut
+        console.log('no se refresco el token')
         LocalStorageService.removeItem('token');
         window.location.reload();
         return null;
     }
+
 }
 
