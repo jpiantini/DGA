@@ -27,54 +27,60 @@ export const ListServices = [
     {
       id:1,
       iconName:"note_add",
+      relationToID:1,
       relationTo:'CONFOTUR',
       title:'SOLICITUD DE NO OBJECIÓN DE SUELO',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },
     {
       id:2,
       iconName:"note_add",
+      relationToID:1,
       relationTo:'CONFOTUR',
       title:'CLASIFICACIÓN PROVISIONAL',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },
     {
       id:3,
       iconName:"note_add",
+      relationToID:2,
       relationTo:'EMPRESAS Y SERVICIOS',
       title:'HOTELES, RESTAURANTES, BARES Y SPA',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },
     {
       id:4,
       iconName:"note_add",
+      relationToID:2,
       relationTo:'EMPRESAS Y SERVICIOS',
       title:'TURISMO DE AVENTURA',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },
     {
       id:5,
       iconName:"note_add",
+      relationToID:2,
       relationTo:'EMPRESAS Y SERVICIOS',
       title:'GIFT SHOPS',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },
     {
       id:6,
       iconName:"note_add",
-      relationTo:'EMPRESAS Y SERVICIOS',
-      title:'GUÍAS TURISTICOS',
-      subTitle:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut',
+      relationToID:3,
+      relationTo:'DPP',
+      title:'SOLICITUD DE PROYECTO EN PLAYA',
+      subTitle:'Este servicio consiste en otorgar una certificación donde se autoriza al contribuyente a realizar el uso correspondiente del suelo',
       onRequestPress: "",
       OnViewInformationPress: ""
     },

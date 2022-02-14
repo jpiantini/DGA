@@ -52,13 +52,14 @@ function RequestService() {
 
 //  console.log(getData());
   useLayoutEffect(() => {
-    let Service = undefined; //ListServices.find((service) => service.id == serviceID);
+    let Service = undefined;
+     // let Service = ListServices.find((service) => service.id == serviceID); FOR SIMULATE FIND SERVICE DATA FROM API
     if (Service) {
       //UPDATE APP HEADER SUBTITLE
       dispatch(UpdateAppSubHeaderTitle(Service.title)); // TITLE OF SUBHEADER APP
     } else {
       //UPDATE APP HEADER SUBTITLE
-      dispatch(UpdateAppSubHeaderTitle("TITULO DE SERVICIO SOLICITADO")); // TITLE OF SUBHEADER APP
+      dispatch(UpdateAppSubHeaderTitle("SOLICITUD DE NO OBJECIÓN DE SUELO")); // TITLE OF SUBHEADER APP
     }
   }, []);
 

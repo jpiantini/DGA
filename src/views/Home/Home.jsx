@@ -36,18 +36,22 @@ import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import CarouselBootstrap from "./components/carrosuel/CarouselBootstrap";
 import { useQuery } from "react-query";
-import { getSlidersDataFromWordpress } from "../../api/Home";
+import { getMottoInformationDataFromWordpress, getSlidersDataFromWordpress } from "../../api/Home";
 
 
 function Home() {
 
   const history = useHistory();
 
-  const { data: wordpressContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
+  const { data: carouselContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
+  const { data: mottoContent } = useQuery(['mottoInformation'], () => getMottoInformationDataFromWordpress())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
   };
+
+
+
 
   return (
     <Container>
@@ -55,7 +59,7 @@ function Home() {
 
       <Header />
 
-      {wordpressContent && <CarouselBootstrap data={wordpressContent} />}
+      {carouselContent && <CarouselBootstrap data={carouselContent} />}
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>
@@ -154,23 +158,14 @@ function Home() {
         <div style={{ height: "30px" }} />
       </Container>
 
-      <ContainerBackground image={moreInformationBackgroundImage}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginLeft: "80px",
-            alignContent: "left",
-            alignItems: "center",
-          }}
-        >
-          <WhiteSubtitle>
-            TRABAJANDO PARA TI
-          </WhiteSubtitle>
-          <WhiteTitle>
-          Trabajamos para promover e impulsar el turismo del mejor país del mundo
-          </WhiteTitle>
-        </div>
+      <ContainerBackground image={mottoContent?.image}>
+        <WhiteTitle>
+          {
+            console.log(mottoContent)
+       //     mottoContent?.motto
+          }
+
+        </WhiteTitle>
       </ContainerBackground>
 
       <Footer FooterRoutes={FooterRoutes} />

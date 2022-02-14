@@ -30,10 +30,6 @@ export const MOCKUP_SERVICES = [
                 id: 3,
                 title: 'GIFT SHOPS'
             },
-            {
-                id: 4,
-                title: 'GUÍAS TURISTICOS'
-            }
         ]
     },
     {

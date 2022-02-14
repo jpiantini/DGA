@@ -47,18 +47,26 @@ export const Subtitle = styled('p')({
 
 export const LinkText = styled('a')({
     color: COLORS.secondary,
-    margin:'2px',
-    fontSize: '13px',
-    display: 'inline-block',
     width:'100%',
-    textAlign:'right',
+    padding:'3px',
     textDecoration: 'none',
     '&:hover,&:focus': {
         textDecoration: 'underline',
         cursor:'pointer'
     },
-    '@media (max-width:768px)': {
+    '@media (min-width:320px)': {
         fontSize: '9px',
     },
-    fontFamily:FONTS_FAMILY.regular.body
+    '@media (min-width:768px)': {
+        fontSize: '11px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '13px',
+    },
+    fontFamily:FONTS_FAMILY.regular.body,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitLineClamp: 1, /* number of lines to show */
+    '-webkit-box-orient': 'vertical',
 });

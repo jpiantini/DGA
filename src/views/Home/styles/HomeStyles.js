@@ -32,7 +32,7 @@ export const ContainerBackground = styled("div")(props => ({
   width: "100%",
   minHeight: "70vh",
   justifyContent: "center",
-  background: `url(${props.image})`,
+  backgroundImage: `url(${props.image})`,
   boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
 }));
 
@@ -350,9 +350,14 @@ export const WhiteTitle = styled("h1")({
   textAlign: "center",
   color: COLORS.white,
   fontFamily: FONTS_FAMILY.regular.title,
-  //   textShadow: '2px 2px 10px #000000',
-  "@media (max-width:768px)": {
-    fontSize: "30px",
+  "@media (min-width:320px)": {
+    fontSize: "40px",
+  },
+  "@media (min-width:768px)": {
+    fontSize: "50px",
+  },
+  "@media (min-width:1200px)": {
+    fontSize: "60px",
   },
 });
 

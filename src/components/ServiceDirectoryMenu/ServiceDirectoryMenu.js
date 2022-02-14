@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import { useHistory } from 'react-router';
 import { capitalizeFirstLetter } from '../../utilities/functions/StringUtil';
 import { MOCKUP_SERVICES } from './ServiceDirectoryMenuConstants';
@@ -26,7 +26,10 @@ function ServiceDirectoryMenu() {
                             {   //TODO CHANGE DE PARAM OF history.push below
                                 item.subMenus.map((subItem) => (
                                     <div key={subItem.id} style={{ width: '100%' }}>
-                                        <LinkText onClick={() => history.push('/app/serviceDescription/1')}>{capitalizeFirstLetter(subItem.title)}</LinkText>
+                                        <LinkText title={capitalizeFirstLetter(subItem.title)}
+                                            onClick={() => history.push('/app/serviceDescription/1')}>
+                                            {capitalizeFirstLetter(subItem.title)}
+                                        </LinkText>
                                     </div>
                                 ))
                             }
