@@ -1,15 +1,18 @@
 import axios from 'axios';
 import LocalStorageService from "./LocalStorageService";
+import apiCall from './ApiServerCall';
 
-
-const apiCall = () => {
+const apiServiceCall = () => {
     let Token = LocalStorageService.getItem('token');
+    let XToken = LocalStorageService.getItem('xToken');
+
     const axiosInstance = axios.create({
-        baseURL: 'http://159.223.159.17/api',
+        baseURL: 'http://159.223.159.17:8000/api',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'beater ' + Token,
+            'X-Authorization': XToken
         },
         timeout: 60000,
     });
@@ -57,4 +60,4 @@ const refreshToken = async () => {
 
 }
 
-export default apiCall;
+export default apiServiceCall;

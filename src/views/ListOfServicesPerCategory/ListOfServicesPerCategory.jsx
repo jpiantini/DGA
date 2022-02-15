@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import {
     Container,
 } from './styles/ListOfServicesPerCategoryStyles';
-import { getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
+import { getAllServices, getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
 import { useQuery } from 'react-query';
 
 function ListOfServicesPerCategory() {
@@ -26,7 +26,8 @@ function ListOfServicesPerCategory() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const { data, isLoading } = useQuery(['generalInformationData'], () => getGeneralInformationsFromWordpress())
+    const { data:generalInformationData } = useQuery(['generalInformationData'], () => getGeneralInformationsFromWordpress())
+    const { data:listOfServices } = useQuery(['listOfServices'], () => getAllServices())
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
     const [currentDirection, setCurrentDirection] = useState();
@@ -68,7 +69,7 @@ function ListOfServicesPerCategory() {
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general" content={
-                        data?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
+                        generalInformationData?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
                     } />
                     <SmallHeightDivider />
 

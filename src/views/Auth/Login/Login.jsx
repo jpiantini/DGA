@@ -23,6 +23,7 @@ import { AuthLogin } from '../../../redux/actions/AuthActions';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiActions';
 import apiCall from '../../../services/ApiServerCall';
 import LocalStorageService from '../../../services/LocalStorageService';
+import axios from 'axios';
 
 function Login() {
 
@@ -58,6 +59,7 @@ function Login() {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 setTimeout(() => {
                     LocalStorageService.setItem('token', response.data?.payload.token); //save token in localStorage
+                    LocalStorageService.setItem('xToken',"XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv")
                     dispatch(AuthLogin({
                         authenticated: true,
                         profileImg: response.data.payload.profile_img

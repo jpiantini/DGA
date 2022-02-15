@@ -5,6 +5,8 @@ import { AuthLogin } from '../redux/actions/AuthActions';
 import { HideGlobalLoading, ShowGlobalLoading } from '../redux/actions/UiActions';
 import LocalStorageService from '../services/LocalStorageService';
 import { getUser } from '../api/Auth';
+import apiCall from '../services/ApiServerCall';
+import axios from 'axios';
 
 function Auth({ children }) {
 
@@ -25,13 +27,13 @@ function Auth({ children }) {
             let response = await getUser();
             if (response.success) {
                 setTimeout(() => {
+                    LocalStorageService.setItem('xToken',"XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv")
                     dispatch(AuthLogin({
                         authenticated: true,
                         profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
                     }))
                     dispatch(HideGlobalLoading());
                     setIsValidating(false)
-                    //     history.push('/app/myDesk');
                 }, 1500);
             } else {
                 //delete token and cache
