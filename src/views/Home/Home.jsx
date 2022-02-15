@@ -161,8 +161,7 @@ function Home() {
       <ContainerBackground image={mottoContent?.image}>
         <WhiteTitle>
           {
-            console.log(mottoContent)
-       //     mottoContent?.motto
+            mottoContent?.motto
           }
 
         </WhiteTitle>

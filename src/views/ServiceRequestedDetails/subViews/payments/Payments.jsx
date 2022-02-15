@@ -24,9 +24,9 @@ function Payment() {
     const handleSiritePayment = () => {
 
         const siritePaymentConfig = {
-            codigoCentroRecaudacion: "0018",
-            codigoServicio: "0251",
-            montoServicio: 2500,
+            codigoCentroRecaudacion: "0003",
+            codigoServicio: "0093",
+            montoServicio: 100.00,
             nombre: "Juan Daniel Beato",
             numeroDocumento: "40212345671",
             tipoDocumento: "C",
