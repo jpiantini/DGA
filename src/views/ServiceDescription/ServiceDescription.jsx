@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, Fragment } from 'react';
+import { useState, useLayoutEffect, Fragment, useEffect } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
@@ -8,13 +8,16 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
 import {
     ButtonContainer,
     Container,
     TextListContainer,
+    TextOrderedListContainer,
 } from './styles/ServiceDescriptionStyles';
+import { useQuery } from 'react-query';
+import { getServiceDescription } from '../../api/ServiceDescription';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -25,6 +28,13 @@ function ServiceDescription() {
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
+    const { data: serviceDescription, isLoading } = useQuery(['serviceDescription', serviceID], async () => {
+        dispatch(ShowGlobalLoading("Cargando"));
+        const response = await getServiceDescription(serviceID);
+        dispatch(HideGlobalLoading());
+        return response;
+    })
+
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
             history.push(`/app/requestService/${serviceID}`)
@@ -34,14 +44,22 @@ function ServiceDescription() {
     }
 
     useLayoutEffect(() => {
-        if (serviceID == 1) { //VALIDATE IF SERVICE EXIST EXAMPLE CALLING BACKEND AND SEND ID TO GET INFO 
-            //UPDATE APP HEADER SUBTITLE
-            dispatch(UpdateAppSubHeaderTitle(mockupServiceInformation.serviceTitle)) // TITLE OF SUBHEADER APP
-        } else {
-            history.push('/app/serviceDescription/1')
+        if (serviceDescription?.success == false) {
+            //SERVICE DONT EXIST REDIRECT TO PUBLIC
+            history.push('/public')
         }
-    }, [serviceID]);
+        if (serviceDescription != undefined) {
+            //UPDATE APP HEADER SUBTITLE
+            dispatch(UpdateAppSubHeaderTitle(serviceDescription.name))
+        }
 
+    }, [serviceDescription]);
+
+    /*useEffect(() => {
+        refetch();
+    }, [serviceID]);
+*/
+    if (isLoading) return null;
 
     return (
         <Container >
@@ -51,39 +69,57 @@ function ServiceDescription() {
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general"
-                        content={mockupServiceInformation.generalInformation}
+                        content={serviceDescription?.description}
                     />
                     <BodyText>
                         Costo del servicio: &nbsp;
                         <strong>
-                            {mockupServiceInformation.serviceCost}
+                            {serviceDescription?.prices[0].variations[0].price}$
                         </strong>
                     </BodyText>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-                    <TextInformation title="Requisitos"
-                        content={mockupServiceInformation.requerimentsInformation}
-                    />
+                    <TextInformation title="Requisitos" />
+                    <SmallHeightDivider />
+
                     <TextListContainer>
                         {
-                            mockupServiceInformation.requerimentsList.map((value, index) => (
-                                <li key={index}>
+                            serviceDescription.requirements.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
                                     <BodyText>
-                                        {value}
+                                        {requeriment.name}
                                     </BodyText>
                                 </li>
                             ))
                         }
                     </TextListContainer>
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
+                    <TextInformation title="Procedimientos" />
+                    <SmallHeightDivider />
+                    <TextOrderedListContainer>
+                        {
+                            serviceDescription.procedures.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.step}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextOrderedListContainer>
+
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceID)}>INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-                    {
+
+                    {/*
                         matchesWidth &&
                         <Fragment>
-                            <TextInformation title="Preguntas Frecuentes"  />
+                            <TextInformation title="Preguntas Frecuentes" />
                             <SmallHeightDivider />
 
                             {
@@ -96,27 +132,10 @@ function ServiceDescription() {
                             }
                         </Fragment>
 
-                    }
+                        */}
                 </Container>
             </Row>
             <MediumHeightDivider />
-            {
-                !matchesWidth &&
-                <Fragment>
-                    <TextInformation title="Preguntas Frecuentes"/>
-                    <SmallHeightDivider />
-
-                    {
-                        FAQDATA.map((item) => (
-                            <div key={item.id}>
-                                <Collapsable title={item.question} content={item.answer} />
-                                <SmallHeightDivider />
-                            </div>
-                        ))
-                    }
-                </Fragment>
-
-            }
         </Container>
     );
 }

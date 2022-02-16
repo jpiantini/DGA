@@ -1,6 +1,6 @@
 //descriptionGeneral is mockup this value is fetched from wordpress
 
-export const titles = [
+export const localDirections = [
   {
     id:0,
     wordpressID:130,

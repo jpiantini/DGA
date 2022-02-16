@@ -11,7 +11,7 @@ import { } from "./RequestServiceConstants";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from "../../redux/actions/UiActions";
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from "../../redux/actions/UiActions";
 import { useParams } from "react-router-dom";
 import {
   ButtonsContainer,
@@ -26,44 +26,66 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Grid } from "@mui/material";
-import formDataWithGrid from "./formDataWithGrid.json"; //DEVELOPMENT REMOVE
-import formData from "./formData.json"; //DEVELOPMENT REMOVE
-import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
+//import formDataWithGrid from "./formDataWithGrid.json"; //DEVELOPMENT REMOVE
+//import formData from "./formData.json"; //DEVELOPMENT REMOVE
+//import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
+import { useQuery } from "react-query";
+import { getForm } from "../../api/RequestService";
+import { getServiceDescription } from "../../api/ServiceDescription";
 
 function RequestService() {
-  const matchesWidth = useMediaQuery("(min-width:768px)");
   const history = useHistory();
   let { serviceID } = useParams();
   const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authReducer);
 
-  const [activeStep, setActiveStep] = useState(0);
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
+  const { data: serviceDescription, isLoading: serviceDescriptionIsLoading } = useQuery(['serviceDescription', serviceID], async () => {
+    try {
+      dispatch(ShowGlobalLoading("Cargando"));
+      const response = await getServiceDescription(serviceID);
+      dispatch(HideGlobalLoading());
+      return response;
+    } catch (error) {
+      history.push('/public');
+      dispatch(HideGlobalLoading());
+      throw new Error('An error has ocurred');
+    }
+  })
+
+  const { data: formData, isLoading } = useQuery(['serviceForm', serviceDescription?.expertform_id], async () => {
+    try {
+      dispatch(ShowGlobalLoading("Cargando"));
+      //TO DO CHANGE CEDULA FOR LOGGED USER CEDULA
+      const response = await getForm(serviceDescription.expertform_id, "40225994520");
+      dispatch(HideGlobalLoading());
+      return response;
+    } catch (error) {
+      history.push('/public');
+      dispatch(HideGlobalLoading());
+      throw new Error('An error has ocurred');
+    }
+  }, {
+    enabled: serviceDescription != undefined
+  })
+
   const getData = () => {
-   // return formDataWithGrid.map((step) => {
-     return formDataMitur.fields.map((step) => {  
-   // return formData.fields.map((step) => {
+    // return formDataWithGrid.map((step) => {
+    // return formDataMitur.fields.map((step) => {
+    // return formData.fields.map((step) => {
+    return formData.fields.map((step) => {
       return step.map(transformField)
     });
   };
 
-//  console.log(getData());
   useLayoutEffect(() => {
-    let Service = undefined;
-     // let Service = ListServices.find((service) => service.id == serviceID); FOR SIMULATE FIND SERVICE DATA FROM API
-    if (Service) {
-      //UPDATE APP HEADER SUBTITLE
-      dispatch(UpdateAppSubHeaderTitle(Service.title)); // TITLE OF SUBHEADER APP
-    } else {
-      //UPDATE APP HEADER SUBTITLE
-      dispatch(UpdateAppSubHeaderTitle("SOLICITUD DE NO OBJECIÓN DE SUELO")); // TITLE OF SUBHEADER APP
-    }
-  }, []);
+    //UPDATE APP HEADER SUBTITLE
+    dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
+  }, [serviceDescription]);
 
-
+  if (isLoading || serviceDescriptionIsLoading) return null;
   return (
     <Container>
       <SmallHeightDivider />

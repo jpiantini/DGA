@@ -26,7 +26,8 @@ function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, On
             <div style={{ width: '95%', alignSelf: 'center' }}>
    
                 <span style={{ color: COLORS.tertiary, fontSize: '40px' }} className="material-icons">
-                {iconName}
+                {/*iconName*/}
+                note_add
                 </span>
                 <RowContainer>
                     <Subtitle>RELACIONADO A: </Subtitle>

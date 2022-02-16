@@ -16,3 +16,8 @@ export const TextListContainer = styled('ul')({
     paddingLeft:17
 });
 
+export const TextOrderedListContainer = styled('ol')({
+    margin:0,
+    paddingLeft:17
+});
+

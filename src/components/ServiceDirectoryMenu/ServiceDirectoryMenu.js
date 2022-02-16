@@ -1,7 +1,8 @@
 import { memo } from 'react';
+import { useQuery } from 'react-query';
 import { useHistory } from 'react-router';
+import { getAllServices } from '../../api/ListOfServicesPerCategory';
 import { capitalizeFirstLetter } from '../../utilities/functions/StringUtil';
-import { MOCKUP_SERVICES } from './ServiceDirectoryMenuConstants';
 import {
     Container,
     LinkText,
@@ -10,25 +11,26 @@ import {
     MinDivider
 } from './styles/ServiceDirectoryMenuStyles';
 
-
 function ServiceDirectoryMenu() {
     const history = useHistory();
 
+    const { data: listOfServices,isLoading } = useQuery(['listOfServices'], () => getAllServices())
+    if(isLoading) return null;
     return (
         <Container >
             <div style={{ width: '80%', alignSelf: 'center', marginTop: '30px' }}>
                 <Title>SERVICIOS</Title>
                 <MinDivider />
                 {
-                    MOCKUP_SERVICES.map((item) => (
+                    listOfServices.map((item) => (
                         <div key={item.id} style={{ marginTop: '10px', width: '100%' }}>
-                            <Subtitle onClick={() => history.push(`/app/listOfServices/${item.id}`)}>{item.title}</Subtitle>
+                            <Subtitle onClick={() => history.push(`/app/listOfServices/${item.id}`)}>{item.name}</Subtitle>
                             {   //TODO CHANGE DE PARAM OF history.push below
-                                item.subMenus.map((subItem) => (
-                                    <div key={subItem.id} style={{ width: '100%' }}>
-                                        <LinkText title={capitalizeFirstLetter(subItem.title)}
-                                            onClick={() => history.push('/app/serviceDescription/1')}>
-                                            {capitalizeFirstLetter(subItem.title)}
+                                item.services.map((services) => (
+                                    <div key={services.id} style={{ width: '100%' }}>
+                                        <LinkText title={capitalizeFirstLetter(services.name)}
+                                            onClick={() => history.push(`/app/serviceDescription/${services.id}`)}>
+                                            {capitalizeFirstLetter(services.name)}
                                         </LinkText>
                                     </div>
                                 ))
