@@ -22,6 +22,9 @@ import Select from '../../components/Select/Select';
 import Pagination from '@mui/material/Pagination';
 import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';
+import { getRequestedServices } from '../../api/RequestedServiceList';
+import { useQuery } from 'react-query';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../redux/actions/UiActions';
 
 
 function RequestedServiceList() {
@@ -29,8 +32,12 @@ function RequestedServiceList() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [currentPage,setCurrentPage] = useState(1);
+  const status = 1;
 
- 
+  const { data: requestedServices, isLoading } = useQuery(['requestedServices',currentPage], () => getRequestedServices(currentPage, status))
+
+
   const formik = useFormik({
     initialValues: {
       companyID: "",
@@ -40,16 +47,23 @@ function RequestedServiceList() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
-      //  DO THING
+      //  DO SOMETHING
 
     },
   });
+
+  const handleChangePage = (page) => {
+    window.scrollTo(0, 0);
+    setCurrentPage(page);
+  }
 
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle('Listado de servicios solicitados')); // TITLE OF SUBHEADER APP
   }, []);
+
+  if (isLoading) return null;
 
   return (
     <Container>
@@ -101,23 +115,28 @@ function RequestedServiceList() {
       <ListContainer>
 
         {
-          MockupInProcessRequests.map((request, index) => (
+          requestedServices.data.map((request, index) => (
             <Fragment key={request.id}>
               {
                 index > 0 &&
                 <SmallHeightDivider />
               }
-              <RequestCard title={request.title} percent={request.percent}
-                // onClick={() => handleRequestDetailModalStatus(request)}
-                onClick={() => history.push(`/app/serviceRequestedDetails/${request.serviceID}/${request.id}/${request.status}`)}
-                variant={request.status} />
+              <RequestCard title={request.service.name} percent={request.progress + "%"}
+                date={request.created_at}
+                company={request?.company}
+                requestCode={request.code}
+                status={request.status.name}
+                actionRequired={request.request_actions}
+                onClick={() => history.push(`/app/serviceRequestedDetails/${request.id}`)}
+                statusID={request.status.id}
+                variant={"inProcess"} />
             </Fragment>
           ))
         }
 
         <MediumHeightDivider />
 
-        <StyledPagination count={10} variant="outlined" shape="rounded"  sx={{color:COLORS.primary}}/>
+        <StyledPagination count={requestedServices.last_page} page={currentPage} onChange={(event,page) => handleChangePage(page)} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
       </ListContainer>
 
 

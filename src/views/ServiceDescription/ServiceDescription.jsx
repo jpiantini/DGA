@@ -29,10 +29,16 @@ function ServiceDescription() {
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
     const { data: serviceDescription, isLoading } = useQuery(['serviceDescription', serviceID], async () => {
-        dispatch(ShowGlobalLoading("Cargando"));
-        const response = await getServiceDescription(serviceID);
-        dispatch(HideGlobalLoading());
-        return response;
+        try {
+            dispatch(ShowGlobalLoading("Cargando"));
+            const response = await getServiceDescription(serviceID);
+            dispatch(HideGlobalLoading());
+            return response;
+        } catch (error) {
+            history.push('/public');
+            dispatch(HideGlobalLoading());
+        }
+
     })
 
     const handleServiceRequest = (serviceID) => {

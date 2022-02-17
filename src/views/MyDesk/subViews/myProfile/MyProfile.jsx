@@ -42,7 +42,8 @@ function MyProfile() {
         mutationForAddCompany.mutate(formData, {
             onSuccess: (data) => {
                 if (data.success) {
-                    queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
+                    // refresh cache of allCompaniesData
+                    queryClient.invalidateQueries('allCompaniesData') 
                 }
             }
         });
@@ -52,7 +53,8 @@ function MyProfile() {
         mutationForModifyCompany.mutate(formData, {
             onSuccess: (data) => {
                 if (data.success) {
-                    queryClient.invalidateQueries('allCompaniesData') // refresh cache of allCompaniesData
+                    // refresh cache of allCompaniesData
+                    queryClient.invalidateQueries('allCompaniesData') 
                 }
             }
         });

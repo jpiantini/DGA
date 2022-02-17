@@ -40,7 +40,6 @@ function DrawerMenu({ layout }) {
         dispatch(ShowGlobalLoading('Cerrando sesión'));
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
             LocalStorageService.removeItem('token');
-            LocalStorageService.removeItem('xToken');
             dispatch(AuthLogout());
             window.location.reload();
          //   dispatch(HideGlobalLoading());

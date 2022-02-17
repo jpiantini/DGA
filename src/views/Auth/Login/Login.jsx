@@ -58,15 +58,16 @@ function Login() {
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 setTimeout(() => {
-                    LocalStorageService.setItem('token', response.data?.payload.token); //save token in localStorage
-                    LocalStorageService.setItem('xToken',"XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv")
+                    //save token in localStorage
+                    LocalStorageService.setItem('token', response.data?.payload.token); 
                     dispatch(AuthLogin({
                         authenticated: true,
                         profileImg: response.data.payload.profile_img
                     }))
                     dispatch(HideGlobalLoading());
                 }, 1500);
-            } else { //Handle errors
+            } else {
+                 //Handle errors
                 // TODO Handle errors
                 console.log(response.data);
                 console.log(errorMessage)

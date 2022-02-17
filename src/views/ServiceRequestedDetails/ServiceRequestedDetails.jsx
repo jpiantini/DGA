@@ -1,87 +1,64 @@
 import { useState, useLayoutEffect, Fragment } from 'react';
-import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
-import { Row, RowBodyDivider, StyledButtonOutlined, ButtonsMenuContainer, MediumHeightDivider, SmallHeightDivider } from '../../theme/Styles';
-import { FormSchema } from './ServiceRequestedDetailsConstants';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import {
+    Row,
+    StyledButtonOutlined,
+    ButtonsMenuContainer,
+    MediumHeightDivider,
+    SmallHeightDivider
+} from '../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
-import {
-    Container,
-} from './styles/ServiceRequestedDetailsStyles';
+import { Container } from './styles/ServiceRequestedDetailsStyles';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { useFormik } from 'formik';
 import ComplaintsAndClaims from './subViews/complaintsAndClaims/ComplaintsAndClaims';
 import Payment from './subViews/payments/Payments';
 import Details from './subViews/details/Details';
 import DeskNotification from '../../components/DeskNotification/DeskNotification';
 import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
+import { useQuery } from 'react-query';
+import { getRequestDetail } from '../../api/ServiceRequestedDetails';
 
 
 function ServiceRequestedDetails() {
-    const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID, requestID,actionRequired } = useParams();
+    let { requestID } = useParams();
     const dispatch = useDispatch();
-    const { authenticated } = useSelector((state) => state.authReducer);
 
-    let ACTIONREQUIRED = actionRequired === 'actionRequired' ? true:false;
+    const { data: serviceRequestedDetail, isLoading } = useQuery(['serviceRequestedDetail', requestID], async () => {
+        try {
+            dispatch(ShowGlobalLoading("Cargando"));
+            const response = await getRequestDetail(requestID, "40225994520");
+            dispatch(HideGlobalLoading());
+            return response;
+        } catch (error) {
+            history.push('/public');
+            dispatch(HideGlobalLoading());
+        }
+    })
 
-
-    const [activeMenu, setActiveMenu] = useState(ACTIONREQUIRED ? 3:0);
+    const [activeMenu, setActiveMenu] = useState(0);
     const [claimModalVisible, setClaimModalVisible] = useState(false);
-
-    const [claims, setClaims] = useState([]);
-
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID);
     }
-    const handleClaimModalVisibility = () => {
-        setClaimModalVisible(!claimModalVisible);
-    }
-
-    const handleRegisterClaim = (claim) => {
-        alert('reclamacion creada');
-        handleClaimModalVisibility();
-        setClaims(prev => [...prev, claim]); // IS FOR MOCKUP BUT ALL CLAIMS RECHARGED WHEN ANOTHER NEW CLAIM IS REGISTERED
-        Object.keys(formik.values).map((key) => {
-            formik.setFieldValue(key, '', false);
-        })
-    }
-
-    const formik = useFormik({
-        initialValues: {
-            reason: '',
-            message: '',
-        },
-        validationSchema: FormSchema,
-        validateOnChange: true,
-        validateOnBlur: true,
-        onSubmit: (values) => {
-            handleRegisterClaim(values);
-       //     console.log(claims)
-        },
-    });
-
 
     useLayoutEffect(() => {
-        //CONSULT SERVICE INFO IN BACKEND 
-        if (serviceID) { //IF SERVICE EXISTS
-            //UPDATE APP HEADER SUBTITLE AND SET THE SERVICE NAME
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
-        } else {
-            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO MyDesk
-            history.push('/app/myDesk')
+        //UPDATE APP HEADER SUBTITLE, SET THE SERVICE NAME AND TOGGLE TO SPECIFIC MENU
+        if (serviceRequestedDetail != undefined) {
+            dispatch(UpdateAppSubHeaderTitle(serviceRequestedDetail.request.service.name));
+            setActiveMenu(serviceRequestedDetail.request.request_actions ? 3 : 0);
         }
-    }, []);
 
+    }, [serviceRequestedDetail]);
+
+    if (isLoading) return null;
 
     return (
         <Container >
             <Row>
-
                 <Container style={{ width: '100%' }}>
                     <ButtonsMenuContainer>
                         <ButtonGroup size="large" >
@@ -95,7 +72,7 @@ function ServiceRequestedDetails() {
                                 Pagos
                             </StyledButtonOutlined>
                             {
-                                ACTIONREQUIRED && //IF ACTION REQUIRED IS TRUE
+                                serviceRequestedDetail.request.request_actions && //IF ACTION REQUIRED IS TRUE
                                 <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
                                     Accion Requerida
                                 </StyledButtonOutlined>
@@ -103,7 +80,7 @@ function ServiceRequestedDetails() {
                         </ButtonGroup>
                     </ButtonsMenuContainer>
                     {
-                        ACTIONREQUIRED ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                        serviceRequestedDetail.request.request_actions ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
                             <Fragment>
                                 <SmallHeightDivider />
                                 <DeskNotification variant={'warning'} disableCloseButton={true}
@@ -124,7 +101,8 @@ function ServiceRequestedDetails() {
                                 activeMenu == 2 ?
                                     <Payment />
                                     :
-                                    ACTIONREQUIRED && <ActionsRequired /> //IF ACTION REQUIRED IS TRUE
+                                    //IF ACTION REQUIRED IS TRUE
+                                    serviceRequestedDetail.request.request_actions && <ActionsRequired />
 
                     }
                 </Container>

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { variantStatus } from './RequestCardConstants';
 import {
     Container,
     RowContainer,
@@ -13,30 +14,16 @@ import {
     ProgressBarTitle
 } from './styles/RequestCardStyles';
 
-function RequestCard({ variant, title, onClick, percent }) {
+function RequestCard({ statusID, title, date, company, requestCode, status, onClick, percent, actionRequired }) {
 
-    const ProgressBar = ({ variant, percent }) => {
-        return ( //VARIANTS : success,rejected,inProcess,actionRequired
-            <ProgressBarContainer>
-                <ProgressBarTitle variant={variant}>
-                    {
-                        variant != 'rejected' ?
-                            percent + ' COMPLETADO'
-                            :
-                            'RECHAZADO'
-                    }
-                </ProgressBarTitle>
-                <ProgressBarPercent variant={variant} percent={percent} />
-            </ProgressBarContainer>
-        )
-    }
+    const localVariant = variantStatus.find((status) => status.id == statusID)
 
     return (
         <Container >
             <SmallHeightDivider />
             <SmallHeightDivider />
             {
-                variant === 'actionRequired' &&
+                actionRequired != undefined &&
                 <RowContainer>
                     <IconContainer>
                         <StyledWarningIcon />
@@ -52,7 +39,7 @@ function RequestCard({ variant, title, onClick, percent }) {
                 <Title>{title}</Title>
                 <ButtonContainer>
                     <StyledButtonOutlined onClick={onClick} variant="outlined">
-                        {variant === 'actionRequired' ?
+                        {actionRequired != undefined ?
                             'COMPLETAR' : 'VER DETALLE'
                         }
                     </StyledButtonOutlined>
@@ -61,31 +48,41 @@ function RequestCard({ variant, title, onClick, percent }) {
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Fecha: 24/12/2021
+                    Fecha: {new Date(date).toLocaleDateString()}
                 </BodyText>
             </RowContainer>
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Empresa: Construcciones K
+                    Empresa: {company}
                 </BodyText>
             </RowContainer>
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Solicitud No.:599595944
+                    Solicitud No.:{requestCode}
                 </BodyText>
             </RowContainer>
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Estado :En Proceso
+                    Estado : {status}
                 </BodyText>
             </RowContainer>
 
             <SmallHeightDivider />
             <RowContainer>
-                <ProgressBar variant={variant} percent={percent} />
+                <ProgressBarContainer>
+                    <ProgressBarTitle variant={localVariant.variant}>
+                        {   //STATUSID 8 IS REJECTED
+                            statusID != 8 ?
+                                percent + ' COMPLETADO'
+                                :
+                                'RECHAZADO'
+                        }
+                    </ProgressBarTitle>
+                    <ProgressBarPercent variant={localVariant.variant} percent={percent} />
+                </ProgressBarContainer>
             </RowContainer>
             <SmallHeightDivider />
         </Container>

@@ -21,15 +21,18 @@ import {
 import { Grid } from '@mui/material';
 import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { MockupDocuments } from './DetailsConstants';
+import { useQueryClient } from 'react-query';
 
 
 function Details() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID, requestID } = useParams();
+    let { requestID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
+    const queryClient = useQueryClient()
 
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
 
     return (
         <Container >
@@ -42,7 +45,7 @@ function Details() {
                         Fecha:
                     </BodyTextBold>
                     <BodyText>
-                        24/12/2021
+                        {new Date(requestData.request.created_at).toLocaleDateString()}
                     </BodyText>
                 </Grid>
 
@@ -51,61 +54,31 @@ function Details() {
                         Numero de solicitud:
                     </BodyTextBold>
                     <BodyText>
-                        02355666687
+                        {requestData.request.code}
                     </BodyText>
                 </Grid>
 
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                        Empresa:
-                    </BodyTextBold>
-                    <BodyText>
-                        Construcciones K
-                    </BodyText>
-                </Grid>
+                {
+                    requestData.data.map((item) => (
+                        <Grid item xs={6} sm={4} md={4}>
+                            <BodyTextBold>
+                                {item.label}
+                            </BodyTextBold>
+                            <BodyText>
+                                {item.type === "text" ? item.value : item.labelValue}
+                            </BodyText>
+                        </Grid>
+                    ))
+                }
+
+
 
                 <Grid item xs={6} sm={4} md={4}>
                     <BodyTextBold>
-                        Costo del servicio:
+                        Estatus:
                     </BodyTextBold>
                     <BodyText>
-                        DOP$2,500.00
-                    </BodyText>
-                </Grid>
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                        Proyecto:
-                    </BodyTextBold>
-                    <BodyText>
-                        Construcciones K
-                    </BodyText>
-                </Grid>
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                    Monto de Inversión:
-                    </BodyTextBold>
-                    <BodyText>
-                    Clasificación provisional
-                    </BodyText>
-                </Grid>
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                    Solicitado por:
-                    </BodyTextBold>
-                    <BodyText>
-                    Construcciones K
-                    </BodyText>
-                </Grid>
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                    Estatus:
-                    </BodyTextBold>
-                    <BodyText>
-                    En proceso
+                        {requestData.request.status.name}
                     </BodyText>
                 </Grid>
 
@@ -114,7 +87,7 @@ function Details() {
             <SmallHeightDivider />
             <TextInformation title="Documentos subidos" />
             <SmallHeightDivider />
-            <DocumentsOfRequestsCard data={MockupDocuments.data}/>
+            <DocumentsOfRequestsCard data={MockupDocuments.data} />
             {
                 //pending copy myDesk subview documentPersonald or documentInstitutional
             }

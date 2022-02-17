@@ -27,7 +27,6 @@ function Auth({ children }) {
             let response = await getUser();
             if (response.success) {
                 setTimeout(() => {
-                    LocalStorageService.setItem('xToken',"XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv")
                     dispatch(AuthLogin({
                         authenticated: true,
                         profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
