@@ -15,7 +15,7 @@ import {
   StyledPagination
 } from './styles/RequestedServiceListStyles';
 import { useFormik } from 'formik';
-import { FormSchema, MockupCompanies, MockupInProcessRequests } from './RequestedServiceListConstants';
+import { formInitialState, FormSchema, MockupCompanies, MockupInProcessRequests } from './RequestedServiceListConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import Select from '../../components/Select/Select';
@@ -23,45 +23,48 @@ import Pagination from '@mui/material/Pagination';
 import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';
 import { getRequestedServices } from '../../api/RequestedServiceList';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { cacheConfig } from '../../cacheConfig';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function RequestedServiceList() {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const [currentPage,setCurrentPage] = useState(1);
+  const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
   const status = 1;
 
-  const { data: requestedServices, isLoading } = useQuery(['requestedServices',currentPage], () => getRequestedServices("40225994520",currentPage, status),
-  {staleTime:cacheConfig.staleTimeForRequestedServicesList})
-
-
   const formik = useFormik({
-    initialValues: {
-      companyID: "",
-      requestID: "",
-    },
+    initialValues: formInitialState,
     validationSchema: FormSchema,
     validateOnChange: true,
     validateOnBlur: true,
+    enableReinitialize:true,
     onSubmit: (values) => {
       //  DO SOMETHING
-
+      handleFindRequestsWithFilter();
     },
   });
-  
 
-  const handleFindRequestsWithFilter = async () => {
+  const { data: requestedServices, isLoading, refetch } = useQuery(['requestedServices', currentPage], () => getRequestedServices("40225994520", currentPage, status, formik.values),
+    { staleTime: cacheConfig.staleTimeForRequestedServicesList })
 
+  const handleFindRequestsWithFilter = () => {
+    handleChangePage(1);
+    queryClient.resetQueries(['requestedServices']);
+  };
+
+  const handleRemoveFilters = () => {
+    formik.resetForm();
+    queryClient.resetQueries(['requestedServices'])
   }
 
   const handleChangePage = (page) => {
     window.scrollTo(0, 0);
     setCurrentPage(page);
   }
-
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
@@ -108,7 +111,18 @@ function RequestedServiceList() {
           />
         </Grid>
 
-        <Grid item xs={8} sm={8} md={4} alignSelf='center'>
+        <Grid item xs={8} sm={1} md={1} alignSelf='center'>
+          {
+            formik.values.companyID !== '' || formik.values.requestID !== '' ?
+              <IconButton onClick={() => handleRemoveFilters()} aria-label="delete">
+                <DeleteIcon titleAccess='Eliminar filtro' color='error'  sx={{fontSize:'1.5em'}}/>
+              </IconButton>
+              :
+              null
+          }
+        </Grid>
+
+        <Grid item xs={8} sm={7} md={3} alignSelf='center'>
           <ButtonContainer>
             <StyledButtonOutlined onClick={formik.handleSubmit} variant='outlined'>
               Buscar
@@ -141,7 +155,7 @@ function RequestedServiceList() {
 
         <MediumHeightDivider />
 
-        <StyledPagination count={requestedServices.last_page} page={currentPage} onChange={(event,page) => handleChangePage(page)} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
+        <StyledPagination count={requestedServices.last_page} page={currentPage} onChange={(event, page) => handleChangePage(page)} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
       </ListContainer>
 
 

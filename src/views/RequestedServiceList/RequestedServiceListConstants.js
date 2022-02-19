@@ -5,6 +5,11 @@ export const FormSchema = yup.object({
   requestID: yup.string()
 }).required();
 
+export const formInitialState = {
+  companyID: "",
+  requestID: "",
+}
+
 export const MockupCompanies = [
   {
     label:'Concentra Hotel & Resorts',
