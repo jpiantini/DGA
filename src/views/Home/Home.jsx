@@ -64,17 +64,17 @@ function Home() {
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Solicitudes de licencias</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Usuarios registrados</SubTitle>
           </div>
           <div>
             <StyledSearchIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Busquedas realizadas</SubTitle>
           </div>
         </AnalyticsContainer>

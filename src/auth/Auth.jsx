@@ -23,7 +23,7 @@ function Auth({ children }) {
         }
         try {
             //Test current token & refreshToken (apiCall internal refresh the token in case of server return token invalid)
-            dispatch(ShowGlobalLoading('Restaurando sesión'));
+            dispatch(ShowGlobalLoading());
             let response = await getUser();
             if (response.success) {
                 setTimeout(() => {

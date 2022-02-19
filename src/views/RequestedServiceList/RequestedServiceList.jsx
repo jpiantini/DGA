@@ -24,8 +24,7 @@ import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';
 import { getRequestedServices } from '../../api/RequestedServiceList';
 import { useQuery } from 'react-query';
-import { HideGlobalLoading, ShowGlobalLoading } from '../../redux/actions/UiActions';
-
+import { cacheConfig } from '../../cacheConfig';
 
 function RequestedServiceList() {
   const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -35,7 +34,8 @@ function RequestedServiceList() {
   const [currentPage,setCurrentPage] = useState(1);
   const status = 1;
 
-  const { data: requestedServices, isLoading } = useQuery(['requestedServices',currentPage], () => getRequestedServices(currentPage, status))
+  const { data: requestedServices, isLoading } = useQuery(['requestedServices',currentPage], () => getRequestedServices("40225994520",currentPage, status),
+  {staleTime:cacheConfig.staleTimeForRequestedServicesList})
 
 
   const formik = useFormik({
@@ -51,6 +51,11 @@ function RequestedServiceList() {
 
     },
   });
+  
+
+  const handleFindRequestsWithFilter = async () => {
+
+  }
 
   const handleChangePage = (page) => {
     window.scrollTo(0, 0);
