@@ -15,16 +15,15 @@ import {
   StyledPagination
 } from './styles/RequestedServiceListStyles';
 import { useFormik } from 'formik';
-import { formInitialState, FormSchema, MockupCompanies, MockupInProcessRequests } from './RequestedServiceListConstants';
+import { formInitialState, FormSchema, Filters } from './RequestedServiceListConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import Select from '../../components/Select/Select';
-import Pagination from '@mui/material/Pagination';
 import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';
-import { getRequestedServices } from '../../api/RequestedServiceList';
-import { useQuery, useQueryClient } from 'react-query';
-import { cacheConfig } from '../../cacheConfig';
+import { getRequestedServices, getRequestedServicesWithFilters } from '../../api/RequestedServiceList';
+//import { useQuery, useQueryClient } from 'react-query';
+//import { cacheConfig } from '../../cacheConfig';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -32,8 +31,14 @@ function RequestedServiceList() {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
+  //  const queryClient = useQueryClient();
+
   const [currentPage, setCurrentPage] = useState(1);
+  const [requestedServices, setRequestedServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [findingWithFilter, setFindingWithFilter] = useState(false);
+
+  //TO DO GET THE STATUS AS PARAM FROM URL 
   const status = 1;
 
   const formik = useFormik({
@@ -41,24 +46,45 @@ function RequestedServiceList() {
     validationSchema: FormSchema,
     validateOnChange: true,
     validateOnBlur: true,
-    enableReinitialize:true,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      //  DO SOMETHING
-      handleFindRequestsWithFilter();
+      setFindingWithFilter(true);
+      handleChangePage(1);
+      handleFindRequests(1);
     },
   });
 
-  const { data: requestedServices, isLoading, refetch } = useQuery(['requestedServices', currentPage], () => getRequestedServices("40225994520", currentPage, status, formik.values),
-    { staleTime: cacheConfig.staleTimeForRequestedServicesList })
+  /* const { data: requestedServices, isLoading, refetch } = useQuery(['requestedServices', currentPage], () => getRequestedServices("40225994520", currentPage, status, formik.values),
+     { staleTime: cacheConfig.staleTimeForRequestedServicesList })
+ */
 
-  const handleFindRequestsWithFilter = () => {
-    handleChangePage(1);
-    queryClient.resetQueries(['requestedServices']);
+  const getAndSetRequestedServiceList = async (page) => {
+    setIsLoading(true);
+    let response = await getRequestedServices("40225994520", page, status);
+    setRequestedServices(response)
+    setIsLoading(false);
+  }
+
+  const getAndSetRequestedServiceListWithFilters = async (page) => {
+    setIsLoading(true);
+    let response = await getRequestedServicesWithFilters("40225994520", page, status, formik.values);
+    setRequestedServices(response)
+    setIsLoading(false);
+  }
+
+  const handleFindRequests = (page) => {
+    if (formik.values.filterType !== '' || formik.values.requestID !== '') {
+      getAndSetRequestedServiceListWithFilters(page);
+    } else {
+      getAndSetRequestedServiceList(page);
+    }
   };
 
   const handleRemoveFilters = () => {
     formik.resetForm();
-    queryClient.resetQueries(['requestedServices'])
+    handleChangePage(1);
+    getAndSetRequestedServiceList();
+    //  queryClient.resetQueries(['requestedServices'])
   }
 
   const handleChangePage = (page) => {
@@ -67,11 +93,11 @@ function RequestedServiceList() {
   }
 
   useLayoutEffect(() => {
+    getAndSetRequestedServiceList(1);
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle('Listado de servicios solicitados')); // TITLE OF SUBHEADER APP
   }, []);
 
-  if (isLoading) return null;
 
   return (
     <Container>
@@ -87,14 +113,15 @@ function RequestedServiceList() {
 
         <Grid item xs={8} sm={8} md={4}>
           <Select
-            title="Empresa"
-            id='companyID'
-            data={MockupCompanies}
-            value={formik.values.companyID}
+            title="Filtro"
+            id='filterType'
+            data={Filters}
+            value={formik.values.filterType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.companyID && Boolean(formik.errors.companyID)}
-            helperText={formik.touched.companyID && formik.errors.companyID}
+            error={formik.touched.filterType && Boolean(formik.errors.filterType)}
+            helperText={formik.touched.filterType && formik.errors.filterType}
+            required
           />
         </Grid>
 
@@ -108,14 +135,15 @@ function RequestedServiceList() {
             onBlur={formik.handleBlur}
             error={formik.touched.requestID && Boolean(formik.errors.requestID)}
             helperText={formik.touched.requestID && formik.errors.requestID}
+            required
           />
         </Grid>
 
         <Grid item xs={8} sm={1} md={1} alignSelf='center'>
           {
-            formik.values.companyID !== '' || formik.values.requestID !== '' ?
+            formik.values.requestID !== '' ?
               <IconButton onClick={() => handleRemoveFilters()} aria-label="delete">
-                <DeleteIcon titleAccess='Eliminar filtro' color='error'  sx={{fontSize:'1.5em'}}/>
+                <DeleteIcon titleAccess='Eliminar filtro' color='error' sx={{ fontSize: '1.5em' }} />
               </IconButton>
               :
               null
@@ -133,7 +161,7 @@ function RequestedServiceList() {
       <MediumHeightDivider />
       <ListContainer>
 
-        {
+        {isLoading == false &&
           requestedServices.data.map((request, index) => (
             <Fragment key={request.id}>
               {
@@ -155,7 +183,11 @@ function RequestedServiceList() {
 
         <MediumHeightDivider />
 
-        <StyledPagination count={requestedServices.last_page} page={currentPage} onChange={(event, page) => handleChangePage(page)} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
+        <StyledPagination count={requestedServices.last_page} page={currentPage}
+          onChange={(event, page) => {
+            handleChangePage(page);
+            handleFindRequests(page);
+          }} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
       </ListContainer>
 
 
