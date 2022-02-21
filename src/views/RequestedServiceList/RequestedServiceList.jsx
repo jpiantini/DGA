@@ -141,7 +141,7 @@ function RequestedServiceList() {
 
         <Grid item xs={8} sm={1} md={1} alignSelf='center'>
           {
-            formik.values.requestID !== '' ?
+            formik.values.requestID !== '' || findingWithFilter ?
               <IconButton onClick={() => handleRemoveFilters()} aria-label="delete">
                 <DeleteIcon titleAccess='Eliminar filtro' color='error' sx={{ fontSize: '1.5em' }} />
               </IconButton>
