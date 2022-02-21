@@ -1,19 +1,23 @@
-import { useState,useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, Fragment, useEffect } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider } from '../../theme/Styles';
-import { FAQDATA } from './ServiceDescriptionConstants';
+import { FAQDATA, mockupServiceInformation } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
 import {
     ButtonContainer,
     Container,
+    TextListContainer,
+    TextOrderedListContainer,
 } from './styles/ServiceDescriptionStyles';
+import { useQuery } from 'react-query';
+import { getServiceDescription } from '../../api/ServiceDescription';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -24,6 +28,19 @@ function ServiceDescription() {
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
+    const { data: serviceDescription, isLoading } = useQuery(['serviceDescription', serviceID], async () => {
+        try {
+            dispatch(ShowGlobalLoading("Cargando"));
+            const response = await getServiceDescription(serviceID);
+            dispatch(HideGlobalLoading());
+            return response;
+        } catch (error) {
+            history.push('/public');
+            dispatch(HideGlobalLoading());
+        }
+
+    })
+
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
             history.push(`/app/requestService/${serviceID}`)
@@ -33,18 +50,22 @@ function ServiceDescription() {
     }
 
     useLayoutEffect(() => {
-        const LastServiceAvailable = 1; //TEST VALUE
-        if (serviceID == LastServiceAvailable) {
-            //UPDATE APP HEADER SUBTITLE
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
-        } else {
-            //IF ENTERED SERVICE AS PARAM DOES`NT EXISTS REDIRECT TO FIRST SERVICE
-            history.push('/app/serviceDescription/1')
-          //  let Title = titles.find((title) => title.id == 1)?.title;
-            dispatch(UpdateAppSubHeaderTitle('TITULO DE SERVICIO')) // TITLE OF SUBHEADER APP
+        if (serviceDescription?.success == false) {
+            //SERVICE DONT EXIST REDIRECT TO PUBLIC
+            history.push('/public')
         }
-    }, []);
+        if (serviceDescription != undefined) {
+            //UPDATE APP HEADER SUBTITLE
+            dispatch(UpdateAppSubHeaderTitle(serviceDescription.name))
+        }
 
+    }, [serviceDescription]);
+
+    /*useEffect(() => {
+        refetch();
+    }, [serviceID]);
+*/
+    if (isLoading) return null;
 
     return (
         <Container >
@@ -54,35 +75,58 @@ function ServiceDescription() {
                 <RowBodyDivider />
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                     sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                     Stet clita"
+                        content={serviceDescription?.description}
                     />
-                    <BodyText>Costo del servicio: Gratuito</BodyText>
+                    <BodyText>
+                        Costo del servicio: &nbsp;
+                        <strong>
+                            {serviceDescription?.prices[0].variations[0].price}$
+                        </strong>
+                    </BodyText>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-                    <TextInformation title="Requisitos"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                      sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                      Stet clita."
-                    />
-                    <BodyText>• Cedula de Identidad</BodyText>
-                    <BodyText>• Realizar Pago (en línea o presencial)</BodyText>
+                    <TextInformation title="Requisitos" />
+                    <SmallHeightDivider />
+
+                    <TextListContainer>
+                        {
+                            serviceDescription.requirements.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.name}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextListContainer>
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
+                    <TextInformation title="Procedimientos" />
+                    <SmallHeightDivider />
+                    <TextOrderedListContainer>
+                        {
+                            serviceDescription.procedures.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.step}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextOrderedListContainer>
+
                     <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceID)}>INICIAR SOLICITUD</StyledButtonOutlined>
+                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>
                     </ButtonContainer>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-                    {
+
+                    {/*
                         matchesWidth &&
-                        <>
-                            <TextInformation title="Preguntas Frecuentes"
-                                content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                        sed diam voluptua."
-                            />
+                        <Fragment>
+                            <TextInformation title="Preguntas Frecuentes" />
+                            <SmallHeightDivider />
 
                             {
                                 FAQDATA.map((item) => (
@@ -92,32 +136,12 @@ function ServiceDescription() {
                                     </div>
                                 ))
                             }
-                        </>
+                        </Fragment>
 
-                    }
+                        */}
                 </Container>
             </Row>
-            <MediumHeightDivider/>
-            {
-                !matchesWidth &&
-                <>
-                    <TextInformation title="Preguntas Frecuentes"
-                        content="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-                        sed diam voluptua."
-                    />
-
-                    {
-                        FAQDATA.map((item) => (
-                            <div key={item.id}>
-                                <Collapsable  title={item.question} content={item.answer} />
-                                <SmallHeightDivider />
-                            </div>
-                        ))
-                    }
-                </>
-
-            }
+            <MediumHeightDivider />
         </Container>
     );
 }

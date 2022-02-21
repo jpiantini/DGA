@@ -17,21 +17,27 @@ import {
 import { MockupPayments } from './PaymentsConstants';
 import { Grid } from '@mui/material';
 import { ImageContainer, LogoImage } from '../../styles/ServiceRequestedDetailsStyles';
+import { useQueryClient } from 'react-query';
 
 
 function Payment() {
 
+    let { requestID } = useParams();
+    const queryClient = useQueryClient()
+
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
+
     const handleSiritePayment = () => {
 
         const siritePaymentConfig = {
-            codigoCentroRecaudacion: "1001",
-            codigoServicio: "1",
-            montoServicio: 2500,
-            nombre: "Juan Daniel Beato",
-            numeroDocumento: "40212345671",
+            codigoCentroRecaudacion: "0018",
+            codigoServicio: "0251",
+            montoServicio: requestData.request.payment.payment_amount,
+            nombre: "Juan daniel beato",
+            numeroDocumento: requestData.request.doc_identification,
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
-            idAutorizacionPortal: "010101",
+            idAutorizacionPortal: requestData.request.idAutorizacionPortal,
             urlRetorno: "http://127.0.0.1:3000/app/validatePayment",
         }
 
@@ -112,7 +118,7 @@ function Payment() {
                                             {payment.date}
                                         </CardBodyText>
                                     </Grid>
-                                    
+
                                 </Grid>
                             </CardTextContainer>
                         </CardContainer>

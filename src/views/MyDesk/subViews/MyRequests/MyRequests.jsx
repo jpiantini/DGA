@@ -32,7 +32,7 @@ function MyRequests() {
             </Row>
             <div style={{ height: '5px' }} />
 
-            {
+            {/*
                 MockupInProcessRequests.map((request, index) => (
                     <Fragment key={request.id}>
                         {
@@ -45,7 +45,7 @@ function MyRequests() {
                             variant={request.status} />
                     </Fragment>
                 ))
-            }
+                    */ }
 
             <MediumHeightDivider />
             <Row style={{ justifyContent: 'space-between' }}>
@@ -62,7 +62,7 @@ function MyRequests() {
             </Row>
             <div style={{ height: '5px' }} />
 
-            {
+            {/*
                 MockupCompletedRequests.map((request, index) => (
                     <Fragment key={request.id}>
                         {
@@ -75,7 +75,7 @@ function MyRequests() {
                             variant={request.status} />
                     </Fragment>
                 ))
-            }
+                    */ }
 
             <MediumHeightDivider />
             <Row style={{ justifyContent: 'space-between' }}>
@@ -92,7 +92,7 @@ function MyRequests() {
             </Row>
             <div style={{ height: '5px' }} />
 
-            {
+            {/*
                 MockupRejectedRequests.map((request, index) => (
                     <Fragment key={request.id}>
                         {
@@ -105,7 +105,7 @@ function MyRequests() {
                             variant={request.status} />
                     </Fragment>
                 ))
-            }
+                    */ }
         </Fade>
 
     );

@@ -5,6 +5,8 @@ import { AuthLogin } from '../redux/actions/AuthActions';
 import { HideGlobalLoading, ShowGlobalLoading } from '../redux/actions/UiActions';
 import LocalStorageService from '../services/LocalStorageService';
 import { getUser } from '../api/Auth';
+import apiCall from '../services/ApiServerCall';
+import axios from 'axios';
 
 function Auth({ children }) {
 
@@ -21,7 +23,7 @@ function Auth({ children }) {
         }
         try {
             //Test current token & refreshToken (apiCall internal refresh the token in case of server return token invalid)
-            dispatch(ShowGlobalLoading('Restaurando sesión'));
+            dispatch(ShowGlobalLoading());
             let response = await getUser();
             if (response.success) {
                 setTimeout(() => {
@@ -31,7 +33,6 @@ function Auth({ children }) {
                     }))
                     dispatch(HideGlobalLoading());
                     setIsValidating(false)
-                    //     history.push('/app/myDesk');
                 }, 1500);
             } else {
                 //delete token and cache

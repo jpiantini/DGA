@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import wpCall from "../../services/WpServerCall";
+import React, { useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle } from "../../redux/actions/UiActions";
 import { WpRichTextContainer } from "../../theme/Styles";
 import parse from "html-react-parser";
-export const PolicyPrivacy = () => {
-  const dispatch = useDispatch();
-  const [wordpressContent, setWordpressContent] = useState();
+import { useQuery } from "react-query";
+import { getPolicyAndPrivacyDataFromWordpress } from "../../api/PolicyPrivacy";
 
-  const getAndSetAllWordPressContent = async () => {
-    let data = await wpCall().get("/pages/v1/page/politica-privacidad");
-    setWordpressContent(data?.data?.content);
-  };
+export const PolicyPrivacy = () => {
+
+  const dispatch = useDispatch();
+  const { data } = useQuery(['policyPrivacyInformation'], () => getPolicyAndPrivacyDataFromWordpress())
+
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle("Políticas de privacidad")); // TITLE OF SUBHEADER APP
   }, []);
 
-  useEffect(() => {
-    getAndSetAllWordPressContent();
-  }, []);
 
 
   return (
@@ -28,7 +24,7 @@ export const PolicyPrivacy = () => {
       {" "}
       {/*<Title>TERMINOS Y CONDICIONES</Title>*/}
       <WpRichTextContainer>
-        {wordpressContent && parse(wordpressContent)}
+        {data && parse(data.content)}
       </WpRichTextContainer>
     </div>
   );

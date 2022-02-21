@@ -6,29 +6,12 @@ export const MOCKUP_SERVICES = [
         subMenus: [
             {
                 id: 1,
-                title: 'Lorem ipsum dolor sit amet'
+                title: 'SOLICITUD DE NO OBJECIÓN DE SUELO'
             },
             {
                 id: 2,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 3,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 4,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 5,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 6,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-
+                title: 'CLASIFICACIÓN PROVISIONAL'
+            }
         ]
     },
     {
@@ -37,45 +20,16 @@ export const MOCKUP_SERVICES = [
         subMenus: [
             {
                 id: 1,
-                title: 'Lorem ipsum dolor sit amet'
+                title: 'HOTELES, RESTAURANTES, BARES Y SPA'
             },
             {
                 id: 2,
-                title: 'Lorem ipsum dolor sit amet'
+                title: 'TURISMO DE AVENTURA'
             },
             {
                 id: 3,
-                title: 'Lorem ipsum dolor sit amet'
+                title: 'GIFT SHOPS'
             },
-            {
-                id: 4,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 5,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 6,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 7,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 8,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 9,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 10,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-
         ]
     },
     {
@@ -84,17 +38,8 @@ export const MOCKUP_SERVICES = [
         subMenus: [
             {
                 id: 1,
-                title: 'Lorem ipsum dolor sit amet'
+                title: 'Solicitud de proyecto en playa'
             },
-            {
-                id: 2,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-            {
-                id: 3,
-                title: 'Lorem ipsum dolor sit amet'
-            },
-
         ]
     },
 

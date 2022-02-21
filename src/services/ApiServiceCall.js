@@ -1,20 +1,22 @@
 import axios from 'axios';
 import LocalStorageService from "./LocalStorageService";
+import apiCall from './ApiServerCall';
 
+const apiServiceCall = () => {
 
-const apiCall = () => {
     const axiosInstance = axios.create();
 
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17/api';
+            config.baseURL = 'http://159.223.159.17:8000/api';
             config.headers = {
                 'Authorization': `beater ${Token}`,
+                'X-Authorization': 'XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             }
-            config.timeout=60000;
+            config.timeout = 60000;
             return config;
         },
         error => {
@@ -31,7 +33,7 @@ const apiCall = () => {
             return axiosInstance(originalRequest);
         }
         //return response
-        return response 
+        return response
     }, async function (error) {
         return Promise.reject(error);
     });
@@ -63,4 +65,4 @@ const refreshToken = async () => {
 
 }
 
-export default apiCall;
+export default apiServiceCall;

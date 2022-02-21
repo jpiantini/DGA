@@ -36,18 +36,22 @@ import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import CarouselBootstrap from "./components/carrosuel/CarouselBootstrap";
 import { useQuery } from "react-query";
-import { getSlidersDataFromWordpress } from "../../api/Home";
+import { getMottoInformationDataFromWordpress, getSlidersDataFromWordpress } from "../../api/Home";
 
 
 function Home() {
 
   const history = useHistory();
 
-  const { data: wordpressContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
+  const { data: carouselContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
+  const { data: mottoContent } = useQuery(['mottoInformation'], () => getMottoInformationDataFromWordpress())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
   };
+
+
+
 
   return (
     <Container>
@@ -55,22 +59,22 @@ function Home() {
 
       <Header />
 
-      {wordpressContent && <CarouselBootstrap data={wordpressContent} />}
+      {carouselContent && <CarouselBootstrap data={carouselContent} />}
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Solicitudes de licencias</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Usuarios registrados</SubTitle>
           </div>
           <div>
             <StyledSearchIcon />
-            <Title>+304%</Title>
+            <Title>+5%</Title>
             <SubTitle>Busquedas realizadas</SubTitle>
           </div>
         </AnalyticsContainer>
@@ -154,24 +158,13 @@ function Home() {
         <div style={{ height: "30px" }} />
       </Container>
 
-      <ContainerBackground image={moreInformationBackgroundImage}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginLeft: "80px",
-            alignContent: "left",
-            alignItems: "center",
-          }}
-        >
-          <WhiteSubtitle>
-            TRABAJANDO PARA TI
-          </WhiteSubtitle>
-          <WhiteTitle>
-            Lorem Ipsum
-          </WhiteTitle>
-          <DefaultButton> SABER MÁS </DefaultButton>
-        </div>
+      <ContainerBackground image={mottoContent?.image}>
+        <WhiteTitle>
+          {
+            mottoContent?.motto
+          }
+
+        </WhiteTitle>
       </ContainerBackground>
 
       <Footer FooterRoutes={FooterRoutes} />

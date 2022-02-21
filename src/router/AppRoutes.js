@@ -102,7 +102,7 @@ const routes = [ //PUT ALL loginRequired:false routes on TOP
     loginRequired: true,
   },
   {
-    path: "/serviceRequestedDetails/:serviceID/:requestID/:actionRequired",
+    path: "/serviceRequestedDetails/:requestID",
     component: ServiceRequestedDetails,
     exact: true,
     layout: "/app",

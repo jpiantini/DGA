@@ -28,6 +28,7 @@ export const Subtitle = styled('p')({
     fontFamily: FONTS_FAMILY.regular.body,
     fontSize: '10px',
     margin: '3px',
+    textTransform:'uppercase'
 });
 
 export const SpecialSubtitle = styled('p')({
@@ -40,6 +41,8 @@ export const SpecialSubtitle = styled('p')({
     display: '-webkit-box',
     WebkitLineClamp: 1, /* number of lines to show */
     '-webkit-box-orient': 'vertical',
+    textTransform:'uppercase'
+
 });
 
 export const Title = styled('p')({
@@ -52,6 +55,8 @@ export const Title = styled('p')({
     display: '-webkit-box',
     WebkitLineClamp: 2, /* number of lines to show */
     '-webkit-box-orient': 'vertical',
+    textTransform:'uppercase'
+
 });
 
 export const Separator = styled('div')({

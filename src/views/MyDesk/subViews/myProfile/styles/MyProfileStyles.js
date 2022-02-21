@@ -29,9 +29,9 @@ export const ProfileImage = styled('img')({
     alignSelf:'center',
     '@media (min-width:320px)': {
         width: '100px',
-        height:'150px',
+        height:'100px',
         borderRadius:'100%',
-        marginTop:'5px',
+        marginTop:'10px',
     },
     '@media (min-width:768px)': {
         width: '125px',
@@ -53,12 +53,12 @@ export const ProfileContainer = styled('div')({
     boxShadow: boxShadowConfig,
     '@media (min-width:320px)': {
         flexDirection: 'column',
-        height:'250px',
+        minHeight:'250px',
         justifyContent: 'center',
     },
     '@media (min-width:768px)': {
         flexDirection: 'row',
-        height:'150px',
+        minHeight:'150px',
         justifyContent: 'flex-start',
     },
     '@media (min-width:1200px)': {

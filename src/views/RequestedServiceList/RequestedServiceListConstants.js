@@ -1,22 +1,23 @@
 import * as yup from "yup";
 
 export const FormSchema = yup.object({
-  companyID: yup.string(),
-  requestID: yup.string()
+  filterType: yup.string().required("Esta campo es requerido"),
+  requestID: yup.string().required("Esta campo es requerido")
 }).required();
 
-export const MockupCompanies = [
+export const formInitialState = {
+  filterType: "",
+  requestID: "",
+}
+
+export const Filters = [
   {
-    label:'Concentra Hotel & Resorts',
+    label:'Nombre de solicitud',
     value:1
   },
   {
-    label:'Concentra Bar & Lounge',
+    label:'Numero de solicitud',
     value:2
-  },
-  {
-    label:'Concentra Bar & Grill',
-    value:3
   },
 ]
 
