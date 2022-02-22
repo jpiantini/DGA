@@ -16,6 +16,7 @@ import { cleanNumbersFromString, cleanNumberWithDecimal, localToString } from '.
 import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
 import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup';
+import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextField';
 
 const RenderField = (props) => {
 
@@ -197,7 +198,23 @@ const RenderField = (props) => {
           />
         )
       case FIELD_TYPES.text:
-        if (['0', '1', '2', '3', '6'].includes(localToString(props.Mask))) {
+        if (['2', '3'].includes(localToString(props.Mask))) {
+          return (
+            <PhoneTextField
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+            />
+          )
+        }
+        if (['0', '1','6'].includes(localToString(props.Mask))) {
           return (
             <TextField
               id={props.fieldKey}

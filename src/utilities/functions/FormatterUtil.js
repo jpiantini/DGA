@@ -7,7 +7,7 @@ export function stringToDominicanCedula(string = "") {
     let lastValue = string.substring(10, 11);
     return firstValues + "-" + centerValues + "-" + lastValue;
   } else {
-    return "";
+    return string;
   }
 }
 
@@ -18,7 +18,7 @@ export function stringToDominicanPhoneNumber(string = "") {
     let lastValue = string.substring(6, 10);
     return firstValues + "-" + centerValues + "-" + lastValue;
   } else {
-    return "";
+    return string;
   }
 }
 

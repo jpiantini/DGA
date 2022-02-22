@@ -1,12 +1,14 @@
 import * as yup from "yup";
 
+const urlForYup = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
+
 export const FormCompanySchema = yup.object({
   company_name: yup.string().required('Este campo es requerido'),
   company_rnc: yup.string().required('Este campo es requerido'),
   company_phone: yup.string().required('Este campo es requerido'),
  // email: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
  company_address: yup.string().required('Este campo es requerido'),
- company_url_web: yup.string(),
+ company_url_web: yup.string().matches(urlForYup,"Dirección web inválida"),
 }).required();
 
 

@@ -43,7 +43,6 @@ export function cleanNumbersFromString(s) {
   return localToString(s).replace(/[\d-]/g, '')
 }
 
-
 export function containString(v1, v2, caseSensitive = false) {
   if (!v1 || !v2) {
     return false;

@@ -17,7 +17,8 @@ import { useSnackbar } from 'notistack';
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { stringToDominicanCedula } from "../../utilities/functions/FormatterUtil";
 import { getUser } from "../../api/Auth";
-
+import PhoneTextField from "../../components/PhoneTextField/PhoneTextField";
+import { cleanStringFromNumbers } from '../../utilities/functions/NumberUtil';
 export const MyConfiguration = () => {
 
   const dispatch = useDispatch();
@@ -287,7 +288,7 @@ export const MyConfiguration = () => {
         <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
           <Grid item xs={12} sm={4} md={6}>
-            <TextField title="Email" type="text" id="email"
+            <TextField title="Nuevo email" type="text" id="email"
               value={formikEmailChange.values.email}
               onChange={formikEmailChange.handleChange}
               onBlur={formikEmailChange.handleBlur}
@@ -401,38 +402,35 @@ export const MyConfiguration = () => {
         </Grid>
 
         <Grid item xs={8} sm={4} md={6}>
-          <TextField title="Teléfono móvil" type="text" id="phoneMobile"
-            mask="999-999-9999"
-            value={formik.values.phoneMobile}
+          <PhoneTextField title="Teléfono móvil" type="text" id="phoneMobile"
+            required
+            value={cleanStringFromNumbers(formik.values.phoneMobile)}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.phoneMobile && Boolean(formik.errors.phoneMobile)}
             helperText={formik.touched.phoneMobile && formik.errors.phoneMobile}
-            required
           />
         </Grid>
 
         <Grid item xs={8} sm={4} md={6}>
-          <TextField title="Teléfono secundario" type="text" id="phone2"
-            mask="999-999-9999"
-            value={formik.values.phone2}
+          <PhoneTextField title="Teléfono secundario" type="text" id="phone2"
+            required
+            value={cleanStringFromNumbers(formik.values.phone2)}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
             helperText={formik.touched.phone2 && formik.errors.phone2}
-            required
           />
         </Grid>
 
         <Grid item xs={8} sm={4} md={6}>
-          <TextField title="Teléfono laboral" type="text" id="phoneLaboral"
-            mask="999-999-9999"
-            value={formik.values.phoneLaboral}
+          <PhoneTextField title="Teléfono laboral" type="text" id="phoneLaboral"
+            required
+            value={cleanStringFromNumbers(formik.values.phoneLaboral)}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.phoneLaboral && Boolean(formik.errors.phoneLaboral)}
             helperText={formik.touched.phoneLaboral && formik.errors.phoneLaboral}
-            required
           />
         </Grid>
 

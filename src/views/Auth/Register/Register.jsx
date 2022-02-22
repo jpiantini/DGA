@@ -34,6 +34,7 @@ import CheckBox from '../../../components/CheckBox/CheckBox';
 import wpCall from '../../../services/WpServerCall';
 import parse from 'html-react-parser';
 import { useSnackbar } from 'notistack';
+import PhoneTextField from '../../../components/PhoneTextField/PhoneTextField';
 
 function Register() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -299,7 +300,7 @@ function Register() {
     }, []);
 
     useEffect(() => {
-        if(authenticated){
+        if (authenticated) {
             history.push('/app/myDesk')
             return;
         }
@@ -502,26 +503,21 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Telefono de contacto" type="text" id="phone"
-                                    mask="999-999-9999"
+                                <PhoneTextField title="Teléfono de contacto" type="text" id="phone"
+                                    required
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     error={formik.touched.phone && Boolean(formik.errors.phone)}
                                     helperText={formik.touched.phone && formik.errors.phone}
-                                    required
                                 />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Telefono de contacto secundario" type="text" id="phone2"
-                                    mask="999-999-9999"
+                                <PhoneTextField title="Telefono de contacto secundario" type="text" id="phone2"
                                     value={formik.values.phone2}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
                                     helperText={formik.touched.phone2 && formik.errors.phone2}
-                                //     required
                                 />
                             </Grid>
 
