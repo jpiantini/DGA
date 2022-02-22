@@ -12,6 +12,7 @@ import {
 import Fade from 'react-reveal/Fade';
 import { useFormik } from 'formik';
 import TextField from '../../../../components/TextField/TextField';
+import PhoneTextField from '../../../../components/PhoneTextField/PhoneTextField';
 import { Grid } from '@mui/material';
 import FormModal from '../../../../components/FormModal/FormModal';
 import { SectionTitle, SectionTextDivider } from '../../styles/MyDeskStyles';
@@ -19,6 +20,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { addNewCompany, getAllCompanies, modifyCompany } from '../../../../api/myProfile';
 import { getUser } from '../../../../api/Auth';
 import { stringToDominicanCedula, stringToDominicanPhoneNumber } from '../../../../utilities/functions/FormatterUtil';
+import { cleanStringFromNumbers } from '../../../../utilities/functions/NumberUtil';
 
 
 function MyProfile() {
@@ -43,7 +45,7 @@ function MyProfile() {
             onSuccess: (data) => {
                 if (data.success) {
                     // refresh cache of allCompaniesData
-                    queryClient.invalidateQueries('allCompaniesData') 
+                    queryClient.invalidateQueries('allCompaniesData')
                 }
             }
         });
@@ -54,7 +56,7 @@ function MyProfile() {
             onSuccess: (data) => {
                 if (data.success) {
                     // refresh cache of allCompaniesData
-                    queryClient.invalidateQueries('allCompaniesData') 
+                    queryClient.invalidateQueries('allCompaniesData')
                 }
             }
         });
@@ -199,7 +201,7 @@ function MyProfile() {
                                                     Teléfono
                                                 </CardBodyTitle>
                                                 <CardBodyText>
-                                                    {company.company_phone}
+                                                    {stringToDominicanPhoneNumber(company.company_phone)}
                                                 </CardBodyText>
                                             </Grid>
 
@@ -233,8 +235,18 @@ function MyProfile() {
                 >
                     <SmallHeightDivider />
                     <Grid alignItems="flex-start" justifyContent="center" container direction="row" x spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        <Grid item >
-                            <TextField title="Documento de Identidad" type="text" id="company_rnc"
+                        <Grid item xs={4} sm={8} md={12}>
+                            <TextField title="Nombre comercial" type="text" id="company_name"
+                                value={companyFormik.values.company_name}
+                                onChange={companyFormik.handleChange}
+                                error={companyFormik.touched.company_name && Boolean(companyFormik.errors.company_name)}
+                                helperText={companyFormik.touched.company_name && companyFormik.errors.company_name}
+                                required
+                            />
+                        </Grid>
+
+                        <Grid item xs={4} sm={4} md={6}>
+                            <TextField title="RNC" type="text" id="company_rnc"
                                 required
                                 disabled={selectedCompany ? true : false}
                                 mask="999-9999999-9"
@@ -245,29 +257,20 @@ function MyProfile() {
                                 helperText={companyFormik.touched.company_rnc && companyFormik.errors.company_rnc}
                             />
                         </Grid>
-                        <Grid item >
-                            <TextField title="Nombre comercial" type="text" id="company_name"
-                                value={companyFormik.values.company_name}
-                                onChange={companyFormik.handleChange}
-                                error={companyFormik.touched.company_name && Boolean(companyFormik.errors.company_name)}
-                                helperText={companyFormik.touched.company_name && companyFormik.errors.company_name}
-                                required
-                            />
-                        </Grid>
 
-                        <Grid item >
-                            <TextField title="Teléfono" type="text" id="company_phone"
+                        <Grid item xs={4} sm={4} md={6}>
+
+                            <PhoneTextField title="Teléfono" type="text" id="company_phone"
                                 required
-                                mask="999-999-9999"
-                                value={companyFormik.values.company_phone}
+                                value={cleanStringFromNumbers(companyFormik.values.company_phone)}
                                 onChange={companyFormik.handleChange}
                                 error={companyFormik.touched.company_phone && Boolean(companyFormik.errors.company_phone)}
                                 helperText={companyFormik.touched.company_phone && companyFormik.errors.company_phone}
                             />
+
                         </Grid>
 
-
-                        <Grid item >
+                        <Grid item xs={4} sm={8} md={12}>
                             <TextField title="Dirección" type="text" id="company_address"
                                 value={companyFormik.values.company_address}
                                 onChange={companyFormik.handleChange}
@@ -277,13 +280,12 @@ function MyProfile() {
                             />
                         </Grid>
 
-                        <Grid item >
+                        <Grid item xs={4} sm={8} md={12}>
                             <TextField title="Web" type="text" id="company_url_web"
                                 value={companyFormik.values.company_url_web}
                                 onChange={companyFormik.handleChange}
                                 error={companyFormik.touched.company_url_web && Boolean(companyFormik.errors.company_url_web)}
                                 helperText={companyFormik.touched.company_url_web && companyFormik.errors.company_url_web}
-                                required
                             />
                         </Grid>
                     </Grid>

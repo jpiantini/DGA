@@ -36,8 +36,8 @@ function Login() {
     const formik = useFormik({
         initialValues: {
             //DEVELOPMENT COMMENT OR REMOVE
-            id: '40211984535',
-            password: 'david123'
+            id: '01122222221',
+            password: '12345678'
             /* PRODUCTION
             id: '',
             password: '' */

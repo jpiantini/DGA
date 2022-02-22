@@ -19,12 +19,13 @@ import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import { useQuery } from 'react-query'
 import { getContactDataFromWordpress } from '../../api/Contact';
+import PhoneTextField from '../../components/PhoneTextField/PhoneTextField';
 
 function Contact() {
 
   const dispatch = useDispatch();
 
-  const {data} = useQuery(['contactData'], () => getContactDataFromWordpress())
+  const { data } = useQuery(['contactData'], () => getContactDataFromWordpress())
 
   const formik = useFormik({
     initialValues: {
@@ -122,19 +123,13 @@ function Contact() {
         </Grid>
 
         <Grid item xs={12} sm={4} md={6}>
-          <TextField
-            title='Telefono de contacto'
-            type='text'
-            id='phoneNumber'
-            mask='999-999-9999'
+          <PhoneTextField title="Teléfono de contacto" type="text" id="phoneNumber"
+            required
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={
-              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-            }
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
             helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-            required
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12}>

@@ -73,6 +73,7 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                         {(inputProps) =>
                             <StyledTextInput
                                 {...inputProps}
+                                disabled={disabled}
                                 fullWidth
                                 variant='outlined'
                                 placeholder={placeholder}
