@@ -82,7 +82,6 @@ function Login() {
                     profileImg: response.data.payload.profile_img
                 }))
                 dispatch(HideGlobalLoading());
-
             } else {
                 //Handle errors
                 // TODO Handle errors
@@ -91,9 +90,9 @@ function Login() {
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {
-            //LOCAL ERRORS NETWORK ETC
-            //   console.log('error', error);
-            //   alert('error');
+            LocalStorageService.removeItem("token");
+            setErrorMessage("Ha ocurrido un error, favor contacte a soporte");
+            dispatch(HideGlobalLoading());
         }
     }
 
