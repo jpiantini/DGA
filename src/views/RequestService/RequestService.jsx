@@ -31,9 +31,12 @@ import { Grid } from "@mui/material";
 //import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
-import { useQuery } from "react-query";
-import { getForm } from "../../api/RequestService";
+import { useMutation, useQuery } from "react-query";
+import { getForm, registerForm } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
+import { getUser } from "../../api/Auth";
+import { format } from 'date-fns'
+import {cleanStringFromNumbers} from '../../utilities/functions/NumberUtil';
 
 function RequestService() {
   const history = useHistory();
@@ -41,6 +44,20 @@ function RequestService() {
   const dispatch = useDispatch();
 
   const [togglePaymentForm, setTogglePaymentForm] = useState();
+
+  const { data: userData, isLoading: userDataIsLoading } = useQuery(['userData'], async () => {
+    try {
+      dispatch(ShowGlobalLoading("Cargando"));
+      const response = await getUser();
+      dispatch(HideGlobalLoading());
+      return response;
+    } catch (error) {
+      history.push('/public');
+      dispatch(HideGlobalLoading());
+      throw new Error('An error has ocurred');
+    }
+  })
+
 
   const { data: serviceDescription, isLoading: serviceDescriptionIsLoading } = useQuery(['serviceDescription', serviceID], async () => {
     try {
@@ -80,12 +97,67 @@ function RequestService() {
     });
   };
 
+
+  const mutationRegisterForm = useMutation(registerForm);
+
+  const sendRequest = (formData) => {
+    const request = {
+      req: {
+        service_id: serviceID,
+        doc_identification: userData.payload.citizen_id,
+        name_service: serviceDescription.name,
+        process_flow: serviceDescription.process_flow,
+        form_version: formData.version,
+        payment_amount: serviceDescription.prices[0].variations[0].price,
+        payment_status: "1",
+        payment_method: "2",
+        total: serviceDescription.prices[0].variations[0].price,
+        variations: [
+          serviceDescription.prices[0].variations[0].id
+        ],
+        cant: "1",
+        idAutorizacionPortal: ""
+      },
+      form: {
+        citizen_record_id: userData.payload.citizen_id,
+        expertform_id: serviceDescription.expertform_id,
+        //TEST formData is correct
+        data: formData, 
+        grid: {}
+      },
+      documents: [],
+      userInfo: {
+        numdocsolicita: userData.payload.citizen_id,
+         // tipodocsolicita NEED CHANGE
+        tipodocsolicita: 1,
+        nombressolicita: userData.payload.name,
+        apellidossolici: userData.payload.first_last_name + userData.payload.second_last_name,
+        fechasolicitud: format(new Date(), 'yyyy-MM-dd'),
+        direccsolic: userData.payload.address,
+        nacionsolic: "Dominicano",
+        celularsolic: cleanStringFromNumbers(userData.payload.phone),
+        emailsolic: userData.payload.email
+      }
+    }
+    /*  mutationRegisterForm.mutate(request, {
+          onSuccess: (data) => {
+              if (data.success) {
+                  // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
+                  // queryClient.invalidateQueries('requestedServices');
+  
+                  //TODO SHOW NOTIFICATION SUCCESS OR TOGGLE VIEW TO SHOW PAYMENT 
+  
+              }
+          }
+      });*/
+    console.log(formData);
+  }
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
 
-  if (isLoading || serviceDescriptionIsLoading) return null;
+  if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return null;
   return (
     <Container>
       <SmallHeightDivider />
@@ -93,7 +165,7 @@ function RequestService() {
       {!togglePaymentForm ? (
         <Container>
           <Form
-            doRequest={console.log}
+            doRequest={sendRequest}
             data={getData()} />
         </Container>
       ) : (

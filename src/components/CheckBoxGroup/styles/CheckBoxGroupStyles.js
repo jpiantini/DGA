@@ -11,10 +11,10 @@ export const Container = styled('div')({
 });
 
 export const CheckboxContainer = styled('div')(props => ({
-    display:'flex',
+    display: 'flex',
     flexDirection: 'row',
-    marginTop: props.index == 0 ? 0: '40px',
-    alignItems:'center'
+    marginTop: props.index == 0 ? 0 : '40px',
+    alignItems: 'center'
 }));
 
 export const StyledCheckBoxGroup = styled(ToggleButtonGroup)({
@@ -23,7 +23,7 @@ export const StyledCheckBoxGroup = styled(ToggleButtonGroup)({
     ' & .btn-check': {
         width: '20px !important',
         height: '20px !important',
-        cursor:'pointer',
+        cursor: 'pointer',
         'accent-color': COLORS.tertiary
     },
 
@@ -31,11 +31,11 @@ export const StyledCheckBoxGroup = styled(ToggleButtonGroup)({
 
 
 export const StyledFormLabel = styled(FormLabel)({
-   color:COLORS.black,
-   display:'flex',
-   marginLeft:'40px',
-  bottom:25
+    color: COLORS.black,
+    display: 'flex',
+    marginLeft: '40px',
+    bottom: 25
 });
-export const StyledToggleButton = styled(ToggleButton)({
-
-});
+export const StyledToggleButton = styled(ToggleButton)(props => ({
+    cursor: props.disabled ? 'default !important' : 'pointer !important',
+}));
