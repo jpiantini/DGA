@@ -60,7 +60,6 @@ function Login() {
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
-
                 let userResponse = await getUser();
                 const requestData = {
                     id: userResponse.payload.citizen_id,

@@ -1,5 +1,5 @@
 import apiCall from "../services/ApiServerCall";
-import apiServiceCall from "../services/ApiServerCall";
+import apiServiceCall from "../services/ApiServiceCall";
 
 
 export const registerLoggedUserInServiceBackend =  (requestData) => {
