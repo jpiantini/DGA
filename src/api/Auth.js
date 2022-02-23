@@ -3,7 +3,7 @@ import apiServiceCall from "../services/ApiServiceCall";
 
 
 export const registerLoggedUserInServiceBackend =  (requestData) => {
-    return  apiServiceCall().post('/citizen',requestData).then(({data}) => data);
+    return  apiServiceCall().post('/citizens',requestData).then(({data}) => data);
 }
 
 export const getUser =  () => {

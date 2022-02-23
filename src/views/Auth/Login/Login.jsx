@@ -83,10 +83,7 @@ function Login() {
                 }))
                 dispatch(HideGlobalLoading());
             } else {
-                //Handle errors
-                // TODO Handle errors
-                console.log(response.data);
-                console.log(errorMessage)
+
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {
