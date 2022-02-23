@@ -69,7 +69,7 @@ function Login() {
                     surname: userResponse.payload.first_last_name,
                     secsurname: userResponse.payload.second_last_name,
                     phone: cleanStringFromNumbers(userResponse.payload.phone),
-                    city: userResponse.payload.city,
+                    city: userResponse.payload.municipality,
                     created_date:
                     {
                         date: "2019-05-15 04:54:47.000000",
