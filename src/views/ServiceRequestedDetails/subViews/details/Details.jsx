@@ -65,7 +65,8 @@ function Details() {
                                 {item.label}
                             </BodyTextBold>
                             <BodyText>
-                                {item.type === "text" ? item.value : item.labelValue}
+                                {item.type === "text" ? item.value : item.type === "checkbox" ? "Si" : item.labelValue}
+
                             </BodyText>
                         </Grid>
                     ))

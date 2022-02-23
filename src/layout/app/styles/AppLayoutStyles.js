@@ -9,9 +9,11 @@ export const LayoutContainer = styled('div')({
 })
 
 export const LayoutBodyContainer = styled('div')({
+    display:'flex',
     width: '85%',
     minHeight:'100vh',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    justifyContent:'center'
 })
 
 export const LayoutDivider = styled('div')({

@@ -96,6 +96,27 @@ function Form(props) {
                     }
                 })
             })
+
+            //initialValues from dynamic form
+            const initialState = props.data.map(step => {
+                return JSON.parse(step.find(field => field.type == 'rules')?.rules?.[0])
+            })
+            initialState.map(step => {
+                if (!step) {
+                    return
+                }
+                step.map((field) => {
+                    switch (field.type) {
+                        case "checkbox-group":
+                            innerState[field.name] = [field.value]
+                            changeRule(innerState[field.name].values?.[0]?.rule)
+                            break;
+                        default:
+                            innerState[field.name] = field.value
+                            break;
+                    }
+                })
+            })
             setState(innerState)
         }
         return () => { }
@@ -104,7 +125,7 @@ function Form(props) {
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
             console.log({ values, actions })
-            props.doRequest({ values, actions })
+            props.doRequest(values)
         } else {
             setActiveStep(activeStep + 1);
             actions?.setTouched({});
@@ -141,7 +162,6 @@ function Form(props) {
                         ) {
                             ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
                         }
-
                         //return the modified object
                         return _field
                     }

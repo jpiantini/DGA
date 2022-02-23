@@ -5,6 +5,8 @@ import { boxShadowConfig } from '../../../theme/Styles';
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
+    maxWidth: "2000px",
+
 });
 
 export const ButtonsContainer = styled('div')({

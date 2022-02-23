@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import FONT_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
+    width:'100%',
     display: 'flex',
     flexDirection: 'column',
 });

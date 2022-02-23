@@ -49,7 +49,18 @@ function ServiceRequestedDetails() {
         //UPDATE APP HEADER SUBTITLE, SET THE SERVICE NAME AND TOGGLE TO SPECIFIC MENU
         if (serviceRequestedDetail != undefined) {
             dispatch(UpdateAppSubHeaderTitle(serviceRequestedDetail.request.service.name));
-            setActiveMenu(serviceRequestedDetail.request.request_actions ? 3 : 0);
+            //Action required Document or Text
+            if (serviceRequestedDetail.request.request_actions_id == 1 || serviceRequestedDetail.request.request_actions_id == 3) {
+                setActiveMenu(3);
+            }
+            //Action required Payment
+            if (serviceRequestedDetail.request.request_actions_id == 5) {
+                setActiveMenu(2);
+            }
+            //Without required action
+            if (serviceRequestedDetail.request.request_actions_id == null) {
+                setActiveMenu(0);
+            }
         }
 
     }, [serviceRequestedDetail]);
@@ -83,8 +94,17 @@ function ServiceRequestedDetails() {
                         serviceRequestedDetail.request.request_actions ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
                             <Fragment>
                                 <SmallHeightDivider />
-                                <DeskNotification variant={'warning'} disableCloseButton={true}
-                                />
+                                {
+                                    serviceRequestedDetail.request.messages.map((message, index) => (
+                                        <Fragment>
+                                            <DeskNotification variant={'warning'} disableCloseButton={true}
+                                                message={message.message}
+                                            />
+                                            <SmallHeightDivider />
+                                        </Fragment>
+                                    ))
+                                }
+
                                 <SmallHeightDivider />
                             </Fragment>
                             :
