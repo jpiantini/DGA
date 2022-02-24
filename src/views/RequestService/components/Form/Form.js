@@ -26,13 +26,14 @@ import RenderField from './components/RenderField';
 import { localToString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import { RULE_LIST } from './FormConstants';
+import { useSnackbar } from 'notistack';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     let { serviceID } = useParams();
     const dispatch = useDispatch();
-    const { authenticated } = useSelector((state) => state.authReducer);
+    const { enqueueSnackbar } = useSnackbar();
 
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
@@ -99,7 +100,9 @@ function Form(props) {
 
             //initialValues from dynamic form
             const initialState = props.data.map(step => {
-                return JSON.parse(step.find(field => field.type == 'rules')?.rules?.[0])
+                if(step.find(field => field.type == 'rules')?.rules.length > 0){
+                    return JSON.parse(step.find(field => field.type == 'rules')?.rules?.[0])
+                }
             })
             initialState.map(step => {
                 if (!step) {
@@ -121,6 +124,16 @@ function Form(props) {
         }
         return () => { }
     }, [props.data])
+
+    const handleSubmitForm = (e) => {
+        handleSubmit(e);
+        if(Object.keys(errors).length != 0){
+            enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+            window.scrollTo(0, 0);
+        }
+    }
+        
+
 
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
@@ -258,7 +271,7 @@ function Form(props) {
 
                 <ButtonContainer>
 
-                    <StyledButtonOutlined onClick={handleSubmit} variant="outlined">
+                    <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
                         {lastStep ? 'Enviar Solicitud' : 'Continuar'}
                     </StyledButtonOutlined>
 
