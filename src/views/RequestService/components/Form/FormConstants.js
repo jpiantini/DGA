@@ -7,7 +7,8 @@ export const FIELD_TYPES = {
   radioGroup: 'radio-group',
   checkboxGroup: "checkbox-group",
   file: 'file',
-  grid:'grid'
+  grid:'grid',
+  initialValues: "rules",
 }
 
 

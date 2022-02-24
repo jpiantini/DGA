@@ -26,9 +26,6 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Grid } from "@mui/material";
-//import formDataWithGrid from "./formDataWithGrid.json"; //DEVELOPMENT REMOVE
-//import formData from "./formData.json"; //DEVELOPMENT REMOVE
-//import formDataMitur from "./formulario_mitur.json"; //DEVELOPMENT REMOVE
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery } from "react-query";
@@ -36,12 +33,16 @@ import { getForm, registerForm } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
-import {cleanStringFromNumbers} from '../../utilities/functions/NumberUtil';
+import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions/NumberUtil';
+import { transformFormData } from "./RequestServiceUtils";
+import { cleanString } from "../../utilities/functions/StringUtil";
+import { useSnackbar } from "notistack";
 
 function RequestService() {
   const history = useHistory();
   let { serviceID } = useParams();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [togglePaymentForm, setTogglePaymentForm] = useState();
 
@@ -89,16 +90,45 @@ function RequestService() {
   })
 
   const getData = () => {
-    // return formDataWithGrid.map((step) => {
-    // return formDataMitur.fields.map((step) => {
-    // return formData.fields.map((step) => {
-    return formData.fields.map((step) => {
-      return step.map(transformField)
-    });
+    //separating response by steps
+    const plainData = [];
+    const data = formData.fields;
+    const _data = [];
+    for (let i = 0; i < data.length; i++) {
+      const step = data[i]
+      let _step = []
+      for (let j = 0; j < step.length; j++) {
+        const field = step[j]
+        plainData.push(field)
+        if (_step.length && field.subtype == 'h1') {
+          _data.push(_step)
+          _step = []
+        }
+        _step.push(field)
+        if ((step.length - 1) == j) {
+          _data.push(_step)
+          _step = []
+        }
+      }
+    }
+
+    const result = {
+      formulary_data: formData.formulary_data,
+      data: _data.map(step => step.map(transformField)),
+      plainData: plainData.map(transformField),
+      saved_fields: formData.saved_fields,
+    }
+
+    return result;
   };
 
 
-  const mutationRegisterForm = useMutation(registerForm);
+
+  const mutationRegisterForm = useMutation(registerForm, {
+    onMutate: (req) => {
+      dispatch(ShowGlobalLoading('Cargando'));
+    }
+  });
 
   const sendRequest = (formData) => {
     const request = {
@@ -107,11 +137,11 @@ function RequestService() {
         doc_identification: userData.payload.citizen_id,
         name_service: serviceDescription.name,
         process_flow: serviceDescription.process_flow,
-        form_version: formData.version,
-        payment_amount: serviceDescription.prices[0].variations[0].price,
+        form_version: cleanString(getData().formulary_data?.version),
+        payment_amount: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
         payment_status: "1",
         payment_method: "2",
-        total: serviceDescription.prices[0].variations[0].price,
+        total: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
         variations: [
           serviceDescription.prices[0].variations[0].id
         ],
@@ -121,14 +151,12 @@ function RequestService() {
       form: {
         citizen_record_id: userData.payload.citizen_id,
         expertform_id: serviceDescription.expertform_id,
-        //TEST formData is correct
-        data: formData, 
+        data: transformFormData(formData, getData().data),
         grid: {}
       },
       documents: [],
       userInfo: {
         numdocsolicita: userData.payload.citizen_id,
-         // tipodocsolicita NEED CHANGE
         tipodocsolicita: 1,
         nombressolicita: userData.payload.name,
         apellidossolici: userData.payload.first_last_name + userData.payload.second_last_name,
@@ -139,18 +167,28 @@ function RequestService() {
         emailsolic: userData.payload.email
       }
     }
-    /*  mutationRegisterForm.mutate(request, {
-          onSuccess: (data) => {
-              if (data.success) {
-                  // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
-                  // queryClient.invalidateQueries('requestedServices');
-  
-                  //TODO SHOW NOTIFICATION SUCCESS OR TOGGLE VIEW TO SHOW PAYMENT 
-  
-              }
-          }
-      });*/
-    console.log(formData);
+
+    mutationRegisterForm.mutate(request, {
+      onSuccess: (data) => {
+        if (data.success) {
+          // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
+          // queryClient.invalidateQueries('requestedServices');
+
+          //TODO SHOW NOTIFICATION SUCCESS OR SEND TO PAYMENT VIEW
+          // history.push(`/app/serviceRequestedDetails/${data.id}`)
+
+        } else {
+          enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+        }
+      },
+      onError: () => {
+        enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
+      },
+      onSettled: () => {
+        dispatch(HideGlobalLoading());
+      }
+
+    });
   }
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
@@ -166,7 +204,9 @@ function RequestService() {
         <Container>
           <Form
             doRequest={sendRequest}
-            data={getData()} />
+            data={getData().data}
+            plainData={getData().plainData}
+          />
         </Container>
       ) : (
         <Container>
