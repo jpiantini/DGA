@@ -6,12 +6,18 @@ import { format } from 'date-fns'
 const transformValue = (val, fieldProps) => {
   let _val = undefined
   let _labelValue = undefined
+  const extraData = {}
 
   //Transformation by field type
   switch (fieldProps?.type) {
     case FIELD_TYPES.select:
-      _val = val?.value
-      _labelValue = val?.name
+      console.log(val,fieldProps)
+      _val = val
+      _labelValue = fieldProps.values.find(item => item.value == val)?.label
+      extraData.customLabel = {
+        key: fieldProps.label_persist,
+        value: fieldProps.values.find(item => item.value == val)?.label
+      }
       break;
     case FIELD_TYPES.radioGroup:
       _val = val
@@ -50,10 +56,11 @@ const transformValue = (val, fieldProps) => {
     default:
       break;
   }
-
+  console.log(extraData)
   return {
     value: _val,
     labelValue: _labelValue,
+    ...extraData,
   }
 }
 

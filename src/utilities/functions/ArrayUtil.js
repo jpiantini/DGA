@@ -9,7 +9,7 @@ export const localToArray = (array) => {
   return array
 }
 
-const dataToSelect = (data) => { //dataToModalPicker
+const dataToSelect = (data) => { //dataToSelect
   return localToArray(data).map(item => {
     return {
           id: item.value,
