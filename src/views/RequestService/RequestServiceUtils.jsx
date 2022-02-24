@@ -10,8 +10,8 @@ const transformValue = (val, fieldProps) => {
   //Transformation by field type
   switch (fieldProps?.type) {
     case FIELD_TYPES.select:
-      _val = val?.Value
-      _labelValue = val?.Name
+      _val = val?.value
+      _labelValue = val?.name
       break;
     case FIELD_TYPES.radioGroup:
       _val = val
