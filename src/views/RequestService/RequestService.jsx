@@ -173,9 +173,7 @@ function RequestService() {
         if (data.success) {
           // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
           // queryClient.invalidateQueries('requestedServices');
-
-          //TODO SHOW NOTIFICATION SUCCESS OR SEND TO PAYMENT VIEW
-          // history.push(`/app/serviceRequestedDetails/${data.id}`)
+           history.push(`/app/serviceRequestedDetails/${data.RequestID}payment`)
 
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })

@@ -26,6 +26,7 @@ import LocalStorageService from '../../../services/LocalStorageService';
 import axios from 'axios';
 import { getUser, registerLoggedUserInServiceBackend } from '../../../api/Auth';
 import { cleanStringFromNumbers } from '../../../utilities/functions/NumberUtil';
+import { useQuery } from 'react-query';
 
 function Login() {
 
@@ -34,6 +35,8 @@ function Login() {
     const { authenticated } = useSelector((state) => state.authReducer);
 
     const [errorMessage, setErrorMessage] = useState('');
+
+   const {refetch} =  useQuery(['userData'], () => getUser(), { enabled: false })
 
     const formik = useFormik({
         initialValues: {
@@ -61,6 +64,7 @@ function Login() {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
                 let userResponse = await getUser();
+                refetch();
                 const requestData = {
                     id: userResponse.payload.citizen_id,
                     mail: userResponse.payload.email,

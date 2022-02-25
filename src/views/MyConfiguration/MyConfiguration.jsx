@@ -199,7 +199,6 @@ export const MyConfiguration = () => {
       }
     }
     )();
-    console.log(data)
   }, [data]);
 
   return (

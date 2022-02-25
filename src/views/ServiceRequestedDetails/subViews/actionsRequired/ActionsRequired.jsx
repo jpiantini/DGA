@@ -29,7 +29,9 @@ function ActionsRequired() {
     const queryClient = useQueryClient()
     const { enqueueSnackbar } = useSnackbar();
 
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID]);
+    const cleanRequestID = requestID.replace('payment','');
+
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
 
     const handleSend = () => {
         if (true /*response.success*/) {

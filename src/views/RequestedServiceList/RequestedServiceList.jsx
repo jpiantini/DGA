@@ -22,7 +22,7 @@ import Select from '../../components/Select/Select';
 import RequestCard from '../../components/RequestCard/RequestCard';
 import COLORS from '../../theme/Colors';
 import { getRequestedServices, getRequestedServicesWithFilters } from '../../api/RequestedServiceList';
-//import { useQuery, useQueryClient } from 'react-query';
+import {  useQueryClient } from 'react-query';
 //import { cacheConfig } from '../../cacheConfig';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -31,12 +31,19 @@ function RequestedServiceList() {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
   const dispatch = useDispatch();
-  //  const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [requestedServices, setRequestedServices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [findingWithFilter, setFindingWithFilter] = useState(false);
+
+  const userData = queryClient.getQueryData(['userData']);
+
+
+    /* const { data: requestedServices, isLoading, refetch } = useQuery(['requestedServices', currentPage], () => getRequestedServices(queryClient.getQueriesData['userData'].citizen_id, currentPage, status, formik.values),
+     { staleTime: cacheConfig.staleTimeForRequestedServicesList })
+ */
 
   //TO DO GET THE STATUS AS PARAM FROM URL 
   const status = 1;
@@ -54,20 +61,20 @@ function RequestedServiceList() {
     },
   });
 
-  /* const { data: requestedServices, isLoading, refetch } = useQuery(['requestedServices', currentPage], () => getRequestedServices("40225994520", currentPage, status, formik.values),
-     { staleTime: cacheConfig.staleTimeForRequestedServicesList })
- */
+
+
+     console.log(userData.payload)
 
   const getAndSetRequestedServiceList = async (page) => {
     setIsLoading(true);
-    let response = await getRequestedServices("40225994520", page, status);
+    let response = await getRequestedServices(userData.payload.citizen_id, page, status);
     setRequestedServices(response)
     setIsLoading(false);
   }
 
   const getAndSetRequestedServiceListWithFilters = async (page) => {
     setIsLoading(true);
-    let response = await getRequestedServicesWithFilters("40225994520", page, status, formik.values);
+    let response = await getRequestedServicesWithFilters(userData.payload.citizen_id, page, status, formik.values);
     setRequestedServices(response)
     setIsLoading(false);
   }

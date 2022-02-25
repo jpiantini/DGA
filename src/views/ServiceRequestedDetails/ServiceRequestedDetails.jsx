@@ -17,7 +17,7 @@ import Payment from './subViews/payments/Payments';
 import Details from './subViews/details/Details';
 import DeskNotification from '../../components/DeskNotification/DeskNotification';
 import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { getRequestDetail } from '../../api/ServiceRequestedDetails';
 
 
@@ -26,10 +26,16 @@ function ServiceRequestedDetails() {
     let { requestID } = useParams();
     const dispatch = useDispatch();
 
-    const { data: serviceRequestedDetail, isLoading } = useQuery(['serviceRequestedDetail', requestID], async () => {
+    const cleanRequestID = requestID.replace('payment', '');
+
+    const queryClient = useQueryClient();
+
+    const userData = queryClient.getQueryData(['userData']);
+
+    const { data: serviceRequestedDetail, isLoading } = useQuery(['serviceRequestedDetail', cleanRequestID], async () => {
         try {
             dispatch(ShowGlobalLoading("Cargando"));
-            const response = await getRequestDetail(requestID, "40225994520");
+            const response = await getRequestDetail(cleanRequestID, userData.payload.citizen_id);
             dispatch(HideGlobalLoading());
             return response;
         } catch (error) {
@@ -49,7 +55,6 @@ function ServiceRequestedDetails() {
         //UPDATE APP HEADER SUBTITLE, SET THE SERVICE NAME AND TOGGLE TO SPECIFIC MENU
         if (serviceRequestedDetail != undefined) {
             dispatch(UpdateAppSubHeaderTitle(serviceRequestedDetail.request.service.name));
-            //Action required Document or Text
             if (serviceRequestedDetail.request.request_actions_id == 1 || serviceRequestedDetail.request.request_actions_id == 3) {
                 setActiveMenu(3);
             }
@@ -60,6 +65,10 @@ function ServiceRequestedDetails() {
             //Without required action
             if (serviceRequestedDetail.request.request_actions_id == null) {
                 setActiveMenu(0);
+            }
+            //from serviceRequest
+            if (requestID.includes('payment')) {
+                setActiveMenu(2);
             }
         }
 
