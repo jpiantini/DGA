@@ -30,7 +30,6 @@ import { Grid } from '@mui/material';
 function ComplaintsAndClaims() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
-    let { serviceID, requestID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 

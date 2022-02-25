@@ -6,7 +6,7 @@ export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: "2000px",
-
+    width:'100%'
 });
 
 export const ButtonsContainer = styled('div')({

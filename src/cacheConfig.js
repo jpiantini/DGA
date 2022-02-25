@@ -8,6 +8,7 @@ cacheTime = Tiempo en que la informacion inactiva (que no se estre mostrando/vis
 
 export const cacheConfig = {
     staleTimeGeneral:hourToMilliseconds(24),
-    staleTimeForRequestedServicesList:hourToMilliseconds(2),
+ //   staleTimeForRequestedServicesList:hourToMilliseconds(2),
+    staleTimeForRequestedServiceDetail:hourToMilliseconds(1),
     cacheTime:hourToMilliseconds(24)
 }

@@ -24,6 +24,9 @@ import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiA
 import apiCall from '../../../services/ApiServerCall';
 import LocalStorageService from '../../../services/LocalStorageService';
 import axios from 'axios';
+import { getUser, registerLoggedUserInServiceBackend } from '../../../api/Auth';
+import { cleanStringFromNumbers } from '../../../utilities/functions/NumberUtil';
+import { useQuery } from 'react-query';
 
 function Login() {
 
@@ -32,6 +35,8 @@ function Login() {
     const { authenticated } = useSelector((state) => state.authReducer);
 
     const [errorMessage, setErrorMessage] = useState('');
+
+   const {refetch} =  useQuery(['userData'], () => getUser(), { enabled: false })
 
     const formik = useFormik({
         initialValues: {
@@ -57,26 +62,38 @@ function Login() {
                 });
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
-                setTimeout(() => {
-                    //save token in localStorage
-                    LocalStorageService.setItem('token', response.data?.payload.token); 
-                    dispatch(AuthLogin({
-                        authenticated: true,
-                        profileImg: response.data.payload.profile_img
-                    }))
-                    dispatch(HideGlobalLoading());
-                }, 1500);
+                LocalStorageService.setItem('token', response.data?.payload.token);
+                let userResponse = await getUser();
+                refetch();
+                const requestData = {
+                    id: userResponse.payload.citizen_id,
+                    mail: userResponse.payload.email,
+                    name: userResponse.payload.name,
+                    surname: userResponse.payload.first_last_name,
+                    secsurname: userResponse.payload.second_last_name,
+                    phone: cleanStringFromNumbers(userResponse.payload.phone),
+                    city: userResponse.payload.municipality,
+                    created_date:
+                    {
+                        date: "2019-05-15 04:54:47.000000",
+                        timezone_type: 3,
+                        timezone: "UTC"
+                    }
+                }
+                await registerLoggedUserInServiceBackend(requestData);
+                dispatch(AuthLogin({
+                    authenticated: true,
+                    profileImg: response.data.payload.profile_img
+                }))
+                dispatch(HideGlobalLoading());
             } else {
-                 //Handle errors
-                // TODO Handle errors
-                console.log(response.data);
-                console.log(errorMessage)
+
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {
-                        //LOCAL ERRORS NETWORK ETC
-            //   console.log('error', error);
-            //   alert('error');
+            LocalStorageService.removeItem("token");
+            setErrorMessage("Ha ocurrido un error, favor contacte a soporte");
+            dispatch(HideGlobalLoading());
         }
     }
 

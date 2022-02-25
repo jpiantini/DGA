@@ -24,17 +24,22 @@ function Payment() {
 
     let { requestID } = useParams();
     const queryClient = useQueryClient()
-
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
+    const cleanRequestID = requestID.replace('payment', '');
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID])
+    const userData = queryClient.getQueryData(['userData'])
 
     const handleSiritePayment = () => {
 
         const siritePaymentConfig = {
+            //development
             codigoCentroRecaudacion: "0018",
             codigoServicio: "0251",
+            //production
+            //   codigoCentroRecaudacion: requestData.request.service.institution.recaudationCode,
+            //   codigoServicio: requestData.request.service.sirit_code,
             montoServicio: requestData.request.payment.payment_amount,
-            nombre: "Juan daniel beato",
-            numeroDocumento: requestData.request.doc_identification,
+            nombre: `${userData.payload.name} ${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
+            numeroDocumento: userData.payload.citizen_id,
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
             idAutorizacionPortal: requestData.request.idAutorizacionPortal,

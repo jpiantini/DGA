@@ -25,21 +25,25 @@ import { dataObjectRuleChanger, getFieldValidation } from './FormFunctions';
 import RenderField from './components/RenderField';
 import { localToString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
-import { RULE_LIST } from './FormConstants';
+import { FIELD_TYPES, RULE_LIST } from './FormConstants';
+import { useSnackbar } from 'notistack';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     let { serviceID } = useParams();
     const dispatch = useDispatch();
-    const { authenticated } = useSelector((state) => state.authReducer);
+    const { enqueueSnackbar } = useSnackbar();
 
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
+    const [fakeSteps, setFakeSteps] = useState([]);
+    const [fakeStep, setFakeStep] = useState(0)
     const [activeStep, setActiveStep] = useState(0);
-    const lastStep = (stepsLenght - 1) == activeStep;
+    const [stepperSteps, setStepperSteps] = useState([]);
+    const [lastStepIndex, setLastStepIndex] = useState(0);
 
-    const [togglePaymentForm, setTogglePaymentForm] = useState();
+    const lastStep = (stepsLenght - 1) == activeStep;
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
@@ -49,10 +53,6 @@ function Form(props) {
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
-    };
 
     const handleStepsValidation = (step) => {
         if (localData[step]) {
@@ -71,6 +71,24 @@ function Form(props) {
         }
     }
 
+    //componentDidUpdate
+    useEffect(() => {
+        if (localToArray(localData).length > 0) {
+            const notHidden = localData.filter(step => !step[0].hidden)
+            let data = notHidden.map((step, index) => {
+                return {
+                    label: step[0].label,
+                    index: index,
+                    realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
+                }
+            })
+            const newSliceValue = fakeStep  >= (data[data.length - 1].index +1) - 6 ? (data[data.length - 1].index +1) - 6 : fakeStep ;
+            const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
+            setFakeSteps(slicedArray)
+        }
+        return () => { }
+    }, [localData, fakeStep])
+
     useEffect(() => {
         if (localToArray(localData).length > 0) {
             const innerSchema = {}
@@ -87,59 +105,107 @@ function Form(props) {
 
     useEffect(() => {
         if (localToArray(props.data).length > 0) {
-            setLocalData(localToArray(props.data))
+            //setting every key to undefined so formik mark red error
             const innerState = { ...state, ...values }
-            props.data.map((step) => {
-                step.map(field => {
-                    if (!innerState[field.fieldKey]) {
-                        innerState[field.fieldKey] = undefined
-                    }
-                })
-            })
+
+            for (const field of props.plainData) {
+                if (!innerState[field.fieldKey]) {
+                    innerState[field.fieldKey] = undefined
+                }
+            }
 
             //initialValues from dynamic form
-            const initialState = props.data.map(step => {
-                return JSON.parse(step.find(field => field.type == 'rules')?.rules?.[0])
-            })
-            initialState.map(step => {
-                if (!step) {
-                    return
+            let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
+            if (!initialState) {
+                //setting initial rules && values
+                setLocalData(localToArray(props.data))
+                setState(innerState)
+                return
+            } else if (initialState) {
+                initialState = JSON.parse(initialState)
+            }
+            const rules = []
+            for (const field of initialState) {
+                const originalObject = props.plainData.find(plainField => plainField.name == field.name)
+                switch (field.type) {
+                    case FIELD_TYPES.checkboxGroup:
+                        const checkRule = originalObject?.values.find(values => values.value == field.value)?.rule
+                        if (checkRule) {
+                            rules.push(checkRule)
+                        }
+                        innerState[field.name] = true
+                        break;
+                    case FIELD_TYPES.radioGroup:
+                        const radioRule = originalObject?.values.find(values => values.value == field.value)?.rule
+                        if (radioRule) {
+                            rules.push(radioRule)
+                        }
+                        innerState[field.name] = field.value
+                        break;
+                    default:
+                        innerState[field.name] = field.value
+                        break;
                 }
-                step.map((field) => {
-                    switch (field.type) {
-                        case "checkbox-group":
-                            innerState[field.name] = [field.value]
-                            changeRule(innerState[field.name].values?.[0]?.rule)
-                            break;
-                        default:
-                            innerState[field.name] = field.value
-                            break;
-                    }
-                })
-            })
+            }
+
+            //setting initial rules && values
+            changeRule(rules, localToArray(props.data))
             setState(innerState)
         }
         return () => { }
     }, [props.data])
 
+    const handleSubmitForm = (e) => {
+        handleSubmit(e);
+        window.scrollTo(0, 0);
+        if (Object.keys(errors).length != 0) {
+            enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+        }
+    }
+
     const localDoRequest = ({ values, actions }) => {
         if (lastStep && typeof props.doRequest == 'function') {
-            console.log({ values, actions })
             props.doRequest(values)
         } else {
-            setActiveStep(activeStep + 1);
+            let extraStep = 0
+            for (let i = (activeStep + 1); i < localData.length; i++) {
+                const fields = localData[i]
+                if (fields[0].hidden) {
+                    extraStep++
+                } else {
+                    break;
+                }
+            }
+            setActiveStep(activeStep + 1 + extraStep);
+            setFakeStep(fakeStep + 1)
             actions?.setTouched({});
             actions?.setSubmitting(false);
         }
     }
 
-    const changeRule = (rule) => {
-        if (!rule || rule == '') {
+    const handleBack = () => {
+        window.scrollTo(0, 0);
+        let extraStep = 0
+        for (let i = (activeStep - 1); i > 0; i--) {
+            const fields = localData[i]
+            if (fields[0].hidden) {
+                extraStep++
+            } else {
+                break;
+            }
+        }
+        setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : (prevActiveStep - 1 - extraStep));
+        setFakeStep(fakeStep - 1)
+    };
+
+
+    const changeRule = (rule, initialData) => {
+        if (!rule || !rule.length) {
             return
         }
 
-        const ruleList = [rule]
-        let _localData = localToArray(localData)
+        const ruleList = Array.isArray(rule) ? rule : [rule]
+        let _localData = localToArray(initialData ?? localData)
 
         for (let index = 0; index < ruleList.length; index++) {
             const ruleSeparated = localToString(ruleList[index]).split(':')
@@ -199,71 +265,88 @@ function Form(props) {
         <Container >
             {
                 matchesWidth &&
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {localData.map((stepData, index) => {
-                        const labelProps = {};
-                        if (handleStepsValidation(index)) {
-                            labelProps.optional = (
-                                <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
-                                    Error
-                                </Typography>
+                <Stepper activeStep={fakeStep} alternativeLabel>
+                    {
+                        fakeSteps.map((stepData) => {
+                            const labelProps = {};
+                            if (handleStepsValidation(stepData.realIndexInLocalData)) {
+                                labelProps.optional = (
+                                    <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
+                                        Error
+                                    </Typography>
+                                );
+                                labelProps.error = true;
+                            }
+                            return (
+                                <Step index={stepData.index} key={stepData.index}>
+                                    <StepLabel {...labelProps}>{stepData.label}</StepLabel>
+                                </Step>
                             );
-                            labelProps.error = true;
-                        }
-                        return (
-                            <Step key={index}>
-                                <StepLabel {...labelProps}>{localData[index][0].label}</StepLabel>
-                            </Step>
-                        );
-                    })}
+                        })
+                    }
                 </Stepper>
             }
             <SmallHeightDivider />
             <SmallHeightDivider />
-            {
-                !togglePaymentForm ?
-                    <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
-                        {
-                            localToArray(localData[activeStep]).map((item, index) => {
-                                return (
-                                    LocalRenderField({ item, index })
-                                )
-                            })
-                        }
-
-                    </Grid>
-                    :
-                    <Container>
-
-
-                    </Container>
-            }
-            <MediumHeightDivider />
-            <ButtonsContainer>
-                <ButtonContainer>
-                    <StyledButtonOutlined disabled={activeStep == 0 || togglePaymentForm} onClick={handleBack} variant="outlined">
-                        Retroceder
-                    </StyledButtonOutlined>
-                </ButtonContainer>
-
-                { //STEPPER WHEN DEVICE IS MOBILE
-                    !matchesWidth &&
-                    <MobileStepper
-                        variant="dots"
-                        steps={stepsLenght}
-                        position="static"
-                        activeStep={activeStep}
-                    />
+            <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
+                {
+                    localToArray(localData[activeStep]).map((item, index) => {
+                        return (
+                            LocalRenderField({ item, index })
+                        )
+                    })
                 }
 
-                <ButtonContainer>
+            </Grid>
+            <MediumHeightDivider />
+            {matchesWidth &&
+                <ButtonsContainer>
+                    <ButtonContainer>
+                        <StyledButtonOutlined disabled={activeStep == 0} onClick={handleBack} variant="outlined">
+                            Retroceder
+                        </StyledButtonOutlined>
+                    </ButtonContainer>
 
-                    <StyledButtonOutlined onClick={handleSubmit} variant="outlined">
-                        {lastStep ? 'Enviar Solicitud' : 'Continuar'}
-                    </StyledButtonOutlined>
+                    <ButtonContainer>
+                        <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
+                            {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                        </StyledButtonOutlined>
+                    </ButtonContainer>
+                </ButtonsContainer>
+            }
 
-                </ButtonContainer>
-            </ButtonsContainer>
+
+            { //STEPPER WHEN DEVICE IS MOBILE
+                !matchesWidth &&
+                <MobileStepper
+                    variant="progress"
+                    sx={{ display: 'flex', justifyContent: 'space-between', alignSelf: 'center' }}
+                    LinearProgressProps={{
+                        style: {
+                            margin: '5%'
+                        },
+                        title: "aaaaaaa"
+                    }}
+                    steps={stepsLenght}
+                    position="bottom"
+                    activeStep={activeStep}
+                    backButton={
+                        <ButtonContainer>
+                            <StyledButtonOutlined disabled={activeStep == 0} onClick={handleBack} variant="outlined">
+                                Retroceder
+                            </StyledButtonOutlined>
+                        </ButtonContainer>
+                    }
+                    nextButton={
+                        <ButtonContainer>
+                            <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
+                                {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                            </StyledButtonOutlined>
+                        </ButtonContainer>
+
+                    }
+                />
+            }
         </Container >
 
     );

@@ -14,12 +14,13 @@ import {
 } from '../../styles/ServiceRequestedDetailsStyles';
 import { Grid } from '@mui/material';
 import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
-import { MockupDocuments } from './ActionsRequiredConstants';
+import { InformationFormSchema, MockupDocuments } from './ActionsRequiredConstants';
 import UploadFile from '../../../../components/UploadFile/UploadFile';
 import TextField from '../../../../components/TextField/TextField';
-import { useQueryClient } from 'react-query';
+import { useQueryClient, useMutation } from 'react-query';
 import { useSnackbar } from 'notistack';
-
+import { sendRequiredAction } from '../../../../api/ActionRequired';
+import { useFormik } from 'formik';
 
 function ActionsRequired() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -29,7 +30,38 @@ function ActionsRequired() {
     const queryClient = useQueryClient()
     const { enqueueSnackbar } = useSnackbar();
 
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID]);
+    const cleanRequestID = requestID.replace('payment', '');
+
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
+
+    const actionRequiredMutation = useMutation(sendRequiredAction);
+
+    const textFormik = useFormik({
+        initialValues: {
+            information: ''
+        },
+        validationSchema: InformationFormSchema,
+        onSubmit: (values) => {
+            handleSubmit(values);
+        },
+    });
+
+    const handleSubmit = (values) => {
+        const reqData = {
+            entityAttributeId: 'response',
+            entityAttributeValue: values.information,
+            requestId: requestData.request.id,
+        }
+        actionRequiredMutation.mutate(reqData,{
+            onSuccess: () => {
+                enqueueSnackbar("Información requerida enviada satisfactoriamente",{variant:"success"})
+                queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
+            },
+            onError: () => {
+                enqueueSnackbar("Ha ocurrido un error, contacte a soporte",{variant:"error"})
+            }
+        })
+    }
 
     const handleSend = () => {
         if (true /*response.success*/) {
@@ -46,13 +78,14 @@ function ActionsRequired() {
                     <Fragment>
                         <TextInformation title="Información requerida" />
                         <SmallHeightDivider />
-                        <TextField id="info" title="Informacion"
-                            //     value={formik.values.message}
-                            //    onChange={formik.handleChange}
-                            //     onBlur={formik.handleBlur}
-                            //     error={formik.touched.message && Boolean(formik.errors.message)}
-                            //      helperText={formik.touched.message && formik.errors.message}
-                            //      multiline
+                        <TextField id="information" title="Información"
+                            value={textFormik.values.information}
+                            onChange={textFormik.handleChange}
+                            onBlur={textFormik.handleBlur}
+                            error={textFormik.touched.information && Boolean(textFormik.errors.information)}
+                            helperText={textFormik.touched.information && textFormik.errors.information}
+                            multiline
+                            maxLength={255}
                             required
                         />
                     </Fragment>
@@ -75,7 +108,7 @@ function ActionsRequired() {
             <SmallHeightDivider />
 
             <ButtonContainer>
-                <StyledButtonOutlined onClick={() => handleSend()} variant="outlined">ENVIAR</StyledButtonOutlined>
+                <StyledButtonOutlined onClick={() => textFormik.handleSubmit()} variant="outlined">ENVIAR</StyledButtonOutlined>
             </ButtonContainer>
         </Container>
     );
