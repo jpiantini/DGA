@@ -83,7 +83,7 @@ function Login() {
                 await registerLoggedUserInServiceBackend(requestData);
                 dispatch(AuthLogin({
                     authenticated: true,
-                    profileImg: response.data.payload.profile_img
+                    profileImg: "https://www.w3schools.com/howto/img_avatar.png" //response.data.payload.profile_img
                 }))
                 dispatch(HideGlobalLoading());
             } else {
