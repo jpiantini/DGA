@@ -48,9 +48,9 @@ function ActionsRequired() {
 
     const handleSubmit = (values) => {
         const reqData = {
-            entityAttributeId: 'logicoconfirm',
+            entityAttributeId: 'response',
             entityAttributeValue: values.information,
-            requestId: requestData.request.code,
+            requestId: requestData.request.id,
         }
         actionRequiredMutation.mutate(reqData,{
             onSuccess: () => {
@@ -85,6 +85,7 @@ function ActionsRequired() {
                             error={textFormik.touched.information && Boolean(textFormik.errors.information)}
                             helperText={textFormik.touched.information && textFormik.errors.information}
                             multiline
+                            maxLength={255}
                             required
                         />
                     </Fragment>

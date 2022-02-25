@@ -19,6 +19,7 @@ import DeskNotification from '../../components/DeskNotification/DeskNotification
 import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
 import { useQuery, useQueryClient } from 'react-query';
 import { getRequestDetail } from '../../api/ServiceRequestedDetails';
+import { cacheConfig } from '../../cacheConfig';
 
 
 function ServiceRequestedDetails() {
@@ -42,6 +43,8 @@ function ServiceRequestedDetails() {
             history.push('/public');
             dispatch(HideGlobalLoading());
         }
+    }, {
+        staleTime: cacheConfig.staleTimeForRequestedServiceDetail
     })
 
     const [activeMenu, setActiveMenu] = useState(0);

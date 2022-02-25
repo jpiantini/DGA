@@ -164,7 +164,8 @@ function RequestService() {
         direccsolic: userData.payload.address,
         nacionsolic: "Dominicano",
         celularsolic: cleanStringFromNumbers(userData.payload.phone),
-        emailsolic: userData.payload.email
+        emailsolic: userData.payload.email,
+        logico01: 1
       }
     }
 
@@ -173,7 +174,8 @@ function RequestService() {
         if (data.success) {
           // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
           // queryClient.invalidateQueries('requestedServices');
-           history.push(`/app/serviceRequestedDetails/${data.RequestID}payment`)
+          enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
+          history.push(`/app/serviceRequestedDetails/${data.RequestID}payment`)
 
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })

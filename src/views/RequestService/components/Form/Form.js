@@ -37,6 +37,8 @@ function Form(props) {
 
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
+    const [fakeSteps, setFakeSteps] = useState([]);
+    const [fakeStep, setFakeStep] = useState(0)
     const [activeStep, setActiveStep] = useState(0);
     const [stepperSteps, setStepperSteps] = useState([]);
     const [lastStepIndex, setLastStepIndex] = useState(0);
@@ -51,40 +53,6 @@ function Form(props) {
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
-
-    const handleBack = () => {
-        window.scrollTo(0, 0);
-        setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
-    };
-
-    const Steps = () => {
-        const steps = []
-        for (let i = 0; i < localData.length; i++) {
-            steps.push({
-                label: localData[i][0].label,
-                index: i
-            })
-        }
-
-        if (lastStepIndex == undefined) {
-            const slicedArray = steps.slice(0, 5);
-            setStepperSteps(slicedArray);
-            setLastStepIndex(slicedArray[slicedArray.length - 1]?.index);
-        } else {
-            if (lastStepIndex == steps[steps.length - 1]?.index) {
-                return;
-            } else {
-                const slicedArray = steps.slice(activeStep - 1, activeStep + 5);
-                setStepperSteps(slicedArray);
-                setLastStepIndex(slicedArray[slicedArray.length - 1]?.index);
-            }
-        }
-
-    }
-
-    useEffect(() => {
-        Steps();
-    }, [activeStep, localData]);
 
     const handleStepsValidation = (step) => {
         if (localData[step]) {
@@ -102,6 +70,24 @@ function Form(props) {
             }
         }
     }
+
+    //componentDidUpdate
+    useEffect(() => {
+        if (localToArray(localData).length > 0) {
+            const notHidden = localData.filter(step => !step[0].hidden)
+            let data = notHidden.map((step, index) => {
+                return {
+                    label: step[0].label,
+                    index: index,
+                    realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
+                }
+            })
+            const newSliceValue = fakeStep  >= (data[data.length - 1].index +1) - 6 ? (data[data.length - 1].index +1) - 6 : fakeStep ;
+            const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
+            setFakeSteps(slicedArray)
+        }
+        return () => { }
+    }, [localData, fakeStep])
 
     useEffect(() => {
         if (localToArray(localData).length > 0) {
@@ -181,11 +167,37 @@ function Form(props) {
         if (lastStep && typeof props.doRequest == 'function') {
             props.doRequest(values)
         } else {
-            setActiveStep(activeStep + 1);
+            let extraStep = 0
+            for (let i = (activeStep + 1); i < localData.length; i++) {
+                const fields = localData[i]
+                if (fields[0].hidden) {
+                    extraStep++
+                } else {
+                    break;
+                }
+            }
+            setActiveStep(activeStep + 1 + extraStep);
+            setFakeStep(fakeStep + 1)
             actions?.setTouched({});
             actions?.setSubmitting(false);
         }
     }
+
+    const handleBack = () => {
+        window.scrollTo(0, 0);
+        let extraStep = 0
+        for (let i = (activeStep - 1); i > 0; i--) {
+            const fields = localData[i]
+            if (fields[0].hidden) {
+                extraStep++
+            } else {
+                break;
+            }
+        }
+        setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : (prevActiveStep - 1 - extraStep));
+        setFakeStep(fakeStep - 1)
+    };
+
 
     const changeRule = (rule, initialData) => {
         if (!rule || !rule.length) {
@@ -253,11 +265,11 @@ function Form(props) {
         <Container >
             {
                 matchesWidth &&
-                <Stepper activeStep={activeStep} alternativeLabel>
+                <Stepper activeStep={fakeStep} alternativeLabel>
                     {
-                        stepperSteps.map((stepData) => {
+                        fakeSteps.map((stepData) => {
                             const labelProps = {};
-                            if (handleStepsValidation(stepData.index)) {
+                            if (handleStepsValidation(stepData.realIndexInLocalData)) {
                                 labelProps.optional = (
                                     <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
                                         Error
