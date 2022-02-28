@@ -82,7 +82,7 @@ function Form(props) {
                     realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
                 }
             })
-            const newSliceValue = fakeStep  >= (data[data.length - 1].index +1) - 6 ? (data[data.length - 1].index +1) - 6 : fakeStep ;
+            const newSliceValue = fakeStep >= (data[data.length - 1].index + 1) - 6 ? (data[data.length - 1].index + 1) - 6 : fakeStep;
             const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
             setFakeSteps(slicedArray)
         }
@@ -218,23 +218,31 @@ function Form(props) {
                     if (!findRuleField) {
                         return field
                     } else {
-                        const findIndexRuleField = ruleField.findIndex(fieldName => field.fieldKey == fieldName)
-                        const _field = dataObjectRuleChanger(field, RULE_LIST[ruleAction[findIndexRuleField]], setFieldValue)
+                        const rulesToApply = ruleField
+                            .map((fieldName, index) => {
+                                if (field.fieldKey == fieldName) {
+                                    return RULE_LIST[ruleAction[index]]
+                                } else {
+                                    return null
+                                }
+                            })
+                            .filter(item => item !== null)
+                        const _field = dataObjectRuleChanger(field, rulesToApply, setFieldValue)
 
                         //add more ruleList if its rule five and the other field (select) has value
                         if (
-                            RULE_LIST[ruleAction[findIndexRuleField]] == RULE_LIST[5] &&
+                            rulesToApply.find(item => item == RULE_LIST[5]) &&
                             safeValExtraction(values[field.fieldKey], 'rule')
                         ) {
                             ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
                         }
+
                         //return the modified object
                         return _field
                     }
                 })
             })
         }
-
         setLocalData(_localData)
     }
 
