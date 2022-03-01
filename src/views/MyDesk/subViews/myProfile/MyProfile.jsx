@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MediumHeightDivider, CardContainer, CardBodyTitle, CardBodyText, CardTextContainer, SmallHeightDivider, StyledButtonOutlined, Row, StyledButton } from '../../../../theme/Styles';
 import { useHistory } from 'react-router';
@@ -21,6 +21,7 @@ import { addNewCompany, getAllCompanies, modifyCompany } from '../../../../api/m
 import { getUser } from '../../../../api/Auth';
 import { stringToDominicanCedula, stringToDominicanPhoneNumber } from '../../../../utilities/functions/FormatterUtil';
 import { cleanStringFromNumbers } from '../../../../utilities/functions/NumberUtil';
+import LocalStorageService from '../../../../services/LocalStorageService';
 
 
 function MyProfile() {
@@ -30,7 +31,7 @@ function MyProfile() {
     const dispatch = useDispatch();
     const queryClient = useQueryClient()
 
-    const { profileImg } = useSelector((state) => state.authReducer);
+    const [userImage, setUserImage] = useState("");
 
     const [openModifyOrAddCompanyModal, setOpenModifyOrAddCompanyModal] = useState(false);
     const [selectedCompany, setSelectedCompany] = useState();
@@ -95,6 +96,12 @@ function MyProfile() {
         }
         setOpenModifyOrAddCompanyModal(!openModifyOrAddCompanyModal);
     }
+
+
+    useEffect(() => {
+        setUserImage(LocalStorageService.getItem('profile_img'));
+    }, []);
+
     return (
         <Fade right>
             <Fragment>
@@ -118,7 +125,7 @@ function MyProfile() {
                 <div style={{ height: '1px' }} />
 
                 <ProfileContainer>
-                    <ProfileImage src={profileImg} />
+                    <ProfileImage src={userImage} />
                     <CardTextContainer>
                         <Grid alignItems="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
                             <Grid item xs={4} sm={4} md={4}>

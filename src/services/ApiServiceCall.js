@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LocalStorageService from "./LocalStorageService";
 import apiCall from './ApiServerCall';
-
+import {removeLocalStorageSessionData} from '../auth/AuthFunctions';
 const apiServiceCall = () => {
 
     const axiosInstance = axios.create();
@@ -50,15 +50,13 @@ const refreshToken = async () => {
             return response.data.payload.token;
         } else {
             //if token cant be refreshed logOut
-            console.log('no se refresco el token')
-            LocalStorageService.removeItem('token');
+            removeLocalStorageSessionData();
             window.location.reload();
             return null;
         }
     } catch (error) {
         //if token cant be refreshed logOut
-        console.log('no se refresco el token')
-        LocalStorageService.removeItem('token');
+        removeLocalStorageSessionData();
         window.location.reload();
         return null;
     }

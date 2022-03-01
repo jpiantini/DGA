@@ -58,17 +58,17 @@ const RenderField = (props) => {
     switch (MASK_LIST[props.Mask || '']) {
       case MASK_LIST[0]:
         try {
-          let response = await cedulaValidationService(val.target.value);
-          if(response?.success && response?.exist){
-            props.onChange(props.fieldKey, val.target.value)
-            break;
-          }else{
-            //SHOW ERROR CEDULA DOESN'T EXISTS
-          }
+          cedulaValidationService(val.target.value).then((response) => {
+            if (response?.success && response?.exist) {
+              props.onChange(props.fieldKey, val.target.value)
+            } else {
+              //SHOW ERROR CEDULA DOESN'T EXISTS
+            }
+          });
         } catch (error) {
-            //SHOW ERROR UNCONTROLLED
+          //SHOW ERROR UNCONTROLLED
         }
-
+        break;
       case MASK_LIST[7]:
         props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
         break;

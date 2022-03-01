@@ -63,6 +63,8 @@ function Login() {
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
+                LocalStorageService.setItem('profile_img', response.data?.payload.profile_img);
+
                 let userResponse = await getUser();
                 refetch();
                 const requestData = {
@@ -83,15 +85,15 @@ function Login() {
                 await registerLoggedUserInServiceBackend(requestData);
                 dispatch(AuthLogin({
                     authenticated: true,
-                    profileImg: "https://www.w3schools.com/howto/img_avatar.png" //response.data.payload.profile_img
+                    profileImg: response.data.payload.profile_img
                 }))
                 dispatch(HideGlobalLoading());
             } else {
-
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {
             LocalStorageService.removeItem("token");
+            LocalStorageService.removeItem("profile_img");
             setErrorMessage("Ha ocurrido un error, favor contacte a soporte");
             dispatch(HideGlobalLoading());
         }
@@ -114,6 +116,8 @@ function Login() {
                             type="text"
                             placeholder="Cedúla o Pasaporte"
                             id="id"
+                            unMaskedValue
+                            mask="999-9999999-9"
                             value={formik.values.id}
                             onChange={formik.handleChange}
                             error={formik.touched.id && Boolean(formik.errors.id)}

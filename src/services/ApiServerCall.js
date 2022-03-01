@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeLocalStorageSessionData } from '../auth/AuthFunctions';
 import LocalStorageService from "./LocalStorageService";
 
 
@@ -14,7 +15,7 @@ const apiCall = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             }
-            config.timeout=60000;
+            config.timeout = 60000;
             return config;
         },
         error => {
@@ -31,7 +32,7 @@ const apiCall = () => {
             return axiosInstance(originalRequest);
         }
         //return response
-        return response 
+        return response
     }, async function (error) {
         return Promise.reject(error);
     });
@@ -41,22 +42,19 @@ const apiCall = () => {
 const refreshToken = async () => {
     try {
         let response = await apiCall().get('/refresh/token');
-        console.log('refrescando token')
         if (response.data.success) {
             console.log('token refrescado')
             LocalStorageService.setItem('token', response.data.payload.token);
             return response.data.payload.token;
         } else {
             //if token cant be refreshed logOut
-            console.log('no se refresco el token')
-            LocalStorageService.removeItem('token');
+            removeLocalStorageSessionData();
             window.location.reload();
             return null;
         }
     } catch (error) {
         //if token cant be refreshed logOut
-        console.log('no se refresco el token')
-        LocalStorageService.removeItem('token');
+        removeLocalStorageSessionData();
         window.location.reload();
         return null;
     }

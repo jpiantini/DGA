@@ -19,13 +19,14 @@ import { stringToDominicanCedula } from "../../utilities/functions/FormatterUtil
 import { getUser } from "../../api/Auth";
 import PhoneTextField from "../../components/PhoneTextField/PhoneTextField";
 import { cleanStringFromNumbers } from '../../utilities/functions/NumberUtil';
+import LocalStorageService from "../../services/LocalStorageService";
 export const MyConfiguration = () => {
 
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient()
 
-  const { profileImg } = useSelector((state) => state.authReducer);
+  const [userImage, setUserImage] = useState("");
 
   const [provincesData, setProvincesData] = useState([]);
   const [municipalitiesData, setMunicipalitiesData] = useState([]);
@@ -187,6 +188,7 @@ export const MyConfiguration = () => {
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
+    setUserImage(LocalStorageService.getItem('profile_img'));
     dispatch(UpdateAppSubHeaderTitle("Mi configuración")); // TITLE OF SUBHEADER APP
   }, []);
 
@@ -206,7 +208,7 @@ export const MyConfiguration = () => {
 
       <TopContainer>
         <UserDataContainer>
-          <ProfileImage src={profileImg} />
+          <ProfileImage src={userImage} />
           <ElementDivider />
           <div>
             <Title>{data && data.payload.name + " " + data.payload.first_last_name + " " + data.payload.second_last_name}</Title>
