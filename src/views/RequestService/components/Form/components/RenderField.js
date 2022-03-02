@@ -56,19 +56,6 @@ const RenderField = (props) => {
     //change val
     //  if (typeof props.onChange == 'function') {
     switch (MASK_LIST[props.Mask || '']) {
-      case MASK_LIST[0]:
-        try {
-          cedulaValidationService(val.target.value).then((response) => {
-            if (response?.success && response?.exist) {
-              props.onChange(props.fieldKey, val.target.value)
-            } else {
-              //SHOW ERROR CEDULA DOESN'T EXISTS
-            }
-          });
-        } catch (error) {
-          //SHOW ERROR UNCONTROLLED
-        }
-        break;
       case MASK_LIST[7]:
         props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
         break;
@@ -81,9 +68,21 @@ const RenderField = (props) => {
     }
   }
 
-  const handleValidationOnBlur = () => {
-    if (typeof props.setFieldTouched == 'function') {
-      props.setFieldTouched(props.fieldKey, true, true)
+  const handleValidationOnBlur = (val) => {
+    props.setFieldTouched(props.fieldKey, true, true)
+    // 0 IS CEDULA FOR VALIDATE
+    if (props.Mask === '0') {
+      try {
+        cedulaValidationService(val.target.value).then((response) => {
+          if (response?.success && response?.exist) {
+            //DO NOTHING CEDULA IS VALID
+          } else {
+            props.setFieldError(props.fieldKey, "Cedula invalida,introduzca una cedula valida")
+          }
+        });
+      } catch (error) {
+        props.setFieldError(props.fieldKey, "Ha ocurrido un error validando la cedula")
+      }
     }
   }
 

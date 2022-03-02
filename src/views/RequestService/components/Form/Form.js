@@ -48,7 +48,7 @@ function Form(props) {
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
-    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched } = useFormik({
+    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched,setFieldError } = useFormik({
         initialValues: state,
         onSubmit: (values, actions) => localDoRequest({ values, actions }),
         validationSchema: yup.object().shape(schemaValidation),
@@ -160,10 +160,11 @@ function Form(props) {
     }, [props.data])
 
     const handleSubmitForm = (e) => {
-        handleSubmit(e);
         window.scrollTo(0, 0);
         if (Object.keys(errors).length != 0) {
             enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+        }else{
+            handleSubmit(e);
         }
     }
 
@@ -265,6 +266,7 @@ function Form(props) {
                 helperText={touched[item.fieldKey] && errors[item.fieldKey]}
                 onChange={setFieldValue}
                 setFieldTouched={setFieldTouched}
+                setFieldError={setFieldError}
                 changeRule={changeRule}
 
             //       step={step}

@@ -29,7 +29,7 @@ import { Grid } from "@mui/material";
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery } from "react-query";
-import { getForm, registerForm } from "../../api/RequestService";
+import { getForm, registerForm, uploadFormDocuments } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
@@ -37,6 +37,7 @@ import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions
 import { transformFormData } from "./RequestServiceUtils";
 import { cleanString } from "../../utilities/functions/StringUtil";
 import { useSnackbar } from "notistack";
+import { FIELD_TYPES } from "./components/Form/FormConstants";
 
 function RequestService() {
   const history = useHistory();
@@ -114,7 +115,7 @@ function RequestService() {
 
     const result = {
       formulary_data: formData.formulary_data,
-      data: _data.map(step => step.map(transformField)).reverse(),
+      data: _data.map(step => step.map(transformField)),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
     }
@@ -126,11 +127,10 @@ function RequestService() {
 
   const mutationRegisterForm = useMutation(registerForm, {
     onMutate: (req) => {
-      dispatch(ShowGlobalLoading('Cargando'));
     }
   });
 
-  const sendRequest = (formData) => {
+  const sendRequest = async (formData) => {
     const request = {
       req: {
         service_id: serviceID,
@@ -151,7 +151,7 @@ function RequestService() {
       form: {
         citizen_record_id: userData.payload.citizen_id,
         expertform_id: serviceDescription.expertform_id,
-        data: transformFormData(formData, getData().data),
+        data: transformFormData(formData, getData().data).filter((field) => field.type != FIELD_TYPES.file),
         grid: {}
       },
       documents: [],
@@ -168,28 +168,42 @@ function RequestService() {
         logico01: 1
       }
     }
-
-    mutationRegisterForm.mutate(request, {
-      onSuccess: (data) => {
-        if (data.success) {
-          // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
-          // queryClient.invalidateQueries('requestedServices');
+    dispatch(ShowGlobalLoading('Cargando'));
+    try {
+      let canSubmitForm = true;
+      let uploadedFilesRoutes;
+      const filesToUpload = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file);
+      const formFilesData = new FormData();
+      if (filesToUpload.length > 0) {
+        for (let i = 0; i < filesToUpload.length; i++) {
+          formFilesData.append(
+            "file[]",
+            filesToUpload[i].value,
+            filesToUpload[i].value.name
+          );
+        }
+        let responseFilesUpload = await uploadFormDocuments(formFilesData);
+        if (responseFilesUpload.success) {
+          uploadedFilesRoutes = responseFilesUpload.files;
+        } else {
+          canSubmitForm = false;
+        }
+      }
+      if (canSubmitForm) {
+        let responseFormSubmit = await registerForm(request);
+        if (responseFormSubmit.success) {
           enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
-          history.push(`/app/serviceRequestedDetails/${data.RequestID}payment`)
-
+          history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
         }
-      },
-      onError: () => {
-        enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
-      },
-      onSettled: () => {
-        dispatch(HideGlobalLoading());
       }
-
-    });
+    } catch (error) {
+      enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
+    }
+    dispatch(HideGlobalLoading());
   }
+
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));

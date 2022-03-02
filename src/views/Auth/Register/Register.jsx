@@ -10,7 +10,7 @@ import {
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateAppSubHeaderTitle } from '../../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../../redux/actions/UiActions';
 import {
     ButtonsContainer,
     ButtonContainer,
@@ -35,6 +35,7 @@ import wpCall from '../../../services/WpServerCall';
 import parse from 'html-react-parser';
 import { useSnackbar } from 'notistack';
 import PhoneTextField from '../../../components/PhoneTextField/PhoneTextField';
+import { cedulaValidationService } from '../../../api/RenderField';
 
 function Register() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -46,7 +47,8 @@ function Register() {
     const stepsLenght = RegisterSteps.length;
     const stepsTitles = RegisterSteps.map((step) => step.title);
     const [activeStep, setActiveStep] = useState(0);
-    const lastStep = (stepsLenght - 2) == activeStep; // IN THIS CASE IT IS -2 BECAUSE The last step is only a Message it does not contain a form
+    // IN THIS CASE IT IS -2 BECAUSE The last step is only a Message it does not contain a form
+    const lastStep = (stepsLenght - 2) == activeStep;
     const [schemaValidation, setSchemaValidation] = useState({});
 
     const [userRegistered, setUserRegistered] = useState(false);
@@ -56,7 +58,6 @@ function Register() {
     const [sectorsData, setSectorsData] = useState([]);
 
     const [questionsData, setQuestionsData] = useState([]);
-
 
     const [wordpressContent, setWordpressContent] = useState();
 
@@ -145,6 +146,14 @@ function Register() {
         }
     }
 
+    const handleSubmitForm = (e) => {
+        window.scrollTo(0, 0);
+        if (Object.keys(formik.errors).length != 0) {
+            enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+        } else {
+            formik.handleSubmit(e);
+        }
+    }
 
     useEffect(() => {
         const innerSchema = FormSchema[activeStep];
@@ -235,6 +244,7 @@ function Register() {
     }
 
     const handleRegister = async (formData) => {
+        dispatch(ShowGlobalLoading('Cargando'));
         try {
             let response = await apiCall().post('/auth/register/portal',
                 {
@@ -292,6 +302,7 @@ function Register() {
             //handle local/network errors 
 
         }
+        dispatch(HideGlobalLoading());
     }
 
     useLayoutEffect(() => {
@@ -308,6 +319,20 @@ function Register() {
         getRegisterQuestionsData();
         getAndSetAllWordPressContent();
     }, []);
+
+    const validateCitizenID = async (e) => {
+        formik.setFieldTouched('citizen_id', true, true)
+        try {
+            let response = await cedulaValidationService(e.target.value);
+            if (response?.success && response?.exist) {
+                //DO NOTHING CEDULA IS VALID
+            } else {
+                formik.setFieldError('citizen_id', "Cédula no válida, introduzca otra cédula")
+            }
+        } catch (error) {
+            formik.setFieldError('citizen_id', "Ha ocurrido un error validando la cedula")
+        }
+    }
 
     return (
         <Container >
@@ -405,7 +430,7 @@ function Register() {
                                     unMaskedValue={true}
                                     value={formik.values.citizen_id}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
+                                    onBlur={formik.values.document_type === '1' ? validateCitizenID : formik.handleBlur}
                                     error={formik.touched.citizen_id && Boolean(formik.errors.citizen_id)}
                                     helperText={formik.touched.citizen_id && formik.errors.citizen_id}
                                 />
@@ -674,7 +699,7 @@ function Register() {
                                 Ir a inicio
                             </StyledButton>
                             :
-                            <StyledButtonOutlined onClick={() => formik.handleSubmit()} variant="outlined">
+                            <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
                                 {lastStep ? "Registrar" : "Continuar"}
                             </StyledButtonOutlined>
                     }

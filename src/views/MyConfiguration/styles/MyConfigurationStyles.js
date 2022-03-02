@@ -70,8 +70,8 @@ export const Column = styled('div')({
 
 export const ProfileImage = styled('img')({
     '@media (min-width:320px)': {
-        width: '100px',
-        height: '100%',
+        width: '150px',
+        height: '150px',
         borderRadius: '100%',
         marginTop: '5px',
     },

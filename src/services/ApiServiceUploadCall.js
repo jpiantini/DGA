@@ -10,12 +10,10 @@ const apiServiceCall = () => {
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17:8000/api';
+            config.baseURL = 'http://159.223.159.18:9000/api';
             config.headers = {
                 'Authorization': `beater ${Token}`,
-                'X-Authorization': 'XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                'X-Authorization': 'pON2xGGbpraP698B5CJvUMljzJvDa8MmwXCOBDhz1jqwzlQ8bAG1QalAIRrDRmgY',
             }
             config.timeout = 60000;
             return config;
