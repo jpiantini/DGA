@@ -1,11 +1,13 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import {  Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator } from './styles/UploadFileStyles';
+import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon } from './styles/UploadFileStyles';
 import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
+import FormModal from '../FormModal/FormModal';
 
 
-function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, error, required }) {
+function UploadFile({ id, title, placeholder, helperText = " ", onChange, onBlur, error, required }) {
 
+    const [documentModalIsOpen, setDocumentModalIsOpen] = useState(false);
     const [selectedFileName, setSelectedFileName] = useState('');
 
     const handleFileChange = (e) => {
@@ -15,8 +17,13 @@ function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, 
         }
     }
 
+    const handleModalVisibility = () => {
+        setDocumentModalIsOpen(!documentModalIsOpen);
+    }
+
     return (
         <Container>
+
             <Row>
                 <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
@@ -37,11 +44,15 @@ function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, 
                     helperText={helperText}
                     error={error}
                     InputProps={{
-                        readOnly:true
+                        readOnly: true
                     }}
                 />
                 <RowSeparator />
-                <InputFileButtonContainer htmlFor={id}>
+                <div onClick={handleModalVisibility} title='Seleccionar documento'>
+                    <StyledFolderIcon />
+                </div>
+                <RowSeparator />
+                <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
                 <InputFile id={id} type='file'
@@ -64,6 +75,9 @@ function UploadFile({ id, title, placeholder, helperText=" ", onChange, onBlur, 
                     }
                     } />
             </RowContainer>
+            <FormModal open={documentModalIsOpen} onClose={handleModalVisibility} title="Seleccionar documento">
+          
+            </FormModal>
         </Container>
     );
 }

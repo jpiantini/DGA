@@ -1,4 +1,5 @@
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 
@@ -14,6 +15,15 @@ export const StyledUploadFileIcon = styled(UploadFileIcon)({
   fontSize: '40px',
   '&:hover': {
     color: COLORS.primary,
+  }
+});
+
+export const StyledFolderIcon = styled(FolderSharedOutlinedIcon)({
+  color: COLORS.secondary,
+  fontSize: '40px',
+  '&:hover': {
+    color: COLORS.primary,
+    cursor:'pointer'
   }
 });
 

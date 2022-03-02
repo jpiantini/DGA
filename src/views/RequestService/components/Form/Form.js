@@ -38,12 +38,13 @@ function Form(props) {
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
     const [fakeSteps, setFakeSteps] = useState([]);
+    const fakeStepsLenght = localToArray(fakeSteps).length;
     const [fakeStep, setFakeStep] = useState(0)
     const [activeStep, setActiveStep] = useState(0);
-    const [stepperSteps, setStepperSteps] = useState([]);
-    const [lastStepIndex, setLastStepIndex] = useState(0);
+    const [fakeStepsToShow, setFakeStepsToShow] = useState([]);
 
     const lastStep = (stepsLenght - 1) == activeStep;
+    const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
@@ -73,18 +74,21 @@ function Form(props) {
 
     //componentDidUpdate
     useEffect(() => {
-        if (localToArray(localData).length > 0) {
-            const notHidden = localData.filter(step => !step[0].hidden)
-            let data = notHidden.map((step, index) => {
-                return {
-                    label: step[0].label,
-                    index: index,
-                    realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
-                }
-            })
-            const newSliceValue = fakeStep >= (data[data.length - 1].index + 1) - 6 ? (data[data.length - 1].index + 1) - 6 : fakeStep;
-            const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
-            setFakeSteps(slicedArray)
+        if (!fakeLastStep) {
+            if (localToArray(localData).length > 0) {
+                const notHidden = localData.filter(step => !step[0].hidden)
+                let data = notHidden.map((step, index) => {
+                    return {
+                        label: step[0].label,
+                        index: index,
+                        realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
+                    }
+                })
+                setFakeSteps(data)
+                const newSliceValue = fakeStep >= (fakeSteps[fakeSteps.length - 1]?.index + 1) - 6 ? (fakeSteps[fakeSteps.length - 1]?.index + 1) - 6 : fakeStep;
+                const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
+                setFakeStepsToShow(slicedArray)
+            }
         }
         return () => { }
     }, [localData, fakeStep])
@@ -164,7 +168,7 @@ function Form(props) {
     }
 
     const localDoRequest = ({ values, actions }) => {
-        if (lastStep && typeof props.doRequest == 'function') {
+        if (fakeLastStep && typeof props.doRequest == 'function') {
             props.doRequest(values)
         } else {
             let extraStep = 0
@@ -275,7 +279,7 @@ function Form(props) {
                 matchesWidth &&
                 <Stepper activeStep={fakeStep} alternativeLabel>
                     {
-                        fakeSteps.map((stepData) => {
+                        fakeStepsToShow.map((stepData) => {
                             const labelProps = {};
                             if (handleStepsValidation(stepData.realIndexInLocalData)) {
                                 labelProps.optional = (
@@ -317,7 +321,7 @@ function Form(props) {
 
                     <ButtonContainer>
                         <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
-                            {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                            {fakeLastStep ? 'Enviar Solicitud' : 'Continuar'}
                         </StyledButtonOutlined>
                     </ButtonContainer>
                 </ButtonsContainer>
@@ -335,7 +339,7 @@ function Form(props) {
                         },
                         title: "aaaaaaa"
                     }}
-                    steps={stepsLenght}
+                    steps={fakeStepsLenght}
                     position="bottom"
                     activeStep={activeStep}
                     backButton={
@@ -348,7 +352,7 @@ function Form(props) {
                     nextButton={
                         <ButtonContainer>
                             <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
-                                {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                                {fakeLastStep ? 'Enviar Solicitud' : 'Continuar'}
                             </StyledButtonOutlined>
                         </ButtonContainer>
 

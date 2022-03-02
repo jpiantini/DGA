@@ -114,7 +114,7 @@ function RequestService() {
 
     const result = {
       formulary_data: formData.formulary_data,
-      data: _data.map(step => step.map(transformField)),
+      data: _data.map(step => step.map(transformField)).reverse(),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
     }

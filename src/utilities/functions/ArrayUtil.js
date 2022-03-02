@@ -76,7 +76,8 @@ export const transformField = (field) => {
     data: transformDataArray(field.values, field.type),
     gridData: [],
     fields,
-    values: transformValues(field.values)
+    values: transformValues(field.values),
+    hidden:false
   }
 }
 
