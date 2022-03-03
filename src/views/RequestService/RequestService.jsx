@@ -223,7 +223,7 @@ function RequestService() {
               }),
               activity_id: "MITUR002"
             }
-            dispatch(ShowGlobalLoading('Registrando enlace'));
+       /*     dispatch(ShowGlobalLoading('Registrando enlace'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
             if (responseSoftExpert.success) {
               let responseBackOffice = await linkingDocumentsToRequestInBackOffice(uploadSoftExpertConfig.documents, responseFormSubmit.RequestID);
@@ -238,7 +238,7 @@ function RequestService() {
               canFormContinue = false;
               enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
               throw Error;
-            }
+            }*/
           }
           if (canFormContinue) {
             enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
