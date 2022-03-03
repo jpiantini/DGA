@@ -12,3 +12,11 @@ export const registerForm = (requestData) => {
 export const uploadFormDocuments = (documentsList) => {
     return ApiServiceUploadCall().post('/files',documentsList).then(({data}) => data);
 }
+
+export const linkingDocumentsToRequestInSoftExperted = (request) => {
+    return ApiServiceUploadCall().post('/uploadsoftexpert',request).then(({data}) => data);
+}
+
+export const linkingDocumentsToRequestInBackOffice = (filesList,requestID) => {
+    return apiServiceCall().post(`/assigndocument/${requestID}`,filesList).then(({data}) => data);
+}

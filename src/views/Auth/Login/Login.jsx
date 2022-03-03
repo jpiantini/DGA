@@ -116,8 +116,6 @@ function Login() {
                             type="text"
                             placeholder="Cedúla o Pasaporte"
                             id="id"
-                            unMaskedValue
-                            mask="999-9999999-9"
                             value={formik.values.id}
                             onChange={formik.handleChange}
                             error={formik.touched.id && Boolean(formik.errors.id)}

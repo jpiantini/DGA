@@ -9,7 +9,8 @@ export const localToArray = (array) => {
   return array
 }
 
-const dataToSelect = (data) => { //dataToSelect
+//dataToSelect
+const dataToSelect = (data) => { 
   return localToArray(data).map(item => {
     return {
           id: item.value,

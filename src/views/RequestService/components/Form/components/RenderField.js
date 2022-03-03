@@ -28,7 +28,8 @@ const RenderField = (props) => {
     //call rule change
     switch (props.type) {
       case FIELD_TYPES.select:
-        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); // data object of form json. reference -> ArrayUtil/dataToSelect.js
+        // data object of form json. reference -> ArrayUtil/dataToSelect.js
+        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); 
         if (val?.target.value) { //new selectedValue
           props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
         } else if (currentSelectedValue?.invertRule) { //current selectedValue
@@ -41,7 +42,8 @@ const RenderField = (props) => {
           props.changeRule(props.values.find(item => item.value == selectedOption)?.rule)
         } else {
           const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
-          props.changeRule(props.values.find(item => item.value == unselectedOption)?.invertRule)
+          props.changeRule(props.values.find(item => item.value == unselectedOption)?.ruleF)
+      
         }
         break;
       case FIELD_TYPES.radioGroup:

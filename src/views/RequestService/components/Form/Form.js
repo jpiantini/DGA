@@ -48,30 +48,30 @@ function Form(props) {
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
-    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched,setFieldError } = useFormik({
+    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError } = useFormik({
         initialValues: state,
         onSubmit: (values, actions) => localDoRequest({ values, actions }),
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
 
-    const handleStepsValidation = (step) => {
-        if (localData[step]) {
-            let stepField = false
-            for (let i = 0; i < localData[step]?.length; i++) {
-                const field = localData[step][i];
-                if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
-                    stepField = true;
-                }
-            }
-            if (stepField) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
+    /*  const handleStepsValidation = (step) => {
+          if (localData[step]) {
+              let stepField = false
+              for (let i = 0; i < localData[step]?.length; i++) {
+                  const field = localData[step][i];
+                  if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
+                      stepField = true;
+                  }
+              }
+              if (stepField) {
+                  return true;
+              } else {
+                  return false;
+              }
+          }
+      }
+  */
     //componentDidUpdate
     useEffect(() => {
         if (!fakeLastStep) {
@@ -160,11 +160,10 @@ function Form(props) {
     }, [props.data])
 
     const handleSubmitForm = (e) => {
+        handleSubmit(e);
         window.scrollTo(0, 0);
-        if (Object.keys(errors).length != 0) {
+        if (Object.keys(errors).length != 0 && touched[Object.keys(errors)[0]]) {
             enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
-        }else{
-            handleSubmit(e);
         }
     }
 
@@ -208,7 +207,6 @@ function Form(props) {
         if (!rule || !rule.length) {
             return
         }
-
         const ruleList = Array.isArray(rule) ? rule : [rule]
         let _localData = localToArray(initialData ?? localData)
 
@@ -251,7 +249,13 @@ function Form(props) {
         setLocalData(_localData)
     }
 
-
+    /*   useEffect(() => {
+           if(Object.keys(errors).length != 0)
+           if (Object.keys(errors).length != 0 && touched[Object.keys(errors)[0]]) {
+               enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+           }
+       }, [errors,touched]);
+   */
     const LocalRenderField = ({ item, index }) => {
         return (
             <RenderField
@@ -283,14 +287,16 @@ function Form(props) {
                     {
                         fakeStepsToShow.map((stepData) => {
                             const labelProps = {};
-                            if (handleStepsValidation(stepData.realIndexInLocalData)) {
-                                labelProps.optional = (
-                                    <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
-                                        Error
-                                    </Typography>
-                                );
-                                labelProps.error = true;
-                            }
+                            /*         if (handleStepsValidation(stepData.realIndexInLocalData)) {
+                                         labelProps.optional = (
+                                             <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
+                                                 Error
+                                             </Typography>
+                                         );
+                                         labelProps.error = true;
+                                     }
+                                     */
+
                             return (
                                 <Step index={stepData.index} key={stepData.index}>
                                     <StepLabel {...labelProps}>{stepData.label}</StepLabel>
