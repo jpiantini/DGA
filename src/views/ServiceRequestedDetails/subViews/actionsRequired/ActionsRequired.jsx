@@ -21,6 +21,7 @@ import { useQueryClient, useMutation } from 'react-query';
 import { useSnackbar } from 'notistack';
 import { sendRequiredAction } from '../../../../api/ActionRequired';
 import { useFormik } from 'formik';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 
 function ActionsRequired() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -34,7 +35,11 @@ function ActionsRequired() {
 
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
 
-    const actionRequiredMutation = useMutation(sendRequiredAction);
+    const actionRequiredMutation = useMutation(sendRequiredAction, {
+        onMutate: (req) => {
+            dispatch(ShowGlobalLoading('Cargando'));
+        }
+      });
 
     const textFormik = useFormik({
         initialValues: {
@@ -59,6 +64,9 @@ function ActionsRequired() {
             },
             onError: () => {
                 enqueueSnackbar("Ha ocurrido un error, contacte a soporte",{variant:"error"})
+            },
+            onSettled: () => {
+                dispatch(HideGlobalLoading());
             }
         })
     }

@@ -22,3 +22,24 @@ export function stringToDominicanPhoneNumber(string = "") {
   }
 }
 
+
+export function numberToStringLaborableTime(time, type = 1) {
+  //type = 1 horas, type = 2 dias, type = 3 meses
+  switch (type) {
+    case 1:
+      return `${time} Horas laborables`;
+    case 2:
+      if (time > 1) {
+        return `${time} Días laborables`;
+      } else {
+        return `${time} Día laborable`;
+      }
+    case 3:
+      if (time > 1) {
+        return `${time} Meses laborables`;
+      } else {
+        return `${time} Mes laborable`;
+      }
+
+  }
+}

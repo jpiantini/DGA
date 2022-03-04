@@ -11,10 +11,10 @@ export const Container = styled('div')({
         minWidth: '300px',
     },
     '@media(min-width:768px)':{
-        minWidth: '400px',
+        minWidth: '700px',
     },
     '@media(min-width:1200px)':{
-        minWidth:'800px',
+        minWidth:'1000px',
     },
 });
 
