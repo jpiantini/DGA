@@ -81,7 +81,7 @@ function RequestService() {
     try {
       dispatch(ShowGlobalLoading("Cargando"));
       //TO DO CHANGE CEDULA FOR LOGGED USER CEDULA
-      const response = await getForm(serviceDescription.expertform_id, "40225994520");
+      const response = await getForm(serviceDescription.expertform_id, userData.payload.citizen_id);
       dispatch(HideGlobalLoading());
       return response;
     } catch (error) {
@@ -90,7 +90,7 @@ function RequestService() {
       throw new Error('An error has ocurred');
     }
   }, {
-    enabled: serviceDescription != undefined
+    enabled: serviceDescription != undefined && userData != undefined
   })
 
   const handleModalVisibility = () => {
@@ -221,9 +221,9 @@ function RequestService() {
               names: filesToUpload.map((file) => {
                 return file.label
               }),
-              activity_id: "MITUR002"
+              activity_id: false
             }
-       /*     dispatch(ShowGlobalLoading('Registrando enlace'));
+            dispatch(ShowGlobalLoading('Registrando enlace'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
             if (responseSoftExpert.success) {
               let responseBackOffice = await linkingDocumentsToRequestInBackOffice(uploadSoftExpertConfig.documents, responseFormSubmit.RequestID);
@@ -238,7 +238,7 @@ function RequestService() {
               canFormContinue = false;
               enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
               throw Error;
-            }*/
+            }
           }
           if (canFormContinue) {
             enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
@@ -259,10 +259,6 @@ function RequestService() {
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
 
-/*useEffect(() => {
-    setPriceModalIsOpen(true);
-  }, []);
-*/
 
 
   if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return null;
@@ -278,20 +274,25 @@ function RequestService() {
         />
         <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} title="Pago" maxWidth='lg'
           conditionalClose={true}>
-            <SmallHeightDivider />
-            <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-              {
-                serviceDescription.prices[0].variations.map((variation, index) => (
-                  <Grid key={index} item xs={4} sm={4} md={6} >
-
-                    <PaymentCard title={variation.concept} price={variation.price}
-                      time="15 Dias laborables" onClick={() => console.log('click')}
-                    />
-                  </Grid>
-                ))
-              }
-            </Grid>
-
+          <SmallHeightDivider />
+          <Grid alignItems="center" container direction="row" justifyContent="space-around" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            {
+              serviceDescription.prices.map((price, index) => (
+                price.variations.length > 1 ? 
+                <Grid key={index} item xs={4} sm={8} md={6} >
+                  <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
+                    time={"15 Dias laborables"} onClick={() => console.log('click')}
+                  />
+                </Grid>
+                :
+                <Grid key={index} item xs={4} sm={8} md={6} >
+                  <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
+                    time="15 Dias laborables" onClick={() => console.log('click')}
+                  />
+                </Grid>
+              ))
+            }
+          </Grid>
         </FormModal>
       </Container>
     </Container>

@@ -1,9 +1,20 @@
 import { memo } from 'react';
+import { numberToStringLaborableTime } from '../../../../utilities/functions/FormatterUtil';
 import {
     Container, Header, HeaderSubTitle, HeaderTitle, BodyTitle, Body,BodySubTitle,ButtonsContainer,CardButton
 } from './styles/PaymentCardStyles';
 
-function PaymentCard({ title, price, time, onClick }) {
+function PaymentCard({ title, price,time,onClick,variations }) {
+
+
+    
+
+    const filterTime = () => {
+        if (time.hours > 0 && time.days > 0 && time.months > 0){
+            return `${'a'}`
+        }
+    }
+
     return (
         <Container>
             <Header>
