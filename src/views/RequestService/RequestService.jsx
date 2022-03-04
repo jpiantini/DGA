@@ -29,7 +29,7 @@ import { Grid } from "@mui/material";
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery } from "react-query";
-import { getForm, registerForm } from "../../api/RequestService";
+import { getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
@@ -37,6 +37,9 @@ import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions
 import { transformFormData } from "./RequestServiceUtils";
 import { cleanString } from "../../utilities/functions/StringUtil";
 import { useSnackbar } from "notistack";
+import { FIELD_TYPES } from "./components/Form/FormConstants";
+import FormModal from "../../components/FormModal/FormModal";
+import PaymentCard from "./components/PaymentCard/PaymentCard";
 
 function RequestService() {
   const history = useHistory();
@@ -44,7 +47,8 @@ function RequestService() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [togglePaymentForm, setTogglePaymentForm] = useState();
+  const [priceModalIsOpen, setPriceModalIsOpen] = useState(false);
+
 
   const { data: userData, isLoading: userDataIsLoading } = useQuery(['userData'], async () => {
     try {
@@ -89,6 +93,10 @@ function RequestService() {
     enabled: serviceDescription != undefined
   })
 
+  const handleModalVisibility = () => {
+    setPriceModalIsOpen(!priceModalIsOpen);
+  }
+
   const getData = () => {
     //separating response by steps
     const plainData = [];
@@ -114,7 +122,7 @@ function RequestService() {
 
     const result = {
       formulary_data: formData.formulary_data,
-      data: _data.map(step => step.map(transformField)),
+      data: _data.map(step => step.map(transformField)),//.reverse(),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
     }
@@ -124,13 +132,12 @@ function RequestService() {
 
 
 
-  const mutationRegisterForm = useMutation(registerForm, {
-    onMutate: (req) => {
-      dispatch(ShowGlobalLoading('Cargando'));
-    }
-  });
-
-  const sendRequest = (formData) => {
+  /* const mutationRegisterForm = useMutation(registerForm, {
+     onMutate: (req) => {
+     }
+   });
+ */
+  const sendRequest = async (formData) => {
     const request = {
       req: {
         service_id: serviceID,
@@ -151,7 +158,7 @@ function RequestService() {
       form: {
         citizen_record_id: userData.payload.citizen_id,
         expertform_id: serviceDescription.expertform_id,
-        data: transformFormData(formData, getData().data),
+        data: transformFormData(formData, getData().data).filter((field) => field.type != FIELD_TYPES.file),
         grid: {}
       },
       documents: [],
@@ -168,117 +175,125 @@ function RequestService() {
         logico01: 1
       }
     }
+    dispatch(ShowGlobalLoading('Cargando'));
+    try {
 
-    mutationRegisterForm.mutate(request, {
-      onSuccess: (data) => {
-        if (data.success) {
-          // refresh cache of requestedServices - FOR SOME FILTERS ERRORS I DONT USE REACT QUERY FOR requestedServices
-          // queryClient.invalidateQueries('requestedServices');
-          enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
-          history.push(`/app/serviceRequestedDetails/${data.RequestID}payment`)
+      let canSubmitForm = true;
+      let uploadedFilesRoutes = [];
 
+      const filesToUpload = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file);
+      const formFilesData = new FormData();
+      if (filesToUpload.length > 0) {
+        for (let i = 0; i < filesToUpload.length; i++) {
+          formFilesData.append(
+            "file[]",
+            filesToUpload[i].value,
+            filesToUpload[i].value.name
+          );
+        }
+        dispatch(ShowGlobalLoading('Subiendo documentos'));
+        let responseFilesUpload = await uploadFormDocuments(formFilesData);
+        if (responseFilesUpload.success) {
+          uploadedFilesRoutes = responseFilesUpload.files;
+        } else {
+          canSubmitForm = false;
+        }
+      }
+
+      if (canSubmitForm) {
+        let canFormContinue = true;
+        dispatch(ShowGlobalLoading('Registrando formulario'));
+        let responseFormSubmit = await registerForm(request);
+        if (responseFormSubmit.success) {
+          if (filesToUpload.length > 0) {
+            const uploadSoftExpertConfig = {
+              documents: uploadedFilesRoutes.map((file, index) => {
+                return {
+                  ...file,
+                  label: filesToUpload[index].label
+                }
+              }),
+              title: responseFormSubmit.title,
+              record_id: responseFormSubmit.SoftExpertResponse.record_id,
+              attribute: responseFormSubmit.attributes,
+              process_id: serviceDescription.process_id,
+              acronym: responseFormSubmit.acronym,
+              names: filesToUpload.map((file) => {
+                return file.label
+              }),
+              activity_id: "MITUR002"
+            }
+       /*     dispatch(ShowGlobalLoading('Registrando enlace'));
+            let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
+            if (responseSoftExpert.success) {
+              let responseBackOffice = await linkingDocumentsToRequestInBackOffice(uploadSoftExpertConfig.documents, responseFormSubmit.RequestID);
+              if (responseBackOffice.success) {
+
+              } else {
+                canFormContinue = false;
+                enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+                throw Error;
+              }
+            } else {
+              canFormContinue = false;
+              enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+              throw Error;
+            }*/
+          }
+          if (canFormContinue) {
+            enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
+            history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
+          }
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
         }
-      },
-      onError: () => {
-        enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
-      },
-      onSettled: () => {
-        dispatch(HideGlobalLoading());
       }
-
-    });
+    } catch (error) {
+      enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
+    }
+    dispatch(HideGlobalLoading());
   }
+
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
+
+/*useEffect(() => {
+    setPriceModalIsOpen(true);
+  }, []);
+*/
+
 
   if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return null;
   return (
     <Container>
       <SmallHeightDivider />
       <SmallHeightDivider />
-      {!togglePaymentForm ? (
-        <Container>
-          <Form
-            doRequest={sendRequest}
-            data={getData().data}
-            plainData={getData().plainData}
-          />
-        </Container>
-      ) : (
-        <Container>
-          <TextInformation title="Información general" />
-          <Grid
-            alignItems="center"
-            justifyContent="flex-start"
-            container
-            direction="row"
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 8, sm: 8, md: 8 }}
-          >
-            <Grid item xs={4} sm={4} md={4}>
-              <BodyTextBold>Fecha:</BodyTextBold>
-              <BodyText>12 septiembre de 2021</BodyText>
+      <Container>
+        <Form
+          doRequest={sendRequest}
+          data={getData().data}
+          plainData={getData().plainData}
+        />
+        <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} title="Pago" maxWidth='lg'
+          conditionalClose={true}>
+            <SmallHeightDivider />
+            <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+              {
+                serviceDescription.prices[0].variations.map((variation, index) => (
+                  <Grid key={index} item xs={4} sm={4} md={6} >
+
+                    <PaymentCard title={variation.concept} price={variation.price}
+                      time="15 Dias laborables" onClick={() => console.log('click')}
+                    />
+                  </Grid>
+                ))
+              }
             </Grid>
 
-            <Grid item xs={4} sm={4} md={4}>
-              <BodyTextBold>Empresa:</BodyTextBold>
-              <BodyText>Construcciones K</BodyText>
-            </Grid>
-
-            <Grid item xs={4} sm={4} md={4}>
-              <BodyTextBold>Numero de solicitud:</BodyTextBold>
-              <BodyText>002366574553</BodyText>
-            </Grid>
-
-            <Grid item xs={4} sm={4} md={4}>
-              <BodyTextBold>Servicio:</BodyTextBold>
-              <BodyText>Solicitud de No Objeción de suelo</BodyText>
-            </Grid>
-
-            <Grid item xs={4} sm={4} md={4}>
-              <BodyTextBold>Costo:</BodyTextBold>
-              <BodyText>RD$2,000.00</BodyText>
-            </Grid>
-          </Grid>
-
-          <SmallHeightDivider />
-          <TextInformation title="Formas de pago" />
-          <SmallHeightDivider />
-          <SmallHeightDivider />
-
-          <Grid
-            alignItems="center"
-            justifyContent="center"
-            container
-            direction="row"
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 6, sm: 8, md: 12 }}
-          >
-            <Grid item xs={4} sm={4} md={4}>
-              <ImageContainer onClick={() => alert("click")}>
-                <LogoImage src="https://www.sirite.gob.do/o/sirit-theme-1.20190411.66/images/sirit/sirit-logo.png" />
-              </ImageContainer>
-            </Grid>
-
-            <Grid item xs={4} sm={4} md={4}>
-              <ImageContainer onClick={() => alert("click")}>
-                <LogoImage src="https://www.cardnet.com.do/capp/images/logo_nuevo_x_2.png" />
-              </ImageContainer>
-            </Grid>
-          </Grid>
-          <MediumHeightDivider />
-          <ButtonContainer>
-            <StyledButton onClick={() => history.push("/app/myDesk")}>
-              Pagar despues
-            </StyledButton>
-          </ButtonContainer>
-          <MediumHeightDivider />
-        </Container>
-      )}
+        </FormModal>
+      </Container>
     </Container>
   );
 }

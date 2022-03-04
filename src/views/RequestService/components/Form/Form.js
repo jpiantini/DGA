@@ -38,53 +38,57 @@ function Form(props) {
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
     const [fakeSteps, setFakeSteps] = useState([]);
+    const fakeStepsLenght = localToArray(fakeSteps).length;
     const [fakeStep, setFakeStep] = useState(0)
     const [activeStep, setActiveStep] = useState(0);
-    const [stepperSteps, setStepperSteps] = useState([]);
-    const [lastStepIndex, setLastStepIndex] = useState(0);
+    const [fakeStepsToShow, setFakeStepsToShow] = useState([]);
 
     const lastStep = (stepsLenght - 1) == activeStep;
+    const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
-    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched } = useFormik({
+    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError } = useFormik({
         initialValues: state,
         onSubmit: (values, actions) => localDoRequest({ values, actions }),
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
 
-    const handleStepsValidation = (step) => {
-        if (localData[step]) {
-            let stepField = false
-            for (let i = 0; i < localData[step]?.length; i++) {
-                const field = localData[step][i];
-                if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
-                    stepField = true;
-                }
-            }
-            if (stepField) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-
+    /*  const handleStepsValidation = (step) => {
+          if (localData[step]) {
+              let stepField = false
+              for (let i = 0; i < localData[step]?.length; i++) {
+                  const field = localData[step][i];
+                  if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
+                      stepField = true;
+                  }
+              }
+              if (stepField) {
+                  return true;
+              } else {
+                  return false;
+              }
+          }
+      }
+  */
     //componentDidUpdate
     useEffect(() => {
-        if (localToArray(localData).length > 0) {
-            const notHidden = localData.filter(step => !step[0].hidden)
-            let data = notHidden.map((step, index) => {
-                return {
-                    label: step[0].label,
-                    index: index,
-                    realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
-                }
-            })
-            const newSliceValue = fakeStep  >= (data[data.length - 1].index +1) - 6 ? (data[data.length - 1].index +1) - 6 : fakeStep ;
-            const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
-            setFakeSteps(slicedArray)
+        if (!fakeLastStep) {
+            if (localToArray(localData).length > 0) {
+                const notHidden = localData.filter(step => !step[0].hidden)
+                let data = notHidden.map((step, index) => {
+                    return {
+                        label: step[0].label,
+                        index: index,
+                        realIndexInLocalData: localData.findIndex(localDataStep => localDataStep[0].key === step[0].key)
+                    }
+                })
+                setFakeSteps(data)
+                const newSliceValue = fakeStep >= (fakeSteps[fakeSteps.length - 1]?.index + 1) - 6 ? (fakeSteps[fakeSteps.length - 1]?.index + 1) - 6 : fakeStep;
+                const slicedArray = data.slice(newSliceValue >= 0 ? newSliceValue : 0, newSliceValue + 6);
+                setFakeStepsToShow(slicedArray)
+            }
         }
         return () => { }
     }, [localData, fakeStep])
@@ -158,13 +162,13 @@ function Form(props) {
     const handleSubmitForm = (e) => {
         handleSubmit(e);
         window.scrollTo(0, 0);
-        if (Object.keys(errors).length != 0) {
+        if (Object.keys(errors).length != 0 && touched[Object.keys(errors)[0]]) {
             enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
         }
     }
 
     const localDoRequest = ({ values, actions }) => {
-        if (lastStep && typeof props.doRequest == 'function') {
+        if (fakeLastStep && typeof props.doRequest == 'function') {
             props.doRequest(values)
         } else {
             let extraStep = 0
@@ -203,7 +207,6 @@ function Form(props) {
         if (!rule || !rule.length) {
             return
         }
-
         const ruleList = Array.isArray(rule) ? rule : [rule]
         let _localData = localToArray(initialData ?? localData)
 
@@ -218,27 +221,41 @@ function Form(props) {
                     if (!findRuleField) {
                         return field
                     } else {
-                        const findIndexRuleField = ruleField.findIndex(fieldName => field.fieldKey == fieldName)
-                        const _field = dataObjectRuleChanger(field, RULE_LIST[ruleAction[findIndexRuleField]], setFieldValue)
+                        const rulesToApply = ruleField
+                            .map((fieldName, index) => {
+                                if (field.fieldKey == fieldName) {
+                                    return RULE_LIST[ruleAction[index]]
+                                } else {
+                                    return null
+                                }
+                            })
+                            .filter(item => item !== null)
+                        const _field = dataObjectRuleChanger(field, rulesToApply, setFieldValue)
 
                         //add more ruleList if its rule five and the other field (select) has value
                         if (
-                            RULE_LIST[ruleAction[findIndexRuleField]] == RULE_LIST[5] &&
+                            rulesToApply.find(item => item == RULE_LIST[5]) &&
                             safeValExtraction(values[field.fieldKey], 'rule')
                         ) {
                             ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
                         }
+
                         //return the modified object
                         return _field
                     }
                 })
             })
         }
-
         setLocalData(_localData)
     }
 
-
+    /*   useEffect(() => {
+           if(Object.keys(errors).length != 0)
+           if (Object.keys(errors).length != 0 && touched[Object.keys(errors)[0]]) {
+               enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+           }
+       }, [errors,touched]);
+   */
     const LocalRenderField = ({ item, index }) => {
         return (
             <RenderField
@@ -253,6 +270,7 @@ function Form(props) {
                 helperText={touched[item.fieldKey] && errors[item.fieldKey]}
                 onChange={setFieldValue}
                 setFieldTouched={setFieldTouched}
+                setFieldError={setFieldError}
                 changeRule={changeRule}
 
             //       step={step}
@@ -267,16 +285,18 @@ function Form(props) {
                 matchesWidth &&
                 <Stepper activeStep={fakeStep} alternativeLabel>
                     {
-                        fakeSteps.map((stepData) => {
+                        fakeStepsToShow.map((stepData) => {
                             const labelProps = {};
-                            if (handleStepsValidation(stepData.realIndexInLocalData)) {
-                                labelProps.optional = (
-                                    <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
-                                        Error
-                                    </Typography>
-                                );
-                                labelProps.error = true;
-                            }
+                            /*         if (handleStepsValidation(stepData.realIndexInLocalData)) {
+                                         labelProps.optional = (
+                                             <Typography sx={{ marginLeft: '47.5%' }} variant="caption" color="error">
+                                                 Error
+                                             </Typography>
+                                         );
+                                         labelProps.error = true;
+                                     }
+                                     */
+
                             return (
                                 <Step index={stepData.index} key={stepData.index}>
                                     <StepLabel {...labelProps}>{stepData.label}</StepLabel>
@@ -309,7 +329,7 @@ function Form(props) {
 
                     <ButtonContainer>
                         <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
-                            {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                            {fakeLastStep ? 'Enviar Solicitud' : 'Continuar'}
                         </StyledButtonOutlined>
                     </ButtonContainer>
                 </ButtonsContainer>
@@ -327,7 +347,7 @@ function Form(props) {
                         },
                         title: "aaaaaaa"
                     }}
-                    steps={stepsLenght}
+                    steps={fakeStepsLenght}
                     position="bottom"
                     activeStep={activeStep}
                     backButton={
@@ -340,7 +360,7 @@ function Form(props) {
                     nextButton={
                         <ButtonContainer>
                             <StyledButtonOutlined onClick={handleSubmitForm} variant="outlined">
-                                {lastStep ? 'Enviar Solicitud' : 'Continuar'}
+                                {fakeLastStep ? 'Enviar Solicitud' : 'Continuar'}
                             </StyledButtonOutlined>
                         </ButtonContainer>
 

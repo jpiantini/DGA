@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import {
     Container,
     MenuButton,
@@ -17,15 +17,19 @@ import { isMobile } from "react-device-detect";
 import { HideGlobalLoading, ShowGlobalLoading } from "../../redux/actions/UiActions";
 import { AuthLogout } from "../../redux/actions/AuthActions";
 import LocalStorageService from "../../services/LocalStorageService";
+import { removeLocalStorageSessionData } from "../../auth/AuthFunctions";
 
 function DrawerMenu({ layout }) {
     const matchesWidth = useMediaQuery("(min-width:768px)");
-    const [drawerState, setDrawerState] = useState(false);
-    const [registerInformationModalVisible, setRegisterInformationModalVisible] = useState(false);
 
     const history = useHistory();
     const dispatch = useDispatch();
-    const { authenticated, profileImg } = useSelector((state) => state.authReducer);
+    const { authenticated } = useSelector((state) => state.authReducer);
+
+    const [drawerState, setDrawerState] = useState(false);
+    const [registerInformationModalVisible, setRegisterInformationModalVisible] = useState(false);
+    const [userImage, setUserImage] = useState("");
+
 
     const goToRoute = (route) => {
         setDrawerState(false);
@@ -39,13 +43,17 @@ function DrawerMenu({ layout }) {
     const HandleLogOut = () => {
         dispatch(ShowGlobalLoading('Cerrando sesión'));
         setTimeout(() => { //TO MAKE AN LOGOUT USER EXPERIENCE
-            LocalStorageService.removeItem('token');
+            removeLocalStorageSessionData();
             dispatch(AuthLogout());
             window.location.reload();
          //   dispatch(HideGlobalLoading());
         }, 1500);
 
     }
+
+    useEffect(() => {
+        setUserImage(LocalStorageService.getItem('profile_img'));
+    }, []);
 
     return (
         <Container layout={layout}>
@@ -73,7 +81,7 @@ function DrawerMenu({ layout }) {
                 onClose={() => setDrawerState(!drawerState)}
                 layout={layout}
             >
-                {authenticated && <ProfileImage src={profileImg} />}
+                {authenticated && <ProfileImage src={userImage} />}
                 <DrawerList>
                     <DrawerListItemContainer layout={layout}>
                         <DrawerListItemButton

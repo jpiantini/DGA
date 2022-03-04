@@ -11,13 +11,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
 import {
+    CardPriceTitle,
     ButtonContainer,
     Container,
+    PriceContainer,
     TextListContainer,
     TextOrderedListContainer,
+    CardPriceGray,
 } from './styles/ServiceDescriptionStyles';
 import { useQuery } from 'react-query';
 import { getServiceDescription } from '../../api/ServiceDescription';
+import { Grid } from '@mui/material';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -77,12 +81,56 @@ function ServiceDescription() {
                     <TextInformation title="Información general"
                         content={serviceDescription?.description}
                     />
-                    <BodyText>
-                        Costo del servicio: &nbsp;
-                        <strong>
-                            {serviceDescription?.prices[0].variations[0].price}$
-                        </strong>
-                    </BodyText>
+
+                    <TextInformation title="Tarifa del servicio"
+                        content={
+                            <div>
+                                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                    {serviceDescription?.prices.map((price, index) => (
+                                        <Grid item key={index}>
+                                            <PriceContainer>
+                                                <strong>
+                                                    <CardPriceTitle>
+                                                        {price.concept}
+                                                    </CardPriceTitle>
+                                                </strong>
+                                                <br />
+                                                <CardPriceTitle>
+                                                    {price.description}
+                                                </CardPriceTitle>
+                                                <SmallHeightDivider />
+                                                <Row style={{ justifyContent: 'space-between' }}>
+                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                        <CardPriceGray>
+                                                            Variaciones de la tarifa
+                                                        </CardPriceGray>
+
+                                                        {price.variations.map((variations) => (
+                                                            <strong>
+                                                                {variations.concept}
+                                                            </strong>
+                                                        ))}
+                                                    </div>
+
+                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                        <CardPriceGray>
+                                                            Tarifa
+                                                        </CardPriceGray>
+                                                        {price.variations.map((variations) => (
+                                                            <strong>
+                                                                {variations.price}$
+                                                            </strong>
+                                                        ))}
+                                                    </div>
+                                                </Row>
+                                            </PriceContainer>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </div>
+                        }
+                    />
+
                     <SmallHeightDivider />
                     <SmallHeightDivider />
                     <TextInformation title="Requisitos" />

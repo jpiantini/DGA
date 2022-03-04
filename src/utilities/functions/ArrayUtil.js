@@ -9,7 +9,8 @@ export const localToArray = (array) => {
   return array
 }
 
-const dataToSelect = (data) => { //dataToSelect
+//dataToSelect
+const dataToSelect = (data) => { 
   return localToArray(data).map(item => {
     return {
           id: item.value,
@@ -76,7 +77,8 @@ export const transformField = (field) => {
     data: transformDataArray(field.values, field.type),
     gridData: [],
     fields,
-    values: transformValues(field.values)
+    values: transformValues(field.values),
+ //   hidden:false
   }
 }
 

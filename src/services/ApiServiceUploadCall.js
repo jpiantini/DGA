@@ -1,19 +1,19 @@
 import axios from 'axios';
-import { removeLocalStorageSessionData } from '../auth/AuthFunctions';
 import LocalStorageService from "./LocalStorageService";
+import apiCall from './ApiServerCall';
+import {removeLocalStorageSessionData} from '../auth/AuthFunctions';
 
+const apiServiceCall = () => {
 
-const apiCall = () => {
     const axiosInstance = axios.create();
 
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17/api';
+            config.baseURL = 'http://159.223.159.18:9000/api';
             config.headers = {
                 'Authorization': `beater ${Token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                'X-Authorization': 'pON2xGGbpraP698B5CJvUMljzJvDa8MmwXCOBDhz1jqwzlQ8bAG1QalAIRrDRmgY',
             }
             config.timeout = 60000;
             return config;
@@ -42,6 +42,7 @@ const apiCall = () => {
 const refreshToken = async () => {
     try {
         let response = await apiCall().get('/refresh/token');
+        console.log('refrescando token')
         if (response.data.success) {
             console.log('token refrescado')
             LocalStorageService.setItem('token', response.data.payload.token);
@@ -61,4 +62,4 @@ const refreshToken = async () => {
 
 }
 
-export default apiCall;
+export default apiServiceCall;

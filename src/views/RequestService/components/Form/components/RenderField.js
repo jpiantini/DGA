@@ -17,17 +17,19 @@ import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
 import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup';
 import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextField';
+import { cedulaValidationService } from '../../../../../api/RenderField';
 
 const RenderField = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false)
 
   const LocalOnChange = (val) => {
-    
+
     //call rule change
     switch (props.type) {
       case FIELD_TYPES.select:
-        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); // data object of form json. reference -> ArrayUtil/dataToSelect.js
+        // data object of form json. reference -> ArrayUtil/dataToSelect.js
+        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); 
         if (val?.target.value) { //new selectedValue
           props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
         } else if (currentSelectedValue?.invertRule) { //current selectedValue
@@ -40,7 +42,8 @@ const RenderField = (props) => {
           props.changeRule(props.values.find(item => item.value == selectedOption)?.rule)
         } else {
           const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
-          props.changeRule(props.values.find(item => item.value == unselectedOption)?.invertRule)
+          props.changeRule(props.values.find(item => item.value == unselectedOption)?.ruleF)
+      
         }
         break;
       case FIELD_TYPES.radioGroup:
@@ -53,25 +56,35 @@ const RenderField = (props) => {
     }
 
     //change val
-  //  if (typeof props.onChange == 'function') {
-      switch (MASK_LIST[props.Mask || '']) {
-        case MASK_LIST[7]:
-          props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
-          break;
-        case MASK_LIST[12]:
-          props.onChange(props.fieldKey, cleanNumberWithDecimal(val.target.value))
-          break;
-        default:
-          props.onChange(props.fieldKey, val.target.value);
-          break;
-      }
- //   }
-
+    //  if (typeof props.onChange == 'function') {
+    switch (MASK_LIST[props.Mask || '']) {
+      case MASK_LIST[7]:
+        props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
+        break;
+      case MASK_LIST[12]:
+        props.onChange(props.fieldKey, cleanNumberWithDecimal(val.target.value))
+        break;
+      default:
+        props.onChange(props.fieldKey, val.target.value);
+        break;
+    }
   }
 
-  const handleValidationOnBlur = () => {
-    if (typeof props.setFieldTouched == 'function') {
-      props.setFieldTouched(props.fieldKey, true, true)
+  const handleValidationOnBlur = (val) => {
+    props.setFieldTouched(props.fieldKey, true, true)
+    // 0 IS CEDULA FOR VALIDATE
+    if (props.Mask === '0') {
+      try {
+        cedulaValidationService(val.target.value).then((response) => {
+          if (response?.success && response?.exist) {
+            //DO NOTHING CEDULA IS VALID
+          } else {
+            props.setFieldError(props.fieldKey, "Cedula invalida,introduzca una cedula valida")
+          }
+        });
+      } catch (error) {
+        props.setFieldError(props.fieldKey, "Ha ocurrido un error validando la cedula")
+      }
     }
   }
 
@@ -147,7 +160,7 @@ const RenderField = (props) => {
         return (
           <RadioButtonGroup
             id={props.fieldKey}
-      //      title={props.label}
+            //      title={props.label}
             value={props.value}
             onChange={LocalOnChange}
             onBlur={handleValidationOnBlur}
@@ -163,7 +176,7 @@ const RenderField = (props) => {
         return (
           <CheckBoxGroup
             id={props.fieldKey}
-           // title={props.label}
+            // title={props.label}
             onChange={LocalOnChange}
             value={props.value}
             onBlur={handleValidationOnBlur}
@@ -214,7 +227,7 @@ const RenderField = (props) => {
             />
           )
         }
-        if (['0', '1','6'].includes(localToString(props.Mask))) {
+        if (['0', '1', '6'].includes(localToString(props.Mask))) {
           return (
             <TextField
               id={props.fieldKey}

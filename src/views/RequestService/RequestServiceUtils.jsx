@@ -11,7 +11,6 @@ const transformValue = (val, fieldProps) => {
   //Transformation by field type
   switch (fieldProps?.type) {
     case FIELD_TYPES.select:
-      console.log(val,fieldProps)
       _val = val
       _labelValue = fieldProps.values.find(item => item.value == val)?.label
       extraData.customLabel = {
@@ -56,7 +55,6 @@ const transformValue = (val, fieldProps) => {
     default:
       break;
   }
-  console.log(extraData)
   return {
     value: _val,
     labelValue: _labelValue,

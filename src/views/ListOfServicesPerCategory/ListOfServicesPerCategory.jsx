@@ -2,7 +2,7 @@ import { useState, useLayoutEffect, useEffect, Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { SmallHeightDivider } from '../../theme/Styles';
+import { MediumHeightDivider, SmallHeightDivider } from '../../theme/Styles';
 import { Row, RowBodyDivider } from '../../theme/Styles';
 import { Grid } from '@mui/material';
 import ServiceCard from './components/ServiceCard/ServiceCard';
@@ -95,6 +95,11 @@ function ListOfServicesPerCategory() {
                             </Grid>
                         </Fragment>
                     }
+                    <MediumHeightDivider />
+
+                    <TextInformation title="Información general"
+                        content={generalInformationData?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
+                        } />
                 </Container>
             </Row>
             {
@@ -118,6 +123,7 @@ function ListOfServicesPerCategory() {
                     </Grid>
                 </Fragment>
             }
+
         </Container>
     );
 }

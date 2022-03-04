@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import Dialog from '@mui/material/Dialog';
 import TextInformation from '../TextInformation/TextInformation';
 import IconButton from '@mui/material/IconButton';
@@ -9,13 +9,14 @@ import {
   StyledCloseIcon
 } from './styles/FormModalStyles';
 
-function FormModal({ children, title, open, onClose }) {
+function FormModal({ children, title, open, onClose, conditionalClose,maxWidth ='md' }) {
+  //conditionalClose - The modal doesn't close on backdrop click or close button click
   return (
     <Dialog
       open={open}
-      onClose={onClose}
-      onBackdropClick={onClose}
-      maxWidth='md'
+      onClose={conditionalClose ? null : onClose}
+      onBackdropClick={conditionalClose ? null : onClose}
+      maxWidth={maxWidth}
     >
       <Container>
 
@@ -23,15 +24,17 @@ function FormModal({ children, title, open, onClose }) {
           <Row>
             {
               title ?
-              <TextInformation title={title} />
-              :
-              <div style={{width:'100%'}}/>
+                <TextInformation title={title} />
+                :
+                <div style={{ width: '100%' }} />
             }
-            <IconButton onClick={onClose} sx={{ marginLeft: '5%' }}>
-              <StyledCloseIcon />
-            </IconButton>
+            {
+              !conditionalClose &&
+              <IconButton onClick={onClose} sx={{ marginLeft: '5%' }}>
+                <StyledCloseIcon />
+              </IconButton>
+            }
           </Row>
-
           {
             children
           }
