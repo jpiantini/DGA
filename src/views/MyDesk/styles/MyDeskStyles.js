@@ -80,4 +80,9 @@ export const SectionTextDivider = styled('h1')({
     width: '5%',
 });
 
+export const DocumentsContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems:'center'
+});
 

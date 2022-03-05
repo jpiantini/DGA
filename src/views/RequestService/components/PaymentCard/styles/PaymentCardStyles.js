@@ -9,15 +9,15 @@ export const Container = styled('div')({
     border: ` 1px solid ${COLORS.tertiary}`,
     '@media (min-width:320px)': {
         width:'270px',
-        height:'250px'
+        minHeight:'250px'
     },
     '@media (min-width:768px)': {
-        width:'300px',
-        height:'250px'
+        width:'380px',
+        minHeight:'250px'
     },
     '@media (min-width:1200px)': {
-        width:'300px',
-        height:'250px'
+        width:'425px',
+        minHeight:'250px'
     }
 });
 
@@ -44,7 +44,7 @@ export const Header = styled('div')({
 export const Body = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    height:'50%',
+    minHeight:'135px',
     alignItems:'center',
     justifyContent:'center',
     textAlign:'center'
@@ -82,7 +82,7 @@ export const HeaderSubTitle = styled('h4')({
 
 export const BodyTitle = styled('p')({
     color: COLORS.gray,
-    margin:'5px',
+    margin:'0',
     fontFamily: FONTS_FAMILY.bold.title,
     '@media (min-width:320px)': {
         fontSize: '15px',
@@ -97,7 +97,7 @@ export const BodyTitle = styled('p')({
 
 export const BodySubTitle = styled('p')({
     color: COLORS.gray,
-    margin:'5px',
+    margin:'0',
     fontFamily: FONTS_FAMILY.bold.title,
     '@media (min-width:320px)': {
         fontSize: '11px',

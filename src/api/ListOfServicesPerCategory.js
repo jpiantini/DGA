@@ -8,3 +8,7 @@ export const getGeneralInformationsFromWordpress = () => {
 export const getAllServices = () => {
     return apiServiceCall().get('/services').then(({data}) => data);
 }
+
+export const getAllQuestions = () => {
+    return wpCall().get('/web/v1/questionandanswers').then(({data}) => data);
+}

@@ -22,6 +22,7 @@ import { Grid } from '@mui/material';
 import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { MockupDocuments } from './DetailsConstants';
 import { useQueryClient } from 'react-query';
+import { format } from 'date-fns';
 
 
 function Details() {
@@ -31,9 +32,21 @@ function Details() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
     const queryClient = useQueryClient()
-    const cleanRequestID = requestID.replace('payment','');
+    const cleanRequestID = requestID.replace('payment', '');
 
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID])
+
+    const documentsData = requestData.request.request_document.map((document) => {
+        return {
+            name: `${document.name}.${document.extension}`,
+            //pending to change
+            documentType: document.extension,
+            date: format(new Date(document.created_at), 'yyyy-MM-dd'),
+            url: document.url,
+            type: document.extension
+
+        }
+    })
 
     return (
         <Container >
@@ -73,8 +86,6 @@ function Details() {
                     ))
                 }
 
-
-
                 <Grid item xs={6} sm={4} md={4}>
                     <BodyTextBold>
                         Estatus:
@@ -85,14 +96,18 @@ function Details() {
                 </Grid>
 
             </Grid>
+
             <SmallHeightDivider />
             <SmallHeightDivider />
-            <TextInformation title="Documentos subidos" />
-            <SmallHeightDivider />
-            <DocumentsOfRequestsCard data={MockupDocuments.data} />
             {
-                //pending copy myDesk subview documentPersonald or documentInstitutional
+                requestData.request.request_document.length > 0 &&
+                <div>
+                    <TextInformation title="Documentos subidos" />
+                    <SmallHeightDivider />
+                    <DocumentsOfRequestsCard data={documentsData} />
+                </div>
             }
+
 
 
         </Container>
