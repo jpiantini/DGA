@@ -3,6 +3,7 @@ import {
   SmallHeightDivider,
   MediumHeightDivider,
   StyledButtonOutlined,
+  StyledPagination,
 } from '../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -12,7 +13,6 @@ import {
   ButtonContainer,
   Container,
   ListContainer,
-  StyledPagination
 } from './styles/RequestedServiceListStyles';
 import { useFormik } from 'formik';
 import { formInitialState, FormSchema, Filters } from './RequestedServiceListConstants';

@@ -26,6 +26,14 @@ const transformValue = (val, fieldProps) => {
       _val = [fieldProps?.label]
       _labelValue = null
       break;
+    case FIELD_TYPES.date:
+      _val = format(new Date(val), 'yyyy-MM-dd')
+      _labelValue = fieldProps?.label
+      break;
+    case FIELD_TYPES.time:
+      _val = format(new Date(val), 'hh:mm')
+      _labelValue = fieldProps?.label
+      break;
     default:
       _val = val
       _labelValue = fieldProps?.label

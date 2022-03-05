@@ -4,21 +4,25 @@ export const localDirections = [
   {
     id:0,
     wordpressID:130,
+    wordpressKey:'todosServicios',
     title:'TODOS LOS SERVICIOS',
   },
   {
     id:1,
     wordpressID:132,
+    wordpressKey:'confotour',
     title:'CONFOTUR',
   },
   {
     id:2,
     wordpressID:134,
+    wordpressKey:'empresaServicios',
     title:'EMPRESAS Y SERVICIOS',
   },
   {
     id:3,
     wordpressID:133,
+    wordpressKey:'dpp',
     title:'DPP',
   },
 ]

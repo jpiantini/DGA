@@ -1,6 +1,7 @@
 import { useState, useLayoutEffect, useEffect, Fragment } from 'react';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
+import Collapsable from '../../components/Collapsable/Collapsable';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MediumHeightDivider, SmallHeightDivider } from '../../theme/Styles';
 import { Row, RowBodyDivider } from '../../theme/Styles';
@@ -15,7 +16,7 @@ import { useParams } from "react-router-dom";
 import {
     Container,
 } from './styles/ListOfServicesPerCategoryStyles';
-import { getAllServices, getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
+import { getAllQuestions, getAllServices, getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
 import { useQuery } from 'react-query';
 
 function ListOfServicesPerCategory() {
@@ -26,8 +27,9 @@ function ListOfServicesPerCategory() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
 
-    const { data: generalInformationData } = useQuery(['generalInformationData'], () => getGeneralInformationsFromWordpress())
-    const { data: listOfServices } = useQuery(['listOfServices'], () => getAllServices())
+    const { data: generalInformationData, isLoading: generalInformationDataLoading } = useQuery(['generalInformationData'], () => getGeneralInformationsFromWordpress())
+    const { data: allQuestionsData, isLoading: allQuestionsDataLoading } = useQuery(['allQuestionsData'], () => getAllQuestions())
+    const { data: listOfServices, isLoading: listOfServicesLoading } = useQuery(['listOfServices'], () => getAllServices())
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
     const [currentDirection, setCurrentDirection] = useState();
@@ -61,6 +63,8 @@ function ListOfServicesPerCategory() {
             history.push('/app/listOfServices/0')
         }
     }, [categoryID, listOfServices]);
+
+    if (listOfServicesLoading || allQuestionsDataLoading || listOfServicesLoading) return null
 
     return (
         <Container >
@@ -97,9 +101,19 @@ function ListOfServicesPerCategory() {
                     }
                     <MediumHeightDivider />
 
-                    <TextInformation title="Información general"
-                        content={generalInformationData?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
-                        } />
+                    <TextInformation title="Preguntas frecuentes" />
+                    <SmallHeightDivider />
+                    {
+                        allQuestionsData[currentDirection?.wordpressKey]?.map((question) => (
+                            <div>
+                                <Collapsable title={question.question} content={question.answer} />
+                                <SmallHeightDivider />
+
+                            </div>
+                        ))
+                    }
+
+
                 </Container>
             </Row>
             {

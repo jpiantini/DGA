@@ -47,7 +47,13 @@ function RequestService() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [priceModalIsOpen, setPriceModalIsOpen] = useState(false);
+  const [priceModalIsOpen, setPriceModalIsOpen] = useState(true);
+  const [selectedVariation, setSelectedVariation] = useState();
+
+  const handleSelectVariation = (val) => {
+    handleModalVisibility();
+    setSelectedVariation(val)
+  }
 
 
   const { data: userData, isLoading: userDataIsLoading } = useQuery(['userData'], async () => {
@@ -226,7 +232,10 @@ function RequestService() {
             dispatch(ShowGlobalLoading('Registrando enlace'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
             if (responseSoftExpert.success) {
-              let responseBackOffice = await linkingDocumentsToRequestInBackOffice(uploadSoftExpertConfig.documents, responseFormSubmit.RequestID);
+              let requestBackOffice = {
+                documents: uploadSoftExpertConfig.documents
+              };
+              let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
               if (responseBackOffice.success) {
 
               } else {
@@ -278,21 +287,22 @@ function RequestService() {
           <Grid alignItems="center" container direction="row" justifyContent="space-around" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {
               serviceDescription.prices.map((price, index) => (
-                price.variations.length > 1 ? 
-                <Grid key={index} item xs={4} sm={8} md={6} >
-                  <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
-                    time={"15 Dias laborables"} onClick={() => console.log('click')}
-                  />
-                </Grid>
-                :
-                <Grid key={index} item xs={4} sm={8} md={6} >
-                  <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
-                    time="15 Dias laborables" onClick={() => console.log('click')}
-                  />
-                </Grid>
+                price.variations.length > 1 ?
+                  <Grid key={index} item xs={4} sm={8} md={6} >
+                    <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
+                      time={"15 Dias laborables"} onClick={handleSelectVariation}
+                    />
+                  </Grid>
+                  :
+                  <Grid key={index} item xs={4} sm={8} md={6} >
+                    <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
+                      time="15 Dias laborables" onClick={handleSelectVariation}
+                    />
+                  </Grid>
               ))
             }
           </Grid>
+          <SmallHeightDivider />
         </FormModal>
       </Container>
     </Container>

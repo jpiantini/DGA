@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import { Button,TextField } from '@mui/material';
 import COLORS from './Colors';
 import FONTS_FAMILY from './FontsFamily';
+import Pagination from '@mui/material/Pagination';
 
 export const boxShadowConfig="5px 5px 50px -15px rgba(0,0,0,0.51)"
 
@@ -216,3 +217,24 @@ export const FieldTitle = styled('p')({
       fontSize: '17px',
     }
   });
+
+  export const StyledPagination = styled(Pagination)({
+    '& .MuiPaginationItem-rounded':{
+        '&:hover,&:focus':{
+            backgroundColor:COLORS.primary,
+            color:COLORS.white
+        }
+    },
+    '& .Mui-selected':{
+        backgroundColor:`${COLORS.primary} !important`,
+        color:COLORS.white
+    },
+    '& .MuiPaginationItem-root':{
+        '&:hover,&:focus':{
+            backgroundColor:COLORS.primary,
+            color:COLORS.white
+        },
+    }
+
+});
+
