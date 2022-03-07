@@ -27,7 +27,7 @@ import axios from 'axios';
 import { getUser, registerLoggedUserInServiceBackend } from '../../../api/Auth';
 import { cleanStringFromNumbers } from '../../../utilities/functions/NumberUtil';
 import { useQuery } from 'react-query';
-
+import userLogo from '../../../assets/images/user.png'
 function Login() {
 
     const history = useHistory();
@@ -36,7 +36,7 @@ function Login() {
 
     const [errorMessage, setErrorMessage] = useState('');
 
-   const {refetch} =  useQuery(['userData'], () => getUser(), { enabled: false })
+    const { refetch } = useQuery(['userData'], () => getUser(), { enabled: false })
 
     const formik = useFormik({
         initialValues: {
@@ -63,7 +63,11 @@ function Login() {
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
-                LocalStorageService.setItem('profile_img', response.data?.payload.profile_img);
+                if (response.data?.payload.profile_img == null) {
+                    LocalStorageService.setItem('profile_img', userLogo);
+                } else {
+                    LocalStorageService.setItem('profile_img', response.data?.payload.profile_img);
+                }
 
                 let userResponse = await getUser();
                 refetch();

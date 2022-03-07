@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SubHeaderSolidBackground from '../../../../assets/images/SolidColorBanner.png'
-import SubHeaderBackground from '../../../../assets/images/SubHeaderBackground.png'
+//import SubHeaderBackground from '../../../../assets/images/SubHeaderBackground.png'
 import { useSelector } from "react-redux";
 import { Container, DarkOverlay, Title } from './styles/SubHeaderStyles';
 
@@ -11,7 +11,9 @@ function SubHeader() {
   
     return (
         <Container style={{
-            backgroundImage: USING_IMAGE ? `url(${SubHeaderBackground})` :  `url(${SubHeaderSolidBackground})`,
+         //   backgroundImage: USING_IMAGE ? `url(${SubHeaderBackground})` :  `url(${SubHeaderSolidBackground})`,
+         backgroundImage: `url(${SubHeaderSolidBackground})`,
+
         }}>
             {
                 USING_IMAGE ?

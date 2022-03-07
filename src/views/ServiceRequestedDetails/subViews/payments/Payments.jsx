@@ -18,7 +18,9 @@ import { MockupPayments } from './PaymentsConstants';
 import { Grid } from '@mui/material';
 import { ImageContainer, LogoImage } from '../../styles/ServiceRequestedDetailsStyles';
 import { useQueryClient } from 'react-query';
-
+import siritLogo from '../../../../assets/images/siritLogo.png'
+import transferenciaLogo from '../../../../assets/images/transferenciaLogo.png'
+import depositoLogo from '../../../../assets/images/depositoLogo.png'
 
 function Payment() {
 
@@ -70,12 +72,33 @@ function Payment() {
             <TextInformation title="Pagar impuesto de servicio" />
             <SmallHeightDivider />
             <SmallHeightDivider />
-            <Grid alignItems="center" justifyContent="space-around" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
-                <Grid item xs={6} sm={4} md={4}>
-                    <ImageContainer onClick={() => handleSiritePayment()}>
-                        <LogoImage src="https://www.sirite.gob.do/o/sirit-theme-1.20190411.66/images/sirit/sirit-logo.png" />
-                    </ImageContainer>
-                </Grid>
+            <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+                {
+                    requestData.request.service.sirit_code != null &&
+                    <Grid item xs={6} sm={4} md={4}>
+                        <ImageContainer title="Sirite" onClick={() => handleSiritePayment()}>
+                            <LogoImage src={siritLogo} />
+                        </ImageContainer>
+                    </Grid>
+
+                }
+                {
+                    requestData.request.service.external_pay !== 0 &&
+                    <Fragment>
+                        <Grid item xs={6} sm={4} md={4}>
+                            <ImageContainer title="Transferecia" onClick={() => handleSiritePayment()}>
+                                <LogoImage src={transferenciaLogo} />
+                            </ImageContainer>
+                        </Grid>
+
+                        <Grid item xs={6} sm={4} md={4}>
+                            <ImageContainer title="Deposito" onClick={() => handleSiritePayment()}>
+                                <LogoImage src={depositoLogo} />
+                            </ImageContainer>
+                        </Grid>
+                    </Fragment>
+                }
+
             </Grid>
             <SmallHeightDivider />
             <SmallHeightDivider />

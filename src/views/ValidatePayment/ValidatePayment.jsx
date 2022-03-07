@@ -3,7 +3,9 @@ import {
     SmallHeightDivider,
     StyledButton,
     MediumHeightDivider,
-    SubTitle
+    SubTitle,
+    StyledCheckCircleIcon,
+    StyledCancelIcon
 } from '../../theme/Styles';
 import { useHistory } from 'react-router';
 import { useDispatch } from "react-redux";
@@ -11,9 +13,7 @@ import { UpdateAppSubHeaderTitle, ShowGlobalLoading, HideGlobalLoading } from '.
 import {
     ButtonContainer,
     Container,
-    StyledCheckCircleIcon,
     CenterContainer,
-    StyledCancelIcon,
 } from './styles/ValidatePaymentStyles';
 
 function ValidatePayment() {

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState, useLayoutEffect, useEffect, useRef } from "react";
 import {
   BodyText,
   BodyTextBold,
@@ -6,6 +6,8 @@ import {
   StyledButtonOutlined,
   StyledButton,
   MediumHeightDivider,
+  StyledCheckCircleIcon,
+  SubTitle,
 } from "../../theme/Styles";
 import { } from "./RequestServiceConstants";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -19,17 +21,18 @@ import {
   Container,
   ImageContainer,
   LogoImage,
+  SuccessContainer,
 } from "./styles/RequestServicesStyles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
-import { Grid } from "@mui/material";
+import { Grid, Rating } from "@mui/material";
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery } from "react-query";
-import { getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
+import { addRating, getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
@@ -47,8 +50,16 @@ function RequestService() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
+  const successRef = useRef(null)
+
   const [priceModalIsOpen, setPriceModalIsOpen] = useState(true);
   const [selectedVariation, setSelectedVariation] = useState();
+
+  const [showRequestDetail, setShowRequestDetail] = useState(false);
+
+  const [successResponse, setSuccessResponse] = useState();
+  const [ratingValue, setRatingValue] = useState('0,00');
+
 
   const handleSelectVariation = (val) => {
     handleModalVisibility();
@@ -251,7 +262,10 @@ function RequestService() {
           }
           if (canFormContinue) {
             enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
-            history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
+            //     history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
+            setSuccessResponse(responseFormSubmit);
+            setShowRequestDetail(true);
+            successRef.current.scrollIntoView()
           }
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
@@ -261,6 +275,14 @@ function RequestService() {
       enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
     }
     dispatch(HideGlobalLoading());
+  }
+
+  const handleSendRating = async (rating) => {
+    dispatch(ShowGlobalLoading(''));
+    // TO DO CHANGE ENDPOINT
+    // let response = await addRating({ rating });
+    dispatch(HideGlobalLoading());
+    setRatingValue(rating);
   }
 
   useLayoutEffect(() => {
@@ -275,36 +297,78 @@ function RequestService() {
     <Container>
       <SmallHeightDivider />
       <SmallHeightDivider />
-      <Container>
-        <Form
-          doRequest={sendRequest}
-          data={getData().data}
-          plainData={getData().plainData}
-        />
-        <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} title="Pago" maxWidth='lg'
-          conditionalClose={true}>
-          <SmallHeightDivider />
-          <Grid alignItems="center" container direction="row" justifyContent="space-around" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-            {
-              serviceDescription.prices.map((price, index) => (
-                price.variations.length > 1 ?
-                  <Grid key={index} item xs={4} sm={8} md={6} >
-                    <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
-                      time={"15 Dias laborables"} onClick={handleSelectVariation}
-                    />
-                  </Grid>
-                  :
-                  <Grid key={index} item xs={4} sm={8} md={6} >
-                    <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
-                      time="15 Dias laborables" onClick={handleSelectVariation}
-                    />
-                  </Grid>
-              ))
-            }
-          </Grid>
-          <SmallHeightDivider />
-        </FormModal>
-      </Container>
+      {
+        !showRequestDetail ?
+          <Container>
+            <Form
+              doRequest={sendRequest}
+              data={getData().data}
+              plainData={getData().plainData}
+            />
+            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='lg'
+              conditionalClose={true}>
+              <SmallHeightDivider />
+              <Grid alignItems="center" container direction="row" justifyContent="space-around" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {
+                  serviceDescription.prices.map((price, index) => (
+                    price.variations.length > 1 ?
+                      <Grid key={index} item xs={4} sm={8} md={6} >
+                        <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
+                          time={"15 Dias laborables"} onClick={handleSelectVariation}
+                        />
+                      </Grid>
+                      :
+                      <Grid key={index} item xs={4} sm={8} md={6} >
+                        <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
+                          time="15 Dias laborables" onClick={handleSelectVariation}
+                        />
+                      </Grid>
+                  ))
+                }
+              </Grid>
+              <SmallHeightDivider />
+            </FormModal>
+          </Container>
+          :
+          <Container ref={successRef}>
+            <SuccessContainer>
+              <StyledCheckCircleIcon />
+              <SmallHeightDivider />
+              <SubTitle >
+                Solicitud enviada satisfactoriamente.
+              </SubTitle>
+              <SmallHeightDivider />
+              <strong>
+                <BodyText>
+                  ¿Que le parecio el proceso de solicitud este servicio?
+                </BodyText>
+              </strong>
+              <Rating
+                name="simple-controlled"
+                value={ratingValue}
+                precision={0.5}
+                onChange={(event, newValue) => {
+                  handleSendRating(newValue);
+                }}
+                size="large"
+              />
+              <MediumHeightDivider />
+            </SuccessContainer>
+            <ButtonsContainer>
+              <div style={{ width: '30%' }}>
+                <StyledButtonOutlined onClick={() => history.push('/app/myDesk')} variant="outlined">
+                  Ir a inicio mi escritorio
+                </StyledButtonOutlined>
+
+              </div>
+              <div style={{ width: '30%' }}>
+                <StyledButton onClick={() => history.push(`/app/serviceRequestedDetails/${successResponse.RequestID}`)}>
+                  Ver detalle de la solicitud
+                </StyledButton>
+              </div>
+            </ButtonsContainer>
+          </Container>
+      }
     </Container>
   );
 }

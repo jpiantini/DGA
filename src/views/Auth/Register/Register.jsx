@@ -5,7 +5,8 @@ import {
     StyledButton,
     MediumHeightDivider,
     WpRichTextContainer,
-    SubTitle
+    SubTitle,
+    StyledCheckCircleIcon
 } from '../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -15,7 +16,6 @@ import {
     ButtonsContainer,
     ButtonContainer,
     Container,
-    StyledCheckCircleIcon,
     FinalStepContainer,
 } from './styles/RegisterStyles';
 import MobileStepper from '@mui/material/MobileStepper';
