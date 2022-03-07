@@ -9,7 +9,7 @@ import {
   StyledCloseIcon
 } from './styles/FormModalStyles';
 
-function FormModal({ children, title, open, onClose, conditionalClose,maxWidth ='md' }) {
+function FormModal({ children, title, open, onClose, conditionalClose,fullWidth,fullScreen,maxWidth ='md' }) {
   //conditionalClose - The modal doesn't close on backdrop click or close button click
   return (
     <Dialog
@@ -17,9 +17,10 @@ function FormModal({ children, title, open, onClose, conditionalClose,maxWidth =
       onClose={conditionalClose ? null : onClose}
       onBackdropClick={conditionalClose ? null : onClose}
       maxWidth={maxWidth}
+      fullWidth={fullWidth}
+      fullScreen={fullScreen}
     >
       <Container>
-
         <ContentContainer>
           <Row>
             {
