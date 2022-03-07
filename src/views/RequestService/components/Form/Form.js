@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, Fragment } from 'react';
 import {
     SmallHeightDivider,
     StyledButtonOutlined,
@@ -27,6 +27,7 @@ import { localToString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import { FIELD_TYPES, RULE_LIST } from './FormConstants';
 import { useSnackbar } from 'notistack';
+import ImportantInformationModal from '../../../../components/ImportantInformationModal/ImportantInformationModal';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -46,6 +47,8 @@ function Form(props) {
     const lastStep = (stepsLenght - 1) == activeStep;
     const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
 
+    const [showSubmitModal, setShowSubmitModal] = useState(false);
+
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
     const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError } = useFormik({
@@ -54,6 +57,11 @@ function Form(props) {
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
+
+    const handleShowModal = () => {
+        setShowSubmitModal(!showSubmitModal)
+    }
+
 
     /*  const handleStepsValidation = (step) => {
           if (localData[step]) {
@@ -169,7 +177,7 @@ function Form(props) {
 
     const localDoRequest = ({ values, actions }) => {
         if (fakeLastStep && typeof props.doRequest == 'function') {
-            props.doRequest(values)
+            handleShowModal();
         } else {
             let extraStep = 0
             for (let i = (activeStep + 1); i < localData.length; i++) {
@@ -185,6 +193,10 @@ function Form(props) {
             actions?.setTouched({});
             actions?.setSubmitting(false);
         }
+    }
+
+    const handleModalSubmit = () => {
+        props.doRequest(values);
     }
 
     const handleBack = () => {
@@ -281,6 +293,18 @@ function Form(props) {
 
     return (
         <Container >
+            <ImportantInformationModal open={showSubmitModal} onBackDropClick={handleShowModal}
+                onCloseClick={handleShowModal} CloseTitle="Cancelar" CloseButton
+                buttonTitle="Confirmar" buttonClick={handleModalSubmit} content={
+                    <Fragment>
+                        <p>
+                            Verifique que todos los datos suministrados en el formulario son correctos, en caso de tener alguna información errónea puede volver al paso anterior y arreglarla.
+                        </p>
+                        <strong>
+                            Declaro que esta información es verídica y al hacerlo autorizo al Ministerio de Turismo de la Republica Dominicana a consultar mis datos personales en las distintas instituciones que intervienen en la presente solicitud.
+                        </strong>
+                    </Fragment>
+                } />
             {
                 matchesWidth &&
                 <Stepper activeStep={fakeStep} alternativeLabel>

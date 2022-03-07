@@ -57,3 +57,11 @@ export const ImageContainer = styled('div')({
 export const LogoImage = styled('img')({
     width: '80%',
 });
+
+export const SuccessContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    alignSelf: 'center',
+    alignItems: 'center'
+});

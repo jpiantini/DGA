@@ -51,12 +51,13 @@ export const Title = styled('h1')({
     color: COLORS.white,
 });
 
-export const ButtonsContainer = styled('div')({
+export const ButtonsContainer = styled('div')(props => ({
     display: 'flex',
-    flexDirection: 'column',
-    minWidth: '50%',
-    alignItems: 'center'
-});
+    flexDirection: 'row',
+    minWidth: props.CloseButton == true ? '100%' : '50%',
+    alignItems: 'center',
+    justifyContent:'space-between'
+}));
 
 export const TextContainer = styled('div')({
     display: 'flex',

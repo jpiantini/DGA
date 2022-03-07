@@ -28,19 +28,19 @@ export const ImageContainer = styled('div')({
     display:'flex',
     flexDirection:'column',
     width: '100%',
-    minHeight:'250px',
+    height:'220px',
     border:` 1px solid ${COLORS.secondary}`,
     alignItems:'center',
     justifyContent:'center',
     cursor : 'pointer',
     '@media (min-width:320px)': {
-        width: '100%',
+        width: '200px',
     },
     '@media (min-width:768px)': {
-        width: '100%',
+        width: '280px',
     },
     '@media (min-width:1200px)': {
-        width: '350px',
+        width: '300px',
     },
     '&:hover':{
         boxShadow: boxShadowConfig,
@@ -49,5 +49,14 @@ export const ImageContainer = styled('div')({
 });
 
 export const LogoImage = styled('img')({
-    width: '80%',
+
+    '@media (min-width:320px)': {
+        width: '100px',
+    },
+    '@media (min-width:768px)': {
+        width: '120px',
+    },
+    '@media (min-width:1200px)': {
+        width: '150px',
+    },
 });

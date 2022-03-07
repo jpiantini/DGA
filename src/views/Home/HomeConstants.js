@@ -1,19 +1,3 @@
-//ALL CURRENT DATA IS MOCKUP
-
-import mockupImage1 from '../../assets/images/mockupImage1.jpg';
-import mockupImage2 from '../../assets/images/mockupImage2.jpg';
-import mockupImage3 from '../../assets/images/mockupImage3.png';
-import mockupImage4 from '../../assets/images/mockupImage4.png';
-import mockupImage5 from '../../assets/images/mockupImage5.png';
-
-export const slideImages = [
-  mockupImage1,
-  mockupImage2,
-  mockupImage3
-]
-
-export const servicesListBackgroundImage = mockupImage4;
-export const moreInformationBackgroundImage = mockupImage5;
 
 export const firstSelectorData = [
   {

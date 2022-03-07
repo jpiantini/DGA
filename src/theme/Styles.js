@@ -3,6 +3,8 @@ import { Button,TextField } from '@mui/material';
 import COLORS from './Colors';
 import FONTS_FAMILY from './FontsFamily';
 import Pagination from '@mui/material/Pagination';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export const boxShadowConfig="5px 5px 50px -15px rgba(0,0,0,0.51)"
 
@@ -238,3 +240,28 @@ export const FieldTitle = styled('p')({
 
 });
 
+export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
+    color: COLORS.success,
+    '@media (min-width:320px)': {
+        fontSize: '150px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '200px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '250px',
+    }
+});
+
+export const StyledCancelIcon = styled(CancelIcon)({
+    color: COLORS.error,
+    '@media (min-width:320px)': {
+        fontSize: '150px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '200px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '250px',
+    }
+});

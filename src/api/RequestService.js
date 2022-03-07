@@ -20,3 +20,8 @@ export const linkingDocumentsToRequestInSoftExperted = (request) => {
 export const linkingDocumentsToRequestInBackOffice = (filesList,requestID) => {
     return apiServiceCall().post(`/assigndocument/${requestID}`,filesList).then(({data}) => data);
 }
+
+export const addRating = (rating,loggedUserCedula) => {
+    //TO DO CHANGE ENDPOINT
+    return apiServiceCall().post(`/assigndocument/${loggedUserCedula}`,rating).then(({data}) => data);
+}

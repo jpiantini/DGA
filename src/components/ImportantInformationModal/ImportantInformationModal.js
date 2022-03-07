@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {Fragment, memo} from 'react';
 import Dialog from '@mui/material/Dialog';
 import { useMediaQuery } from '@mui/material';
 import { SmallHeightDivider, StyledButton } from '../../theme/Styles';
@@ -15,7 +15,7 @@ import {
 } from './styles/ImportantInformationModalStyles';
 import { useHistory } from 'react-router';
 
- function ImportantInformationModal({ open,content,buttonTitle,buttonClick, onBackDropClick, onCloseClick }) {
+ function ImportantInformationModal({ open,content,buttonTitle,buttonClick, onBackDropClick, onCloseClick,CloseTitle,CloseButton }) {
   const matchesWidth = useMediaQuery('(min-width:768px)');
   const history = useHistory();
 
@@ -42,8 +42,16 @@ import { useHistory } from 'react-router';
           </TextContainer>
         </CenterContainer>
         <CenterContainer>
-          <ButtonsContainer>
+          <ButtonsContainer CloseButton={CloseButton}>
             <StyledButton onClick={buttonClick}>{buttonTitle}</StyledButton>
+
+            { CloseButton &&
+              <Fragment>
+                <div style={{ width: '50%' }} />
+                <StyledButton onClick={onCloseClick}>{CloseTitle}</StyledButton>
+              </Fragment>
+            }
+
           </ButtonsContainer>
         </CenterContainer>
         <SmallHeightDivider/>
