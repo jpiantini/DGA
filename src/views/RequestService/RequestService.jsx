@@ -319,7 +319,7 @@ function RequestService() {
                       </Grid>
                       :
                       <Grid key={index} item xs={4} sm={8} md={6} >
-                        <PaymentCard title={price.variations[0].concept} variations={price.variations[0].price} price={price.variations[0].price}
+                        <PaymentCard title={price.variations[0].concept} variations={price.variations}
                           time="15 Dias laborables" onClick={handleSelectVariation}
                         />
                       </Grid>

@@ -7,7 +7,7 @@ import {
     Container, Header, HeaderSubTitle, HeaderTitle, BodyTitle, Body, BodySubTitle, ButtonsContainer, CardButton
 } from './styles/PaymentCardStyles';
 
-function PaymentCard({ title, price, onClick, variations }) {
+function PaymentCard({ title, onClick, variations }) {
 
     const [servicePrice, setServicePrice] = useState(variations?.[0]?.price);
 

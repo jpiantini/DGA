@@ -2,6 +2,7 @@ export const FIELD_TYPES = {
   header: 'header',
   select: 'select',
   text: 'text',
+  textarea: 'textarea',
   date: 'date',
   time: 'time',
   radioGroup: 'radio-group',
