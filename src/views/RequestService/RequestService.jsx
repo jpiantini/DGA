@@ -305,10 +305,10 @@ function RequestService() {
               data={getData().data}
               plainData={getData().plainData}
             />
-            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='lg'
+            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' 
               conditionalClose={true}>
               <SmallHeightDivider />
-              <Grid alignItems="center" container direction="row" justifyContent="space-around" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+              <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {
                   serviceDescription.prices.map((price, index) => (
                     price.variations.length > 1 ?
