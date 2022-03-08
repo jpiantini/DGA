@@ -189,7 +189,7 @@ function RequestService() {
         nacionsolic: "Dominicano",
         celularsolic: cleanStringFromNumbers(userData.payload.phone),
         emailsolic: userData.payload.email,
-        logico01: 1
+        solicitudonline: 1,
       }
     }
     dispatch(ShowGlobalLoading('Cargando'));
@@ -305,7 +305,7 @@ function RequestService() {
               data={getData().data}
               plainData={getData().plainData}
             />
-            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' 
+            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl'
               conditionalClose={true}>
               <SmallHeightDivider />
               <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -337,7 +337,7 @@ function RequestService() {
               <SubTitle >
                 Solicitud enviada satisfactoriamente.
               </SubTitle>
-              <SmallHeightDivider />
+              {     /*         <SmallHeightDivider />
               <strong>
                 <BodyText>
                   ¿Que le parecio el proceso de solicitud este servicio?
@@ -352,6 +352,8 @@ function RequestService() {
                 }}
                 size="large"
               />
+              */
+              }
               <MediumHeightDivider />
             </SuccessContainer>
             <ButtonsContainer>
