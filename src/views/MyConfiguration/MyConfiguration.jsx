@@ -39,15 +39,14 @@ export const MyConfiguration = () => {
   const mutation = useMutation(modifyUserData);
 
   const formik = useFormik({
-    initialValues: { // TO DO COMPLETE FORM INFORMATION
+    initialValues: {
+      // TO DO COMPLETE FORM INFORMATION
       address: data?.payload?.address || '',
       province_id: data?.payload?.province_id || '',
       municipality_id: data?.payload?.municipality_id || '',
       sector_id: data?.payload?.sector_id || '',
-      phoneMobile: data?.payload?.phone || '',
+      phone: data?.payload?.phone || '',
       phone2: data?.payload?.phone2 || '',
-      phoneLaboral: '',
-      secundaryEmail: data?.payload?.email2 || '',
       notificationsWithEmail: false,
       notificationsSms: false
     },
@@ -121,21 +120,25 @@ export const MyConfiguration = () => {
   }
 
   const handleModifyUserData = async (formData) => {
-    alert(formData);
-
-    /*  TO DO change the modifyUserData endpoint
-    
-    mutation.mutate(formData, {
+    const request = {
+      phone: formData.phone,
+      phone2: formData.phone2,
+      province_id: formData.province_id,
+      municipality_id: formData.municipality_id,
+      sector_id: formData.sector_id,
+      address: formData.address,
+    }
+    mutation.mutate(request, {
       onSuccess: (data) => {
         if (data.data.success) {
+          // refresh cache of userData
+          queryClient.invalidateQueries('userData')
           enqueueSnackbar('Se ha modificado su información de usuario', { variant: 'success' });
-          queryClient.invalidateQueries('userData') // refresh cache of userData
-        }else{
+        } else {
           enqueueSnackbar(data.data.msg, { variant: 'error' });
         }
       }
     })
-       */
   }
 
   const getProvincesData = async () => {
@@ -403,13 +406,13 @@ export const MyConfiguration = () => {
         </Grid>
 
         <Grid item xs={8} sm={4} md={6}>
-          <PhoneTextField title="Teléfono móvil" type="text" id="phoneMobile"
+          <PhoneTextField title="Teléfono móvil" type="text" id="phone"
             required
-            value={cleanStringFromNumbers(formik.values.phoneMobile)}
+            value={cleanStringFromNumbers(formik.values.phone)}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.phoneMobile && Boolean(formik.errors.phoneMobile)}
-            helperText={formik.touched.phoneMobile && formik.errors.phoneMobile}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
           />
         </Grid>
 
@@ -424,27 +427,8 @@ export const MyConfiguration = () => {
           />
         </Grid>
 
-        <Grid item xs={8} sm={4} md={6}>
-          <PhoneTextField title="Teléfono laboral" type="text" id="phoneLaboral"
-            required
-            value={cleanStringFromNumbers(formik.values.phoneLaboral)}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.phoneLaboral && Boolean(formik.errors.phoneLaboral)}
-            helperText={formik.touched.phoneLaboral && formik.errors.phoneLaboral}
-          />
-        </Grid>
+  
 
-        <Grid item xs={12} sm={4} md={6}>
-          <TextField title="Correo electrónico secundario" type="text" id="secundaryEmail"
-            required
-            value={formik.values.secundaryEmail}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.secundaryEmail && Boolean(formik.errors.secundaryEmail)}
-            helperText={formik.touched.secundaryEmail && formik.errors.secundaryEmail}
-          />
-        </Grid>
       </Grid>
 
       <SmallHeightDivider />
@@ -476,7 +460,7 @@ export const MyConfiguration = () => {
       <MediumHeightDivider />
 
       <ButtonSaveContainer>
-        <StyledButtonOutlined variant="outlined">Guardar</StyledButtonOutlined>
+        <StyledButtonOutlined variant="outlined" onClick={formik.handleSubmit}>Guardar</StyledButtonOutlined>
       </ButtonSaveContainer>
       <MediumHeightDivider />
     </Container>

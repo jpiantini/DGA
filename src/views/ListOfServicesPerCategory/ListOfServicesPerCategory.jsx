@@ -21,7 +21,7 @@ import { useQuery } from 'react-query';
 
 function ListOfServicesPerCategory() {
 
-    const matchesWidth = useMediaQuery('(min-width:867px)');
+    const matchesWidth = useMediaQuery('(min-width:320px)');
     const history = useHistory();
     let { categoryID } = useParams();
     const dispatch = useDispatch();

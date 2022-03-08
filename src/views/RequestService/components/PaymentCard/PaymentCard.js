@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import RadioButtonGroup from '../../../../components/RadioButtonGroup/RadioButtonGroup';
 import TextField from '../../../../components/TextField/TextField';
 import { SmallHeightDivider } from '../../../../theme/Styles';
-import { numberToStringLaborableTime } from '../../../../utilities/functions/FormatterUtil';
+import { priceVariationToLaborableTime } from '../../../../utilities/functions/FormatterUtil';
 import {
     Container, Header, HeaderSubTitle, HeaderTitle, BodyTitle, Body, BodySubTitle, ButtonsContainer, CardButton
 } from './styles/PaymentCardStyles';
@@ -23,24 +23,6 @@ function PaymentCard({ title, onClick, variations }) {
             //maxValue: variation.
         }
     })
-
-    const getVariationTime = (variation) => {
-        if (variation.months > 0 && variation.days > 0) {
-            return `${variation.months} Meses y ${variation.days} días laborables`
-        }
-        if (variation.days > 0 && variation.hours > 0) {
-            return `${variation.days} Días y ${variation.hours} horas laborables`
-        }
-        if (variation.months > 0) {
-            return `${variation.months} Meses laborables`
-        }
-        if (variation.days > 0) {
-            return `${variation.days} Días laborables`
-        }
-        if (variation.hours > 0) {
-            return `${variation.hours} Horas laborables`
-        }
-    }
 
     const handleValueChange = (value) => {
         const selectedVariationPrice = variations.find((variation) => variation.id == selectedVariation)?.price;
@@ -94,7 +76,7 @@ function PaymentCard({ title, onClick, variations }) {
                     <BodySubTitle>Tiempo de entrega</BodySubTitle>
                     <strong>
                         <BodyTitle>
-                            {getVariationTime(variations?.find((variation) => variation.id == selectedVariation)?.delivery_time)}
+                            {priceVariationToLaborableTime(variations?.find((variation) => variation.id == selectedVariation)?.delivery_time)}
                         </BodyTitle>
                     </strong>
                 </div>

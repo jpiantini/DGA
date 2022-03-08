@@ -61,6 +61,9 @@ function Register() {
 
     const [wordpressContent, setWordpressContent] = useState();
 
+    const [isValidatingCedula, setIsValidatingCedula] = useState(false);
+
+
     const getAndSetAllWordPressContent = async () => {
         let data = await wpCall().get("/pages/v1/page/terminos-y-condiciones");
         setWordpressContent(data?.data?.content);
@@ -322,16 +325,22 @@ function Register() {
 
     const validateCitizenID = async (e) => {
         formik.setFieldTouched('citizen_id', true, true)
-        try {
-            let response = await cedulaValidationService(e.target.value);
-            if (response?.success && response?.exist) {
-                //DO NOTHING CEDULA IS VALID
-            } else {
-                formik.setFieldError('citizen_id', "Cédula no válida, introduzca otra cédula")
+        if (e.target.value.length > 0) {
+            try {
+                setIsValidatingCedula(true);
+                let response = await cedulaValidationService(e.target.value);
+                setIsValidatingCedula(false);
+                if (response?.success && response?.exist) {
+                    //DO NOTHING CEDULA IS VALID
+                } else {
+                    formik.setFieldError('citizen_id', "Cédula no válida, introduzca otra cédula")
+                }
+            } catch (error) {
+                setIsValidatingCedula(false);
+                formik.setFieldError('citizen_id', "Ha ocurrido un error validando la cedula")
             }
-        } catch (error) {
-            formik.setFieldError('citizen_id', "Ha ocurrido un error validando la cedula")
         }
+
     }
 
     return (
@@ -426,6 +435,7 @@ function Register() {
                             <Grid item xs={8} sm={4} md={6}>
                                 <TextField title="Documento de Identidad" type="text" id="citizen_id"
                                     required
+                                    isLoading={isValidatingCedula}
                                     mask={formik.values.document_type === '1' ? "999-9999999-9" : ""}
                                     unMaskedValue={true}
                                     value={formik.values.citizen_id}

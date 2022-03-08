@@ -5,8 +5,15 @@ import { boxShadowConfig } from '../../../theme/Styles';
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: "2000px",
-    width:'100%'
+    '@media (min-width:320px)': {
+        width: '320px',
+    },
+    '@media (min-width:768px)': {
+        width: "768px",
+    },
+    '@media (min-width:1200px)': {
+        width: "1000px",
+    },
 });
 
 export const ButtonsContainer = styled('div')({

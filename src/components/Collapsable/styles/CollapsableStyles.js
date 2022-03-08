@@ -16,9 +16,6 @@ export const ItemsContainer = styled('div')(props => ({
   flexDirection: 'column',
   width: '98%',
   alignSelf: 'center',
-  transition: 'height 1s',
-  maxHeight: props.open ? '500px' : '45px',
-  transition:  'max-height 1.5s',
 }));
 
 export const RowContainer = styled('div')({
@@ -27,8 +24,6 @@ export const RowContainer = styled('div')({
   alignItems: 'center',
   justifyContent: 'space-between'
 });
-
-
 
 export const Title = styled('p')({
   textTransform: 'uppercase',
@@ -47,12 +42,10 @@ export const LineDivider = styled('div')({
 
 
 export const BodyText = styled('p')(props =>({
-  display:props.open ? 'flex' : 'none',
+  display:'flex',
   margin: 0,
   textAlign: 'left',
   fontSize: '15px',
   color: COLORS.black,
   fontFamily: FONTS_FAMILY.regular.body,
-  maxHeight: props.open ? '500px' : '0px',
-  transition:  'max-height 1.5s',
 }));

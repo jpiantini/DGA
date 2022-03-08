@@ -22,6 +22,7 @@ import { cedulaValidationService } from '../../../../../api/RenderField';
 const RenderField = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false)
+  const [textInputLoading, setTextInputLoading] = useState(false)
 
   const LocalOnChange = (val) => {
 
@@ -29,7 +30,7 @@ const RenderField = (props) => {
     switch (props.type) {
       case FIELD_TYPES.select:
         // data object of form json. reference -> ArrayUtil/dataToSelect.js
-        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value); 
+        const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value);
         if (val?.target.value) { //new selectedValue
           props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
         } else if (currentSelectedValue?.invertRule) { //current selectedValue
@@ -43,7 +44,7 @@ const RenderField = (props) => {
         } else {
           const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
           props.changeRule(props.values.find(item => item.value == unselectedOption)?.ruleF)
-      
+
         }
         break;
       case FIELD_TYPES.radioGroup:
@@ -70,20 +71,22 @@ const RenderField = (props) => {
     }
   }
 
-  const handleValidationOnBlur = (val) => {
+  const handleValidationOnBlur = async (val) => {
     props.setFieldTouched(props.fieldKey, true, true)
     // 0 IS CEDULA FOR VALIDATE
-    if (props.Mask === '0') {
+    if (props.Mask === '0' && val.target.value.length > 0) {
       try {
-        cedulaValidationService(val.target.value).then((response) => {
-          if (response?.success && response?.exist) {
-            //DO NOTHING CEDULA IS VALID
-          } else {
-            props.setFieldError(props.fieldKey, "Cedula invalida,introduzca una cedula valida")
-          }
-        });
+        setTextInputLoading(true);
+        let response = await cedulaValidationService(val.target.value);
+        if (response?.success && response?.exist) {
+          //DO NOTHING CEDULA IS VALID
+        } else {
+          props.setFieldError(props.fieldKey, "Cedula invalida,introduzca una cedula valida")
+        }
+        setTextInputLoading(false);
       } catch (error) {
         props.setFieldError(props.fieldKey, "Ha ocurrido un error validando la cedula")
+        setTextInputLoading(false);
       }
     }
   }
@@ -159,6 +162,7 @@ const RenderField = (props) => {
       case FIELD_TYPES.radioGroup:
         return (
           <RadioButtonGroup
+            row
             id={props.fieldKey}
             title={props.label}
             value={props.value}
@@ -176,7 +180,7 @@ const RenderField = (props) => {
         return (
           <CheckBoxGroup
             id={props.fieldKey}
-       //     title={props.label}
+            //     title={props.label}
             onChange={LocalOnChange}
             value={props.value}
             onBlur={handleValidationOnBlur}
@@ -233,6 +237,7 @@ const RenderField = (props) => {
               id={props.fieldKey}
               title={props.label}
               value={props.value}
+              isLoading={textInputLoading}
               mask={localToString(MASK_TYPE[props.Mask || ''])}
               useMaskPresets={true}
               unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
@@ -252,6 +257,7 @@ const RenderField = (props) => {
             id={props.fieldKey}
             title={props.label}
             value={props.value}
+            isLoading={textInputLoading}
             maxLength={props.length}
             onChange={LocalOnChange}
             onBlur={handleValidationOnBlur}
@@ -263,23 +269,23 @@ const RenderField = (props) => {
             multiline={props.multiline}
           />
         )
-        case FIELD_TYPES.textarea:
-          return (
-            <TextField
-              id={props.fieldKey}
-              title={props.label}
-              value={props.value}
-              maxLength={props.length}
-              onChange={LocalOnChange}
-              onBlur={handleValidationOnBlur}
-              error={props.error}
-              helperText={props.helperText}
-              placeholder={props.placeholder}
-              disabled={!props.enabled}
-              required={props.required}
-              multiline={true}
-            />
-          )
+      case FIELD_TYPES.textarea:
+        return (
+          <TextField
+            id={props.fieldKey}
+            title={props.label}
+            value={props.value}
+            maxLength={props.length}
+            onChange={LocalOnChange}
+            onBlur={handleValidationOnBlur}
+            error={props.error}
+            helperText={props.helperText}
+            placeholder={props.placeholder}
+            disabled={!props.enabled}
+            required={props.required}
+            multiline={true}
+          />
+        )
       case FIELD_TYPES.date:
         return (
           <DatePicker
