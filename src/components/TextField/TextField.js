@@ -1,11 +1,12 @@
 import { Fragment, memo } from 'react';
 import COLORS from '../../theme/Colors';
-import {  Container } from './styles/TextFieldStyles';
+import { Container } from './styles/TextFieldStyles';
 import InputMask from 'react-input-mask';
 import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
-function TextField({ id, title, placeholder, helperText=" ", value, onChange, onBlur, type, error, mask, unMaskedValue,useMaskPresets, required, multiline,minLength,maxLength,max,min,disabled }) {
+function TextField({ id, title, placeholder, helperText = " ", value, onChange, onBlur, type, error, mask, unMaskedValue, useMaskPresets, required, multiline, minLength, maxLength, max, min, disabled, isLoading }) {
 
     const removeTextFromInputMaskValue = (value) => {
         let NewValue = value.replace(/[^0-9\.]+/g, '');
@@ -18,7 +19,7 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
         passport: "*",
         rnc: "*",
         'solo numero': "999999999999999999999999999",
-      }
+    }
 
     return (
         <Container>
@@ -30,7 +31,6 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                         <FieldTitle style={{ color: COLORS.red }}>*</FieldTitle>
                     </Fragment>
                     : null}
-
             </Row>
 
             {
@@ -44,7 +44,7 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                         onBlur={
                             unMaskedValue ?
                                 (e) => {
-                                  onBlur && onBlur({
+                                    onBlur && onBlur({
                                         target:
                                         {
                                             id: e.target.id,
@@ -80,6 +80,13 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                                 type={type}
                                 helperText={helperText}
                                 error={error}
+                                InputProps={{
+                                    endAdornment: isLoading ? (
+                                        <CircularProgress size='1em' />
+                                      )
+                                      :
+                                      null
+                                }}
                             />
                         }
                     </InputMask>
@@ -97,10 +104,17 @@ function TextField({ id, title, placeholder, helperText=" ", value, onChange, on
                         helperText={helperText}
                         error={error}
                         inputProps={{
-                            maxLength:maxLength,
-                            minLength:minLength,
-                            max:max,
-                            min:min
+                            maxLength: maxLength,
+                            minLength: minLength,
+                            max: max,
+                            min: min
+                        }}
+                        InputProps={{
+                            endAdornment: isLoading ? (
+                                <CircularProgress size='1em' />
+                              )
+                              :
+                              null
                         }}
                     />
             }

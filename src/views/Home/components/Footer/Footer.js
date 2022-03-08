@@ -1,4 +1,8 @@
 import Grid from '@mui/material/Grid';
+import { useQuery } from 'react-query';
+import { useHistory } from 'react-router';
+import { getAllServices } from '../../../../api/ListOfServicesPerCategory';
+import { capitalizeFirstLetter } from '../../../../utilities/functions/StringUtil';
 import {
     Title,
     FooterContainer,
@@ -9,6 +13,10 @@ import {
 } from './styles/FooterStyles';
 
 function Footer({FooterRoutes}) {
+    const history = useHistory();
+
+    const { data: listOfServices,isLoading } = useQuery(['listOfServices'], () => getAllServices())
+    if(isLoading) return null;
     return (
             <FooterContainer>
                 <CenterContainer >
@@ -16,17 +24,22 @@ function Footer({FooterRoutes}) {
                     <TitleDivider/>
                     <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {
-                            FooterRoutes.map((item) => (
-                                <Grid item direction="column" key={item.value}>
-                                    <FooterText>{item.title}</FooterText>
+                            listOfServices.map((direction) => (
+                                direction.services.length > 0 ?
+                                <Grid item direction="column" key={direction.id}>
+                                    <FooterText>{direction.name}</FooterText>
                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                         {
-                                            item.routes.map((subItem) => (
-                                                <LinkText href="https://www.mitur.gob.do/politicas-de-privacidad/">{subItem.title}</LinkText>
+                                            direction.services.map((service) => (
+                                                <LinkText title={capitalizeFirstLetter(service.name)}
+                                                onClick={() => history.push(`/app/serviceDescription/${service.id}`)}>
+                                                {capitalizeFirstLetter(service.name)}</LinkText>
                                             ))
                                         }
                                     </div>
                                 </Grid>
+                                :
+                                null
                             ))
                         }
                     </Grid>

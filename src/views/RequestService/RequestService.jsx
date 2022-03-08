@@ -313,14 +313,14 @@ function RequestService() {
                   serviceDescription.prices.map((price, index) => (
                     price.variations.length > 1 ?
                       <Grid key={index} item xs={4} sm={8} md={6} >
-                        <PaymentCard title={price.concept} variations={price.variations} price={'1000.00'}
-                          time={"15 Dias laborables"} onClick={handleSelectVariation}
+                        <PaymentCard title={price.concept} variations={price.variations}
+                          onClick={handleSelectVariation}
                         />
                       </Grid>
                       :
                       <Grid key={index} item xs={4} sm={8} md={6} >
                         <PaymentCard title={price.variations[0].concept} variations={price.variations}
-                          time="15 Dias laborables" onClick={handleSelectVariation}
+                          onClick={handleSelectVariation}
                         />
                       </Grid>
                   ))

@@ -10,8 +10,6 @@ import { FormControl, FormHelperText } from '@mui/material';
 
 function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText=" ", error,disabled }) {
 
-
-
     return (
         <Container>
             <Row>

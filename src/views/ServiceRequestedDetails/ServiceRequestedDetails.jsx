@@ -48,7 +48,6 @@ function ServiceRequestedDetails() {
     })
 
     const [activeMenu, setActiveMenu] = useState(0);
-    const [claimModalVisible, setClaimModalVisible] = useState(false);
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID);
@@ -71,7 +70,9 @@ function ServiceRequestedDetails() {
             }
             //from serviceRequest
             if (requestID.includes('payment')) {
-                setActiveMenu(2);
+                if(serviceRequestedDetail.request.service.external_pay == 1 || serviceRequestedDetail.request.service.sirit_code != null){
+                    setActiveMenu(2);
+                }
             }
         }
 
@@ -91,9 +92,16 @@ function ServiceRequestedDetails() {
                             <StyledButtonOutlined active={activeMenu == 1} onClick={() => handleChangeMenu(1)}>
                                 Quejas y Reclamaciones
                             </StyledButtonOutlined>
-                            <StyledButtonOutlined active={activeMenu == 2} onClick={() => handleChangeMenu(2)}>
-                                Pagos
-                            </StyledButtonOutlined>
+                            {
+                                serviceRequestedDetail.request.service.external_pay == 1 ||
+                                    serviceRequestedDetail.request.service.sirit_code != null ?
+                                    <StyledButtonOutlined active={activeMenu == 2} onClick={() => handleChangeMenu(2)}>
+                                        Pagos
+                                    </StyledButtonOutlined>
+                                    :
+                                    null
+                            }
+
                             {
                                 serviceRequestedDetail.request.request_actions && //IF ACTION REQUIRED IS TRUE
                                 <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>

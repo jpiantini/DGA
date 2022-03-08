@@ -10,7 +10,5 @@ export const modifyEmail = (data) => {
 }
 
 export const modifyUserData = (data) => {
-    //TO DO ADD ModifyUserData endpoint
-    //return apiCall().post('/citizen/change/email', data);
-    throw new Error('error')
+    return apiCall().post('/citizen-update', data);
 }

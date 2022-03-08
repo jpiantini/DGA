@@ -5,10 +5,9 @@ export const FormSchema = yup.object({
   province_id: yup.string().required('Este campo es requerido'),
   municipality_id: yup.string().required('Este campo es requerido'),
   sector_id: yup.string().required('Este campo es requerido'),
-  phoneMobile: yup.string().required('Este campo es requerido'),
+  phone: yup.string().required('Este campo es requerido'),
   phone2: yup.string().required('Este campo es requerido'),
-  phoneLaboral: yup.string().required('Este campo es requerido'),
-  secundaryEmail: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
+ // email2: yup.string().email('Ingrese un email valido').required('Este campo es requerido'),
   notificationsWithEmail: yup.boolean(),
   notificationsSms: yup.boolean(),
 }).required();

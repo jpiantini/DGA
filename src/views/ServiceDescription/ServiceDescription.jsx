@@ -22,6 +22,7 @@ import {
 import { useQuery } from 'react-query';
 import { getServiceDescription } from '../../api/ServiceDescription';
 import { Grid } from '@mui/material';
+import { priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -75,61 +76,86 @@ function ServiceDescription() {
         <Container >
             <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={() => setLoginOrRegisterModalStatus(false)} onCloseClick={() => setLoginOrRegisterModalStatus(false)} />
             <Row>
-                <ServiceDirectoryMenu />
-                <RowBodyDivider />
+                {
+                    matchesWidth &&
+                    <Fragment>
+                        <ServiceDirectoryMenu />
+                        <RowBodyDivider />
+                    </Fragment>
+                }
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general"
                         content={serviceDescription?.description}
                     />
 
-                    <TextInformation title="Tarifa del servicio"
-                        content={
-                            <div>
-                                <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                    {serviceDescription?.prices.map((price, index) => (
-                                        <Grid item key={index}>
-                                            <PriceContainer>
+                    <TextInformation title="Tarifa del servicio" />
+                    <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                        {serviceDescription?.prices.map((price, index) => (
+                            <Grid item xs={4} sm={8} md={12} key={index}>
+                                <PriceContainer>
+                                    <strong>
+                                        <CardPriceTitle>
+                                            {price.concept}
+                                        </CardPriceTitle>
+                                    </strong>
+                                    <CardPriceTitle>
+                                        {price.description}
+                                    </CardPriceTitle>
+                                    <SmallHeightDivider />
+                                    <Row style={{ justifyContent: 'space-between' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <strong>
+                                                <CardPriceGray>
+                                                    Variaciones de la tarifa
+                                                </CardPriceGray>
+                                            </strong>
+                                            <br />
+                                            {price.variations.map((variation) => (
                                                 <strong>
-                                                    <CardPriceTitle>
-                                                        {price.concept}
-                                                    </CardPriceTitle>
+                                                    <BodyText>
+                                                        {variation.concept}
+                                                    </BodyText>
                                                 </strong>
-                                                <br />
-                                                <CardPriceTitle>
-                                                    {price.description}
-                                                </CardPriceTitle>
-                                                <SmallHeightDivider />
-                                                <Row style={{ justifyContent: 'space-between' }}>
-                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                        <CardPriceGray>
-                                                            Variaciones de la tarifa
-                                                        </CardPriceGray>
+                                            ))}
+                                        </div>
 
-                                                        {price.variations.map((variations) => (
-                                                            <strong>
-                                                                {variations.concept}
-                                                            </strong>
-                                                        ))}
-                                                    </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <strong>
+                                                <CardPriceGray>
+                                                    Tiempo de entrega
+                                                </CardPriceGray>
+                                            </strong>
+                                            <br />
+                                            {price.variations.map((variation) => (
+                                                <strong>
+                                                    <BodyText>
+                                                        {priceVariationToLaborableTime(variation.delivery_time)}
+                                                    </BodyText>
+                                                </strong>
+                                            ))}
+                                        </div>
 
-                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                        <CardPriceGray>
-                                                            Tarifa
-                                                        </CardPriceGray>
-                                                        {price.variations.map((variations) => (
-                                                            <strong>
-                                                                {variations.price}$
-                                                            </strong>
-                                                        ))}
-                                                    </div>
-                                                </Row>
-                                            </PriceContainer>
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            </div>
-                        }
-                    />
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <strong>
+                                                <CardPriceGray>
+                                                    Tarifa
+                                                </CardPriceGray>
+                                            </strong>
+                                            <br />
+                                            {price.variations.map((variations) => (
+                                                <strong>
+                                                    <BodyText>
+                                                        {variations.price}$
+                                                    </BodyText>
+                                                </strong>
+                                            ))}
+                                        </div>
+                                    </Row>
+                                </PriceContainer>
+                            </Grid>
+                        ))}
+                    </Grid>
+
 
                     <SmallHeightDivider />
                     <SmallHeightDivider />
@@ -169,24 +195,6 @@ function ServiceDescription() {
                     </ButtonContainer>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-
-                    {/*
-                        matchesWidth &&
-                        <Fragment>
-                            <TextInformation title="Preguntas Frecuentes" />
-                            <SmallHeightDivider />
-
-                            {
-                                FAQDATA.map((item) => (
-                                    <div key={item.id}>
-                                        <Collapsable title={item.question} content={item.answer} />
-                                        <SmallHeightDivider />
-                                    </div>
-                                ))
-                            }
-                        </Fragment>
-
-                        */}
                 </Container>
             </Row>
             <MediumHeightDivider />

@@ -1,5 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 import { BodyText } from '../../../theme/Styles';
 
 export const Container = styled('div')({
@@ -24,36 +25,26 @@ export const TextOrderedListContainer = styled('ol')({
 });
 
 export const PriceContainer = styled('div')({
-    border: ` 2px solid ${COLORS.secondary}`,
-    padding: '10px',
-    textAlign: 'center',
-    '@media (min-width:320px)': {
-        width: '150px',
-    },
-    '@media (min-width:768px)': {
-        width: '270px',
-    },
-    '@media (min-width:1200px)': {
-        width: '300px',
-    },
-
+    width: '100%',
+    textAlign:'left'
 });
 
 export const CardPriceTitle = styled(BodyText)({
-    textAlign: 'center',
+    marginTop:'5px',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
     WebkitLineClamp: 1, /* number of lines to show */
     '-webkit-box-orient': 'vertical',
+    fontFamily: FONTS_FAMILY.regular.body,
 });
 
 export const CardPriceGray = styled(BodyText)({
-    textAlign: 'center',
     color: COLORS.gray,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
     WebkitLineClamp: 1, /* number of lines to show */
     '-webkit-box-orient': 'vertical',
+    fontFamily: FONTS_FAMILY.regular.body,
 });

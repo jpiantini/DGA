@@ -23,23 +23,47 @@ export function stringToDominicanPhoneNumber(string = "") {
 }
 
 
-export function numberToStringLaborableTime(time, type = 1) {
-  //type = 1 horas, type = 2 dias, type = 3 meses
-  switch (type) {
-    case 1:
-      return `${time} Horas laborables`;
-    case 2:
-      if (time > 1) {
-        return `${time} Días laborables`;
-      } else {
-        return `${time} Día laborable`;
-      }
-    case 3:
-      if (time > 1) {
-        return `${time} Meses laborables`;
-      } else {
-        return `${time} Mes laborable`;
-      }
-
+export const priceVariationToLaborableTime = (variation) => {
+  /*VARIATION EXAMPLE
+  {
+    "id": 13,
+    "concept": "De 0-10 habs.",
+    "description": "De 0 a 10 habitaciones",
+    "method_payment": null,
+    "time": "1585",
+    "price": "7000.00",
+    "coin": "Pesos",
+    "quantity": 0,
+    "required": 0,
+    "created_at": "2018-11-06 23:42:20",
+    "updated_at": "2022-03-07 17:43:19",
+    "pivot": {
+        "prices_id": 14,
+        "price_variations_id": 13
+    },
+    "delivery_time": {
+        "id": 1585,
+        "months": 0,
+        "days": 0,
+        "hours": 24,
+        "created_at": "2022-03-07 17:43:19",
+        "updated_at": "2022-03-07 17:43:19"
+    }
+}
+  */
+  if (variation.months > 0 && variation.days > 0) {
+    return `${variation.months} Meses y ${variation.days} días laborables`
+  }
+  if (variation.days > 0 && variation.hours > 0) {
+    return `${variation.days} Días y ${variation.hours} horas laborables`
+  }
+  if (variation.months > 0) {
+    return `${variation.months} Meses laborables`
+  }
+  if (variation.days > 0) {
+    return `${variation.days} Días laborables`
+  }
+  if (variation.hours > 0) {
+    return `${variation.hours} Horas laborables`
   }
 }
