@@ -63,7 +63,7 @@ function Login() {
             if (response.data?.success) {
                 dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
-                if (response.data?.payload.profile_img == null) {
+                if (response.data?.payload.profile_img == null || response.data?.payload.profile_img === "N/A") {
                     LocalStorageService.setItem('profile_img', userLogo);
                 } else {
                     LocalStorageService.setItem('profile_img', response.data?.payload.profile_img);
