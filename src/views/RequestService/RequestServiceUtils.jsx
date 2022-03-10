@@ -77,7 +77,8 @@ export const transformFormData = (values, data) => {
     _data = [..._data, ...step]
   })
   Object.keys(values).map(key => {
-    if (!isEmpty(values[key])) {
+    //By default isEmpty search on "value" property of an object in this case i set 'isARoute' as props and isEmpty search this property instead of value  
+    if (!isEmpty(values[key],values[key]?.isARoute ? 'isARoute' : 'value')) {
       _values.push({
         key,
         value: values[key],

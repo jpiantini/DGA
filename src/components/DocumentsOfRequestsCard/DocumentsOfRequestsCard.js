@@ -1,5 +1,5 @@
 import { Fragment, useState, memo } from 'react';
-import { SmallHeightDivider, StyledButton, StyledButtonOutlined } from '../../theme/Styles';
+import { SmallHeightDivider, StyledButton, Row } from '../../theme/Styles';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -10,6 +10,8 @@ import {
     LineDivider,
     StyledDescriptionIcon,
     Column,
+    StyledDownloadIcon,
+    StyledCheckIcon,
 } from './styles/DocumentsOfRequestsCardStyles';
 import { DocumentViewer } from 'react-documents';
 import { Dialog } from '@mui/material';
@@ -18,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { ShowGlobalLoading, HideGlobalLoading } from '../../redux/actions/UiActions';
 import { downloadPDF } from '../../utilities/functions/DownloadUtil';
 
-function DocumentsOfRequestsCard({ title, data }) {
+function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton = false, disableCardStyle = false }) {
 
     const dispatch = useDispatch();
 
@@ -42,23 +44,23 @@ function DocumentsOfRequestsCard({ title, data }) {
     };
 
     return (
-        <Container >
+        <Container disableCardStyle={disableCardStyle}>
             <SmallHeightDivider />
-            <ContentContainer>
+            <ContentContainer disableCardStyle={disableCardStyle}>
                 <Title>{title}</Title>
-
                 <RowContainer>
                     <Column style={{ width: '35%' }}>
                         <BodyText>
                             Nombre del Documento
                         </BodyText>
                     </Column>
-
+                    {/*
                     <Column style={{ width: '42%' }}>
                         <BodyText>
                             Tipo Archivo
                         </BodyText>
                     </Column>
+                   */}
 
                     <Column style={{ width: '18%' }}>
                         <BodyText>
@@ -66,45 +68,66 @@ function DocumentsOfRequestsCard({ title, data }) {
                         </BodyText>
                     </Column>
 
-                    <Column style={{ width: '5%' }}>
+                    <Column style={{ width: '15%' }}>
                         <BodyText >
-                            Ver
+                            Acción
                         </BodyText>
                     </Column>
                 </RowContainer>
                 <SmallHeightDivider />
                 {
                     data?.map((item) => (
-                        <Fragment>
+                        <div>
                             <RowContainer >
                                 <Column style={{ width: '35%' }}>
                                     <BodyText>
                                         {item.name}
                                     </BodyText>
-                                </Column>
 
-                                <Column style={{ width: '42%' }}>
-                                    <BodyText>
-                                        {item.documentType.toUpperCase()}
-                                    </BodyText>
                                 </Column>
-
+                                {
+                                    /* <Column style={{ width: '42%' }}>
+                                         <BodyText>
+                                             {item.documentType.toUpperCase()}
+                                         </BodyText>
+                                     </Column>
+                                     */
+                                }
                                 <Column style={{ width: '18%' }}>
                                     <BodyText>
                                         {item.date}
                                     </BodyText>
                                 </Column>
 
-                                <Column style={{ width: '5%' }}>
-                                    <IconButton onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
-                                        <StyledDescriptionIcon />
-                                    </IconButton>
+                                <Column style={{ width: '15%' }}>
+                                    <Row>
+                                        <IconButton title='Ver'
+                                            onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
+                                            <StyledDescriptionIcon />
+                                        </IconButton>
+                                        <div style={{ width: '15px' }} />
+                                        <IconButton title='Descargar'
+                                            onClick={() => window.open(item.url, '_blank')} sx={{ padding: 0 }}>
+                                            <StyledDownloadIcon />
+                                        </IconButton>
+                                        {
+                                            showSelectButton &&
+                                            <Fragment>
+                                                <div style={{ width: '15px' }} />
+                                                <IconButton title='Seleccionar'
+                                                    onClick={() => onSelectClick(item)} sx={{ padding: 0 }}>
+                                                    <StyledCheckIcon />
+                                                </IconButton>
+                                            </Fragment>
+                                        }
+
+                                    </Row>
+
                                 </Column>
 
                             </RowContainer>
                             <LineDivider />
-
-                        </Fragment>
+                        </div>
 
                     ))
                 }
@@ -117,7 +140,7 @@ function DocumentsOfRequestsCard({ title, data }) {
                 >
                     {
                         currentDocumentURL?.type === "pdf" ?
-                             <DocumentViewer style={{ height: '90vh', width: '100%' }} viewer="url" url={currentDocumentURL?.url} />
+                            <DocumentViewer style={{ height: '90vh', width: '100%' }} viewer="url" url={currentDocumentURL?.url} />
                             :
                             <TransformWrapper>
                                 {({ zoomIn, zoomOut, resetTransform, ...rest }) => (

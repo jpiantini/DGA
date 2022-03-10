@@ -16,7 +16,8 @@ import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
 import ValidatePayment from "../views/ValidatePayment/ValidatePayment";
 
-const routes = [ //PUT ALL loginRequired:false routes on TOP
+const routes = [
+   //PUT ALL loginRequired:false OBJECTS ROUTES on TOP of array
   {
     path: "/",
     component: Home,

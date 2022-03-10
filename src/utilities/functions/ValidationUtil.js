@@ -1,6 +1,6 @@
 import { isObject } from "./ObjectUtil";
 
-export const isEmpty = (any, key = 'Value', lengthVal = 1) => {
+export const isEmpty = (any, key = 'value', lengthVal = 1) => {
   if (isObject(any)) {
     if (typeof any[key] == 'string') {
       return any[key].length == 0

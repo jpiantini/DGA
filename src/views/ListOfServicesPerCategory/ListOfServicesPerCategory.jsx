@@ -21,7 +21,7 @@ import { useQuery } from 'react-query';
 
 function ListOfServicesPerCategory() {
 
-    const matchesWidth = useMediaQuery('(min-width:320px)');
+    const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     let { categoryID } = useParams();
     const dispatch = useDispatch();
@@ -70,8 +70,15 @@ function ListOfServicesPerCategory() {
         <Container >
             <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={() => setLoginOrRegisterModalStatus(false)} onCloseClick={() => setLoginOrRegisterModalStatus(false)} />
             <Row>
-                <ServiceDirectoryMenu />
-                <RowBodyDivider />
+                {
+
+                    matchesWidth &&
+                    <Fragment>
+                        <ServiceDirectoryMenu />
+                        <RowBodyDivider />
+                    </Fragment>
+                }
+
                 <Container style={{ width: '100%' }}>
                     <TextInformation title="Información general" content={
                         generalInformationData?.find((item) => item.id == currentDirection?.wordpressID)?.descriptionGeneral
@@ -83,10 +90,10 @@ function ListOfServicesPerCategory() {
                         <Fragment>
                             <TextInformation title="Servicios" />
                             <SmallHeightDivider />
-                            <Grid container direction="row" alignItems="flex-start" justifyContent="flex-start" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            <Grid alignItems="center" container direction="row" justifyContent="flex-start" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {
                                     ListServicesState?.map((item) => (
-                                        <Grid key={item.id} item xs={4} sm={4} md={4}>
+                                        <Grid key={item.id} item >
                                             <ServiceCard itemId={item.id}
                                                 title={item.name}
                                                 subTitle={item.description}

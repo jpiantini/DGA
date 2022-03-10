@@ -61,10 +61,6 @@ function RequestedServiceList() {
     },
   });
 
-
-
-     console.log(userData.payload)
-
   const getAndSetRequestedServiceList = async (page) => {
     setIsLoading(true);
     let response = await getRequestedServices(userData.payload.citizen_id, page, status);

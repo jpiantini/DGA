@@ -9,6 +9,7 @@ import { getPersonalDocuments } from '../../../../api/MyDocuments';
 import { DocumentsContainer, SectionTitle } from '../../styles/MyDeskStyles';
 import { format } from 'date-fns';
 import COLORS from '../../../../theme/Colors';
+import { cacheConfig } from '../../../../cacheConfig';
 
 function MyDocuments() {
 
@@ -18,7 +19,9 @@ function MyDocuments() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const { data: documentsData, isLoading: documentsDataLoading } = useQuery(['documentsData', currentPage],
-        () => getPersonalDocuments(userData.payload.citizen_id, currentPage))
+        () => getPersonalDocuments(userData.payload.citizen_id, currentPage),{
+            staleTime:cacheConfig.staleTimeForRequestedServiceDetail
+        })
 
     const handleChangePage = (page) => {
         setCurrentPage(page);

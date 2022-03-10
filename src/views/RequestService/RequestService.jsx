@@ -198,7 +198,21 @@ function RequestService() {
       let canSubmitForm = true;
       let uploadedFilesRoutes = [];
 
-      const filesToUpload = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file);
+      const filesOfForm = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file);
+      const filesToUpload = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute != true);
+      const filesToLink = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute == true);
+
+      if (filesToLink.length > 0) {
+        uploadedFilesRoutes = filesToLink.map((field) => {
+          return {
+            name: field.value.name,
+            extension: field.value.extension,
+            type: field.value.type,
+            route: field.value.route
+          }
+        })
+      }
+
       const formFilesData = new FormData();
       if (filesToUpload.length > 0) {
         for (let i = 0; i < filesToUpload.length; i++) {
@@ -211,7 +225,7 @@ function RequestService() {
         dispatch(ShowGlobalLoading('Subiendo documentos'));
         let responseFilesUpload = await uploadFormDocuments(formFilesData);
         if (responseFilesUpload.success) {
-          uploadedFilesRoutes = responseFilesUpload.files;
+          uploadedFilesRoutes = uploadedFilesRoutes.concat(responseFilesUpload.files);
         } else {
           canSubmitForm = false;
         }
@@ -219,32 +233,43 @@ function RequestService() {
 
       if (canSubmitForm) {
         let canFormContinue = true;
+        let uploadSoftExpertResponseIsSuccess;
         dispatch(ShowGlobalLoading('Registrando formulario'));
         let responseFormSubmit = await registerForm(request);
         if (responseFormSubmit.success) {
-          if (filesToUpload.length > 0) {
-            const uploadSoftExpertConfig = {
-              documents: uploadedFilesRoutes.map((file, index) => {
-                return {
-                  ...file,
-                  label: filesToUpload[index].label
-                }
-              }),
-              title: responseFormSubmit.title,
-              record_id: responseFormSubmit.SoftExpertResponse.record_id,
-              attribute: responseFormSubmit.attributes,
-              process_id: serviceDescription.process_id,
-              acronym: responseFormSubmit.acronym,
-              names: filesToUpload.map((file) => {
-                return file.label
-              }),
-              activity_id: false
+          if (uploadedFilesRoutes.length > 0) {
+            for (let i = 0; i < uploadedFilesRoutes.length; i++) {
+              const uploadSoftExpertConfig = {
+                documents:
+                  [
+                    {
+                      ...uploadedFilesRoutes[i],
+                      label: filesOfForm[i].label
+                    }
+                  ],
+                title: responseFormSubmit.title,
+                record_id: responseFormSubmit.SoftExpertResponse.record_id,
+                attribute: responseFormSubmit.attributes,
+                process_id: serviceDescription.process_id,
+                acronym: "DPPDE",//responseFormSubmit.acronym,
+                names: filesOfForm.map((file) => {
+                  return file.label
+                }),
+                activity_id: false
+              }
+              dispatch(ShowGlobalLoading('Registrando enlace'));
+              let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
+              uploadSoftExpertResponseIsSuccess = responseSoftExpert.success;
             }
-            dispatch(ShowGlobalLoading('Registrando enlace'));
-            let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
-            if (responseSoftExpert.success) {
+
+            if (uploadSoftExpertResponseIsSuccess) {
               let requestBackOffice = {
-                documents: uploadSoftExpertConfig.documents
+                documents: uploadedFilesRoutes.map((file, index) => {
+                  return {
+                    ...file,
+                    label: filesOfForm[index].label
+                  }
+                }),
               };
               let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
               if (responseBackOffice.success) {
@@ -260,6 +285,7 @@ function RequestService() {
               throw Error;
             }
           }
+
           if (canFormContinue) {
             enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
             //     history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
@@ -270,6 +296,9 @@ function RequestService() {
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
         }
+      } else {
+        enqueueSnackbar("Ha ocurrido un error subiendo los documentos.", { variant: 'error' });
+        throw Error;
       }
     } catch (error) {
       enqueueSnackbar("Ha ocurrido un error,contacte al soporte para mas información", { variant: 'error' })
