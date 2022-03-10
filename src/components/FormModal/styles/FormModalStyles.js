@@ -2,7 +2,7 @@ import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
 import CloseIcon from '@mui/icons-material/Close';
 
-export const Container = styled('div')({
+export const Container = styled('div')(props => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: COLORS.white,
@@ -14,9 +14,9 @@ export const Container = styled('div')({
         minWidth: '700px',
     },
     '@media(min-width:1200px)':{
-        minWidth:'1000px',
+        minWidth:props.maxWidth === 'xl' ? '1000px' : '800px',
     },
-});
+}));
 
 export const ContentContainer = styled('div')({
     marginTop:'10px',

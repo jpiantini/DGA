@@ -4,6 +4,10 @@ export const InformationFormSchema = yup.object({
   information: yup.string().required('Este campo es requerido'),
 }).required();
 
+export const FileFormSchema = yup.object({
+  file: yup.mixed().required('Este campo es requerido'),
+}).required();
+
 
 export const MockupDocuments = 
     {

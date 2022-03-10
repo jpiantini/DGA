@@ -20,7 +20,7 @@ function FormModal({ children, title, open, onClose, conditionalClose,fullWidth,
       fullWidth={fullWidth}
       fullScreen={fullScreen}
     >
-      <Container>
+      <Container maxWidth={maxWidth}>
         <ContentContainer>
           <Row>
             {
