@@ -57,7 +57,6 @@ const RenderField = (props) => {
     }
 
     //change val
-    //  if (typeof props.onChange == 'function') {
     switch (MASK_LIST[props.Mask || '']) {
       case MASK_LIST[7]:
         props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
@@ -329,6 +328,7 @@ const RenderField = (props) => {
             placeholder={props.placeholder}
             disabled={!props.enabled}
             required={props.required}
+            findDocuments
           />
         )
       case FIELD_TYPES.grid:

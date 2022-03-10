@@ -1,4 +1,4 @@
-import { hourToMilliseconds } from "./utilities/functions/TimeUtil";
+import { hourToMilliseconds, minutesToMilliseconds } from "./utilities/functions/TimeUtil";
 
 /*
 THIS FILE IS FOR GLOBAL AND SPECIFIC INFORMATION OF REACT-QUERY
@@ -9,6 +9,6 @@ cacheTime = Tiempo en que la informacion inactiva (que no se estre mostrando/vis
 export const cacheConfig = {
     staleTimeGeneral:hourToMilliseconds(24),
  //   staleTimeForRequestedServicesList:hourToMilliseconds(2),
-    staleTimeForRequestedServiceDetail:hourToMilliseconds(1),
+    staleTimeForRequestedServiceDetail:minutesToMilliseconds(9),
     cacheTime:hourToMilliseconds(24)
 }

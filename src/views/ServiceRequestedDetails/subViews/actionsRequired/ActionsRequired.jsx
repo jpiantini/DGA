@@ -84,37 +84,28 @@ function ActionsRequired() {
         },
         validationSchema: FileFormSchema,
         onSubmit: (values) => {
-            console.log(values)
             handleSubmitFile(values);
         },
     });
 
     const handleSubmitFile = async (values) => {
-        const formFileData = new FormData();
-        formFileData.append(
-            "file[]",
-            values.file,
-            values.file.name
-        );
-        dispatch(ShowGlobalLoading('Subiendo documentos'));
-        let responseFilesUpload = await uploadFormDocuments(formFileData);
-        if (responseFilesUpload.success) {
+        if (values.file?.isARoute) {
             const softExpertRequest = {
                 documents: [
                     {
-                        ...responseFilesUpload.files[0],
+                        ...values.file,
                         label: "Documento de accion requerida"
                     }
                 ],
                 title: `documento-${userData.payload.citizen_id}`,
                 record_id: requestData.request.code,
                 attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
-                process_id: `documenttitle${requestData.request.activity.activity_id}`,
-                acronym: requestData.request.service.institution.acronym,
+                process_id: requestData.request.service.process_id,
+                acronym: "DPPDE", //requestData.request.service.institution.acronym,
                 names: [
                     "Documento de accion requerida"
                 ],
-                activity_id: true
+                activity_id: requestData.request.activity.activity_id
             }
             dispatch(ShowGlobalLoading('Registrando enlace'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
@@ -140,21 +131,62 @@ function ActionsRequired() {
                 dispatch(HideGlobalLoading());
                 enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
             }
+
         } else {
-            dispatch(HideGlobalLoading());
-            enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-        }
-
-    }
-
-
-
-
-    const handleSend = () => {
-        if (true /*response.success*/) {
-            enqueueSnackbar('Información enviada satisfactoriamente.', { variant: 'success' });
-        } else {
-            enqueueSnackbar('Ha sucedido error, intentelo mas tarde.', { variant: 'error' });
+            const formFileData = new FormData();
+            formFileData.append(
+                "file[]",
+                values.file,
+                values.file.name
+            );
+            dispatch(ShowGlobalLoading('Subiendo documentos'));
+            let responseFilesUpload = await uploadFormDocuments(formFileData);
+            if (responseFilesUpload.success) {
+                const softExpertRequest = {
+                    documents: [
+                        {
+                            ...responseFilesUpload.files[0],
+                            label: "Documento de accion requerida"
+                        }
+                    ],
+                    title: `documento-${userData.payload.citizen_id}`,
+                    record_id: requestData.request.code,
+                    attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
+                    process_id: requestData.request.service.process_id,
+                    acronym: "DPPDE", //requestData.request.service.institution.acronym,
+                    names: [
+                        "Documento de accion requerida"
+                    ],
+                    activity_id: requestData.request.activity.activity_id
+                }
+                dispatch(ShowGlobalLoading('Registrando enlace'));
+                let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
+                if (responseSoftExpert.success) {
+                    const assignmentData = {
+                        documents: softExpertRequest.documents,
+                        record_id: requestData.request.code,
+                        status: true
+                    }
+                    actionRequiredFileMutation.mutate(assignmentData, {
+                        onSuccess: () => {
+                            enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
+                            queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
+                        },
+                        onError: () => {
+                            enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
+                        },
+                        onSettled: () => {
+                            dispatch(HideGlobalLoading());
+                        }
+                    })
+                } else {
+                    dispatch(HideGlobalLoading());
+                    enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
+                }
+            } else {
+                dispatch(HideGlobalLoading());
+                enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
+            }
         }
     }
 
@@ -191,6 +223,7 @@ function ActionsRequired() {
                                 error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
                                 helperText={fileFormik.touched.file && fileFormik.errors.file}
                                 required
+                                findDocuments
                             />
                             <SmallHeightDivider />
                             <ButtonContainer>
