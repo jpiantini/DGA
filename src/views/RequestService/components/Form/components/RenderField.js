@@ -380,12 +380,22 @@ const RenderField = (props) => {
     props.hidden == true ? // dont return grid with spaces and prevent white spaces between elements
       null
       :
-      props.type === 'header' ?
+      props.type === FIELD_TYPES.header ?
         <Grid item xs={12} sm={12} md={12}>
           {Field()}
         </Grid>
         :
-        props.type === 'grid' ?
+        props.type === FIELD_TYPES.grid ?
+          <Grid item xs={12} sm={12} md={12}>
+            {Field()}
+          </Grid>
+          :
+          props.type === FIELD_TYPES.radioGroup ?
+          <Grid item xs={12} sm={12} md={12}>
+            {Field()}
+          </Grid>
+          :
+          props.type === FIELD_TYPES.textarea ?
           <Grid item xs={12} sm={12} md={12}>
             {Field()}
           </Grid>
