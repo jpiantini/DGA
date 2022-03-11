@@ -43,6 +43,7 @@ import { useSnackbar } from "notistack";
 import { FIELD_TYPES } from "./components/Form/FormConstants";
 import FormModal from "../../components/FormModal/FormModal";
 import PaymentCard from "./components/PaymentCard/PaymentCard";
+import axios from 'axios';
 
 function RequestService() {
   const history = useHistory();
@@ -233,11 +234,12 @@ function RequestService() {
 
       if (canSubmitForm) {
         let canFormContinue = true;
-        let uploadSoftExpertResponseIsSuccess;
-        dispatch(ShowGlobalLoading('Registrando formulario'));
+        //  let uploadSoftExpertResponseIsSuccess = true;
+        dispatch(ShowGlobalLoading('Registrando solicitud'));
         let responseFormSubmit = await registerForm(request);
         if (responseFormSubmit.success) {
           if (uploadedFilesRoutes.length > 0) {
+            let uploadSoftExpertArray = []
             for (let i = 0; i < uploadedFilesRoutes.length; i++) {
               const uploadSoftExpertConfig = {
                 documents:
@@ -257,33 +259,35 @@ function RequestService() {
                 }),
                 activity_id: false
               }
-              dispatch(ShowGlobalLoading('Registrando enlace'));
-              let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig);
-              uploadSoftExpertResponseIsSuccess = responseSoftExpert.success;
+              uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
             }
+            dispatch(ShowGlobalLoading('Procesando solicitud'));
+            await axios.all(uploadSoftExpertArray);
+            //  uploadSoftExpertResponseIsSuccess = responseSoftExpert.success;
 
-            if (uploadSoftExpertResponseIsSuccess) {
-              let requestBackOffice = {
-                documents: uploadedFilesRoutes.map((file, index) => {
-                  return {
-                    ...file,
-                    label: filesOfForm[index].label
-                  }
-                }),
-              };
-              let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
-              if (responseBackOffice.success) {
+            //        if (uploadSoftExpertResponseIsSuccess) {
+            let requestBackOffice = {
+              documents: uploadedFilesRoutes.map((file, index) => {
+                return {
+                  ...file,
+                  label: filesOfForm[index].label
+                }
+              }),
+            };
+            let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
+            if (responseBackOffice.success) {
 
-              } else {
-                canFormContinue = false;
-                enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
-                throw Error;
-              }
             } else {
               canFormContinue = false;
               enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
               throw Error;
             }
+            /*     } else {
+                   canFormContinue = false;
+                   enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+                   throw Error;
+                 }
+             */
           }
 
           if (canFormContinue) {

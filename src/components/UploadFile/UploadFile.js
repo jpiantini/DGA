@@ -1,7 +1,7 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon } from './styles/UploadFileStyles';
-import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
+import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon,PaginationContainer } from './styles/UploadFileStyles';
+import { FieldTitle, Row, SmallHeightDivider, StyledPagination, StyledTextInput } from '../../theme/Styles';
 import FormModal from '../FormModal/FormModal';
 import DocumentsOfRequestsCard from '../DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { format } from 'date-fns';
@@ -10,7 +10,7 @@ import { getPersonalDocuments } from '../../api/MyDocuments';
 import { cacheConfig } from '../../cacheConfig';
 
 
-function UploadFile({ id, title, placeholder, onChange, onBlur, error, required, helperText = " ", findDocuments = false }) {
+function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, required, hideDownloadButton, helperText = " ", findDocuments = false }) {
 
     const queryClient = useQueryClient();
     const userData = queryClient.getQueryData(['userData']);
@@ -18,12 +18,12 @@ function UploadFile({ id, title, placeholder, onChange, onBlur, error, required,
     const [currentPage, setCurrentPage] = useState(1);
 
     const { data: documentsData, isLoading: documentsDataLoading } = useQuery(['documentsData', currentPage],
-        () => getPersonalDocuments(userData.payload.citizen_id, currentPage),{
-            staleTime:cacheConfig.staleTimeForRequestedServiceDetail
-        })
+        () => getPersonalDocuments(userData.payload.citizen_id, currentPage), {
+        staleTime: cacheConfig.staleTimeForRequestedServiceDetail
+    })
 
     const [documentModalIsOpen, setDocumentModalIsOpen] = useState(false);
-    const [selectedFileName, setSelectedFileName] = useState('');
+    const [selectedFileName, setSelectedFileName] = useState(value?.name);
 
     const handleFileChange = (e) => {
         if (e.target.files.length > 0) {
@@ -60,6 +60,11 @@ function UploadFile({ id, title, placeholder, onChange, onBlur, error, required,
 
         }
     })
+
+    const handleChangePage = (page) => {
+        setCurrentPage(page);
+    }
+
 
     if (documentsDataLoading) return null;
     return (
@@ -121,7 +126,7 @@ function UploadFile({ id, title, placeholder, onChange, onBlur, error, required,
                     } />
             </RowContainer>
             <FormModal open={documentModalIsOpen} onClose={handleModalVisibility} title="Mis documentos">
-                <DocumentsOfRequestsCard data={documentsDataForShow} disableCardStyle showSelectButton
+                <DocumentsOfRequestsCard data={documentsDataForShow} disableCardStyle showSelectButton hideDownloadButton={hideDownloadButton}
                     onSelectClick={(e) => {
                         onChange({
                             target: {
@@ -131,6 +136,14 @@ function UploadFile({ id, title, placeholder, onChange, onBlur, error, required,
                         })
                     }}
                 />
+                <PaginationContainer>
+                    <StyledPagination count={documentsData?.last_page} page={currentPage}
+                        onChange={(event, page) => {
+                            handleChangePage(page);
+                        }} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
+                    <SmallHeightDivider />
+                </PaginationContainer>
+                <SmallHeightDivider />
             </FormModal>
         </Container>
     );

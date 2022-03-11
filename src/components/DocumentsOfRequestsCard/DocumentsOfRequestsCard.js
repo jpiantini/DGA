@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { ShowGlobalLoading, HideGlobalLoading } from '../../redux/actions/UiActions';
 import { downloadPDF } from '../../utilities/functions/DownloadUtil';
 
-function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton = false, disableCardStyle = false }) {
+function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton = false, disableCardStyle = false, hideDownloadButton = false }) {
 
     const dispatch = useDispatch();
 
@@ -105,11 +105,16 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                                             onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
                                             <StyledDescriptionIcon />
                                         </IconButton>
-                                        <div style={{ width: '15px' }} />
-                                        <IconButton title='Descargar'
-                                            onClick={() => window.open(item.url, '_blank')} sx={{ padding: 0 }}>
-                                            <StyledDownloadIcon />
-                                        </IconButton>
+                                        {
+                                        !hideDownloadButton &&
+                                            <Fragment>
+                                                <div style={{ width: '15px' }} />
+                                                <IconButton title='Descargar'
+                                                    onClick={() => window.open(item.url, '_blank')} sx={{ padding: 0 }}>
+                                                    <StyledDownloadIcon />
+                                                </IconButton>
+                                            </Fragment>
+                                        }
                                         {
                                             showSelectButton &&
                                             <Fragment>

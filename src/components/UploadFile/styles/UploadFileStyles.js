@@ -45,3 +45,11 @@ export const RowContainer = styled('div')({
 export const RowSeparator = styled('div')({
   width: '20px'
 });
+
+export const PaginationContainer = styled('div')({
+  display:'flex',
+  alignSelf:'center',
+  alignItems:'center',
+  width:'100%',
+  justifyContent:'center'
+});
