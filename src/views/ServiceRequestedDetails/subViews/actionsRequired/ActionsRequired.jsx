@@ -107,7 +107,7 @@ function ActionsRequired() {
                 ],
                 activity_id: requestData.request.activity.activity_id
             }
-            dispatch(ShowGlobalLoading('Registrando enlace'));
+            dispatch(ShowGlobalLoading('Procesando'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
             if (responseSoftExpert.success) {
                 const assignmentData = {
@@ -159,7 +159,7 @@ function ActionsRequired() {
                     ],
                     activity_id: requestData.request.activity.activity_id
                 }
-                dispatch(ShowGlobalLoading('Registrando enlace'));
+                dispatch(ShowGlobalLoading('Procesando'));
                 let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
                 if (responseSoftExpert.success) {
                     const assignmentData = {

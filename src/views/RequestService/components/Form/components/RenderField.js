@@ -329,6 +329,7 @@ const RenderField = (props) => {
             disabled={!props.enabled}
             required={props.required}
             findDocuments
+            hideDownloadButton
           />
         )
       case FIELD_TYPES.grid:
