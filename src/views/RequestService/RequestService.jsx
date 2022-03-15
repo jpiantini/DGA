@@ -37,7 +37,7 @@ import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
 import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions/NumberUtil';
-import { transformFormData } from "./RequestServiceUtils";
+import { transformFormData, transformFormGrid } from "./RequestServiceUtils";
 import { cleanString } from "../../utilities/functions/StringUtil";
 import { useSnackbar } from "notistack";
 import { FIELD_TYPES } from "./components/Form/FormConstants";
@@ -176,15 +176,15 @@ function RequestService() {
       form: {
         citizen_record_id: userData.payload.citizen_id,
         expertform_id: serviceDescription.expertform_id,
-        data: transformFormData(formData, getData().data).filter((field) => field.type != FIELD_TYPES.file),
-        grid: {}
+        data: transformFormData(formData, getData().plainData).filter((field) => field.type != FIELD_TYPES.file && field.type != FIELD_TYPES.grid),
+        grid: transformFormGrid(formData, getData().plainData)
       },
       documents: [],
       userInfo: {
         numdocsolicita: userData.payload.citizen_id,
         tipodocsolicita: 1,
         nombressolicita: userData.payload.name,
-        apellidossolici: userData.payload.first_last_name + userData.payload.second_last_name,
+        apellidossolici: `${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
         fechasolicitud: format(new Date(), 'yyyy-MM-dd'),
         direccsolic: userData.payload.address,
         nacionsolic: "Dominicano",
@@ -193,15 +193,18 @@ function RequestService() {
         solicitudonline: 1,
       }
     }
+
     dispatch(ShowGlobalLoading('Cargando'));
     try {
 
       let canSubmitForm = true;
       let uploadedFilesRoutes = [];
 
-      const filesOfForm = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file);
-      const filesToUpload = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute != true);
-      const filesToLink = transformFormData(formData, getData().data).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute == true);
+      const filesOfForm = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file);
+      const filesToUpload = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute != true);
+      const filesToLink = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute == true);
+
+  
 
       if (filesToLink.length > 0) {
         uploadedFilesRoutes = filesToLink.map((field) => {
@@ -254,9 +257,7 @@ function RequestService() {
                 attribute: responseFormSubmit.attributes,
                 process_id: serviceDescription.process_id,
                 acronym: "DPPDE",//responseFormSubmit.acronym,
-                names: filesOfForm.map((file) => {
-                  return file.label
-                }),
+                names: filesOfForm[i].label,
                 activity_id: false
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));

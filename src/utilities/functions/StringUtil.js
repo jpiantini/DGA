@@ -1,4 +1,5 @@
 import { localToArray } from "./ArrayUtil";
+import { cleanStringFromNumbers } from './NumberUtil';
 
 export function capitalizeFirstLetter(s) {
   if (!s) {
@@ -28,6 +29,7 @@ export function isStringEmpty(s) {
   return s
 }
 
+
 export function cleanNumberWithDecimal(n) {
   if (!n) {
     return ''
@@ -35,6 +37,19 @@ export function cleanNumberWithDecimal(n) {
   return `${n}`.replace(/[^0-9.]/g, '')
 }
 
+export function formatNumberWithDecimal(n) {
+  if (!n) {
+    return ''
+  }
+
+  let _n = n.replace(/,/g, ''); //without commas
+  _n = new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(_n)
+  if(!_n.includes('.')){
+    _n = _n + '.00';
+  }
+
+  return _n;
+}
 
 export function cleanNumbersFromString(s) {
   if (!s) {

@@ -6,15 +6,20 @@ export const Container = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  borderWidth: '0.5px',
-  borderColor: COLORS.secondary,
-  border: ` 1px solid ${COLORS.secondary}`,
+  //borderWidth: '0.5px',
+  borderRadius: '30px',
+  //borderColor: COLORS.secondary,
+  //border: ` 0px solid ${COLORS.secondary}`,
+  '&:hover': {
+    backgroundColor: COLORS.snow,
+    cursor: 'pointer'
+  }
 });
 
 export const ItemsContainer = styled('div')(props => ({
   display: 'flex',
   flexDirection: 'column',
-  width: '98%',
+  width: '100%',
   alignSelf: 'center',
 }));
 
@@ -41,11 +46,13 @@ export const LineDivider = styled('div')({
 });
 
 
-export const BodyText = styled('p')(props =>({
-  display:'flex',
+export const BodyText = styled('p')(props => ({
+  display: 'flex',
   margin: 0,
-  textAlign: 'left',
+ // textAlign: 'left',
   fontSize: '15px',
   color: COLORS.black,
   fontFamily: FONTS_FAMILY.regular.body,
+  textAlign:'justify'
+
 }));

@@ -256,7 +256,7 @@ function MyProfile() {
                             <TextField title="RNC" type="text" id="company_rnc"
                                 required
                                 disabled={selectedCompany ? true : false}
-                                mask="999-9999999-9"
+                                mask="9-99-99999-9"
                                 unMaskedValue
                                 value={companyFormik.values.company_rnc}
                                 onChange={companyFormik.handleChange}

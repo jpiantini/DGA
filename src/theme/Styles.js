@@ -21,7 +21,7 @@ export const Row = styled('div')({
 export const StyledButton = styled(Button)({
     minHeight: '38px',
     width: '100%',
-    borderRadius: '0',
+    borderRadius: '30px',
     color: COLORS.white,
     backgroundColor: COLORS.secondary,
     '@media (min-width:320px)': {
@@ -44,7 +44,7 @@ export const StyledButtonOutlined = styled(Button)(props => ({
     minHeight: '38px',
     width: '100%',
     borderColor: COLORS.secondary,
-    borderRadius: 0,
+    borderRadius: '30px',
     color: props.active ? COLORS.white : COLORS.secondary,
     backgroundColor: props.active ? COLORS.secondary : COLORS.white,
     '@media (min-width:320px)': {
@@ -77,7 +77,7 @@ export const StyledTextInput = styled(TextField)({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: COLORS.secondary,
-        borderRadius: '0',
+        borderRadius: '10px',
         minHeight: '45px',
       },
   

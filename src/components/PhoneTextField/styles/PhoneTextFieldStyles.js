@@ -9,6 +9,8 @@ export const Container = styled('div')({
 
 export const StyledTextInputSelect = styled(StyledTextInput)({
     width:'30%',
-    
 });
 
+export const Separator = styled('div')({
+    width:'10px',
+});

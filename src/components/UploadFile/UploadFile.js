@@ -1,6 +1,6 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon,PaginationContainer } from './styles/UploadFileStyles';
+import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon, PaginationContainer } from './styles/UploadFileStyles';
 import { FieldTitle, Row, SmallHeightDivider, StyledPagination, StyledTextInput } from '../../theme/Styles';
 import FormModal from '../FormModal/FormModal';
 import DocumentsOfRequestsCard from '../DocumentsOfRequestsCard/DocumentsOfRequestsCard';
@@ -10,7 +10,7 @@ import { getPersonalDocuments } from '../../api/MyDocuments';
 import { cacheConfig } from '../../cacheConfig';
 
 
-function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, required, hideDownloadButton, helperText = " ", findDocuments = false }) {
+function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false }) {
 
     const queryClient = useQueryClient();
     const userData = queryClient.getQueryData(['userData']);
@@ -28,7 +28,49 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
     const handleFileChange = (e) => {
         if (e.target.files.length > 0) {
             setSelectedFileName(e.target.files[0].name);
+            console.log(e.target.files[0])
             return e.target.files[0]
+        }
+    }
+
+    const validateAndChangeSelectedFileType = (action, e) => {
+        const types = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+        if (e.target.files.length > 0) {
+            const fileSize = e.target.files[0].size / 1024 / 1024;
+            if (fileSize > 8) {
+                alert('El peso limite por archivo es de 8mb');
+                return;
+            }
+            //Good
+            if (types.find((type) => type === e.target.files[0].type)) {
+                action({
+                    target: {
+                        id: id,
+                        value: handleFileChange(e)
+                    }
+                }
+                )
+                return;
+            }
+            if (types.find((type) => type.includes(extension))) {
+                action({
+                    target: {
+                        id: id,
+                        value: handleFileChange(e)
+                    }
+                })
+                return;
+            }
+            //bad
+            setSelectedFileName('');
+            action({
+                target: {
+                    id: id,
+                    value: undefined
+                }
+            })
+            alert('Documento no permitido');
+            return;
         }
     }
 
@@ -105,23 +147,13 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
                 <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file'
+                <InputFile id={id} type='file' accept={extension ? extension : 'image/*,.pdf'} size
                     onBlur={(e) => {
-                        onBlur && onBlur({
-                            target: {
-                                id: id,
-                                value: handleFileChange(e)
-                            }
-                        });
+                        onBlur && validateAndChangeSelectedFileType(onBlur, e)
                     }
                     }
                     onChange={(e) => {
-                        onChange({
-                            target: {
-                                id: id,
-                                value: handleFileChange(e)
-                            }
-                        });
+                        validateAndChangeSelectedFileType(onChange, e)
                     }
                     } />
             </RowContainer>

@@ -27,6 +27,7 @@ export const RULE_LIST = {
   '10': 'cambiarARnc',
 }
 
+//How it's set in DB
 export const MASK_LIST = {
   '0': 'Cédula',
   '1': 'RNC',
@@ -36,7 +37,7 @@ export const MASK_LIST = {
   '6': 'solo numero',
   '7': 'solo letra',
   '8': 'inmueble',
-  '9': 'COD.sistema caasd',
+  '9': 'diffEmail',
   '10': 'fecha',
   '11': 'hora',
   '12': 'decimal',

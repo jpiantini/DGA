@@ -21,7 +21,7 @@ import { Grid, Typography } from '@mui/material';
 import { localToArray } from '../../../../utilities/functions/ArrayUtil';
 import { useFormik } from 'formik';
 import * as  yup from 'yup';
-import { dataObjectRuleChanger, getFieldValidation } from './FormFunctions';
+import { dataObjectRuleChanger, fieldRuleChanger, getFieldValidation } from './FormFunctions';
 import RenderField from './components/RenderField';
 import { localToString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
@@ -62,24 +62,6 @@ function Form(props) {
         setShowSubmitModal(!showSubmitModal)
     }
 
-
-    /*  const handleStepsValidation = (step) => {
-          if (localData[step]) {
-              let stepField = false
-              for (let i = 0; i < localData[step]?.length; i++) {
-                  const field = localData[step][i];
-                  if (touched[field.fieldKey] && Boolean(errors[field.fieldKey])) {
-                      stepField = true;
-                  }
-              }
-              if (stepField) {
-                  return true;
-              } else {
-                  return false;
-              }
-          }
-      }
-  */
     //componentDidUpdate
     useEffect(() => {
         if (!fakeLastStep) {
@@ -116,7 +98,8 @@ function Form(props) {
     }, [localData, activeStep])
 
     useEffect(() => {
-        if (localToArray(props.data).length > 0) {
+        const _data = localToArray(props.data)
+        if (_data.length > 0) {
             //setting every key to undefined so formik mark red error
             const innerState = { ...state, ...values }
 
@@ -130,7 +113,7 @@ function Form(props) {
             let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
             if (!initialState) {
                 //setting initial rules && values
-                setLocalData(localToArray(props.data))
+                setLocalData(_data)
                 setState(innerState)
                 return
             } else if (initialState) {
@@ -161,7 +144,7 @@ function Form(props) {
             }
 
             //setting initial rules && values
-            changeRule(rules, localToArray(props.data))
+            changeRule(rules, _data)
             setState(innerState)
         }
         return () => { }
@@ -221,53 +204,48 @@ function Form(props) {
         }
         const ruleList = Array.isArray(rule) ? rule : [rule]
         let _localData = localToArray(initialData ?? localData)
-
         for (let index = 0; index < ruleList.length; index++) {
             const ruleSeparated = localToString(ruleList[index]).split(':')
             const ruleAction = localToString(ruleSeparated[0]).split(',')
             const ruleField = localToString(ruleSeparated[1]).split(',')
 
-            _localData = localToArray(_localData).map((step) => {
-                return localToArray(step).map((field) => {
-                    const findRuleField = ruleField.find(fieldName => field.fieldKey == fieldName)
-                    if (!findRuleField) {
-                        return field
-                    } else {
-                        const rulesToApply = ruleField
-                            .map((fieldName, index) => {
-                                if (field.fieldKey == fieldName) {
-                                    return RULE_LIST[ruleAction[index]]
-                                } else {
-                                    return null
-                                }
+            _localData = _localData.map((step) => {
+                return step.map((field) => {
+                    //Main field modifier
+                    let _field = fieldRuleChanger({
+                        field,
+                        ruleAction,
+                        ruleField,
+                        ruleList,
+                        values,
+                        setFieldValue,
+                    })
+
+                    //Secondary field modifier (for fields inside field)
+                    if (field.type == FIELD_TYPES.grid && localToArray(field.fields).length) {
+                        _field = {
+                            ..._field,
+                            fields: field.fields.map((fieldsField) => {
+                                const _fieldsField = fieldRuleChanger({
+                                    field: fieldsField,
+                                    ruleAction,
+                                    ruleField,
+                                    ruleList,
+                                    values,
+                                    setFieldValue,
+                                })
+                                return _fieldsField
                             })
-                            .filter(item => item !== null)
-                        const _field = dataObjectRuleChanger(field, rulesToApply, setFieldValue)
-
-                        //add more ruleList if its rule five and the other field (select) has value
-                        if (
-                            rulesToApply.find(item => item == RULE_LIST[5]) &&
-                            safeValExtraction(values[field.fieldKey], 'rule')
-                        ) {
-                            ruleList.push(safeValExtraction(values[field.fieldKey], 'rule'))
                         }
-
-                        //return the modified object
-                        return _field
                     }
+
+                    return _field
                 })
             })
         }
         setLocalData(_localData)
     }
 
-    /*   useEffect(() => {
-           if(Object.keys(errors).length != 0)
-           if (Object.keys(errors).length != 0 && touched[Object.keys(errors)[0]]) {
-               enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
-           }
-       }, [errors,touched]);
-   */
     const LocalRenderField = ({ item, index }) => {
         return (
             <RenderField

@@ -155,9 +155,9 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                                         </TransformComponent>
 
                                         <div>
-                                            <StyledButton onClick={() => zoomIn()}>Zoom +</StyledButton>
-                                            <StyledButton onClick={() => zoomOut()}>Zoom -</StyledButton>
-                                            <StyledButton onClick={() => resetTransform()}>Reiniciar</StyledButton>
+                                            <StyledButton style={{borderRadius:0}} onClick={() => zoomIn()}>Zoom +</StyledButton>
+                                            <StyledButton style={{borderRadius:0}} onClick={() => zoomOut()}>Zoom -</StyledButton>
+                                            <StyledButton style={{borderRadius:0}} onClick={() => resetTransform()}>Reiniciar</StyledButton>
                                         </div>
                                     </Fragment>
                                 )}
