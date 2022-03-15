@@ -1,7 +1,8 @@
-import { cleanStringFromNumbers } from "../../utilities/functions/NumberUtil"
+import { cleanCommasFromNumbers, cleanStringFromNumbers } from "../../utilities/functions/NumberUtil"
 import { isEmpty } from "../../utilities/functions/ValidationUtil"
 import { FIELD_TYPES } from "./components/Form/FormConstants"
 import { format } from 'date-fns'
+import { localToArray } from "../../utilities/functions/ArrayUtil"
 
 const transformValue = (val, fieldProps) => {
   let _val = undefined
@@ -34,6 +35,10 @@ const transformValue = (val, fieldProps) => {
       _val = format(new Date(val), 'hh:mm')
       _labelValue = fieldProps?.label
       break;
+    case FIELD_TYPES.text:
+      _val = val
+      _labelValue = null
+      break;
     default:
       _val = val
       _labelValue = fieldProps?.label
@@ -60,6 +65,8 @@ const transformValue = (val, fieldProps) => {
     case '11':
       _val = format(new Date(_val), 'hh:mm')
       break;
+    case '12':
+      _val = cleanCommasFromNumbers(_val);
     default:
       break;
   }
@@ -70,15 +77,11 @@ const transformValue = (val, fieldProps) => {
   }
 }
 
-export const transformFormData = (values, data) => {
-  let _data = []
+export const transformFormData = (values, plainData) => {
   let _values = []
-  data.map(step => {
-    _data = [..._data, ...step]
-  })
   Object.keys(values).map(key => {
     //By default isEmpty search on "value" property of an object in this case i set 'isARoute' as props and isEmpty search this property instead of value  
-    if (!isEmpty(values[key],values[key]?.isARoute ? 'isARoute' : 'value')) {
+    if (!isEmpty(values[key], values[key]?.isARoute ? 'isARoute' : 'value')) {
       _values.push({
         key,
         value: values[key],
@@ -86,7 +89,7 @@ export const transformFormData = (values, data) => {
     }
   })
   return _values.map(val => {
-    const fieldProps = _data.find(item => item.fieldKey === val.key)
+    const fieldProps = plainData.find(item => item.fieldKey === val.key)
     return {
       key: val.key,
       ...transformValue(val.value, fieldProps),
@@ -94,4 +97,60 @@ export const transformFormData = (values, data) => {
       label: fieldProps?.label,
     }
   })
+}
+
+export const transformFormGrid = (values, plainData) => {
+  const _values = []
+  const gridTransformed = {}
+
+  for (const key in values) {
+    const elementVal = values[key];
+    if (!isEmpty(elementVal)) {
+      _values.push({
+        key: key,
+        value: elementVal,
+      })
+    }
+  }
+
+
+  for (const val of _values) {
+    const fieldProps = plainData.find(item => item.fieldKey === val.key)
+    if (fieldProps?.type !== 'grid') {
+      continue
+    } else if (isEmpty(val.value)) {
+      continue
+    }
+    gridTransformed[fieldProps.relationship] = localToArray(val.value)
+      .map(rowVal => {
+        const _rowFieldValues = []
+
+        for (const rowFieldKey in rowVal) {
+          const elementVal = rowVal[rowFieldKey];
+          if (!isEmpty(elementVal)) {
+            _rowFieldValues.push({
+              key: rowFieldKey,
+              value: elementVal,
+            })
+          }
+        }
+
+        const gridTransformedVal = {}
+
+        for (const rowFieldValue of _rowFieldValues) {
+          const rowFieldProps = fieldProps.fields.find(item => item.fieldKey === rowFieldValue.key)
+
+          gridTransformedVal[rowFieldValue.key] = {
+            key: rowFieldValue.key,
+            ...transformValue(rowFieldValue.value, rowFieldProps),
+            type: rowFieldProps?.type,
+            MainLabel: rowFieldProps?.label,
+          }
+        }
+
+        return gridTransformedVal
+      })
+  }
+
+  return gridTransformed
 }

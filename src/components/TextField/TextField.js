@@ -5,7 +5,6 @@ import InputMask from 'react-input-mask';
 import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
-
 function TextField({ id, title, placeholder, helperText = " ", value, onChange, onBlur, type, error, mask, unMaskedValue, useMaskPresets, required, multiline, minLength, maxLength, max, min, disabled, isLoading }) {
 
     const removeTextFromInputMaskValue = (value) => {
@@ -83,9 +82,9 @@ function TextField({ id, title, placeholder, helperText = " ", value, onChange, 
                                 InputProps={{
                                     endAdornment: isLoading ? (
                                         <CircularProgress size='1em' />
-                                      )
-                                      :
-                                      null
+                                    )
+                                        :
+                                        null
                                 }}
                             />
                         }
@@ -107,14 +106,14 @@ function TextField({ id, title, placeholder, helperText = " ", value, onChange, 
                             maxLength: maxLength,
                             minLength: minLength,
                             max: max,
-                            min: min
+                            min: min,
                         }}
                         InputProps={{
                             endAdornment: isLoading ? (
                                 <CircularProgress size='1em' />
-                              )
-                              :
-                              null
+                            )
+                                :
+                                null,
                         }}
                     />
             }

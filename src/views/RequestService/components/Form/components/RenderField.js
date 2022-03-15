@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FIELD_TYPES, MASK_LIST, MASK_TYPE } from '../FormConstants';
-import { Avatar, Grid, IconButton, List, ListItem, ListItemAvatar } from '@mui/material';
+import { Avatar, FormControl, FormHelperText, Grid, IconButton, List, ListItem, ListItemAvatar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -12,12 +12,13 @@ import DatePicker from '../../../../../components/DatePicker/DatePicker';
 import TimePicker from '../../../../../components/TimePicker/TimePicker';
 import UploadFile from '../../../../../components/UploadFile/UploadFile';
 import { localToArray, mapArrayDiff } from '../../../../../utilities/functions/ArrayUtil';
-import { cleanNumbersFromString, cleanNumberWithDecimal, localToString } from '../../../../../utilities/functions/StringUtil';
+import { cleanNumbersFromString, formatNumberWithDecimal, localToString } from '../../../../../utilities/functions/StringUtil';
 import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
 import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup';
 import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextField';
 import { cedulaValidationService } from '../../../../../api/RenderField';
+import TextFieldNumberFormat from '../../../../../components/TextFieldNumberFormat/TextFieldNumberFormat';
 
 const RenderField = (props) => {
 
@@ -31,7 +32,8 @@ const RenderField = (props) => {
       case FIELD_TYPES.select:
         // data object of form json. reference -> ArrayUtil/dataToSelect.js
         const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value);
-        if (val?.target.value) { //new selectedValue
+        //new selectedValue
+        if (val?.target.value) {
           props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
         } else if (currentSelectedValue?.invertRule) { //current selectedValue
           props.changeRule(localToString(currentSelectedValue.invertRule));
@@ -44,7 +46,6 @@ const RenderField = (props) => {
         } else {
           const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
           props.changeRule(props.values.find(item => item.value == unselectedOption)?.ruleF)
-
         }
         break;
       case FIELD_TYPES.radioGroup:
@@ -62,7 +63,7 @@ const RenderField = (props) => {
         props.onChange(props.fieldKey, cleanNumbersFromString(val.target.value))
         break;
       case MASK_LIST[12]:
-        props.onChange(props.fieldKey, cleanNumberWithDecimal(val.target.value))
+        props.onChange(props.fieldKey, formatNumberWithDecimal(val.target.value))
         break;
       default:
         props.onChange(props.fieldKey, val.target.value);
@@ -92,20 +93,18 @@ const RenderField = (props) => {
 
 
   const insertFormData = ({ values, fatherKey, listIndex }) => {
-    if (typeof props.onChange == 'function') {
-      const value = localToArray(props.value)
-      if (listIndex !== undefined) {
-        value[listIndex] = values
-        props.onChange(fatherKey, [...value])
-      } else {
-        props.onChange(fatherKey, [...value, values])
-      }
-      setModalVisible(false)
+    const value = localToArray(props.value)
+    if (listIndex !== undefined) {
+      value[listIndex] = values
+      props.onChange(fatherKey, [...value])
+    } else {
+      props.onChange(fatherKey, [...value, values])
     }
+    setModalVisible(false)
   }
 
   const deleteGridElement = (position) => {
-    if (position != undefined && typeof props.onChange == 'function') {
+    if (position != null && position !== undefined) {
       const result = localToArray(props.value).filter((doc, index) => index !== position)
       props.onChange(props.fieldKey, result)
     }
@@ -251,6 +250,25 @@ const RenderField = (props) => {
             />
           )
         }
+        if (['12'].includes(localToString(props.Mask))) {
+          return (
+            <TextFieldNumberFormat
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              isLoading={textInputLoading}
+              maxLength={props.length}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+              multiline={props.multiline}
+            />
+          )
+        }
         return (
           <TextField
             id={props.fieldKey}
@@ -334,7 +352,7 @@ const RenderField = (props) => {
         )
       case FIELD_TYPES.grid:
         return (
-          <div>
+          <FormControl disabled={!props.enabled} error={props.error} sx={{ width: '100%' }}>
             <SubTitle >
               {props.label}
             </SubTitle>
@@ -350,6 +368,7 @@ const RenderField = (props) => {
             <StyledButton onClick={() => setModalVisible(true)}>
               Agregar
             </StyledButton>
+            <FormHelperText>{props.helperText}</FormHelperText>
             <ModalForm
               title={props.label}
               isVisible={modalVisible}
@@ -358,7 +377,7 @@ const RenderField = (props) => {
               doRequest={insertFormData}
               fatherKey={localToString(props.fieldKey)}
             />
-          </div>
+          </FormControl>
         )
 
       case FIELD_TYPES.header:
@@ -391,18 +410,18 @@ const RenderField = (props) => {
           </Grid>
           :
           props.type === FIELD_TYPES.radioGroup ?
-          <Grid item xs={12} sm={12} md={12}>
-            {Field()}
-          </Grid>
-          :
-          props.type === FIELD_TYPES.textarea ?
-          <Grid item xs={12} sm={12} md={12}>
-            {Field()}
-          </Grid>
-          :
-          <Grid item xs={3} sm={6} md={6}>
-            {Field()}
-          </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              {Field()}
+            </Grid>
+            :
+            props.type === FIELD_TYPES.textarea ?
+              <Grid item xs={12} sm={12} md={12}>
+                {Field()}
+              </Grid>
+              :
+              <Grid item xs={3} sm={6} md={6}>
+                {Field()}
+              </Grid>
 
   )
 }

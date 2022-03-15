@@ -102,11 +102,13 @@ function ServiceRequestedDetails() {
                                     null
                             }
 
-                            {
-                                serviceRequestedDetail.request.request_actions && //IF ACTION REQUIRED IS TRUE
+                            {   //IF ACTION REQUIRED IS FOR DOCUMENT OR TEXT
+                                serviceRequestedDetail.request.request_actions_id == 1 || serviceRequestedDetail.request.request_actions_id == 1 ?
                                 <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
                                     Accion Requerida
                                 </StyledButtonOutlined>
+                                :
+                                null
                             }
                         </ButtonGroup>
                     </ButtonsMenuContainer>

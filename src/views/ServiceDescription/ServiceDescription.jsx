@@ -69,7 +69,8 @@ function ServiceDescription() {
     /*useEffect(() => {
         refetch();
     }, [serviceID]);
-*/
+    */
+
     if (isLoading) return null;
 
     return (
@@ -87,6 +88,8 @@ function ServiceDescription() {
                     <TextInformation title="Información general"
                         content={serviceDescription?.description}
                     />
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
 
                     <TextInformation title="Tarifa del servicio" />
                     <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>

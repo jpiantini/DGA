@@ -419,9 +419,9 @@ function Register() {
                     :
                     activeStep == 1 ?
 
-                        <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+                        <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
 
-                            <Grid item xs={8} sm={4} md={6}>
+                            <Grid item xs={12} sm={12} md={12}>
                                 <RadioButtonGroup title="Tipo de documento" id="document_type"
                                     options={identificationTypes}
                                     value={formik.values.document_type}
@@ -429,7 +429,9 @@ function Register() {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.document_type && Boolean(formik.errors.document_type)}
                                     helperText={formik.touched.document_type && formik.errors.document_type}
-                                    required />
+                                    required 
+                                    row
+                                    />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>

@@ -1,8 +1,8 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Container } from './styles/PhoneTextFieldStyles';
+import { Container, Separator } from './styles/PhoneTextFieldStyles';
 import InputMask from 'react-input-mask';
-import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
+import { BodyText, FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import { StyledOption } from '../Select/styles/SelectStyles';
 
 
@@ -43,7 +43,7 @@ function PhoneTextField({ id, title, placeholder, helperText = " ", value="", on
                     : null}
 
             </Row>
-            <Row style={{ width: '100%' }}>
+            <Row style={{ width: '100%'}}>
                 <StyledTextInput
                     sx={{ width: '30%' }}
                     value={phonePrefix}
@@ -72,7 +72,7 @@ function PhoneTextField({ id, title, placeholder, helperText = " ", value="", on
                     ))}
 
                 </StyledTextInput>
-
+                <Separator/>
                 <InputMask
                     id={id}
                     mask={"999-9999"}

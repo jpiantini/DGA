@@ -1,26 +1,31 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import {
     SmallHeightDivider,
     CardBodyText,
     CardContainer,
     CardTextContainer,
-    CardBodyTitle
+    CardBodyTitle,
+    StyledButton
 } from '../../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
+    ButtonContainer,
     Container,
 } from '../../styles/ServiceRequestedDetailsStyles';
-import { MockupPayments } from './PaymentsConstants';
+import { FileFormSchema, MockupPayments } from './PaymentsConstants';
 import { Grid } from '@mui/material';
 import { ImageContainer, LogoImage } from '../../styles/ServiceRequestedDetailsStyles';
 import { useQueryClient } from 'react-query';
 import siritLogo from '../../../../assets/images/siritLogo.png'
 import transferenciaLogo from '../../../../assets/images/transferenciaLogo.png'
 import depositoLogo from '../../../../assets/images/depositoLogo.png'
+import FormModal from '../../../../components/FormModal/FormModal';
+import UploadFile from '../../../../components/UploadFile/UploadFile';
+import { useFormik } from 'formik';
 
 function Payment() {
 
@@ -29,6 +34,22 @@ function Payment() {
     const cleanRequestID = requestID.replace('payment', '');
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID])
     const userData = queryClient.getQueryData(['userData'])
+
+    const [modalPaymentIsOpen, setModalPaymentIsOpen] = useState();
+
+    const fileFormik = useFormik({
+        initialValues: {
+            file: null
+        },
+        validationSchema: FileFormSchema,
+        onSubmit: (values) => {
+     //       handleSubmitFile(values);
+        },
+    });
+
+    const handlePaymentModalVisibility = () => {
+        setModalPaymentIsOpen(!modalPaymentIsOpen)
+    }
 
     const handleSiritePayment = () => {
 
@@ -69,7 +90,7 @@ function Payment() {
 
     return (
         <Container >
-            <TextInformation title="Pagar impuesto de servicio" />
+            <TextInformation title="Método de pago" />
             <SmallHeightDivider />
             <SmallHeightDivider />
             <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
@@ -86,13 +107,13 @@ function Payment() {
                     requestData.request.service.external_pay !== 0 &&
                     <Fragment>
                         <Grid item xs={6} sm={4} md={4}>
-                            <ImageContainer title="Transferecia" onClick={() => handleSiritePayment()}>
+                            <ImageContainer title="Transferecia" onClick={handlePaymentModalVisibility}>
                                 <LogoImage src={transferenciaLogo} />
                             </ImageContainer>
                         </Grid>
 
                         <Grid item xs={6} sm={4} md={4}>
-                            <ImageContainer title="Deposito" onClick={() => handleSiritePayment()}>
+                            <ImageContainer title="Deposito" onClick={handlePaymentModalVisibility}>
                                 <LogoImage src={depositoLogo} />
                             </ImageContainer>
                         </Grid>
@@ -100,6 +121,33 @@ function Payment() {
                 }
 
             </Grid>
+
+            <FormModal onClose={handlePaymentModalVisibility} open={modalPaymentIsOpen}
+                title="Subir comprobante"
+            >
+                <SmallHeightDivider />
+                <SmallHeightDivider />
+                <SmallHeightDivider />
+                <UploadFile id="file" title="Documento"
+                    onChange={fileFormik.handleChange}
+                    onBlur={fileFormik.handleBlur}
+                    error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
+                    helperText={fileFormik.touched.file && fileFormik.errors.file}
+                    required
+                />
+                
+                <SmallHeightDivider />
+                <SmallHeightDivider />
+
+                <ButtonContainer>
+                    <StyledButton onClick={fileFormik.handleSubmit}>
+                        CONFIRMAR
+                    </StyledButton>
+                </ButtonContainer>
+
+            </FormModal>
+
+
             <SmallHeightDivider />
             <SmallHeightDivider />
             <TextInformation title="Mis pagos" />

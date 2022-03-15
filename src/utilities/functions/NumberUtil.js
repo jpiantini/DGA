@@ -5,6 +5,14 @@ export  function cleanStringFromNumbers(s) {
   return s.replace(/\D/g,'');
 }
 
+export  function cleanCommasFromNumbers(s) {
+  if (!s) {
+    return ''
+  }
+  
+  return s.replace(/,/g, '');
+}
+
 
 export const localToNumber = (n, whatReturn = 0) => {
   if (!n || String(n).length == 0) {

@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { FIELD_TYPES, MASK_LIST, RULE_LIST } from './FormConstants'
 import { localToString, defaultString } from '../../../../utilities/functions/StringUtil';
+import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 
 export const getFieldValidation = (field) => {
   if (!field || !field.type || field.hidden) {
@@ -9,18 +10,37 @@ export const getFieldValidation = (field) => {
     return
   }
 
-  const fieldType = {
-    [FIELD_TYPES.text]: yup.string(),
-    [FIELD_TYPES.select]: yup.string(),
-    [FIELD_TYPES.radioGroup]: yup.string(),
-    [FIELD_TYPES.checkboxGroup]: yup.array(), //for testing
-    [FIELD_TYPES.date]: yup.date(),
-    [FIELD_TYPES.time]: yup.date(),
-    [FIELD_TYPES.file]: yup.mixed()
+  let validator = undefined;
 
+  switch (field.type) {
+    case FIELD_TYPES.time:
+      validator = yup.date()
+      break;
+    case FIELD_TYPES.date:
+      validator = yup.date()
+      break;
+    case FIELD_TYPES.radioGroup:
+      validator = yup.string()
+      break;
+    case FIELD_TYPES.text:
+      validator = yup.string()
+      break;
+    case FIELD_TYPES.select:
+      validator = yup.string()
+      break;
+    case FIELD_TYPES.file:
+     /* if (field?.required) {
+        validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+      }
+      */
+      validator = yup.mixed()
+      break;
+    case FIELD_TYPES.grid:
+      validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+      break;
+    default:
+      break;
   }
-
-  let validator = fieldType[field.type]
 
   if (field?.required && validator) {
     validator = validator.required(defaultString.requiredText)
@@ -36,6 +56,44 @@ export const getFieldValidation = (field) => {
   }
 
   return validator
+}
+
+export const fieldRuleChanger = (
+  {field, ruleAction, ruleField, ruleList, values, setFieldValue}
+) => {
+  const findRuleField = ruleField.find(fieldName => field?.fieldKey == fieldName)
+
+  let _field = {
+    ...field,
+  }
+
+  //Main field modifier
+  if (findRuleField) {
+    const rulesToApply = ruleField
+      .map((fieldName, index) => {
+        if (field?.fieldKey == fieldName) {
+          return RULE_LIST[ruleAction[index]]
+        } else {
+          return null
+        }
+      })
+      .filter(item => item !== null)
+
+    //add more ruleList if its rule five and the other field (select) has value
+    if (
+      rulesToApply.find(item => item == RULE_LIST[5]) &&
+      safeValExtraction(values[field?.fieldKey], 'rule')
+    ) {
+      ruleList.push(safeValExtraction(values[field?.fieldKey], 'rule'))
+    }
+
+    //return the modified object
+    _field = {
+      ...dataObjectRuleChanger(field, rulesToApply, setFieldValue),
+    }
+  }
+
+  return _field
 }
 
 export const dataObjectRuleChanger = (item, rules, valChange) => {
@@ -64,7 +122,7 @@ export const dataObjectRuleChanger = (item, rules, valChange) => {
         _item.required = false
         break;
       case RULE_LIST[7]:
-        valChange(_item.fieldKey, undefined)
+        valChange(_item?.fieldKey, undefined)
         break;
       case RULE_LIST[8]:
         _item.Mask = '0'
