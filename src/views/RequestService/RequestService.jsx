@@ -257,7 +257,7 @@ function RequestService() {
                 attribute: responseFormSubmit.attributes,
                 process_id: serviceDescription.process_id,
                 acronym: "DPPDE",//responseFormSubmit.acronym,
-                names: filesOfForm[i].label,
+                names: [filesOfForm[i].label],
                 activity_id: false
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
