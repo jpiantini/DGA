@@ -88,6 +88,40 @@ function ServiceDescription() {
                     <TextInformation title="Información general"
                         content={serviceDescription?.description}
                     />
+
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+                    <TextInformation title="Requisitos" />
+                    <SmallHeightDivider />
+
+                    <TextListContainer>
+                        {
+                            serviceDescription.requirements.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.name}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextListContainer>
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
+                    <TextInformation title="Procedimientos" />
+                    <SmallHeightDivider />
+                    <TextOrderedListContainer>
+                        {
+                            serviceDescription.procedures.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.step}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextOrderedListContainer>
+
                     <SmallHeightDivider />
                     <SmallHeightDivider />
 
@@ -148,7 +182,7 @@ function ServiceDescription() {
                                             {price.variations.map((variations) => (
                                                 <strong>
                                                     <BodyText>
-                                                        {variations.price}$
+                                                        DOP${variations.price}
                                                     </BodyText>
                                                 </strong>
                                             ))}
@@ -158,40 +192,6 @@ function ServiceDescription() {
                             </Grid>
                         ))}
                     </Grid>
-
-
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-                    <TextInformation title="Requisitos" />
-                    <SmallHeightDivider />
-
-                    <TextListContainer>
-                        {
-                            serviceDescription.requirements.map((requeriment, index) => (
-                                <li key={index} style={{ marginTop: '5px' }}>
-                                    <BodyText>
-                                        {requeriment.name}
-                                    </BodyText>
-                                </li>
-                            ))
-                        }
-                    </TextListContainer>
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-
-                    <TextInformation title="Procedimientos" />
-                    <SmallHeightDivider />
-                    <TextOrderedListContainer>
-                        {
-                            serviceDescription.procedures.map((requeriment, index) => (
-                                <li key={index} style={{ marginTop: '5px' }}>
-                                    <BodyText>
-                                        {requeriment.step}
-                                    </BodyText>
-                                </li>
-                            ))
-                        }
-                    </TextOrderedListContainer>
 
                     <ButtonContainer>
                         <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>

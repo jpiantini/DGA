@@ -29,10 +29,10 @@ export const getFieldValidation = (field) => {
       validator = yup.string()
       break;
     case FIELD_TYPES.file:
-     /* if (field?.required) {
-        validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
-      }
-      */
+      /* if (field?.required) {
+         validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+       }
+       */
       validator = yup.mixed()
       break;
     case FIELD_TYPES.grid:
@@ -50,7 +50,9 @@ export const getFieldValidation = (field) => {
     case MASK_LIST[5]:
       validator = validator.email(defaultString.validEmail)
       break;
-
+    case MASK_LIST[9]:
+      validator = validator.email(defaultString.validEmail)
+      break;
     default:
       break;
   }
@@ -59,7 +61,7 @@ export const getFieldValidation = (field) => {
 }
 
 export const fieldRuleChanger = (
-  {field, ruleAction, ruleField, ruleList, values, setFieldValue}
+  { field, ruleAction, ruleField, ruleList, values, setFieldValue }
 ) => {
   const findRuleField = ruleField.find(fieldName => field?.fieldKey == fieldName)
 

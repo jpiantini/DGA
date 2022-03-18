@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useQuery, useQueryClient } from 'react-query';
 import { getPersonalDocuments } from '../../api/MyDocuments';
 import { cacheConfig } from '../../cacheConfig';
+import { types } from './UploadFileConstants';
 
 
 function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false }) {
@@ -25,6 +26,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
     const [documentModalIsOpen, setDocumentModalIsOpen] = useState(false);
     const [selectedFileName, setSelectedFileName] = useState(value?.name);
 
+    const extensionForField = types.find((type) => type.includes(extension));
+
     const handleFileChange = (e) => {
         if (e.target.files.length > 0) {
             setSelectedFileName(e.target.files[0].name);
@@ -34,14 +37,37 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
     }
 
     const validateAndChangeSelectedFileType = (action, e) => {
-        const types = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+        console.log(e.target.files[0])
         if (e.target.files.length > 0) {
             const fileSize = e.target.files[0].size / 1024 / 1024;
             if (fileSize > 8) {
                 alert('El peso limite por archivo es de 8mb');
                 return;
             }
-            //Good
+            //Good select file by file type
+            if (extension != undefined) {
+                if (types.find((type) => type.includes(extension)) && e.target.files[0].type.includes(extension)) {
+                    action({
+                        target: {
+                            id: id,
+                            value: handleFileChange(e)
+                        }
+                    })
+                    return;
+                } else {
+                    //bad
+                    setSelectedFileName('');
+                    action({
+                        target: {
+                            id: id,
+                            value: undefined
+                        }
+                    })
+                    alert(`El archivo requiere una extension .${extension}`);
+                    return;
+                }
+            }
+            //Good select valid file
             if (types.find((type) => type === e.target.files[0].type)) {
                 action({
                     target: {
@@ -50,15 +76,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
                     }
                 }
                 )
-                return;
-            }
-            if (types.find((type) => type.includes(extension))) {
-                action({
-                    target: {
-                        id: id,
-                        value: handleFileChange(e)
-                    }
-                })
                 return;
             }
             //bad
@@ -75,14 +92,35 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
     }
 
     const handleDocumentSelect = (e) => {
-        setSelectedFileName(e.name);
-        handleModalVisibility();
-        return {
-            isARoute: true,
-            name: e.nameClear,
-            extension: e.type,
-            type: e.type === 'pdf' ? `application/pdf` : `image/${e.type}`,
-            route: e.route,
+        //Good select file by file type
+        if (extension != undefined) {
+            if (types.find((type) => type.includes(extension)) && e.type.includes(extension)) {
+                setSelectedFileName(e.name);
+                handleModalVisibility();
+                return {
+                    isARoute: true,
+                    name: e.nameClear,
+                    extension: e.type,
+                    type: types.find((type) => type.includes(extension)),
+                    route: e.route,
+                }
+            } else {
+                //bad
+                setSelectedFileName('');
+                alert(`El archivo requiere una extension .${extension}`);
+                return undefined;
+            }
+        } else {
+            //Good select a valid file
+            setSelectedFileName(e.name);
+            handleModalVisibility();
+            return {
+                isARoute: true,
+                name: e.nameClear,
+                extension: e.type,
+                type: types.find((type) => type.includes(e.type)),
+                route: e.route,
+            }
         }
     }
 
@@ -147,7 +185,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
                 <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file' accept={extension ? extension : 'image/*,.pdf'} size
+                <InputFile id={id} type='file' accept={extensionForField ? extensionForField : 'image/*,.pdf'} size
                     onBlur={(e) => {
                         onBlur && validateAndChangeSelectedFileType(onBlur, e)
                     }

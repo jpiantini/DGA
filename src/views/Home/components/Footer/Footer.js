@@ -25,7 +25,6 @@ function Footer({FooterRoutes}) {
                     <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {
                             listOfServices.map((direction) => (
-                                direction.services.length > 0 ?
                                 <Grid item direction="column" key={direction.id}>
                                     <FooterText>{direction.name}</FooterText>
                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -38,8 +37,6 @@ function Footer({FooterRoutes}) {
                                         }
                                     </div>
                                 </Grid>
-                                :
-                                null
                             ))
                         }
                     </Grid>

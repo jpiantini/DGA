@@ -19,8 +19,12 @@ import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup
 import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextField';
 import { cedulaValidationService } from '../../../../../api/RenderField';
 import TextFieldNumberFormat from '../../../../../components/TextFieldNumberFormat/TextFieldNumberFormat';
+import { useQueryClient } from 'react-query';
 
 const RenderField = (props) => {
+
+  const queryClient = useQueryClient();
+  const userData = queryClient.getQueryData(['userData']);
 
   const [modalVisible, setModalVisible] = useState(false)
   const [textInputLoading, setTextInputLoading] = useState(false)
@@ -72,7 +76,7 @@ const RenderField = (props) => {
   }
 
   const handleValidationOnBlur = async (val) => {
-    props.setFieldTouched(props.fieldKey, true, true)
+
     // 0 IS CEDULA FOR VALIDATE
     if (props.Mask === '0' && val.target.value.length > 0) {
       try {
@@ -89,7 +93,18 @@ const RenderField = (props) => {
         setTextInputLoading(false);
       }
     }
+    // 9 EMAIL IS DIFFERENT THAN LOGGED USER EMAIL
+    if (props.Mask === '9' && val.target.value.length > 0) {
+      if (userData.payload.email === val.target.value) {
+        props.setFieldError(props.fieldKey, "El correo debe ser diferente del solicitante")
+      } else {
+        props.setFieldTouched(props.fieldKey, true, true)
+      }
+      return;
+    }
+    props.setFieldTouched(props.fieldKey, true, true)
   }
+
 
 
   const insertFormData = ({ values, fatherKey, listIndex }) => {
@@ -210,6 +225,7 @@ const RenderField = (props) => {
             placeholder={props.placeholder}
             disabled={!props.enabled}
             required={props.required}
+            search
           />
         )
       case FIELD_TYPES.text:
@@ -346,6 +362,7 @@ const RenderField = (props) => {
             placeholder={props.placeholder}
             disabled={!props.enabled}
             required={props.required}
+            extension={props.valid_exts}
             findDocuments
             hideDownloadButton
           />

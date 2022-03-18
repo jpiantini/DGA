@@ -64,17 +64,17 @@ function Home() {
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
-            <Title>+5%</Title>
+            <Title>+5</Title>
             <SubTitle>Solicitudes de licencias</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />
-            <Title>+5%</Title>
+            <Title>+5</Title>
             <SubTitle>Usuarios registrados</SubTitle>
           </div>
           <div>
             <StyledSearchIcon />
-            <Title>+5%</Title>
+            <Title>+5</Title>
             <SubTitle>Busquedas realizadas</SubTitle>
           </div>
         </AnalyticsContainer>
@@ -100,6 +100,8 @@ function Home() {
                 event.defaultMuiPrevented = true;
               }
             }}
+
+
             renderInput={(params) =>
               <SearchTextInput
                 {...params}
@@ -158,13 +160,15 @@ function Home() {
         <div style={{ height: "30px" }} />
       </Container>
 
-      <ContainerBackground image={mottoContent?.image}>
-        <WhiteTitle>
-          {
-            mottoContent?.motto
-          }
+      <ContainerBackground>
+        <iframe
+          width='100%'
+          height='700px'
+          style={{ border: 0 }}
+          allowfullscreen=''
+          loading='lazy'
+          src="https://www.youtube.com/embed/PKnkeekuhmA" />
 
-        </WhiteTitle>
       </ContainerBackground>
 
       <Footer FooterRoutes={FooterRoutes} />
