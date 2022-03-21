@@ -126,6 +126,8 @@ function ServiceDescription() {
                     <SmallHeightDivider />
 
                     <TextInformation title="Tarifa del servicio" />
+                    <SmallHeightDivider />
+
                     <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {serviceDescription?.prices.map((price, index) => (
                             <Grid item xs={4} sm={8} md={12} key={index}>

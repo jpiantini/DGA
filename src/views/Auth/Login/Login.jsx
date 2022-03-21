@@ -71,6 +71,8 @@ function Login() {
                 }
 
                 let userResponse = await getUser();
+                LocalStorageService.setItem('user_cedula',userResponse.payload.citizen_id);
+                LocalStorageService.setItem('user_primary_email',userResponse.payload.email);
                 refetch();
                 const requestData = {
                     id: userResponse.payload.citizen_id,

@@ -77,32 +77,39 @@ const RenderField = (props) => {
 
   const handleValidationOnBlur = async (val) => {
 
+    props.setFieldTouched(props.fieldKey, true, true)
+
     // 0 IS CEDULA FOR VALIDATE
     if (props.Mask === '0' && val.target.value.length > 0) {
       try {
         setTextInputLoading(true);
         let response = await cedulaValidationService(val.target.value);
+        setTextInputLoading(false);
         if (response?.success && response?.exist) {
-          //DO NOTHING CEDULA IS VALID
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          delete _localFieldErrors[props.fieldKey]
+          delete _localFieldErrors.undefined
+          props.setLocalFieldErrors(_localFieldErrors);
         } else {
-          props.setFieldError(props.fieldKey, "Cedula invalida,introduzca una cedula valida")
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          _localFieldErrors[props.fieldKey] = "Cédula no válida, introduzca otra cédula";
+          delete _localFieldErrors.undefined;
+          props.setLocalFieldErrors(_localFieldErrors);
         }
-        setTextInputLoading(false);
       } catch (error) {
-        props.setFieldError(props.fieldKey, "Ha ocurrido un error validando la cedula")
+        const _localFieldErrors = {
+          ...props.localFieldErrors
+        }
+         _localFieldErrors[props.fieldKey] = "Ha ocurrido un error validando la cedula";
+        props.setLocalFieldErrors(_localFieldErrors);
         setTextInputLoading(false);
       }
     }
-    // 9 EMAIL IS DIFFERENT THAN LOGGED USER EMAIL
-    if (props.Mask === '9' && val.target.value.length > 0) {
-      if (userData.payload.email === val.target.value) {
-        props.setFieldError(props.fieldKey, "El correo debe ser diferente del solicitante")
-      } else {
-        props.setFieldTouched(props.fieldKey, true, true)
-      }
-      return;
-    }
-    props.setFieldTouched(props.fieldKey, true, true)
+
   }
 
 

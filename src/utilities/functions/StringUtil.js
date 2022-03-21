@@ -121,4 +121,5 @@ export const defaultString = {
   validUrl: 'Favor digitar un URL válido',
   validPhone: 'Favor digitar un teléfono válido',
   validRnc: 'Favor digitar un Rnc válido',
+  validEmailDifferentLoggedUser: 'Favor digitar un email diferente al solicitante',
 }

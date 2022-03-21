@@ -2,6 +2,10 @@ import * as yup from 'yup';
 import { FIELD_TYPES, MASK_LIST, RULE_LIST } from './FormConstants'
 import { localToString, defaultString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
+import LocalStorageService from '../../../../services/LocalStorageService';
+
+const loggedUserCedula = LocalStorageService.getItem('user_cedula');
+const loggedUserEmail = LocalStorageService.getItem('user_primary_email');
 
 export const getFieldValidation = (field) => {
   if (!field || !field.type || field.hidden) {
@@ -51,7 +55,7 @@ export const getFieldValidation = (field) => {
       validator = validator.email(defaultString.validEmail)
       break;
     case MASK_LIST[9]:
-      validator = validator.email(defaultString.validEmail)
+      validator = validator.email(defaultString.validEmail).notOneOf([loggedUserEmail], defaultString.validEmailDifferentLoggedUser)
       break;
     default:
       break;

@@ -30,7 +30,7 @@ function Auth({ children }) {
                 setTimeout(() => {
                     dispatch(AuthLogin({
                         authenticated: true,
-                        profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
+                   //     profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
                     }))
                     dispatch(HideGlobalLoading());
                        setIsValidating(false)

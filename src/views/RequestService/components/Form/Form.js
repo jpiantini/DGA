@@ -28,6 +28,7 @@ import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import { FIELD_TYPES, RULE_LIST } from './FormConstants';
 import { useSnackbar } from 'notistack';
 import ImportantInformationModal from '../../../../components/ImportantInformationModal/ImportantInformationModal';
+import { isEmpty } from '../../../../utilities/functions/ValidationUtil';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -36,6 +37,7 @@ function Form(props) {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
+    const [localFieldErrors, setLocalFieldErrors] = useState({});
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
     const [fakeSteps, setFakeSteps] = useState([]);
@@ -51,7 +53,7 @@ function Form(props) {
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
-    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError } = useFormik({
+    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError, setErrors } = useFormik({
         initialValues: state,
         onSubmit: (values, actions) => localDoRequest({ values, actions }),
         validationSchema: yup.object().shape(schemaValidation),
@@ -150,6 +152,20 @@ function Form(props) {
         return () => { }
     }, [props.data])
 
+ /* useEffect(() => {
+           const localErrors = errors;
+           if (localFieldErrors.length > 0) {
+               localFieldErrors.forEach(item => {
+                   setFieldTouched(item.key,true,true);  
+                   setFieldError(item.key, item.message);
+                   localErrors[item.key] = item.message;
+               });
+           }
+         //  setErrors(localErrors)
+           //   return () => { }
+       }, [localFieldErrors])
+*/
+
     const handleSubmitForm = (e) => {
         handleSubmit(e);
         window.scrollTo(0, 0);
@@ -159,6 +175,10 @@ function Form(props) {
     }
 
     const localDoRequest = ({ values, actions }) => {
+        if (Object.keys(localFieldErrors).length > 0) {
+            window.scrollTo(0, 0);
+            return
+          }
         if (fakeLastStep && typeof props.doRequest == 'function') {
             handleShowModal();
         } else {
@@ -256,13 +276,14 @@ function Form(props) {
                 value={values[item.fieldKey]}
                 fatherValue={values[localToString(item.father_id)]}
                 placeholder={item.placeholder}
-                error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
-                helperText={touched[item.fieldKey] && errors[item.fieldKey]}
+                error={touched[item.fieldKey] && Boolean(errors[item.fieldKey] || localFieldErrors[item.fieldKey])}
+                helperText={touched[item.fieldKey] && (errors[item.fieldKey] || localFieldErrors[item.fieldKey])}
                 onChange={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 setFieldError={setFieldError}
                 changeRule={changeRule}
-
+                setLocalFieldErrors={setLocalFieldErrors}
+                localFieldErrors={localFieldErrors}
             //       step={step}
             //    steps={steps}
             />
