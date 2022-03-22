@@ -1,7 +1,7 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
 import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon, PaginationContainer } from './styles/UploadFileStyles';
-import { FieldTitle, Row, SmallHeightDivider, StyledPagination, StyledTextInput } from '../../theme/Styles';
+import { FieldTitle, Row, SmallHeightDivider, StyledButton, StyledPagination, StyledTextInput } from '../../theme/Styles';
 import FormModal from '../FormModal/FormModal';
 import DocumentsOfRequestsCard from '../DocumentsOfRequestsCard/DocumentsOfRequestsCard';
 import { format } from 'date-fns';
@@ -9,13 +9,15 @@ import { useQuery, useQueryClient } from 'react-query';
 import { getPersonalDocuments } from '../../api/MyDocuments';
 import { cacheConfig } from '../../cacheConfig';
 import { types } from './UploadFileConstants';
+import { useSnackbar } from 'notistack';
+import { FormControl, FormGroup, FormHelperText } from '@mui/material';
 
-
-function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false }) {
+function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false, multipleDocuments = false }) {
 
     const queryClient = useQueryClient();
     const userData = queryClient.getQueryData(['userData']);
-    //TO DO ADD PAGINATION
+    const { enqueueSnackbar } = useSnackbar();
+
     const [currentPage, setCurrentPage] = useState(1);
 
     const { data: documentsData, isLoading: documentsDataLoading } = useQuery(['documentsData', currentPage],
@@ -23,109 +25,133 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
         staleTime: cacheConfig.staleTimeForRequestedServiceDetail
     })
 
-    const [documentModalIsOpen, setDocumentModalIsOpen] = useState(false);
-    const [selectedFileName, setSelectedFileName] = useState(value?.name);
+    const [selectedFilesModalIsOpen, setSelectedFilesModalIsOpen] = useState(false);
+    const [myDocumentsModalIsOpen, setMyDocumentsModalIsOpen] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState(value ? value:[]);
+    const [selectedFileName, setSelectedFileName] = useState(value?.[0]?.name);
 
     const extensionForField = types.find((type) => type.includes(extension));
 
-    const handleFileChange = (e) => {
-        if (e.target.files.length > 0) {
-            setSelectedFileName(e.target.files[0].name);
-            console.log(e.target.files[0])
-            return e.target.files[0]
-        }
-    }
-
-    const validateAndChangeSelectedFileType = (action, e) => {
-        console.log(e.target.files[0])
-        if (e.target.files.length > 0) {
-            const fileSize = e.target.files[0].size / 1024 / 1024;
-            if (fileSize > 8) {
-                alert('El peso limite por archivo es de 8mb');
-                return;
-            }
-            //Good select file by file type
-            if (extension != undefined) {
-                if (types.find((type) => type.includes(extension)) && e.target.files[0].type.includes(extension)) {
-                    action({
-                        target: {
-                            id: id,
-                            value: handleFileChange(e)
-                        }
-                    })
-                    return;
-                } else {
-                    //bad
-                    setSelectedFileName('');
-                    action({
-                        target: {
-                            id: id,
-                            value: undefined
-                        }
-                    })
-                    alert(`El archivo requiere una extension .${extension}`);
-                    return;
+    const validateAndChangeSelectedFiles = (action, e) => {
+        let filesLength = e.target.files.length;
+        if (filesLength > 0) {
+            let loopError = false;
+            let data = [];
+            for (let i = 0; i < filesLength; i++) {
+                const file = e.target.files[i];
+                const fileSize = file.size / 1024 / 1024;
+                if (fileSize > 8) {
+                    alert('El peso limite por archivo es de 8mb');
+                    loopError = true;
+                    break;
                 }
-            }
-            //Good select valid file
-            if (types.find((type) => type === e.target.files[0].type)) {
-                action({
-                    target: {
-                        id: id,
-                        value: handleFileChange(e)
+                //Good select file by file type
+                if (extension != undefined) {
+                    if (types.find((type) => type.includes(extension)) && file.type.includes(extension)) {
+                        setSelectedFileName(file.name)
+                        data.push(file)
+                        continue;
+                    } else {
+                        //bad
+                        setSelectedFileName('');
+                        alert(`El archivo requiere una extension .${extension}`);
+                        loopError = true;
+                        break;
                     }
                 }
-                )
-                return;
-            }
-            //bad
-            setSelectedFileName('');
-            action({
-                target: {
-                    id: id,
-                    value: undefined
+                //Good select valid file
+                if (types.find((type) => type === file.type)) {
+                    setSelectedFileName(file.name);
+                    data.push(file);
+                    continue;
                 }
-            })
-            alert('Documento no permitido');
-            return;
+                //bad
+                setSelectedFileName('');
+                alert('Documento no permitido');
+                loopError = true;
+                break;
+            }
+
+            if (loopError == false) {
+                //Good
+                let concatData = [
+                    ...selectedFiles,
+                    ...data
+                ]
+                setSelectedFiles(concatData);
+                action({
+                    target: {
+                        id,
+                        value: concatData
+                    }
+                });
+            } else {
+                //Bad
+                console.log('error en loop')
+            }
         }
     }
 
     const handleDocumentSelect = (e) => {
-        //Good select file by file type
         if (extension != undefined) {
             if (types.find((type) => type.includes(extension)) && e.type.includes(extension)) {
-                setSelectedFileName(e.name);
-                handleModalVisibility();
-                return {
-                    isARoute: true,
-                    name: e.nameClear,
-                    extension: e.type,
-                    type: types.find((type) => type.includes(extension)),
-                    route: e.route,
-                }
+                //Good check selected file extension is equal than field required extension
             } else {
                 //bad
                 setSelectedFileName('');
                 alert(`El archivo requiere una extension .${extension}`);
-                return undefined;
+                return;
             }
-        } else {
-            //Good select a valid file
-            setSelectedFileName(e.name);
-            handleModalVisibility();
-            return {
+        }
+        //Good select a valid file
+        setSelectedFileName(e.name);
+        enqueueSnackbar("Documento agregado", { variant: 'success' })
+        if (multipleDocuments == false) {
+            handleMyDocumentsModalVisibility();
+        }
+        let concatData = [
+            ...selectedFiles,
+            {
                 isARoute: true,
                 name: e.nameClear,
                 extension: e.type,
                 type: types.find((type) => type.includes(e.type)),
                 route: e.route,
             }
-        }
+        ]
+        setSelectedFiles(concatData);
+        onChange({
+            target: {
+                id,
+                value: concatData
+            }
+        });
     }
 
-    const handleModalVisibility = () => {
-        setDocumentModalIsOpen(!documentModalIsOpen);
+    const handleRemoveFileFromSelectedFiles = (file, position) => {
+        let newFiles = []
+        selectedFiles.forEach((item, index) => {
+            if (index != position) {
+                newFiles.push(item);
+            }
+        });
+        setSelectedFiles(newFiles)
+        onChange({
+            target: {
+                id,
+                value: newFiles
+            }
+        })
+    }
+
+    const handleMyDocumentsModalVisibility = () => {
+        setMyDocumentsModalIsOpen(!myDocumentsModalIsOpen);
+    }
+
+
+    const handleSelectedFilesModalVisibility = () => {
+        console.log(value)
+        setSelectedFilesModalIsOpen(!selectedFilesModalIsOpen);
     }
 
     const documentsDataForShow = documentsData?.data?.map((document) => {
@@ -137,6 +163,19 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
             url: document.url,
             type: document.extension,
             route: document.route
+
+        }
+    })
+
+    const selectedFilesDataForShow = selectedFiles?.map((file) => {
+        return {
+            name: file.name,
+            nameClear: '',
+            documentType: '',
+            date: format(new Date(), 'yyyy-MM-dd'),
+            url: '',
+            type: '',
+            route: ''
 
         }
     })
@@ -161,22 +200,38 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
 
             </Row>
 
-
             <RowContainer>
-                <StyledTextInput
-                    fullWidth
-                    placeholder={placeholder}
-                    value={selectedFileName}
-                    helperText={helperText}
-                    error={error}
-                    InputProps={{
-                        readOnly: true
-                    }}
-                />{
+                {
+                    multipleDocuments ?
+
+
+                        <FormControl fullWidth disabled={disabled} required={required} error={error} component='fieldset' variant='standard'>
+                            <FormGroup >
+
+                                <StyledButton onClick={handleSelectedFilesModalVisibility}>
+                                    Ver archivos seleccionados
+                                </StyledButton>
+                                <FormHelperText>{helperText}</FormHelperText>
+                            </FormGroup >
+
+                        </FormControl>
+                        :
+                        <StyledTextInput
+                            fullWidth
+                            placeholder={placeholder}
+                            value={selectedFileName}
+                            helperText={helperText}
+                            error={error}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                }
+                {
                     findDocuments &&
                     <Fragment>
                         <RowSeparator />
-                        <div onClick={handleModalVisibility} title='Seleccionar documento'>
+                        <div onClick={handleMyDocumentsModalVisibility} title='Seleccionar documento'>
                             <StyledFolderIcon />
                         </div>
                     </Fragment>
@@ -185,27 +240,28 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, error, re
                 <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file' accept={extensionForField ? extensionForField : 'image/*,.pdf'} size
+                <InputFile id={id} type='file' multiple={multipleDocuments} accept={extensionForField ? extensionForField : 'image/*,.pdf'}
                     onBlur={(e) => {
-                        onBlur && validateAndChangeSelectedFileType(onBlur, e)
+                        onBlur && validateAndChangeSelectedFiles(onBlur, e)
                     }
                     }
                     onChange={(e) => {
-                        validateAndChangeSelectedFileType(onChange, e)
+                        validateAndChangeSelectedFiles(onChange, e)
                     }
                     } />
             </RowContainer>
-            <FormModal open={documentModalIsOpen} onClose={handleModalVisibility} title="Mis documentos">
-                <DocumentsOfRequestsCard data={documentsDataForShow} disableCardStyle showSelectButton hideDownloadButton={hideDownloadButton}
-                    onSelectClick={(e) => {
-                        onChange({
-                            target: {
-                                id: id,
-                                value: handleDocumentSelect(e)
-                            }
-                        })
-                    }}
+            <FormModal open={selectedFilesModalIsOpen} onClose={handleSelectedFilesModalVisibility} title={`${title} - Archivos`}>
+                <DocumentsOfRequestsCard data={selectedFilesDataForShow} disableCardStyle hideSeeButton hideDownloadButton showDeleteButton
+                    onDeleteClick={handleRemoveFileFromSelectedFiles}
                 />
+                <PaginationContainer>
+
+                </PaginationContainer>
+                <SmallHeightDivider />
+            </FormModal>
+            <FormModal open={myDocumentsModalIsOpen} onClose={handleMyDocumentsModalVisibility} title="Mis documentos">
+                <DocumentsOfRequestsCard data={documentsDataForShow} disableCardStyle showSelectButton hideDownloadButton={hideDownloadButton}
+                    onSelectClick={handleDocumentSelect} />
                 <PaginationContainer>
                     <StyledPagination count={documentsData?.last_page} page={currentPage}
                         onChange={(event, page) => {

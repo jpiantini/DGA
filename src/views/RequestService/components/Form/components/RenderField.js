@@ -370,6 +370,7 @@ const RenderField = (props) => {
             disabled={!props.enabled}
             required={props.required}
             extension={props.valid_exts}
+            multipleDocuments={props?.multipleDocuments}
             findDocuments
             hideDownloadButton
           />

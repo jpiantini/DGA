@@ -37,7 +37,7 @@ import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
 import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions/NumberUtil';
-import { transformFormData, transformFormGrid } from "./RequestServiceUtils";
+import { transformFileData, transformFormData, transformFormGrid } from "./RequestServiceUtils";
 import { cleanString } from "../../utilities/functions/StringUtil";
 import { useSnackbar } from "notistack";
 import { FIELD_TYPES } from "./components/Form/FormConstants";
@@ -141,7 +141,7 @@ function RequestService() {
     const result = {
       formulary_data: formData.formulary_data,
       //dev
-     // data: _data.map(step => step.map(transformField)).reverse(),
+      //data: _data.map(step => step.map(transformField)).reverse(),
       data: _data.map(step => step.map(transformField)),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
@@ -150,13 +150,6 @@ function RequestService() {
     return result;
   };
 
-
-
-  /* const mutationRegisterForm = useMutation(registerForm, {
-     onMutate: (req) => {
-     }
-   });
- */
   const sendRequest = async (formData) => {
     const request = {
       req: {
@@ -199,47 +192,41 @@ function RequestService() {
     dispatch(ShowGlobalLoading('Cargando'));
     try {
 
+      const FilesOfForm = transformFileData(formData, getData().plainData);
+
       let canSubmitForm = true;
-      let uploadedFilesRoutes = [];
+      let uploadedFilesRoutes = FilesOfForm.oldFile;
 
-      const filesOfForm = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file);
-      const filesToUpload = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute != true);
-      const filesToLink = transformFormData(formData, getData().plainData).filter((field) => field.type === FIELD_TYPES.file && field.value?.isARoute == true);
-
-  
-
-      if (filesToLink.length > 0) {
-        uploadedFilesRoutes = filesToLink.map((field) => {
-          return {
-            name: field.value.name,
-            extension: field.value.extension,
-            type: field.value.type,
-            route: field.value.route
-          }
-        })
-      }
-
-      const formFilesData = new FormData();
-      if (filesToUpload.length > 0) {
-        for (let i = 0; i < filesToUpload.length; i++) {
-          formFilesData.append(
+      const formDataOfFiles = new FormData();
+      if (FilesOfForm?.newFile.length > 0) {
+        for (let i = 0; i < FilesOfForm.newFile.length; i++) {
+          formDataOfFiles.append(
             "file[]",
-            filesToUpload[i].value,
-            filesToUpload[i].value.name
+            FilesOfForm.newFile[i].file,
+            FilesOfForm.newFile[i].file.name
           );
         }
         dispatch(ShowGlobalLoading('Subiendo documentos'));
-        let responseFilesUpload = await uploadFormDocuments(formFilesData);
-        if (responseFilesUpload.success) {
-          uploadedFilesRoutes = uploadedFilesRoutes.concat(responseFilesUpload.files);
+        let responseFilesUploaded = await uploadFormDocuments(formDataOfFiles);
+        if (responseFilesUploaded.success) {
+          uploadedFilesRoutes = [
+            ...uploadedFilesRoutes,
+            ...responseFilesUploaded.files.map((item, index) => {
+              return {
+                ...item,
+                label: FilesOfForm.newFile[index].label
+              }
+            }
+            )
+          ]
         } else {
           canSubmitForm = false;
         }
       }
-
+      console.log(uploadedFilesRoutes);
+      debugger
       if (canSubmitForm) {
         let canFormContinue = true;
-        //  let uploadSoftExpertResponseIsSuccess = true;
         dispatch(ShowGlobalLoading('Registrando solicitud'));
         let responseFormSubmit = await registerForm(request);
         if (responseFormSubmit.success) {
@@ -251,7 +238,6 @@ function RequestService() {
                   [
                     {
                       ...uploadedFilesRoutes[i],
-                      label: filesOfForm[i].label
                     }
                   ],
                 title: responseFormSubmit.title,
@@ -259,23 +245,16 @@ function RequestService() {
                 attribute: responseFormSubmit.attributes,
                 process_id: serviceDescription.process_id,
                 acronym: "DPPDE",//responseFormSubmit.acronym,
-                names: [filesOfForm[i].label],
+                names: [uploadedFilesRoutes[i].label],
                 activity_id: false
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
             }
             dispatch(ShowGlobalLoading('Procesando solicitud'));
             await axios.all(uploadSoftExpertArray);
-            //  uploadSoftExpertResponseIsSuccess = responseSoftExpert.success;
 
-            //        if (uploadSoftExpertResponseIsSuccess) {
             let requestBackOffice = {
-              documents: uploadedFilesRoutes.map((file, index) => {
-                return {
-                  ...file,
-                  label: filesOfForm[index].label
-                }
-              }),
+              documents: uploadedFilesRoutes
             };
             let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
             if (responseBackOffice.success) {
@@ -285,12 +264,7 @@ function RequestService() {
               enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
               throw Error;
             }
-            /*     } else {
-                   canFormContinue = false;
-                   enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
-                   throw Error;
-                 }
-             */
+
           }
 
           if (canFormContinue) {
@@ -313,20 +287,10 @@ function RequestService() {
     dispatch(HideGlobalLoading());
   }
 
-  const handleSendRating = async (rating) => {
-    dispatch(ShowGlobalLoading(''));
-    // TO DO CHANGE ENDPOINT
-    // let response = await addRating({ rating });
-    dispatch(HideGlobalLoading());
-    setRatingValue(rating);
-  }
-
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
-
-
 
   if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return null;
   return (
@@ -340,6 +304,7 @@ function RequestService() {
               doRequest={sendRequest}
               data={getData().data}
               plainData={getData().plainData}
+              multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
             />
             <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl'
               conditionalClose={true}>

@@ -148,7 +148,7 @@ function MyProfile() {
 
                             <Grid item xs={4} sm={4} md={4}>
                                 <CardBodyTitle>
-                                    Telefono de contacto
+                                    Teléfono de contacto
                                 </CardBodyTitle>
                                 <CardBodyText>
                                     {userQuery.data && stringToDominicanPhoneNumber(userQuery.data.payload.phone)}

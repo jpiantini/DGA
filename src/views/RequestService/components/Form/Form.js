@@ -284,6 +284,7 @@ function Form(props) {
                 changeRule={changeRule}
                 setLocalFieldErrors={setLocalFieldErrors}
                 localFieldErrors={localFieldErrors}
+                multipleDocuments={props?.multipleDocuments}
             //       step={step}
             //    steps={steps}
             />

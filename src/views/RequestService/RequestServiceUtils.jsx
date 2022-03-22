@@ -77,6 +77,49 @@ const transformValue = (val, fieldProps) => {
   }
 }
 
+export const transformFileData = (values, plainData) => {
+  const _values = []
+  for (const key in values) {
+    if (!isEmpty(values[key])) {
+      _values.push({
+        key,
+        value: values[key],
+      })
+    }
+  }
+
+  const newData = {
+    newFile: [],
+    oldFile: [],
+  }
+  _values
+    .map(val => {
+      const fieldProps = plainData.find(item => item.fieldKey === val.key)
+      return {
+        ...fieldProps,
+        ...val,
+      }
+    })
+    .filter(field => field.type == FIELD_TYPES.file)
+    .map((field) => {
+      field.value.map((file) => {
+        if (file?.isARoute) {
+          newData.oldFile.push({
+            ...file,
+            label: field.label,
+          })
+        } else {
+          newData.newFile.push({
+            file,
+            label: field.label,
+          })
+        }
+      });
+    })
+
+  return newData
+}
+
 export const transformFormData = (values, plainData) => {
   let _values = []
   Object.keys(values).map(key => {

@@ -4,10 +4,11 @@ import { localToString, defaultString } from '../../../../utilities/functions/St
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import LocalStorageService from '../../../../services/LocalStorageService';
 
-const loggedUserCedula = LocalStorageService.getItem('user_cedula');
-const loggedUserEmail = LocalStorageService.getItem('user_primary_email');
-
 export const getFieldValidation = (field) => {
+
+  let loggedUserCedula = LocalStorageService.getItem('user_cedula');
+  let loggedUserEmail = LocalStorageService.getItem('user_primary_email');
+
   if (!field || !field.type || field.hidden) {
     return
   } else if (field.type == FIELD_TYPES.select && !field.required) {
@@ -33,10 +34,9 @@ export const getFieldValidation = (field) => {
       validator = yup.string()
       break;
     case FIELD_TYPES.file:
-      /* if (field?.required) {
-         validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
-       }
-       */
+      if (field?.required) {
+        validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+      }
       validator = yup.mixed()
       break;
     case FIELD_TYPES.grid:
