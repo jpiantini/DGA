@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, Fragment, useEffect } from 'react';
+import { useState, useLayoutEffect, Fragment, useRef, useCallback } from 'react';
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
@@ -18,11 +18,21 @@ import {
     TextListContainer,
     TextOrderedListContainer,
     CardPriceGray,
+    StyledFacebookIcon,
+    StyledTwitterIcon,
+    StyledEmailIcon,
+    StyledPrintIcon,
+    TopContainer,
+    TopItemContainer,
+    StyledFab,
+    VariationsContainer
 } from './styles/ServiceDescriptionStyles';
 import { useQuery } from 'react-query';
 import { getServiceDescription } from '../../api/ServiceDescription';
-import { Grid } from '@mui/material';
-import { priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
+import { Grid, Rating } from '@mui/material';
+import { hourIn24To12hours, priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
+import IconButton from '@mui/material/IconButton';
+import { useReactToPrint } from "react-to-print";
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -30,6 +40,7 @@ function ServiceDescription() {
     let { serviceID } = useParams();
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
+    const componentToPrintRef = useRef(null);
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
 
@@ -54,6 +65,20 @@ function ServiceDescription() {
         }
     }
 
+    const reactToPrintContent = useCallback(() => {
+        return componentToPrintRef.current;
+    }, [componentToPrintRef.current]);
+
+    const handlePrint = useReactToPrint({
+        content: reactToPrintContent,
+        documentTitle: serviceDescription?.name,
+        pageStyle: "width:400px",
+        //   onBeforeGetContent: handleOnBeforeGetContent,
+        // onBeforePrint: handleBeforePrint,
+        // onAfterPrint: handleAfterPrint,
+        removeAfterPrint: true
+    });
+
     useLayoutEffect(() => {
         if (serviceDescription?.success == false) {
             //SERVICE DONT EXIST REDIRECT TO PUBLIC
@@ -65,11 +90,6 @@ function ServiceDescription() {
         }
 
     }, [serviceDescription]);
-
-    /*useEffect(() => {
-        refetch();
-    }, [serviceID]);
-    */
 
     if (isLoading) return null;
 
@@ -84,14 +104,155 @@ function ServiceDescription() {
                         <RowBodyDivider />
                     </Fragment>
                 }
-                <Container style={{ width: '100%' }}>
+                <Container ref={componentToPrintRef} style={{ width: '100%' }}>
+
+                    <TopContainer>
+
+                        <TopItemContainer>
+                            <strong>
+                                <BodyText>Rating</BodyText>
+                            </strong>
+                            <Rating
+                                value={serviceDescription?.rating}
+                                precision={0.5}
+                                readOnly
+                                size="large"
+                            />
+                        </TopItemContainer>
+
+                        <TopItemContainer>
+                            <strong>
+                                <BodyText>Imprimir</BodyText>
+                            </strong>
+                            <IconButton onClick={handlePrint}>
+                                <StyledPrintIcon />
+                            </IconButton>
+                        </TopItemContainer>
+
+                        <TopItemContainer>
+                            <strong>
+                                <BodyText>Compartir</BodyText>
+                            </strong>
+                            <Row>
+                                <IconButton onClick={() => window.open(`http://www.facebook.com/sharer.php?u=${window.location.href}`, 'name', 'width=600,height=400')}>
+                                    <StyledFacebookIcon />
+                                </IconButton>
+
+
+                                <IconButton onClick={() => window.open(`https://twitter.com/share?text=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&url=${window.location.href}&hashtags=MinisterioDeTurismo,Mitur`, 'name', 'width=600,height=400')}>
+                                    <StyledTwitterIcon />
+                                </IconButton>
+
+                                <IconButton onClick={() => window.open(`mailto:?subject=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&body=${window.location.href}`)}>
+                                    <StyledEmailIcon />
+                                </IconButton>
+
+                            </Row>
+                        </TopItemContainer>
+                    </TopContainer>
+
                     <TextInformation title="Información general"
                         content={serviceDescription?.description}
                     />
+
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
+                    <TextInformation title="Horario de prestación de servicio" content={
+                        "Las solicitudes podrán ser realizadas 24hrs los 7 días de la semana, pero estas serán trabajadas por la institución en horario laborable."
+                    } />
+                    <SmallHeightDivider />
+
+                    <Row style={{ justifyContent: 'space-between', width: '100%' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <strong>
+                                <CardPriceGray>
+                                    Día
+                                </CardPriceGray>
+                            </strong>
+                            <br />
+                            {serviceDescription?.schedules.map((schedule, index) => (
+                                <strong>
+                                    <BodyText>
+                                        {schedule.day}
+                                    </BodyText>
+                                </strong>
+                            ))}
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <strong>
+                                <CardPriceGray>
+                                    Desde
+                                </CardPriceGray>
+                            </strong>
+                            <br />
+                            {serviceDescription?.schedules.map((schedule, index) => (
+                                <strong>
+                                    <BodyText>
+                                        {hourIn24To12hours(schedule.init)}
+                                    </BodyText>
+                                </strong>
+                            ))}
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <strong>
+                                <CardPriceGray>
+                                    Hasta
+                                </CardPriceGray>
+                            </strong>
+                            <br />
+                            {serviceDescription?.schedules.map((schedule, index) => (
+                                <strong>
+                                    <BodyText>
+                                        {hourIn24To12hours(schedule.finit)}
+                                    </BodyText>
+                                </strong>
+                            ))}
+                        </div>
+                    </Row>
+
+
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+                    <TextInformation title="Requisitos" />
+                    <SmallHeightDivider />
+
+                    <TextListContainer>
+                        {
+                            serviceDescription.requirements.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.name}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextListContainer>
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+
+                    <TextInformation title="Procedimientos" />
+                    <SmallHeightDivider />
+                    <TextOrderedListContainer>
+                        {
+                            serviceDescription.procedures.map((requeriment, index) => (
+                                <li key={index} style={{ marginTop: '5px' }}>
+                                    <BodyText>
+                                        {requeriment.step}
+                                    </BodyText>
+                                </li>
+                            ))
+                        }
+                    </TextOrderedListContainer>
+
                     <SmallHeightDivider />
                     <SmallHeightDivider />
 
                     <TextInformation title="Tarifa del servicio" />
+                    <SmallHeightDivider />
+
                     <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {serviceDescription?.prices.map((price, index) => (
                             <Grid item xs={4} sm={8} md={12} key={index}>
@@ -105,7 +266,7 @@ function ServiceDescription() {
                                         {price.description}
                                     </CardPriceTitle>
                                     <SmallHeightDivider />
-                                    <Row style={{ justifyContent: 'space-between' }}>
+                                    <VariationsContainer>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <strong>
                                                 <CardPriceGray>
@@ -148,56 +309,31 @@ function ServiceDescription() {
                                             {price.variations.map((variations) => (
                                                 <strong>
                                                     <BodyText>
-                                                        {variations.price}$
+                                                        DOP{
+                                                            Intl.NumberFormat('en-US',
+                                                                { style: 'currency', currency: 'USD' }
+                                                            ).format(variations.price)
+                                                        }
                                                     </BodyText>
                                                 </strong>
                                             ))}
                                         </div>
-                                    </Row>
+                                    </VariationsContainer>
                                 </PriceContainer>
                             </Grid>
                         ))}
                     </Grid>
+                    <SmallHeightDivider />
+                    {
+                        /*  <ButtonContainer>
+                          <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>
+                      </ButtonContainer>
+                      */
+                    }
+                    <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
+                        INICIAR SOLICITUD
+                    </StyledFab>
 
-
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-                    <TextInformation title="Requisitos" />
-                    <SmallHeightDivider />
-
-                    <TextListContainer>
-                        {
-                            serviceDescription.requirements.map((requeriment, index) => (
-                                <li key={index} style={{ marginTop: '5px' }}>
-                                    <BodyText>
-                                        {requeriment.name}
-                                    </BodyText>
-                                </li>
-                            ))
-                        }
-                    </TextListContainer>
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
-
-                    <TextInformation title="Procedimientos" />
-                    <SmallHeightDivider />
-                    <TextOrderedListContainer>
-                        {
-                            serviceDescription.procedures.map((requeriment, index) => (
-                                <li key={index} style={{ marginTop: '5px' }}>
-                                    <BodyText>
-                                        {requeriment.step}
-                                    </BodyText>
-                                </li>
-                            ))
-                        }
-                    </TextOrderedListContainer>
-
-                    <ButtonContainer>
-                        <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>
-                    </ButtonContainer>
-                    <SmallHeightDivider />
-                    <SmallHeightDivider />
                 </Container>
             </Row>
             <MediumHeightDivider />

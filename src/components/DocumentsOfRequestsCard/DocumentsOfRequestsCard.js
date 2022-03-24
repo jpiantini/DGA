@@ -12,6 +12,7 @@ import {
     Column,
     StyledDownloadIcon,
     StyledCheckIcon,
+    StyledClearIcon,
 } from './styles/DocumentsOfRequestsCardStyles';
 import { DocumentViewer } from 'react-documents';
 import { Dialog } from '@mui/material';
@@ -20,7 +21,7 @@ import { useDispatch } from 'react-redux';
 import { ShowGlobalLoading, HideGlobalLoading } from '../../redux/actions/UiActions';
 import { downloadPDF } from '../../utilities/functions/DownloadUtil';
 
-function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton = false, disableCardStyle = false, hideDownloadButton = false }) {
+function DocumentsOfRequestsCard({ title, data, onSelectClick,onDeleteClick, hideSeeButton = false, showDeleteButton = false, showSelectButton = false, disableCardStyle = false, hideDownloadButton = false }) {
 
     const dispatch = useDispatch();
 
@@ -76,8 +77,8 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                 </RowContainer>
                 <SmallHeightDivider />
                 {
-                    data?.map((item) => (
-                        <div>
+                    data?.map((item,index) => (
+                        <div key={index}>
                             <RowContainer >
                                 <Column style={{ width: '35%' }}>
                                     <BodyText>
@@ -85,14 +86,7 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                                     </BodyText>
 
                                 </Column>
-                                {
-                                    /* <Column style={{ width: '42%' }}>
-                                         <BodyText>
-                                             {item.documentType.toUpperCase()}
-                                         </BodyText>
-                                     </Column>
-                                     */
-                                }
+
                                 <Column style={{ width: '18%' }}>
                                     <BodyText>
                                         {item.date}
@@ -101,17 +95,21 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
 
                                 <Column style={{ width: '15%' }}>
                                     <Row>
-                                        <IconButton title='Ver'
-                                            onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
-                                            <StyledDescriptionIcon />
-                                        </IconButton>
                                         {
-                                        !hideDownloadButton &&
+                                            !hideSeeButton &&
+                                            <IconButton title='Ver'
+                                                onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
+                                                <StyledDescriptionIcon title='Ver'/>
+                                            </IconButton>
+                                        }
+
+                                        {
+                                            !hideDownloadButton &&
                                             <Fragment>
                                                 <div style={{ width: '15px' }} />
                                                 <IconButton title='Descargar'
                                                     onClick={() => window.open(item.url, '_blank')} sx={{ padding: 0 }}>
-                                                    <StyledDownloadIcon />
+                                                    <StyledDownloadIcon title='Descargar'/>
                                                 </IconButton>
                                             </Fragment>
                                         }
@@ -120,8 +118,19 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                                             <Fragment>
                                                 <div style={{ width: '15px' }} />
                                                 <IconButton title='Seleccionar'
-                                                    onClick={() => onSelectClick(item)} sx={{ padding: 0 }}>
-                                                    <StyledCheckIcon />
+                                                    onClick={() => onSelectClick(item,index)} sx={{ padding: 0 }}>
+                                                    <StyledCheckIcon title='Seleccionar'/>
+                                                </IconButton>
+                                            </Fragment>
+                                        }
+
+                                        {
+                                            showDeleteButton &&
+                                            <Fragment>
+                                                <div style={{ width: '15px' }} />
+                                                <IconButton title='Eliminar'
+                                                    onClick={() => onDeleteClick(item,index)} sx={{ padding: 0 }}>
+                                                    <StyledClearIcon title='Eliminar' />
                                                 </IconButton>
                                             </Fragment>
                                         }
@@ -155,9 +164,9 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, showSelectButton 
                                         </TransformComponent>
 
                                         <div>
-                                            <StyledButton style={{borderRadius:0}} onClick={() => zoomIn()}>Zoom +</StyledButton>
-                                            <StyledButton style={{borderRadius:0}} onClick={() => zoomOut()}>Zoom -</StyledButton>
-                                            <StyledButton style={{borderRadius:0}} onClick={() => resetTransform()}>Reiniciar</StyledButton>
+                                            <StyledButton style={{ borderRadius: 0 }} onClick={() => zoomIn()}>Zoom +</StyledButton>
+                                            <StyledButton style={{ borderRadius: 0 }} onClick={() => zoomOut()}>Zoom -</StyledButton>
+                                            <StyledButton style={{ borderRadius: 0 }} onClick={() => resetTransform()}>Reiniciar</StyledButton>
                                         </div>
                                     </Fragment>
                                 )}

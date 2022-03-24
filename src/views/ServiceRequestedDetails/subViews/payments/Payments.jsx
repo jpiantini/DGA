@@ -25,10 +25,12 @@ import transferenciaLogo from '../../../../assets/images/transferenciaLogo.png'
 import depositoLogo from '../../../../assets/images/depositoLogo.png'
 import FormModal from '../../../../components/FormModal/FormModal';
 import UploadFile from '../../../../components/UploadFile/UploadFile';
+import { linkingDocumentsToRequestInBackOffice, uploadFormDocuments } from '../../../../api/RequestService'
 import { useFormik } from 'formik';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 
 function Payment() {
-
+    const dispatch = useDispatch()
     let { requestID } = useParams();
     const queryClient = useQueryClient()
     const cleanRequestID = requestID.replace('payment', '');
@@ -43,7 +45,7 @@ function Payment() {
         },
         validationSchema: FileFormSchema,
         onSubmit: (values) => {
-     //       handleSubmitFile(values);
+            uploadVoucher(values)
         },
     });
 
@@ -87,6 +89,31 @@ function Payment() {
         document.body.removeChild(form);
     }
 
+    const uploadVoucher = async (data) => {
+
+        const formFilesData = new FormData();
+        formFilesData.append(
+            "file[]",
+            data.file,
+            data.file.name
+        );
+        dispatch(ShowGlobalLoading('Subiendo documento'));
+        let responseFilesUpload = await uploadFormDocuments(formFilesData);
+        if (responseFilesUpload.success) {
+            let request = {
+                voucher: true,
+                documents: responseFilesUpload.files.map((file, index) => {
+                    return {
+                        ...file,
+                        label: "Comprobante de pago"
+                    }
+                }),
+            };
+            await linkingDocumentsToRequestInBackOffice(request, requestID);
+            setModalPaymentIsOpen(false)
+            dispatch(HideGlobalLoading());
+        }
+    }
 
     return (
         <Container >
@@ -135,7 +162,7 @@ function Payment() {
                     helperText={fileFormik.touched.file && fileFormik.errors.file}
                     required
                 />
-                
+
                 <SmallHeightDivider />
                 <SmallHeightDivider />
 

@@ -28,6 +28,9 @@ import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import { FIELD_TYPES, RULE_LIST } from './FormConstants';
 import { useSnackbar } from 'notistack';
 import ImportantInformationModal from '../../../../components/ImportantInformationModal/ImportantInformationModal';
+import { isEmpty } from '../../../../utilities/functions/ValidationUtil';
+import LocalStorageService from '../../../../services/LocalStorageService';
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 
 function Form(props) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -36,6 +39,7 @@ function Form(props) {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
+    const [localFieldErrors, setLocalFieldErrors] = useState({});
     const [localData, setLocalData] = useState([]);
     const stepsLenght = localToArray(localData).length;
     const [fakeSteps, setFakeSteps] = useState([]);
@@ -48,18 +52,78 @@ function Form(props) {
     const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
 
     const [showSubmitModal, setShowSubmitModal] = useState(false);
+    const [showRestoreFormModal, setShowRestoreFormModal] = useState(false);
 
     const [state, setState] = useState({});
     const [schemaValidation, setSchemaValidation] = useState({});
-    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError } = useFormik({
+    const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError, setErrors, setTouched, setValues } = useFormik({
         initialValues: state,
         onSubmit: (values, actions) => localDoRequest({ values, actions }),
         validationSchema: yup.object().shape(schemaValidation),
         enableReinitialize: true,
     });
 
-    const handleShowModal = () => {
+    const saveCurrentFormDataInLocalStorage = () => {
+        const formData = {
+            serviceID,
+            localFieldErrors,
+            localData,
+            fakeSteps,
+            fakeStep,
+            activeStep,
+            fakeStepsToShow,
+            state,
+            schemaValidation,
+            errors,
+            values,
+            touched
+        }
+        console.log(formData)
+        LocalStorageService.setItem(`dynamicFormData`, formData)
+    }
+
+    const restoreSavedFormDataFromLocalStorage = () => {
+        props.setPriceModalIsOpen(false);
+        const formData = LocalStorageService.getItem(`dynamicFormData`);
+        console.log(formData)
+        dispatch(ShowGlobalLoading('Reestableciendo formulario'))
+        setLocalFieldErrors(formData.localFieldErrors);
+        setLocalData(formData.localData);
+        setFakeSteps(formData.fakeSteps);
+        setFakeStep(formData.fakeStep);
+        setActiveStep(formData.activeStep);
+        setFakeStepsToShow(formData.fakeStepsToShow);
+        setState(formData.state);
+        setSchemaValidation(formData.schemaValidation)
+        setErrors(formData.errors);
+        setTouched(formData.touched)
+        setValues(formData.values);
+
+        //  simulate 2.3s while form is initializing 
+        setTimeout(() => {
+            handleShowRestoreFormModal();
+            dispatch(HideGlobalLoading())
+        }, 2300);
+    }
+
+    const cancelRestoreForm = () => {
+        dispatch(ShowGlobalLoading('Inicializando formulario'));
+        LocalStorageService.removeItem(`dynamicFormData`);
+        // simulate 2.3s while form is initializing 
+        setTimeout(() => {
+            setShowRestoreFormModal(false);
+            props.setPriceModalIsOpen(true);
+            dispatch(HideGlobalLoading())
+        }, 2500);
+    }
+
+
+    const handleShowSubmitModal = () => {
         setShowSubmitModal(!showSubmitModal)
+    }
+
+    const handleShowRestoreFormModal = () => {
+        setShowRestoreFormModal(!showRestoreFormModal)
     }
 
     //componentDidUpdate
@@ -109,6 +173,12 @@ function Form(props) {
                 }
             }
 
+            const formData = LocalStorageService.getItem(`dynamicFormData`);
+            if (formData?.serviceID === serviceID) {
+                setShowRestoreFormModal(true)
+                return;
+            }
+            
             //initialValues from dynamic form
             let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
             if (!initialState) {
@@ -159,8 +229,13 @@ function Form(props) {
     }
 
     const localDoRequest = ({ values, actions }) => {
+        saveCurrentFormDataInLocalStorage();
+        if (Object.keys(localFieldErrors).length > 0) {
+            window.scrollTo(0, 0);
+            return
+        }
         if (fakeLastStep && typeof props.doRequest == 'function') {
-            handleShowModal();
+            handleShowSubmitModal();
         } else {
             let extraStep = 0
             for (let i = (activeStep + 1); i < localData.length; i++) {
@@ -246,6 +321,7 @@ function Form(props) {
         setLocalData(_localData)
     }
 
+
     const LocalRenderField = ({ item, index }) => {
         return (
             <RenderField
@@ -256,13 +332,15 @@ function Form(props) {
                 value={values[item.fieldKey]}
                 fatherValue={values[localToString(item.father_id)]}
                 placeholder={item.placeholder}
-                error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
-                helperText={touched[item.fieldKey] && errors[item.fieldKey]}
+                error={touched[item.fieldKey] && Boolean(errors[item.fieldKey] || localFieldErrors[item.fieldKey])}
+                helperText={touched[item.fieldKey] && (errors[item.fieldKey] || localFieldErrors[item.fieldKey])}
                 onChange={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 setFieldError={setFieldError}
                 changeRule={changeRule}
-
+                setLocalFieldErrors={setLocalFieldErrors}
+                localFieldErrors={localFieldErrors}
+                multipleDocuments={props?.multipleDocuments}
             //       step={step}
             //    steps={steps}
             />
@@ -271,8 +349,27 @@ function Form(props) {
 
     return (
         <Container >
-            <ImportantInformationModal open={showSubmitModal} onBackDropClick={handleShowModal}
-                onCloseClick={handleShowModal} CloseTitle="Cancelar" CloseButton
+            <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
+                onCloseClick={cancelRestoreForm} CloseTitle="Cancelar" CloseButton
+                buttonTitle="Confirmar" buttonClick={restoreSavedFormDataFromLocalStorage} content={
+                    <Fragment>
+                        <strong>
+                            Se ha encontrado información previa de una solicitud sin terminar.
+                        </strong>
+                        <br />
+                        <strong>
+                            <p>
+                                ¿Desea cargarla para esta solicitud?
+                            </p>
+                        </strong>
+                        <p>
+                            Si cancela la informacion sera borrada.
+                        </p>
+                    </Fragment>
+                } />
+
+            <ImportantInformationModal open={showSubmitModal} onBackDropClick={handleShowSubmitModal}
+                onCloseClick={handleShowSubmitModal} CloseTitle="Cancelar" CloseButton
                 buttonTitle="Confirmar" buttonClick={handleModalSubmit} content={
                     <Fragment>
                         <p>
@@ -287,7 +384,7 @@ function Form(props) {
                 matchesWidth &&
                 <Stepper activeStep={fakeStep} alternativeLabel>
                     {
-                        fakeStepsToShow.map((stepData) => {
+                        fakeStepsToShow?.map((stepData) => {
                             const labelProps = {};
                             /*         if (handleStepsValidation(stepData.realIndexInLocalData)) {
                                          labelProps.optional = (

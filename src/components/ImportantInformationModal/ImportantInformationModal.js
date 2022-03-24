@@ -23,7 +23,8 @@ import { useHistory } from 'react-router';
     <Dialog
       open={open}
       onClose={onCloseClick}
-      onBackdropClick={onBackDropClick}
+      //onBackdropClick={onBackDropClick}
+      
     >
       <Container>
 

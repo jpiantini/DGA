@@ -16,7 +16,7 @@ function TextField({ id, title, placeholder, helperText = " ", value, onChange, 
         phone: "(999)-999-9999",
         identification: "999-9999999-9",
         passport: "*",
-        rnc: "*",
+        rnc: "9-99-99999-9",
         'solo numero': "999999999999999999999999999",
     }
 

@@ -2,8 +2,13 @@ import * as yup from 'yup';
 import { FIELD_TYPES, MASK_LIST, RULE_LIST } from './FormConstants'
 import { localToString, defaultString } from '../../../../utilities/functions/StringUtil';
 import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
+import LocalStorageService from '../../../../services/LocalStorageService';
 
 export const getFieldValidation = (field) => {
+
+  let loggedUserCedula = LocalStorageService.getItem('user_cedula');
+  let loggedUserEmail = LocalStorageService.getItem('user_primary_email');
+
   if (!field || !field.type || field.hidden) {
     return
   } else if (field.type == FIELD_TYPES.select && !field.required) {
@@ -29,10 +34,9 @@ export const getFieldValidation = (field) => {
       validator = yup.string()
       break;
     case FIELD_TYPES.file:
-     /* if (field?.required) {
+      if (field?.required) {
         validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
       }
-      */
       validator = yup.mixed()
       break;
     case FIELD_TYPES.grid:
@@ -50,7 +54,9 @@ export const getFieldValidation = (field) => {
     case MASK_LIST[5]:
       validator = validator.email(defaultString.validEmail)
       break;
-
+    case MASK_LIST[9]:
+      validator = validator.email(defaultString.validEmail).notOneOf([loggedUserEmail], defaultString.validEmailDifferentLoggedUser)
+      break;
     default:
       break;
   }
@@ -59,7 +65,7 @@ export const getFieldValidation = (field) => {
 }
 
 export const fieldRuleChanger = (
-  {field, ruleAction, ruleField, ruleList, values, setFieldValue}
+  { field, ruleAction, ruleField, ruleList, values, setFieldValue }
 ) => {
   const findRuleField = ruleField.find(fieldName => field?.fieldKey == fieldName)
 

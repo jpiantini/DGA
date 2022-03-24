@@ -12,16 +12,31 @@ export const Container = styled("div")({
   flexDirection: "column",
   textAlign: "center",
 });
-export const HomeContainer = styled("div")({
-  position: "absolute",
-  display: "flex",
-  flexDirection: "column",
+
+export const HomeContainer = styled("div")((props) => ({
+  display:'flex',
+  flexDirection:'column',
+  position:'relative',
   minHeight: "100vh",
-  width: "100%",
+  //paddingTop:'300px',
+ // paddingBottom:'100px',
+  background: `url(${props.image})`,
   backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
-});
+  boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
+  alignItems:'center',
+  justifyContent:'center',
+  textAlign:'center'
+}));
+
+export const HomeCenterContent = styled("div")((props) => ({
+  display:'flex',
+  flexDirection:'column',
+  height:'300px',
+  alignItems:'center',
+  justifyContent:'center'
+
+}));
+
 export const ContainerBackground = styled("div")(props => ({
   display: "flex",
   flexDirection: "column",
@@ -258,11 +273,17 @@ export const AnalyticsContainer = styled("div")({
 });
 
 export const SearcherContainer = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  width: "83%",
-  alignItems: "flex-start",
-  alignSelf: "center",
+  backgroundColor:'#FFF',
+  borderRadius:'10px',
+  "@media (min-width:320px)": {
+    width:'300px',
+  },
+  "@media (min-width:768px)": {
+    width:'600px',
+  },
+  "@media (min-width:1200px)": {
+    width:'800px',
+  },
 });
 
 export const SelectorContainer = styled("div")({
@@ -272,65 +293,39 @@ export const SelectorContainer = styled("div")({
   padding: "1%",
 });
 
-export const SelectorsSearcherContainer = styled("div")({
-  display: "flex",
-  flexDirection: "row",
-  alignSelf: "center",
-  width: "85%",
-  justifyContent: "space-evenly",
-  "@media (max-width:830px)": {
-    flexDirection: "column",
-  },
-});
+export const StyledSearchIconForSearcher = styled(SearchIcon)({
 
-export const StyledSearchIconForSearcher = styled(SearchIcon)({});
+});
 
 export const SearchTextInput = styled(TextField)({
-  width: "100%",
-  alignSelf: "center",
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
+  width: '100%',
+  alignSelf: 'center',
+  borderWidth: '5px',
+  
+  '& .MuiInputBase-input ': {
+    width: '100%',
+    fontSize: '17px',
+    backgroundColor: COLORS.white,
+    padding:10
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
       borderColor: COLORS.secondary,
-      borderRadius: 0,
+      borderRadius: '10px',
+      minHeight: '45px',
     },
-    "&:hover fieldset": {
-      borderColor: COLORS.secondary,
-      borderRadius: 0,
+
+    '&:hover fieldset': {
+  //    borderColor: COLORS.secondary,
     },
-    "&.Mui-focused fieldset": {
+    '&.Mui-focused fieldset': {
       borderColor: COLORS.secondary,
-      borderWidth: "1px",
-      borderRadius: 0,
+      borderWidth: '1px'
     },
   },
 });
 
-export const SearchSelect = styled(TextField)({
-  alignSelf: "start",
-  width: "100%",
-  "& .MuiMenuItem-root": {
-    fontSize: "100px",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: COLORS.secondary,
-      borderRadius: 0,
-    },
-    "&:hover fieldset": {
-      borderColor: COLORS.secondary,
-      borderRadius: 0,
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: COLORS.secondary,
-      borderWidth: "1px",
-      borderRadius: 0,
-    },
-  },
-  "@media (max-width:830px)": {
-    width: "100%",
-    paddingBottom: "5px",
-  },
-});
+
 
 export const ServicesListContainer = styled("div")({
   display: "flex",

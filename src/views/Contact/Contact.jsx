@@ -25,7 +25,7 @@ function Contact() {
 
   const dispatch = useDispatch();
 
-  const { data } = useQuery(['contactData'], () => getContactDataFromWordpress())
+  const { data, isLoading } = useQuery(['contactData'], () => getContactDataFromWordpress())
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +48,7 @@ function Contact() {
     dispatch(UpdateAppSubHeaderTitle('Contacto')); // TITLE OF SUBHEADER APP
   }, []);
 
+  if (isLoading) return null;
 
   return (
     <Container>

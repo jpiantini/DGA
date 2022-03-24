@@ -5,6 +5,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import { boxShadowConfig } from '../../../theme/Styles';
 import DownloadIcon from '@mui/icons-material/Download';
 import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export const Container = styled('div')(props => ({
     display: 'flex',
@@ -109,6 +110,19 @@ export const StyledDownloadIcon = styled(DownloadIcon)({
 
 
 export const StyledCheckIcon = styled(CheckIcon)({
+    color: COLORS.tertiary,
+    '@media (min-width:320px)': {
+        fontSize: '18px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '20px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '23px',
+    }
+});
+
+export const StyledClearIcon = styled(ClearIcon)({
     color: COLORS.tertiary,
     '@media (min-width:320px)': {
         fontSize: '18px',

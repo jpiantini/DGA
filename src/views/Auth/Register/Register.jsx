@@ -150,9 +150,16 @@ function Register() {
     }
 
     const handleSubmitForm = (e) => {
+        let nextStepErrorHasAnError;
+        Object.keys(formik.errors).forEach((item) => {
+            if (RegisterSteps[activeStep + 1]?.elements.includes(item)) {
+                nextStepErrorHasAnError = true
+            }
+        });
         window.scrollTo(0, 0);
-        if (Object.keys(formik.errors).length != 0) {
+        if (Object.keys(formik.errors).length != 0 && !nextStepErrorHasAnError) {
             enqueueSnackbar('Llene todos los campos requeridos', { variant: 'error' });
+            return;
         } else {
             formik.handleSubmit(e);
         }
@@ -429,9 +436,9 @@ function Register() {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.document_type && Boolean(formik.errors.document_type)}
                                     helperText={formik.touched.document_type && formik.errors.document_type}
-                                    required 
+                                    required
                                     row
-                                    />
+                                />
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
@@ -482,7 +489,7 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Ocupacion" type="text" id="occupation"
+                                <TextField title="Ocupación" type="text" id="occupation"
                                     value={formik.values.occupation}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -539,6 +546,18 @@ function Register() {
                                 />
                             </Grid>
 
+                            <Grid item xs={8} sm={8} md={12}>
+                                <TextField title="Dirección" type="text" id="address"
+                                    value={formik.values.address}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.address && Boolean(formik.errors.address)}
+                                    helperText={formik.touched.address && formik.errors.address}
+                                    required
+                                    multiline
+                                />
+                            </Grid>
+
                             <Grid item xs={8} sm={4} md={6}>
                                 <PhoneTextField title="Teléfono de contacto" type="text" id="phone"
                                     required
@@ -550,7 +569,7 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <PhoneTextField title="Telefono de contacto secundario" type="text" id="phone2"
+                                <PhoneTextField title="Teléfono de contacto secundario" type="text" id="phone2"
                                     value={formik.values.phone2}
                                     onChange={formik.handleChange}
                                     error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
@@ -558,16 +577,7 @@ function Register() {
                                 />
                             </Grid>
 
-                            <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Direccion" type="text" id="address"
-                                    value={formik.values.address}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.address && Boolean(formik.errors.address)}
-                                    helperText={formik.touched.address && formik.errors.address}
-                                    required
-                                />
-                            </Grid>
+
 
                         </Grid>
                         :

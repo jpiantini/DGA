@@ -8,7 +8,7 @@ export const Container = styled('div')({
     flexDirection: 'column',
     border: ` 1px solid ${COLORS.tertiary}`,
     '@media (min-width:320px)': {
-        width:'270px',
+        width:'350px',
         minHeight:'250px'
     },
     '@media (min-width:768px)': {
