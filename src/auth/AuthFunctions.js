@@ -6,4 +6,5 @@ export const removeLocalStorageSessionData = () => {
     LocalStorageService.removeItem('token');
     LocalStorageService.removeItem('user_cedula');
     LocalStorageService.removeItem('user_primary_email');
+    LocalStorageService.removeItem(`dynamicFormData`);
 }

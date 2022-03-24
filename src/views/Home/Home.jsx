@@ -30,64 +30,56 @@ import {
   StyledSearchIconForSearcher,
   CardsContainer,
   CardsDivider,
+  HomeContainer,
+  HomeCenterContent,
 } from "./styles/HomeStyles";
 import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
-import CarouselBootstrap from "./components/carrosuel/CarouselBootstrap";
 import { useQuery } from "react-query";
-import { getMottoInformationDataFromWordpress, getSlidersDataFromWordpress } from "../../api/Home";
+import { getVideoDataFromWordpress, getHomeDataFromWordpress } from "../../api/Home";
+import { getAllServices } from "../../api/ListOfServicesPerCategory";
+
+import { SmallHeightDivider } from "../../theme/Styles";
 
 
 function Home() {
 
   const history = useHistory();
 
-  const { data: carouselContent } = useQuery(['slidersData'], () => getSlidersDataFromWordpress())
-  const { data: mottoContent } = useQuery(['mottoInformation'], () => getMottoInformationDataFromWordpress())
+  const { data: homeContent, isLoading: homeContentIsLoading} = useQuery(['homeData'], () => getHomeDataFromWordpress())
+  const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
+  const { data: listOfServices,isLoading: listOfServicesIsLoading } = useQuery(['listOfServices'], () => getAllServices())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
   };
 
+  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return null
 
-
+  const ServicesForSearcher = [
+    ...listOfServices[0].services,
+    ...listOfServices[1].services,
+    ...listOfServices[2].services
+  ].map((item) => {
+    return {
+      id:item.id,
+      title:item.name,
+    }
+  })
 
   return (
     <Container>
       <GobMessage />
-
       <Header />
-
-      {carouselContent && <CarouselBootstrap data={carouselContent} />}
-      <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
-        <AnalyticsContainer>
-          <div>
-            <StyledDescriptionIcon />
-            <Title>+5</Title>
-            <SubTitle>Solicitudes de licencias</SubTitle>
-          </div>
-          <div>
-            <StyledPersonAddIcon />
-            <Title>+5</Title>
-            <SubTitle>Usuarios registrados</SubTitle>
-          </div>
-          <div>
-            <StyledSearchIcon />
-            <Title>+5</Title>
-            <SubTitle>Busquedas realizadas</SubTitle>
-          </div>
-        </AnalyticsContainer>
-      </MediumContainer>
-
-      <MediumContainer style={{ backgroundColor: COLORS.white }}>
+      <HomeContainer image={homeContent.image_url}>
+        <HomeCenterContent>
+        <Title>PORTAL DE SERVICIOS - MITUR</Title>
+        <SmallHeightDivider/>
+        <SmallHeightDivider/>
         <SearcherContainer>
-          <SearcherSubTitle>
-            Buscar por término o nombre del servicio
-          </SearcherSubTitle>
-
           <Autocomplete
-            options={ListServices}
+            options={ServicesForSearcher}
             getOptionLabel={(option) => option.title}
             autoHighlight
             freeSolo
@@ -106,7 +98,7 @@ function Home() {
               <SearchTextInput
                 {...params}
                 fullWidth
-                placeholder="Escriba aquí para realizar su búsqueda "
+                placeholder="Buscar por término o nombre del servicio"
                 variant="outlined"
                 InputProps={{
                   ...params.InputProps,
@@ -120,6 +112,28 @@ function Home() {
               />}
           />
         </SearcherContainer>
+
+        </HomeCenterContent>
+        
+      </HomeContainer>
+      <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
+        <AnalyticsContainer>
+          <div>
+            <StyledDescriptionIcon />
+            <Title>+5</Title>
+            <SubTitle>Solicitudes de licencias</SubTitle>
+          </div>
+          <div>
+            <StyledPersonAddIcon />
+            <Title>+5</Title>
+            <SubTitle>Usuarios registrados</SubTitle>
+          </div>
+          <div>
+            <StyledSearchIcon />
+            <Title>+5</Title>
+            <SubTitle>Busquedas realizadas</SubTitle>
+          </div>
+        </AnalyticsContainer>
       </MediumContainer>
 
       <Container
@@ -167,7 +181,7 @@ function Home() {
           style={{ border: 0 }}
           allowfullscreen=''
           loading='lazy'
-          src="https://www.youtube.com/embed/PKnkeekuhmA" />
+          src={videoContent?.video_url} />
 
       </ContainerBackground>
 

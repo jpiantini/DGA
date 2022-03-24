@@ -64,7 +64,7 @@ function ListOfServicesPerCategory() {
         }
     }, [categoryID, listOfServices]);
 
-    if (listOfServicesLoading || allQuestionsDataLoading || listOfServicesLoading) return null
+    if (generalInformationDataLoading || allQuestionsDataLoading || listOfServicesLoading) return null
 
     return (
         <Container >

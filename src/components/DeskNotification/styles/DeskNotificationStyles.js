@@ -61,7 +61,7 @@ export const Text = styled('p')({
 export const StyledCloseIcon = styled(CloseIcon)({
     color:COLORS.black,
     '@media (min-width:320px)': {
-        fontSize: '18x',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
         fontSize: '20px',
@@ -89,7 +89,7 @@ export const StyledWarningIcon = styled(WarningIcon)({
     color:'#ffa500',
     borderColor:'#000000',
     '@media (min-width:320px)': {
-        fontSize: '18x',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
         fontSize: '20px',
@@ -102,7 +102,7 @@ export const StyledWarningIcon = styled(WarningIcon)({
 export const StyledCancelIcon = styled(CancelIcon)({
     color:COLORS.red,
     '@media (min-width:320px)': {
-        fontSize: '18x',
+        fontSize: '18px',
     },
     '@media (min-width:768px)': {
         fontSize: '20px',

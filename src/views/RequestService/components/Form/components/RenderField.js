@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { FIELD_TYPES, MASK_LIST, MASK_TYPE } from '../FormConstants';
 import { Avatar, FormControl, FormHelperText, Grid, IconButton, List, ListItem, ListItemAvatar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -104,7 +104,7 @@ const RenderField = (props) => {
         const _localFieldErrors = {
           ...props.localFieldErrors
         }
-         _localFieldErrors[props.fieldKey] = "Ha ocurrido un error validando la cedula";
+        _localFieldErrors[props.fieldKey] = "Ha ocurrido un error validando la cedula";
         props.setLocalFieldErrors(_localFieldErrors);
         setTextInputLoading(false);
       }
@@ -177,105 +177,137 @@ const RenderField = (props) => {
     if (props.hidden) {
       return null
     }
-
+   // const fullwidth = props.value?.length > 0 ? 12 : 6
     switch (props.type) {
       case FIELD_TYPES.radioGroup:
         return (
-          <RadioButtonGroup
-            row
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            options={props.data}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-          />
+          <Grid item xs={12} sm={12} md={12}>
+            <RadioButtonGroup
+              row
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              options={props.data}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+            />
+          </Grid>
         )
       case FIELD_TYPES.checkboxGroup:
         return (
-          <CheckBoxGroup
-            id={props.fieldKey}
-            //     title={props.label}
-            onChange={LocalOnChange}
-            value={props.value}
-            onBlur={handleValidationOnBlur}
-            options={props.data}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-          />
+          <Grid item xs={3} sm={6} md={6}>
+            <CheckBoxGroup
+              id={props.fieldKey}
+              //     title={props.label}
+              onChange={LocalOnChange}
+              value={props.value}
+              onBlur={handleValidationOnBlur}
+              options={props.data}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+            />
+          </Grid>
         )
       case FIELD_TYPES.select:
         return (
-          <Select
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            data={
-              childrenDataFilter(
-                props.data,
-                props.father_id,
-                props.fatherValue
-              )
-            }
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-            search
-          />
+          <Grid item xs={3} sm={6} md={6}>
+            <Select
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              data={
+                childrenDataFilter(
+                  props.data,
+                  props.father_id,
+                  props.fatherValue
+                )
+              }
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+              search
+            />
+          </Grid>
         )
       case FIELD_TYPES.text:
         if (['2', '3'].includes(localToString(props.Mask))) {
           return (
-            <PhoneTextField
-              id={props.fieldKey}
-              title={props.label}
-              value={props.value}
-              onChange={LocalOnChange}
-              onBlur={handleValidationOnBlur}
-              error={props.error}
-              helperText={props.helperText}
-              placeholder={props.placeholder}
-              disabled={!props.enabled}
-              required={props.required}
-            />
+            <Grid item xs={3} sm={6} md={6}>
+              <PhoneTextField
+                id={props.fieldKey}
+                title={props.label}
+                value={props.value}
+                onChange={LocalOnChange}
+                onBlur={handleValidationOnBlur}
+                error={props.error}
+                helperText={props.helperText}
+                placeholder={props.placeholder}
+                disabled={!props.enabled}
+                required={props.required}
+              />
+            </Grid>
           )
         }
         if (['0', '1', '6'].includes(localToString(props.Mask))) {
           return (
-            <TextField
-              id={props.fieldKey}
-              title={props.label}
-              value={props.value}
-              isLoading={textInputLoading}
-              mask={localToString(MASK_TYPE[props.Mask || ''])}
-              useMaskPresets={true}
-              unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
-              onChange={LocalOnChange}
-              onBlur={handleValidationOnBlur}
-              error={props.error}
-              helperText={props.helperText}
-              placeholder={props.placeholder}
-              disabled={!props.enabled}
-              required={props.required}
-              multiline={props.multiline}
-            />
+            <Grid item xs={3} sm={6} md={6}>
+              <TextField
+                id={props.fieldKey}
+                title={props.label}
+                value={props.value}
+                isLoading={textInputLoading}
+                mask={localToString(MASK_TYPE[props.Mask || ''])}
+                useMaskPresets={true}
+                unMaskedValue={true} //RETURN VALUE WITHOUT MASK 
+                onChange={LocalOnChange}
+                onBlur={handleValidationOnBlur}
+                error={props.error}
+                helperText={props.helperText}
+                placeholder={props.placeholder}
+                disabled={!props.enabled}
+                required={props.required}
+                multiline={props.multiline}
+              />
+            </Grid>
           )
         }
         if (['12'].includes(localToString(props.Mask))) {
           return (
-            <TextFieldNumberFormat
+            <Grid item xs={3} sm={6} md={6}>
+              <TextFieldNumberFormat
+                id={props.fieldKey}
+                title={props.label}
+                value={props.value}
+                isLoading={textInputLoading}
+                maxLength={props.length}
+                onChange={LocalOnChange}
+                onBlur={handleValidationOnBlur}
+                error={props.error}
+                helperText={props.helperText}
+                placeholder={props.placeholder}
+                disabled={!props.enabled}
+                required={props.required}
+                multiline={props.multiline}
+              />
+            </Grid>
+
+          )
+        }
+        return (
+          <Grid item xs={3} sm={6} md={6}>
+            <TextField
               id={props.fieldKey}
               title={props.label}
               value={props.value}
@@ -290,119 +322,115 @@ const RenderField = (props) => {
               required={props.required}
               multiline={props.multiline}
             />
-          )
-        }
-        return (
-          <TextField
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            isLoading={textInputLoading}
-            maxLength={props.length}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-            multiline={props.multiline}
-          />
+          </Grid>
         )
       case FIELD_TYPES.textarea:
         return (
-          <TextField
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            maxLength={props.length}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-            multiline={true}
-          />
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              maxLength={props.length}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+              multiline={true}
+            />
+          </Grid>
         )
       case FIELD_TYPES.date:
         return (
-          <DatePicker
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-          />
+          <Grid item xs={3} sm={6} md={6}>
+            <DatePicker
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+            />
+          </Grid>
+
         )
       case FIELD_TYPES.time:
         return (
-          <TimePicker
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-          />
+          <Grid item xs={3} sm={6} md={6}>
+            <TimePicker
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+            />
+          </Grid>
+
         )
       case FIELD_TYPES.file:
         return (
-          <UploadFile
-            id={props.fieldKey}
-            title={props.label}
-            value={props.value}
-            onChange={LocalOnChange}
-            onBlur={handleValidationOnBlur}
-            error={props.error}
-            helperText={props.helperText}
-            placeholder={props.placeholder}
-            disabled={!props.enabled}
-            required={props.required}
-            extension={props.valid_exts}
-            multipleDocuments={props?.multipleDocuments}
-            findDocuments
-            hideDownloadButton
-          />
+          <Grid item xs={3} sm={6} md={6}>
+            <UploadFile
+              id={props.fieldKey}
+              title={props.label}
+              value={props.value}
+              onChange={LocalOnChange}
+              onBlur={handleValidationOnBlur}
+              error={props.error}
+              helperText={props.helperText}
+              placeholder={props.placeholder}
+              disabled={!props.enabled}
+              required={props.required}
+              extension={props.valid_exts}
+              multipleDocuments={props?.multipleDocuments}
+              findDocuments
+              hideDownloadButton
+            />
+          </Grid>
+
         )
       case FIELD_TYPES.grid:
         return (
-          <FormControl disabled={!props.enabled} error={props.error} sx={{ width: '100%' }}>
-            <SubTitle >
-              {props.label}
-            </SubTitle>
-            <SmallHeightDivider />
-            <GridContainer>
-              {
-                localToArray(props.value).map((item, index) => (
-                  <RenderGridItem item={item} index={index} />
-                ))
-              }
-            </GridContainer>
-            <SmallHeightDivider />
-            <StyledButton onClick={() => setModalVisible(true)}>
-              Agregar
-            </StyledButton>
-            <FormHelperText>{props.helperText}</FormHelperText>
-            <ModalForm
-              title={props.label}
-              isVisible={modalVisible}
-              onVisibleChange={setModalVisible}
-              fields={props.fields}
-              doRequest={insertFormData}
-              fatherKey={localToString(props.fieldKey)}
-            />
-          </FormControl>
+          <Grid item xs={12} sm={12} md={12}>
+            <FormControl disabled={!props.enabled} error={props.error} sx={{ width: '100%' }}>
+              <SubTitle >
+                {props.label}
+              </SubTitle>
+              <SmallHeightDivider />
+              <GridContainer>
+                {
+                  localToArray(props.value).map((item, index) => (
+                    <RenderGridItem item={item} index={index} />
+                  ))
+                }
+              </GridContainer>
+              <SmallHeightDivider />
+              <StyledButton onClick={() => setModalVisible(true)}>
+                Agregar
+              </StyledButton>
+              <FormHelperText>{props.helperText}</FormHelperText>
+              <ModalForm
+                title={props.label}
+                isVisible={modalVisible}
+                onVisibleChange={setModalVisible}
+                fields={props.fields}
+                doRequest={insertFormData}
+                fatherKey={localToString(props.fieldKey)}
+              />
+            </FormControl>
+          </Grid>
         )
 
       case FIELD_TYPES.header:
@@ -410,9 +438,11 @@ const RenderField = (props) => {
           return null
         } else {
           return (
-            <SubTitle id={props.fieldKey}>
-              {props.label}
-            </SubTitle>
+            <Grid item xs={12} sm={12} md={12}>
+              <SubTitle id={props.fieldKey}>
+                {props.label}
+              </SubTitle>
+            </Grid>
           )
         }
 
@@ -421,33 +451,12 @@ const RenderField = (props) => {
     }
   }
   return (
-    props.hidden == true ? // dont return grid with spaces and prevent white spaces between elements
+    props.hidden == true ?
       null
       :
-      props.type === FIELD_TYPES.header ?
-        <Grid item xs={12} sm={12} md={12}>
-          {Field()}
-        </Grid>
-        :
-        props.type === FIELD_TYPES.grid ?
-          <Grid item xs={12} sm={12} md={12}>
-            {Field()}
-          </Grid>
-          :
-          props.type === FIELD_TYPES.radioGroup ?
-            <Grid item xs={12} sm={12} md={12}>
-              {Field()}
-            </Grid>
-            :
-            props.type === FIELD_TYPES.textarea ?
-              <Grid item xs={12} sm={12} md={12}>
-                {Field()}
-              </Grid>
-              :
-              <Grid item xs={3} sm={6} md={6}>
-                {Field()}
-              </Grid>
-
+      <Fragment>
+        {Field()}
+      </Fragment>
   )
 }
 

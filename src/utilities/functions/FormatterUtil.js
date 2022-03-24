@@ -67,3 +67,18 @@ export const priceVariationToLaborableTime = (variation) => {
     return `${variation.hours} Horas laborables`
   }
 }
+
+export const hourIn24To12hours = (hour) => {
+  //hour format should be 00:00 or 00:00:00
+  const _hour = hour.substring(0,5);
+  if (_hour.substring(0,2) > 12 ) {
+    return `${_hour.substring(0,2) - 12}${_hour.substring(2,5)}PM`
+  }
+  if (_hour.substring(0,2) == 12) {
+    return `${_hour}PM`
+  }
+  if (_hour.substring(0,2) < 12) {
+    return `${_hour}AM`
+  }
+  
+}

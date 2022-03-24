@@ -72,3 +72,18 @@ export const SuccessContainer = styled('div')({
     alignSelf: 'center',
     alignItems: 'center'
 });
+
+export const PricesContainer = styled('div')({
+    display:'flex',
+    flexDirection:'column',
+    minHeight:'100vh',
+    position:'relative',
+    width:'100%',
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center'
+});
+
+export const PricesItemContainer = styled('div')({
+    display:'flex',width:'100%',justifyContent:'center'
+});

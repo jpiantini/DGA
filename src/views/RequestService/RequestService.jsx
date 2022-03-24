@@ -8,6 +8,7 @@ import {
   MediumHeightDivider,
   StyledCheckCircleIcon,
   SubTitle,
+  Title,
 } from "../../theme/Styles";
 import { } from "./RequestServiceConstants";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -22,13 +23,15 @@ import {
   ImageContainer,
   LogoImage,
   SuccessContainer,
+  PricesContainer,
+  PricesItemContainer,
 } from "./styles/RequestServicesStyles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
-import { Grid, Rating } from "@mui/material";
+import { Dialog, Grid, Rating } from "@mui/material";
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery } from "react-query";
@@ -214,7 +217,7 @@ function RequestService() {
             ...responseFilesUploaded.files.map((item, index) => {
               return {
                 ...item,
-                label: FilesOfForm.newFile[index].label
+                label: `${FilesOfForm.newFile[index].label} ${index + 1} `
               }
             }
             )
@@ -223,8 +226,6 @@ function RequestService() {
           canSubmitForm = false;
         }
       }
-      console.log(uploadedFilesRoutes);
-      debugger
       if (canSubmitForm) {
         let canFormContinue = true;
         dispatch(ShowGlobalLoading('Registrando solicitud'));
@@ -304,31 +305,39 @@ function RequestService() {
               doRequest={sendRequest}
               data={getData().data}
               plainData={getData().plainData}
+              setPriceModalIsOpen={setPriceModalIsOpen}
               multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
             />
-            <FormModal open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl'
-              conditionalClose={true}>
-              <SmallHeightDivider />
-              <Grid alignItems="center" container direction="row" justifyContent="center" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                {
-                  serviceDescription.prices.map((price, index) => (
-                    price.variations.length > 1 ?
-                      <Grid key={index} item xs={4} sm={8} md={6} >
-                        <PaymentCard title={price.concept} variations={price.variations}
-                          onClick={handleSelectVariation}
-                        />
-                      </Grid>
-                      :
-                      <Grid key={index} item xs={4} sm={8} md={6} >
-                        <PaymentCard title={price.variations[0].concept} variations={price.variations}
-                          onClick={handleSelectVariation}
-                        />
-                      </Grid>
-                  ))
-                }
-              </Grid>
-              <SmallHeightDivider />
-            </FormModal>
+            <Dialog open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
+              <PricesContainer>
+                <Title>Tarifas del servicio</Title>
+                <SmallHeightDivider />
+                <SmallHeightDivider />
+                <Grid alignItems='end' alignSelf='center' justifyContent='space-around' container direction='row' spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                  {
+                    serviceDescription.prices.map((price, index) => (
+                      price.variations.length > 1 ?
+                        <Grid key={index} item xs={4} sm={8} md={4} >
+                          <PricesItemContainer>
+                            <PaymentCard title={price.concept} variations={price.variations}
+                              onClick={handleSelectVariation}
+                            />
+                          </PricesItemContainer>
+
+                        </Grid>
+                        :
+                        <Grid key={index} item xs={4} sm={8} md={4} >
+                          <PricesItemContainer>
+                            <PaymentCard title={price.variations[0].concept} variations={price.variations}
+                              onClick={handleSelectVariation}
+                            />
+                          </PricesItemContainer>
+                        </Grid>
+                    ))
+                  }
+                </Grid>
+              </PricesContainer>
+            </Dialog>
           </Container>
           :
           <Container ref={successRef}>
