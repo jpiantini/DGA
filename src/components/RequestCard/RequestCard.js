@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
+import { replaceGuionToSlashFromString } from '../../utilities/functions/StringUtil';
 import { variantStatus } from './RequestCardConstants';
 import {
     Container,
@@ -48,7 +49,7 @@ function RequestCard({ statusID, title, date, company, requestCode, status, onCl
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Fecha: {new Date(date).toLocaleDateString()}
+                    Fecha: {new Date(replaceGuionToSlashFromString(date)).toLocaleDateString()}
                 </BodyText>
             </RowContainer>
 

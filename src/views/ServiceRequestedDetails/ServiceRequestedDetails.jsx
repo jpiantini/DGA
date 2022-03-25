@@ -20,6 +20,8 @@ import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
 import { useQuery, useQueryClient } from 'react-query';
 import { getRequestDetail } from '../../api/ServiceRequestedDetails';
 import { cacheConfig } from '../../cacheConfig';
+import { MenuOptions } from './ServiceRequestedDetailsConstants';
+import Messages from './subViews/messages/Messages';
 
 
 function ServiceRequestedDetails() {
@@ -57,21 +59,24 @@ function ServiceRequestedDetails() {
         //UPDATE APP HEADER SUBTITLE, SET THE SERVICE NAME AND TOGGLE TO SPECIFIC MENU
         if (serviceRequestedDetail != undefined) {
             dispatch(UpdateAppSubHeaderTitle(serviceRequestedDetail.request.service.name));
-            if (serviceRequestedDetail.request.request_actions_id == 1 || serviceRequestedDetail.request.request_actions_id == 3) {
-                setActiveMenu(3);
+            if (serviceRequestedDetail.request.request_actions_id == 1) {
+                setActiveMenu(MenuOptions.actionRequired);
+            }
+            if (serviceRequestedDetail.request.request_actions_id == 3) {
+                setActiveMenu(MenuOptions.messages);
             }
             //Action required Payment
             if (serviceRequestedDetail.request.request_actions_id == 5) {
-                setActiveMenu(2);
+                setActiveMenu(MenuOptions.payment);
             }
             //Without required action
             if (serviceRequestedDetail.request.request_actions_id == null) {
-                setActiveMenu(0);
+                setActiveMenu(MenuOptions.details);
             }
             //from serviceRequest
             if (requestID.includes('payment')) {
-                if(serviceRequestedDetail.request.service.external_pay == 1 || serviceRequestedDetail.request.service.sirit_code != null){
-                    setActiveMenu(2);
+                if (serviceRequestedDetail.request.service.external_pay == 1 || serviceRequestedDetail.request.service.sirit_code != null) {
+                    setActiveMenu(MenuOptions.payment);
                 }
             }
         }
@@ -79,41 +84,46 @@ function ServiceRequestedDetails() {
     }, [serviceRequestedDetail]);
 
     if (isLoading) return null;
-
     return (
         <Container >
             <Row>
                 <Container style={{ width: '100%' }}>
                     <ButtonsMenuContainer>
                         <ButtonGroup size="large" >
-                            <StyledButtonOutlined active={activeMenu == 0} onClick={() => handleChangeMenu(0)}>
+                            <StyledButtonOutlined active={activeMenu == MenuOptions.details} onClick={() => handleChangeMenu(MenuOptions.details)}>
                                 Detalles
                             </StyledButtonOutlined>
-                            <StyledButtonOutlined active={activeMenu == 1} onClick={() => handleChangeMenu(1)}>
+                            <StyledButtonOutlined active={activeMenu == MenuOptions.claims} onClick={() => handleChangeMenu(MenuOptions.claims)}>
                                 Quejas y Reclamaciones
                             </StyledButtonOutlined>
                             {
                                 serviceRequestedDetail.request.service.external_pay == 1 ||
                                     serviceRequestedDetail.request.service.sirit_code != null ?
-                                    <StyledButtonOutlined active={activeMenu == 2} onClick={() => handleChangeMenu(2)}>
+                                    <StyledButtonOutlined active={activeMenu == MenuOptions.payment} onClick={() => handleChangeMenu(MenuOptions.payment)}>
                                         Pagos
                                     </StyledButtonOutlined>
                                     :
                                     null
                             }
-
+                            {
+                                serviceRequestedDetail.request.comments.length > 0 &&
+                                <StyledButtonOutlined active={activeMenu == MenuOptions.messages} onClick={() => handleChangeMenu(MenuOptions.messages)}>
+                                    Mensajes
+                                </StyledButtonOutlined>
+                            }
                             {   //IF ACTION REQUIRED IS FOR DOCUMENT OR TEXT
                                 serviceRequestedDetail.request.request_actions_id == 1 || serviceRequestedDetail.request.request_actions_id == 1 ?
-                                <StyledButtonOutlined active={activeMenu == 3} onClick={() => handleChangeMenu(3)}>
-                                    Accion Requerida
-                                </StyledButtonOutlined>
-                                :
-                                null
+                                    <StyledButtonOutlined active={activeMenu == MenuOptions.actionRequired} onClick={() => handleChangeMenu(MenuOptions.actionRequired)}>
+                                        Accion Requerida
+                                    </StyledButtonOutlined>
+                                    :
+                                    null
                             }
                         </ButtonGroup>
                     </ButtonsMenuContainer>
                     {
-                        serviceRequestedDetail.request.request_actions ? //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                        //ONLY MOUNT IF REQUESTID HAS AN ACTION REQUIRED
+                        serviceRequestedDetail.request.request_actions ?
                             <Fragment>
                                 <SmallHeightDivider />
                                 {
@@ -126,26 +136,27 @@ function ServiceRequestedDetails() {
                                         </Fragment>
                                     ))
                                 }
-
                                 <SmallHeightDivider />
                             </Fragment>
                             :
                             <MediumHeightDivider />
                     }
                     {
-                        activeMenu == 0 ?
+                        activeMenu == MenuOptions.details ?
 
                             <Details />
                             :
-                            activeMenu == 1 ?
+                            activeMenu == MenuOptions.claims ?
                                 <ComplaintsAndClaims />
                                 :
-                                activeMenu == 2 ?
+                                activeMenu == MenuOptions.payment ?
                                     <Payment />
                                     :
-                                    //IF ACTION REQUIRED IS TRUE
-                                    serviceRequestedDetail.request.request_actions && <ActionsRequired />
-
+                                    activeMenu == MenuOptions.messages ?
+                                        <Messages />
+                                        :
+                                        //IF ACTION REQUIRED IS TRUE
+                                        serviceRequestedDetail.request.request_actions && <ActionsRequired />
                     }
                 </Container>
             </Row>

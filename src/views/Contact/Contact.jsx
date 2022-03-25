@@ -149,8 +149,8 @@ function Contact() {
         </Grid>
       </Grid>
       <SmallHeightDivider />
-      <ButtonContainer onClick={formik.handleSubmit}>
-        <StyledButtonOutlined variant='outlined'>
+      <ButtonContainer >
+        <StyledButtonOutlined onClick={formik.handleSubmit} variant='outlined'>
           ENVIAR MENSAJE
         </StyledButtonOutlined>
       </ButtonContainer>

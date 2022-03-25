@@ -23,6 +23,7 @@ import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsC
 import { MockupDocuments } from './DetailsConstants';
 import { useQueryClient } from 'react-query';
 import { format } from 'date-fns';
+import { replaceGuionToSlashFromString } from '../../../../utilities/functions/StringUtil';
 
 
 function Details() {
@@ -41,7 +42,7 @@ function Details() {
             name: `${document.name}.${document.extension}`,
             //pending to change
             documentType: document.extension,
-            date: format(new Date(document.created_at), 'yyyy-MM-dd'),
+            date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,
             type: document.extension
 
@@ -59,7 +60,7 @@ function Details() {
                         Fecha:
                     </BodyTextBold>
                     <BodyText>
-                        {new Date(requestData.request.created_at).toLocaleDateString()}
+                        {new Date(replaceGuionToSlashFromString(requestData.request.created_at)).toLocaleDateString()}
                     </BodyText>
                 </Grid>
 

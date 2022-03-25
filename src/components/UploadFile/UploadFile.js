@@ -11,6 +11,7 @@ import { cacheConfig } from '../../cacheConfig';
 import { types } from './UploadFileConstants';
 import { useSnackbar } from 'notistack';
 import { FormControl, FormGroup, FormHelperText } from '@mui/material';
+import { replaceGuionToSlashFromString } from '../../utilities/functions/StringUtil';
 
 function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false, multipleDocuments = false }) {
 
@@ -159,7 +160,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             name: `${document.name}.${document.extension}`,
             nameClear: document.name,
             documentType: document.extension,
-            date: format(new Date(document.created_at), 'yyyy-MM-dd'),
+            date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,
             type: document.extension,
             route: document.route

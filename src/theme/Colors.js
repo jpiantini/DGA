@@ -9,6 +9,7 @@ const COLORS = {
   notificationSuccess:'#cee6d6',
   notificationWarning:'#ece6bb',
   notificationError:'#ff657a',
+  notificationComplete:'#ADD8E6',
 
   //basics colors
   red: "red",

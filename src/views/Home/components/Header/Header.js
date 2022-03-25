@@ -37,6 +37,10 @@ function Header() {
             Servicios
           </MenuButton>
           <div style={{ width: "1rem" }} />
+          <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
+            Consultas generales
+          </MenuButton>
+          <div style={{ width: "1rem" }} />
           <MenuButton onClick={() => goToRoute("/app/contact")}>
             Contacto
           </MenuButton>

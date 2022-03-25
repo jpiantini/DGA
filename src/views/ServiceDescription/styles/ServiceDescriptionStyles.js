@@ -11,7 +11,7 @@ import { Fab } from '@mui/material';
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
 });
 
 export const TopContainer = styled('div')({
@@ -37,10 +37,14 @@ export const StyledFab = styled(Fab)({
     },
     bottom: 16,
     top: 0,
-    marginTop:'50px',
+    marginTop: '50px',
     alignSelf: 'flex-end',
     position: '-webkit-sticky',
     position: 'sticky',
+    '@media print': {
+        display: 'none'
+    }
+
 });
 
 export const ButtonContainer = styled('div')({
