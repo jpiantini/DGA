@@ -14,23 +14,23 @@ import {
   TitleContainer,
 } from './styles/MapCardStyles';
 //import { } from './GeneralQueriesConstants';
-import { Dialog, Grid, IconButton } from '@mui/material';
+import { Box, Dialog, Grid, IconButton } from '@mui/material';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
 
 function MapCard({ previewURL, imageURL, title }) {
 
   const [openModal, setOpenModal] = useState();
+  const [mouseOver, setMouseOver] = useState(false);
 
   const handleModalVisibility = () => {
     setMouseOver(false)
     setOpenModal(!openModal)
   }
-  const [mouseOver, setMouseOver] = useState(false);
 
   return (
     <Container onMouseLeave={() => setMouseOver(false)} onMouseOver={() => setMouseOver(true)}>
-      <div onClick={handleModalVisibility}>
+      <div style={{ display: 'flex', flexDirection: 'column' }} onClick={handleModalVisibility}>
         <TitleContainer hovering={mouseOver}>
           <CardTitle>
             {title}
@@ -46,7 +46,7 @@ function MapCard({ previewURL, imageURL, title }) {
         fullWidth
         maxWidth="xl"
       >
-        <IconButton sx={{ zIndex:99999999,width: '50px', alignSelf: 'flex-end', position: 'absolute',backgroundColor:'#FFF' }} onClick={handleModalVisibility}>
+        <IconButton sx={{ zIndex: 99999999, width: '50px', alignSelf: 'flex-end', position: 'absolute', backgroundColor: '#FFF' }} onClick={handleModalVisibility}>
           <StyledCloseIcon />
         </IconButton>
         <TransformWrapper>
@@ -56,7 +56,7 @@ function MapCard({ previewURL, imageURL, title }) {
                 <img src={imageURL} style={{ maxWidth: '100%', alignSelf: 'center' }} />
               </TransformComponent>
 
-              <div style={{display:'flex',flexDirection:'row',justifyContent:'space-around',alignItems:'center'}}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                 <StyledButton style={{ borderRadius: 0 }} onClick={() => zoomIn()}>Zoom +</StyledButton>
                 <StyledButton style={{ borderRadius: 0 }} onClick={() => zoomOut()}>Zoom -</StyledButton>
                 <StyledButton style={{ borderRadius: 0 }} onClick={() => resetTransform()}>Reiniciar</StyledButton>

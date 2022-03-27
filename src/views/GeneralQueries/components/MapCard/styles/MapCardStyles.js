@@ -8,11 +8,14 @@ export const TitleContainer = styled('div')(props => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: props.hovering ? COLORS.primary : COLORS.secondary,
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px'
+    borderTopLeftRadius: '6px',
+    borderTopRightRadius: '6px',
 }));
 
 export const Container = styled('div')({
+    border: '2px solid',
+    borderColor:COLORS.secondary,
+    borderRadius:'10px',
     "@media (min-width:320px)": {
         width: "300px",
     },
@@ -25,6 +28,7 @@ export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
     '&:hover': {
+        borderColor:COLORS.primary,
         cursor: 'pointer',
         transform:'scale(1.1)'
 
