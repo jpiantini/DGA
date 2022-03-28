@@ -6,20 +6,17 @@ import {
 } from '../../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
     Container,
     ButtonContainer
 } from '../../styles/ServiceRequestedDetailsStyles';
-import { Grid } from '@mui/material';
-import DocumentsOfRequestsCard from '../../../../components/DocumentsOfRequestsCard/DocumentsOfRequestsCard';
-import { FileFormSchema, InformationFormSchema, MockupDocuments } from './ActionsRequiredConstants';
+import { FileFormSchema } from './ActionsRequiredConstants';
 import UploadFile from '../../../../components/UploadFile/UploadFile';
-import TextField from '../../../../components/TextField/TextField';
 import { useQueryClient, useMutation } from 'react-query';
 import { useSnackbar } from 'notistack';
-import { assingDocumentsForRequiredActionInSoftExpert, sendRequiredAction } from '../../../../api/ActionRequired';
+import { assingDocumentsForRequiredActionInSoftExpert } from '../../../../api/ActionRequired';
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 import { linkingDocumentsToRequestInSoftExperted, uploadFormDocuments } from '../../../../api/RequestService';
@@ -37,46 +34,11 @@ function ActionsRequired() {
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
     const userData = queryClient.getQueryData(['userData']);
 
-    const actionRequiredMutation = useMutation(sendRequiredAction, {
-        onMutate: (req) => {
-            dispatch(ShowGlobalLoading('Cargando'));
-        }
-    });
     const actionRequiredFileMutation = useMutation(assingDocumentsForRequiredActionInSoftExpert, {
         onMutate: (req) => {
             dispatch(ShowGlobalLoading('Cargando'));
         }
     });
-
-    const textFormik = useFormik({
-        initialValues: {
-            information: ''
-        },
-        validationSchema: InformationFormSchema,
-        onSubmit: (values) => {
-            handleSubmit(values);
-        },
-    });
-
-    const handleSubmit = (values) => {
-        const reqData = {
-            entityAttributeId: 'response',
-            entityAttributeValue: values.information,
-            requestId: requestData.request.id,
-        }
-        actionRequiredMutation.mutate(reqData, {
-            onSuccess: () => {
-                enqueueSnackbar("Información requerida enviada satisfactoriamente", { variant: "success" })
-                queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
-            },
-            onError: () => {
-                enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-            },
-            onSettled: () => {
-                dispatch(HideGlobalLoading());
-            }
-        })
-    }
 
     const fileFormik = useFormik({
         initialValues: {
@@ -192,46 +154,22 @@ function ActionsRequired() {
 
     return (
         <Container >
-            {
-                requestData.request.request_actions_id == 3 ?
-                    <Fragment>
-                        <TextInformation title="Información requerida" />
-                        <SmallHeightDivider />
-                        <TextField id="information" title="Información"
-                            value={textFormik.values.information}
-                            onChange={textFormik.handleChange}
-                            onBlur={textFormik.handleBlur}
-                            error={textFormik.touched.information && Boolean(textFormik.errors.information)}
-                            helperText={textFormik.touched.information && textFormik.errors.information}
-                            multiline
-                            maxLength={255}
-                            required
-                        />
-                        <SmallHeightDivider />
-                        <ButtonContainer>
-                            <StyledButtonOutlined onClick={() => textFormik.handleSubmit()} variant="outlined">ENVIAR</StyledButtonOutlined>
-                        </ButtonContainer>
-                    </Fragment>
-                    :
-                    requestData.request.request_actions_id == 1 ?
-                        <Fragment>
-                            <TextInformation title="Documento requerido" />
-                            <SmallHeightDivider />
-                            <UploadFile id="file" title="Documento"
-                                onChange={fileFormik.handleChange}
-                                onBlur={fileFormik.handleBlur}
-                                error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
-                                helperText={fileFormik.touched.file && fileFormik.errors.file}
-                                required
-                                findDocuments
-                            />
-                            <SmallHeightDivider />
-                            <ButtonContainer>
-                                <StyledButtonOutlined onClick={() => fileFormik.handleSubmit()} variant="outlined">ENVIAR</StyledButtonOutlined>
-                            </ButtonContainer>
-                        </Fragment>
-                        : null
-            }
+            <Fragment>
+                <TextInformation title="Documento requerido" />
+                <SmallHeightDivider />
+                <UploadFile id="file" title="Documento"
+                    onChange={fileFormik.handleChange}
+                    onBlur={fileFormik.handleBlur}
+                    error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
+                    helperText={fileFormik.touched.file && fileFormik.errors.file}
+                    required
+                    findDocuments
+                />
+                <SmallHeightDivider />
+                <ButtonContainer>
+                    <StyledButtonOutlined onClick={() => fileFormik.handleSubmit()} variant="outlined">ENVIAR</StyledButtonOutlined>
+                </ButtonContainer>
+            </Fragment>
         </Container>
     );
 }

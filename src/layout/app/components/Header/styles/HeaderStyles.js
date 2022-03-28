@@ -45,6 +45,9 @@ export const MenuDivider = styled("div")({
   width: "18px",
 });
 export const Image = styled("img")({
+  ':hover': {
+    cursor: 'pointer',
+  },
   "@media (min-width:320px)": {
     width: "200px",
   },

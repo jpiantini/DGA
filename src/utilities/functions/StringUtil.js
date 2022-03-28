@@ -58,6 +58,13 @@ export function cleanNumbersFromString(s) {
   return localToString(s).replace(/[\d-]/g, '')
 }
 
+export function replaceGuionToSlashFromString(s) {
+  if (!s) {
+    return ''
+  }
+  return localToString(s).replace(/-/g, "/")
+}
+
 export function containString(v1, v2, caseSensitive = false) {
   if (!v1 || !v2) {
     return false;

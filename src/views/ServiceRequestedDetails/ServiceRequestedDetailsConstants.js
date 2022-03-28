@@ -5,6 +5,14 @@ export const FormSchema = yup.object({
   message: yup.string().required('Este campo es requerido'),
 }).required();
 
+export const MenuOptions = {
+    details:0,
+    claims:1,
+    payment:2,
+    actionRequired:3,
+    messages:4
+}
+
 export const claimsOptions = [
     {
         value:1,

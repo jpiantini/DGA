@@ -46,7 +46,7 @@ function DrawerMenu({ layout }) {
             removeLocalStorageSessionData();
             dispatch(AuthLogout());
             window.location.reload();
-         //   dispatch(HideGlobalLoading());
+            //   dispatch(HideGlobalLoading());
         }, 1500);
 
     }
@@ -97,6 +97,14 @@ function DrawerMenu({ layout }) {
                             onClick={() => goToRoute("/app/listOfServices/0")}
                         >
                             SERVICIOS
+                        </DrawerListItemButton>
+                    </DrawerListItemContainer>
+                    <DrawerListItemContainer layout={layout}>
+                        <DrawerListItemButton
+                            color='inherit'
+                            onClick={() => goToRoute("/app/generalQueries")}
+                        >
+                            CONSULTAS GENERALES
                         </DrawerListItemButton>
                     </DrawerListItemContainer>
                     <DrawerListItemContainer layout={layout}>

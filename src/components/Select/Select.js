@@ -4,7 +4,7 @@ import { Title, Container, StyledOption } from './styles/SelectStyles';
 import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import { Autocomplete } from '@mui/material';
 
-function Select({ id, title, data, placeholder, helperText = " ", value, onChange, onBlur, error, required, disabled, search = false }) {
+function Select({ id, title, data, placeholder, helperText = " ", value, onChange, onBlur, error, required, disabled, search = false,disableEmptyValue=false }) {
     return (
         <Container>
             <Row>
@@ -51,10 +51,7 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                             })}*/
                         renderInput={(params) => <StyledTextInput {...params} InputProps={{...params.InputProps,style:{padding:3}}} />}
                     />
-
-
                     :
-
                     <StyledTextInput
                         fullWidth
                         id={id}
@@ -71,7 +68,11 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                             native: true //for use option tag instead of MenuItem
                         }}
                     >
-                        <option unselectable={true} />
+                        {
+                            !disableEmptyValue &&
+                            <option unselectable={true} />
+                        }
+
                         {data?.map((option) => ( //use option or StyledOption instead of MenuItem because this tag has an bug 
                             <StyledOption key={option.value} value={option.value}>
                                 {option.label}

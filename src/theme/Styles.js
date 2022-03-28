@@ -64,10 +64,10 @@ export const StyledButtonOutlined = styled(Button)(props => ({
     }
 }));
 
-export const StyledTextInput = styled(TextField)({
+export const StyledTextInput = styled(TextField)(props => ({
     width: '100%',
     alignSelf: 'center',
-    borderWidth: '5px',
+    borderWidth: props.hiddenBorder ? 0:'5px',
     '& .MuiInputBase-input ': {
       width: '100%',
       fontSize: '17px',
@@ -79,6 +79,7 @@ export const StyledTextInput = styled(TextField)({
         borderColor: COLORS.secondary,
         borderRadius: '10px',
         minHeight: '45px',
+        borderWidth: props.hiddenBorder ? 0:'1px',
       },
   
       '&:hover fieldset': {
@@ -86,10 +87,11 @@ export const StyledTextInput = styled(TextField)({
       },
       '&.Mui-focused fieldset': {
         borderColor: COLORS.secondary,
-        borderWidth: '1px'
+        borderWidth: props.hiddenBorder ? 0:'1px',
+
       },
     },
-  });
+  }));
 
 export const BodyText = styled('p')({
     margin: 0,

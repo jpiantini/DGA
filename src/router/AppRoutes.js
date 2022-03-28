@@ -15,6 +15,7 @@ import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
 import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
 import ValidatePayment from "../views/ValidatePayment/ValidatePayment";
+import GeneralQueries from "../views/GeneralQueries/GeneralQueries";
 
 const routes = [
    //PUT ALL loginRequired:false OBJECTS ROUTES on TOP of array
@@ -39,6 +40,7 @@ const routes = [
     layout: "/app",
     loginRequired: false,
   },
+  /*
   {  // FOR SEE ALL FORM FIELDS AND COMPONENTS ONLY DEVELOPMENT
     path: "/TESTFORM",
     component: ExampleAppForm,
@@ -46,6 +48,7 @@ const routes = [
     layout: "/app",
     loginRequired: false,
   },
+  */
   {
     path: "/activateAccount/:activationToken",
     component: ActivateAccount,
@@ -70,6 +73,13 @@ const routes = [
   {
     path: "/contact",
     component: Contact,
+    exact: true,
+    layout: "/app",
+    loginRequired: false,
+  },
+  {
+    path: "/generalQueries",
+    component: GeneralQueries,
     exact: true,
     layout: "/app",
     loginRequired: false,

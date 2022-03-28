@@ -29,7 +29,7 @@ import {
 } from './styles/ServiceDescriptionStyles';
 import { useQuery } from 'react-query';
 import { getServiceDescription } from '../../api/ServiceDescription';
-import { Grid, Rating } from '@mui/material';
+import { Box, Grid, Rating } from '@mui/material';
 import { hourIn24To12hours, priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
 import IconButton from '@mui/material/IconButton';
 import { useReactToPrint } from "react-to-print";
@@ -43,6 +43,7 @@ function ServiceDescription() {
     const componentToPrintRef = useRef(null);
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
+    const [isPrinting, setIsPrinting] = useState(false);
 
     const { data: serviceDescription, isLoading } = useQuery(['serviceDescription', serviceID], async () => {
         try {
@@ -73,9 +74,9 @@ function ServiceDescription() {
         content: reactToPrintContent,
         documentTitle: serviceDescription?.name,
         pageStyle: "width:400px",
-        //   onBeforeGetContent: handleOnBeforeGetContent,
-        // onBeforePrint: handleBeforePrint,
-        // onAfterPrint: handleAfterPrint,
+        onBeforeGetContent: () => setIsPrinting(true),
+       // onBeforePrint: () => setIsPrinting(true),
+        onAfterPrint: () => setIsPrinting(false),
         removeAfterPrint: true
     });
 
@@ -330,9 +331,10 @@ function ServiceDescription() {
                       </ButtonContainer>
                       */
                     }
-                    <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
-                        INICIAR SOLICITUD
-                    </StyledFab>
+         
+                        <StyledFab  onClick={() => handleServiceRequest(serviceDescription.id)}>
+                            INICIAR SOLICITUD
+                        </StyledFab>
 
                 </Container>
             </Row>

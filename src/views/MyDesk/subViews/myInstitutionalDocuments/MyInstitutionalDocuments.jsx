@@ -9,6 +9,7 @@ import { getInstitutionalDocuments } from '../../../../api/MyInstitutionalDocume
 import { DocumentsContainer, SectionTitle } from '../../styles/MyDeskStyles';
 import { format } from 'date-fns';
 import COLORS from '../../../../theme/Colors';
+import { replaceGuionToSlashFromString } from '../../../../utilities/functions/StringUtil';
 
 function MyInstitutionalDocuments() {
 
@@ -27,7 +28,7 @@ function MyInstitutionalDocuments() {
         return {
             name: `${document.name}.${document.extension}`,
             documentType: document.extension,
-            date: format(new Date(document.created_at), 'yyyy-MM-dd'),
+            date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,
             type: document.extension
 

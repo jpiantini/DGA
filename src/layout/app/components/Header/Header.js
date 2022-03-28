@@ -30,13 +30,14 @@ function Header() {
   return (
     <Container>
       <LineContainer>
-      <Image src={MiturLogo} />
+      <Image onClick={() => goToRoute("/")} src={MiturLogo} />
       {matchesWidth ?
         <MenuContainer>
-          <MenuButton onClick={() => goToRoute("/")}>Inicio</MenuButton>
-          <MenuDivider />
           <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
             Servicios
+          </MenuButton>
+          <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
+            Consultas generales
           </MenuButton>
           <MenuDivider />
           <MenuButton onClick={() => goToRoute("/app/contact")}>
