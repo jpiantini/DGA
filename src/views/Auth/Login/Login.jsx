@@ -41,13 +41,13 @@ function Login() {
     const formik = useFormik({
         initialValues: {
             //DEVELOPMENT COMMENT OR REMOVE
-          //  id:'01122222221',
-          //  password: '12345678'
+            id:'01122222221',
+           password: '12345678'
            
-           
+           /*
             id: '',
             password: '' 
-            
+            */
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {

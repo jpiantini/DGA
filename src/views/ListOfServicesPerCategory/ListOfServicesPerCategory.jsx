@@ -18,6 +18,7 @@ import {
 } from './styles/ListOfServicesPerCategoryStyles';
 import { getAllQuestions, getAllServices, getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
 import { useQuery } from 'react-query';
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 function ListOfServicesPerCategory() {
 
@@ -64,7 +65,7 @@ function ListOfServicesPerCategory() {
         }
     }, [categoryID, listOfServices]);
 
-    if (generalInformationDataLoading || allQuestionsDataLoading || listOfServicesLoading) return null
+    if (generalInformationDataLoading || allQuestionsDataLoading || listOfServicesLoading) return <CenterLoading/>
 
     return (
         <Container >

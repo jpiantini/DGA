@@ -32,7 +32,6 @@ function Notifications({ color }) {
 
       <Badge badgeContent={PendingNotifications} color='secondary' overlap="circular">
         <StyledNotificationIcon color={color} />
-
       </Badge>
       <Popper
         open={menuOpen}

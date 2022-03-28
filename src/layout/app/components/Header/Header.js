@@ -17,7 +17,8 @@ import Notifications from "../../../../components/Notifications/Notifications";
 import DrawerMenu from "../../../../components/DrawerMenu/DrawerMenu";
 
 function Header() {
-  const matchesWidth = useMediaQuery("(min-width:768px)");
+  //THE MIN WIDTH DEPENDS OF QUANTITY OF ELEMENTS IN HEADER FOR PREVENT OVERFLOW and SCROLL
+  const matchesWidth = useMediaQuery("(min-width:820px)");
 
   const history = useHistory();
   const dispatch = useDispatch();

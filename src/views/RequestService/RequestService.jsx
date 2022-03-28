@@ -47,6 +47,7 @@ import { FIELD_TYPES } from "./components/Form/FormConstants";
 import FormModal from "../../components/FormModal/FormModal";
 import PaymentCard from "./components/PaymentCard/PaymentCard";
 import axios from 'axios';
+import CenterLoading from "../../components/CenterLoading/CenterLoading";
 
 function RequestService() {
   const history = useHistory();
@@ -217,7 +218,7 @@ function RequestService() {
             ...responseFilesUploaded.files.map((item, index) => {
               return {
                 ...item,
-                label: `${FilesOfForm.newFile[index].label} ${index + 1} `
+                label: FilesOfForm.newFile[index].label
               }
             }
             )
@@ -249,7 +250,7 @@ function RequestService() {
                 //dev
               //  acronym: "DPPDE",
                 names: [uploadedFilesRoutes[i].label],
-                activity_id: responseFormSubmit.activity_id
+                activity_id: serviceDescription.activity_id
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
             }
@@ -295,7 +296,7 @@ function RequestService() {
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
 
-  if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return null;
+  if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return <CenterLoading/>;
   return (
     <Container>
       <SmallHeightDivider />

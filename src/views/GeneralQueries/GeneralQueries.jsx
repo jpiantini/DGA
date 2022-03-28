@@ -21,6 +21,8 @@ import Select from '../../components/Select/Select';
 import TextField from '../../components/TextField/TextField';
 import TextInformation from '../../components/TextInformation/TextInformation';
 import FilePDF from './components/FilePDF/FilePDF';
+import { getMapsDataFromWordpress } from '../../api/GeneralQueries';
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 function GeneralQueries() {
 
@@ -30,6 +32,10 @@ function GeneralQueries() {
   const [typeSelectedOption, setTypeSelectedOption] = useState(1);
   const [filterString, setFilterString] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+
+  const { data:mapsData, isLoading:mapsLoading } = useQuery(['mapsData'], () => getMapsDataFromWordpress())
+
+
   const selectOptions = generalQueriesDocumentsMockup.map((option) => {
     return {
       label: option.title,
@@ -63,6 +69,8 @@ function GeneralQueries() {
     dispatch(UpdateAppSubHeaderTitle('Consultas generales')); // TITLE OF SUBHEADER APP
   }, []);
 
+  if (mapsLoading) return <CenterLoading/>
+
   return (
     <Container>
       <ButtonsMenuContainer>
@@ -88,7 +96,7 @@ function GeneralQueries() {
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
             {
-              generalQueriesMapsMockup.map((item) => (
+              mapsData.map((item) => (
                 <Grid item sx={3} sm={4} md={4}>
                   <MapCard {...item} />
                 </Grid>

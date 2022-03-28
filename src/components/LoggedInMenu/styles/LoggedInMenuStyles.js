@@ -10,8 +10,14 @@ export const Container = styled('div')({
 
 export const UserImage = styled('img')({
   borderRadius: '100%',
-  height: '60px',
-  width: '60px',
+  '@media (min-width:768px)': {
+    height: '45px',
+    width: '45px',
+    },
+  '@media (min-width:1200px)': {
+    height: '60px',
+    width: '60px',
+  },
 });
 
 export const StyledPaper = styled(Paper)({

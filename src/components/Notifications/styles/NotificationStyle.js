@@ -9,24 +9,23 @@ import FONTS_FAMILY from '../../../theme/FontsFamily';
 export const Container = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
+  alignSelf:'center',
   cursor:'pointer',
   zIndex:1000,
-  overflow:'hidden',
-
+  width:'50px',
 });
 
 export const StyledNotificationIcon = styled(NotificationsIcon)((props) => ({
-
   color: props.color === 'white' ? COLORS.white : COLORS.black,
   '&:hover,&:focus': {
     color: COLORS.primary,
   },
   '@media (min-width:768px)': {
-    fontSize: '35px',
+    fontSize: '25px',
   },
   '@media (min-width:1200px)': {
-    fontSize: '45px'
+    fontSize: '35px'
   },
 }));
 
