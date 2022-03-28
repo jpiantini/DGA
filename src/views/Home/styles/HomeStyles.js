@@ -37,18 +37,14 @@ export const HomeCenterContent = styled("div")((props) => ({
 
 }));
 
-export const ContainerBackground = styled("div")(props => ({
+export const ContainerVideo = styled("div")(props => ({
   display: "flex",
   flexDirection: "column",
-  textAlign: "center",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
   width: "100%",
+  maxWidth:'1920px',
+  alignSelf:'center',
   minHeight: "70vh",
   justifyContent: "center",
-  backgroundImage: `url(${props.image})`,
-  boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
 }));
 
 export const MediumContainer = styled("div")({

@@ -11,7 +11,7 @@ import {
 } from "./HomeConstants";
 import {
   Container,
-  ContainerBackground,
+  ContainerVideo,
   MediumContainer,
   Title,
   SearcherSubTitle,
@@ -41,6 +41,7 @@ import { getVideoDataFromWordpress, getHomeDataFromWordpress } from "../../api/H
 import { getAllServices } from "../../api/ListOfServicesPerCategory";
 
 import { SmallHeightDivider } from "../../theme/Styles";
+import CenterLoading from "../../components/CenterLoading/CenterLoading";
 
 
 function Home() {
@@ -55,7 +56,7 @@ function Home() {
     history.push(`/app/serviceDescription/${service.id}`)
   };
 
-  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return null
+  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return <CenterLoading/>
 
   const ServicesForSearcher = [
     ...listOfServices[0].services,
@@ -174,7 +175,7 @@ function Home() {
         <div style={{ height: "30px" }} />
       </Container>
 
-      <ContainerBackground>
+      <ContainerVideo>
         <iframe
           width='100%'
           height='700px'
@@ -183,7 +184,7 @@ function Home() {
           loading='lazy'
           src={videoContent?.video_url} />
 
-      </ContainerBackground>
+      </ContainerVideo>
 
       <Footer FooterRoutes={FooterRoutes} />
     </Container>

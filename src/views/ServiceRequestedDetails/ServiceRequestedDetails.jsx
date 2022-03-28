@@ -22,6 +22,7 @@ import { getRequestDetail } from '../../api/ServiceRequestedDetails';
 import { cacheConfig } from '../../cacheConfig';
 import { MenuOptions } from './ServiceRequestedDetailsConstants';
 import Messages from './subViews/messages/Messages';
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 
 function ServiceRequestedDetails() {
@@ -86,7 +87,7 @@ function ServiceRequestedDetails() {
 
     }, [serviceRequestedDetail]);
 
-    if (isLoading) return null;
+    if (isLoading) return <CenterLoading/>;
     return (
         <Container >
             <Row>

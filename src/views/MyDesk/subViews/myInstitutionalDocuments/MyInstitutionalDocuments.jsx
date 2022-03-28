@@ -10,6 +10,7 @@ import { DocumentsContainer, SectionTitle } from '../../styles/MyDeskStyles';
 import { format } from 'date-fns';
 import COLORS from '../../../../theme/Colors';
 import { replaceGuionToSlashFromString } from '../../../../utilities/functions/StringUtil';
+import CenterLoading from '../../../../components/CenterLoading/CenterLoading';
 
 function MyInstitutionalDocuments() {
 
@@ -36,7 +37,7 @@ function MyInstitutionalDocuments() {
     })
 
 
-    if (institutionalDocumentsDataLoading) return null
+    if (institutionalDocumentsDataLoading) return <CenterLoading/>
     return (
         <Fade right >
             <MediumHeightDivider />

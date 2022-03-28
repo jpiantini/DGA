@@ -15,6 +15,7 @@ import Select from '../../../../components/Select/Select';
 import TextField from '../../../../components/TextField/TextField';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CenterLoading from '../../../../components/CenterLoading/CenterLoading';
 
 function MyRequests() {
 
@@ -60,7 +61,7 @@ function MyRequests() {
         setRequestName('')
     }
 
-    if (requestListIsLoading) return null;
+    if (requestListIsLoading) return <CenterLoading/>;
 
     return (
         <Fade right >

@@ -102,16 +102,16 @@ export const transformFileData = (values, plainData) => {
     })
     .filter(field => field.type == FIELD_TYPES.file)
     .map((field) => {
-      field.value.map((file) => {
+      field.value.map((file,index) => {
         if (file?.isARoute) {
           newData.oldFile.push({
             ...file,
-            label: field.label,
+            label: `${field.label} ${index +1}`,
           })
         } else {
           newData.newFile.push({
             file,
-            label: field.label,
+            label: `${field.label} ${index +1}`,
           })
         }
       });

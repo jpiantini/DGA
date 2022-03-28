@@ -33,6 +33,7 @@ import { Box, Grid, Rating } from '@mui/material';
 import { hourIn24To12hours, priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
 import IconButton from '@mui/material/IconButton';
 import { useReactToPrint } from "react-to-print";
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -92,7 +93,7 @@ function ServiceDescription() {
 
     }, [serviceDescription]);
 
-    if (isLoading) return null;
+    if (isLoading) return <CenterLoading/>;
 
     return (
         <Container >

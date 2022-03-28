@@ -20,6 +20,8 @@ import TextField from '../../components/TextField/TextField';
 import { useQuery } from 'react-query'
 import { getContactDataFromWordpress } from '../../api/Contact';
 import PhoneTextField from '../../components/PhoneTextField/PhoneTextField';
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
+
 
 function Contact() {
 
@@ -48,7 +50,7 @@ function Contact() {
     dispatch(UpdateAppSubHeaderTitle('Contacto')); // TITLE OF SUBHEADER APP
   }, []);
 
-  if (isLoading) return null;
+  if (isLoading) return <CenterLoading/>
 
   return (
     <Container>

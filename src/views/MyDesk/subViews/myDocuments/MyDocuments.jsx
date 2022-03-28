@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import COLORS from '../../../../theme/Colors';
 import { cacheConfig } from '../../../../cacheConfig';
 import { replaceGuionToSlashFromString } from '../../../../utilities/functions/StringUtil';
+import CenterLoading from '../../../../components/CenterLoading/CenterLoading';
 
 function MyDocuments() {
 
@@ -39,7 +40,7 @@ function MyDocuments() {
         }
     })
 
-    if (documentsDataLoading) return null
+    if (documentsDataLoading) return <CenterLoading/>
     return (
         <Fade right >
             <MediumHeightDivider />
