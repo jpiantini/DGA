@@ -207,7 +207,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             <FormGroup >
 
                                 <StyledButton onClick={handleSelectedFilesModalVisibility}>
-                                    Ver archivos seleccionados ({value?.length || 0})
+                                   {value?.length > 0 ? `Ver archivos seleccionados (${value?.length})` :'No hay archivos seleccionados'} 
                                 </StyledButton>
                                 <FormHelperText>{helperText}</FormHelperText>
                             </FormGroup >
