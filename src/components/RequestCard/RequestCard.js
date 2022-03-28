@@ -75,14 +75,17 @@ function RequestCard({ statusID, title, date, company, requestCode, status, onCl
             <RowContainer>
                 <ProgressBarContainer>
                     <ProgressBarTitle variant={localVariant.variant}>
-                        {   //STATUSID 8 IS REJECTED
-                            statusID != 8 ?
-                                percent + ' COMPLETADO'
-                                :
+                        {   //STATUSID 8 IS REJECTED and 10 is canceled
+                            statusID == 8 ?
                                 'RECHAZADO'
+                                :
+                                statusID == 10 ?
+                                    'CANCELADO'
+                                    :
+                                    percent + ' COMPLETADO'
                         }
                     </ProgressBarTitle>
-                    <ProgressBarPercent variant={localVariant.variant} percent={percent} />
+                    <ProgressBarPercent variant={localVariant.variant} percent={statusID == 8 || statusID == 10 ? '100' : percent} />
                 </ProgressBarContainer>
             </RowContainer>
             <SmallHeightDivider />

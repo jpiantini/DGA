@@ -45,6 +45,7 @@ export const CenterContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   width: "80%",
+  maxWidth:'1920px',
 });
 
 export const TitleDivider = styled("div")({

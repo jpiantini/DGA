@@ -69,6 +69,9 @@ function ServiceRequestedDetails() {
             if (serviceRequestedDetail.request.request_actions_id == 5) {
                 setActiveMenu(MenuOptions.payment);
             }
+            if (serviceRequestedDetail.request.request_actions_id == 7) {
+                setActiveMenu(MenuOptions.payment);
+            }
             //Without required action
             if (serviceRequestedDetail.request.request_actions_id == null) {
                 setActiveMenu(MenuOptions.details);

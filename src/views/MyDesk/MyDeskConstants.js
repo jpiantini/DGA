@@ -1,4 +1,20 @@
-
+export const requestFilterTypes = [
+    {
+        value:1,
+        label:'En proceso',
+        variantTypes:[1,2,3,4,5,6,9]
+    },
+    {
+        value:2,
+        label:'Completadas',
+        variantTypes:[7]
+    },
+    {
+        value:3,
+        label:'Rechazadas',
+        variantTypes:[8,10]
+    },
+]
 
 export const MockupInProcessRequests = [
     {

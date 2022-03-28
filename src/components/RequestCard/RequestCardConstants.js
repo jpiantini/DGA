@@ -36,7 +36,7 @@ export const variantStatus = [
         variant:"success"
     },
     {
-        id:9,
+        id:8,
         description:"Rechazado",
         variant:"rejected"
     },

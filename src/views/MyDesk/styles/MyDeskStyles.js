@@ -86,3 +86,11 @@ export const DocumentsContainer = styled('div')({
     alignItems:'center'
 });
 
+
+export const ListContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems:'center'
+});
+
+

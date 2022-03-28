@@ -34,6 +34,13 @@ const routes = [
     loginRequired: false,
   },
   {
+    path: "/requestPassword",
+    component: RequestPassword,
+    exact: true,
+    layout: "/public",
+    loginRequired: false,
+  },
+  {
     path: "/register",
     component: Register,
     exact: true,
@@ -119,13 +126,14 @@ const routes = [
     layout: "/app",
     loginRequired: true,
   },
-  {
+ /* {
     path: "/requestedServicesList/:servicesStatus",
     component: RequestedServiceList,
     exact: true,
     layout: "/app",
     loginRequired: true,
   },
+  */
   {
     path: "/validatePayment",
     component: ValidatePayment,

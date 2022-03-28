@@ -128,7 +128,6 @@ function Payment() {
                             <LogoImage src={siritLogo} />
                         </ImageContainer>
                     </Grid>
-
                 }
                 {
                     requestData.request.service.external_pay !== 0 &&

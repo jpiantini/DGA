@@ -245,9 +245,9 @@ function RequestService() {
                 record_id: responseFormSubmit.SoftExpertResponse.record_id,
                 attribute: responseFormSubmit.attributes,
                 process_id: serviceDescription.process_id,
-                // acronym: responseFormSubmit.acronym,
+                 acronym: responseFormSubmit.acronym,
                 //dev
-                acronym: "DPPDE",
+              //  acronym: "DPPDE",
                 names: [uploadedFilesRoutes[i].label],
                 activity_id: responseFormSubmit.activity_id
               }
