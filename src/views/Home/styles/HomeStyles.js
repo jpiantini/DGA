@@ -269,6 +269,7 @@ export const AnalyticsContainer = styled("div")({
   flexDirection: "row",
   alignSelf: "center",
   width: "100%",
+  maxWidth: "1920px",
   justifyContent: "space-evenly",
 });
 
@@ -372,6 +373,7 @@ export const CenterContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   width: "85%",
+  maxWidth: "1920px",
   alignSelf: "center",
   padding: "10px",
 });

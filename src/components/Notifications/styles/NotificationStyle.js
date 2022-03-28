@@ -11,7 +11,8 @@ export const Container = styled('div')({
   flexDirection: 'column',
   alignItems: 'flex-start',
   cursor:'pointer',
-  zIndex:1000
+  zIndex:1000,
+  overflow:'hidden',
 
 });
 

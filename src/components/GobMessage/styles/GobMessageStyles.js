@@ -20,6 +20,7 @@ export const LineContainer = styled('div')({
     flexDirection: 'row',
     alignItems: 'center',
     width: '80%',
+    maxWidth:'1920px',
     justifyContent: 'space-between',
     '@media (min-width:320px)': {
         flexDirection: 'column',

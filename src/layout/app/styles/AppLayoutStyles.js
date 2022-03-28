@@ -11,7 +11,7 @@ export const LayoutContainer = styled('div')({
 export const LayoutBodyContainer = styled('div')({
     display:'flex',
     width: '85%',
-    minHeight:'100vh',
+    maxWidth:'1920px',
     alignSelf: 'center',
     justifyContent:'center'
 })

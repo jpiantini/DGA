@@ -11,6 +11,7 @@ export const Container = styled("div")({
   alignSelf: "flex-end",
   marginTop: "40px",
   marginRight: "7%",
+  maxWidth:'1920px',
   "@media (min-width:360px)": {
     right: "3%",
     marginTop: "80px",

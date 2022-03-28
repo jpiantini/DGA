@@ -41,13 +41,13 @@ function Login() {
     const formik = useFormik({
         initialValues: {
             //DEVELOPMENT COMMENT OR REMOVE
-            id:'01122222221',
-            password: '12345678'
+          //  id:'01122222221',
+          //  password: '12345678'
            
-          /*  
+           
             id: '',
             password: '' 
-            */
+            
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {
@@ -57,13 +57,13 @@ function Login() {
 
     const handleLogin = async (formData) => {
         try {
+            dispatch(ShowGlobalLoading('Iniciando sesión'));
             let response = await apiCall().post('/auth/login',
                 {
                     citizen_id: formData.id,
                     password: formData.password,
                 });
             if (response.data?.success) {
-                dispatch(ShowGlobalLoading('Iniciando sesión'));
                 LocalStorageService.setItem('token', response.data?.payload.token);
                 if (response.data?.payload.profile_img == null || response.data?.payload.profile_img === "N/A") {
                     LocalStorageService.setItem('profile_img', userLogo);
@@ -97,6 +97,7 @@ function Login() {
                 }))
                 dispatch(HideGlobalLoading());
             } else {
+                dispatch(HideGlobalLoading());
                 setErrorMessage(response.data?.msg);
             }
         } catch (error) {

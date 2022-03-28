@@ -19,6 +19,7 @@ export const LineContainer = styled('div')({
   flexDirection: 'row',
   alignItems: 'center',
   width: '80%',
+  maxWidth:'1920px',
   justifyContent: 'space-between',
 });
 

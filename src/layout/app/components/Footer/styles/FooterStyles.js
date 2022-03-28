@@ -49,5 +49,7 @@ export const CenterContainer = styled("div")({
   display: "flex",
   flexDirection: "column",
   width: "100%",
+  maxWidth:'1920px',
+  alignSelf:'center',
   alignItems: "center",
 });
