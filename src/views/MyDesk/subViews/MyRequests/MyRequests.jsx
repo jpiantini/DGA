@@ -16,6 +16,7 @@ import TextField from '../../../../components/TextField/TextField';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CenterLoading from '../../../../components/CenterLoading/CenterLoading';
+import { cacheConfig } from '../../../../cacheConfig';
 
 function MyRequests() {
 
@@ -38,7 +39,9 @@ function MyRequests() {
 
     const { data: requestsList, isLoading: requestListIsLoading } =
         useQuery(['requestsList', requestType, stringFilter, currentPage], () =>
-            getRequestedServicesWithFilters(userData.payload.citizen_id, currentPage, requestType, stringFilter));
+            getRequestedServicesWithFilters(userData.payload.citizen_id, currentPage, requestType, stringFilter),{
+                staleTime:cacheConfig.staleTimeForRequestedServicesList
+            });
 
     const handleTypeChange = (value) => {
         setRequestType(value.target.value);
