@@ -1,4 +1,4 @@
-import { useState, useRef, memo, useEffect,Fragment } from 'react';
+import { useState, useRef, memo, useEffect, Fragment } from 'react';
 import Grow from '@mui/material/Grow';
 import Popper from '@mui/material/Popper';
 import MenuList from '@mui/material/MenuList';
@@ -11,26 +11,51 @@ import {
 import { getRecentNotificationsLenght, MockupNotifications } from './NotificationsConstants'
 import { Badge } from '@mui/material';
 import useOnClickOutside from '../../utilities/hooks/useOnClickOutside'
+import LocalStorageService from '../../services/LocalStorageService';
+import { getNotifications, removeNotification } from '../../api/Notifications';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
 function Notifications({ color }) {
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [citizenID, setCitizenID] = useState();
   const containerRef = useRef(null);
+  const queryClient = useQueryClient()
 
-  const PendingNotifications = getRecentNotificationsLenght();
+  const { data, isLoading } = useQuery(['notificationsData', citizenID], () => getNotifications(citizenID), {
+    enabled: citizenID === undefined ? false : true
+  })
+  const mutation = useMutation(removeNotification);
 
   const handleMenuOpen = () => {
-      setMenuOpen(!menuOpen);
+    setMenuOpen(!menuOpen);
   }
 
   useOnClickOutside(containerRef, () => setMenuOpen(false));
 
+  const handleNotificationClick = async (item) => {
+    mutation.mutate({
+      citizenID,
+      requestData: {
+        notification: item.notification_id
+      }
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('notificationsData')
+      },
+    })
+    history.push(`/app/serviceRequestedDetails/${item["iD de solicitud"]}`)
+  }
+
+  useEffect(() => {
+    setCitizenID(LocalStorageService.getItem('user_cedula'));
+  }, []);
   return (
     <Container ref={containerRef} onClick={handleMenuOpen}>
-
-      <Badge badgeContent={PendingNotifications} color='secondary' overlap="circular">
+      <Badge badgeContent={data?.notifications?.length} color='secondary' overlap="circular">
         <StyledNotificationIcon color={color} />
       </Badge>
       <Popper
@@ -52,13 +77,19 @@ function Notifications({ color }) {
             <StyledPaper>
               <MenuList>
                 {
-                  MockupNotifications.map((item,index) => (
-                      <NotificationContainer key={index} onClick={item.action} isRecent={item.isRecent}>
-                        <NotificationTitle>{item.title}</NotificationTitle>
-                        <NotificationText>{item.body}</NotificationText>
+                  data?.notifications?.length > 0 ?
+                    data.notifications?.map((item, index) => (
+                      <NotificationContainer key={index} onClick={() => handleNotificationClick(item)} isRecent={true}>
+                        <NotificationTitle>{item.Evento}</NotificationTitle>
+                        <NotificationText>{item.title}</NotificationText>
                         <Divider sx={{ width: '100%' }} />
                       </NotificationContainer>
-                  ))
+                    ))
+                    :
+                    <NotificationContainer isRecent={true}>
+                      <NotificationTitle>No hay notificaciones</NotificationTitle>
+                    </NotificationContainer>
+
                 }
               </MenuList>
             </StyledPaper>

@@ -37,10 +37,11 @@ export const StyledPaper = styled(Paper)({
 
 export const NotificationContainer = styled('div')(props =>({
   paddingTop:'20px',
+  wordWrap:'break-word',
   display:'flex',
   flexDirection:'column',
   textAlign:'left',
-  width:'380px',
+  width:'400px',
   minHeight:'10px',
   backgroundColor: props.isRecent ? COLORS.white : COLORS.fieldGray,
   '&:hover':{
@@ -58,6 +59,7 @@ export const NotificationTitle = styled('h3')({
   fontSize: '15px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
+  overflowWrap: 'break-word',
   display: '-webkit-box',
   WebkitLineClamp: 1, /* number of lines to show */
   '-webkit-box-orient': 'vertical',
@@ -73,6 +75,7 @@ export const NotificationText = styled('p')({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   display: '-webkit-box',
+  overflowWrap: 'break-word',
   WebkitLineClamp: 3, /* number of lines to show */
   '-webkit-box-orient': 'vertical',
 });

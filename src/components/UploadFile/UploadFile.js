@@ -28,7 +28,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
     const [selectedFilesModalIsOpen, setSelectedFilesModalIsOpen] = useState(false);
     const [myDocumentsModalIsOpen, setMyDocumentsModalIsOpen] = useState(false);
-    const [selectedFiles, setSelectedFiles] = useState(value ? value:[]);
+    const [selectedFiles, setSelectedFiles] = useState(value ? value : []);
     const [selectedFileName, setSelectedFileName] = useState(value?.[0]?.name);
 
     const extensionForField = types.find((type) => type.includes(extension));
@@ -151,7 +151,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
 
     const handleSelectedFilesModalVisibility = () => {
-        console.log(value)
         setSelectedFilesModalIsOpen(!selectedFilesModalIsOpen);
     }
 
@@ -204,13 +203,11 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             <RowContainer>
                 {
                     multipleDocuments ?
-
-
                         <FormControl fullWidth disabled={disabled} required={required} error={error} component='fieldset' variant='standard'>
                             <FormGroup >
 
                                 <StyledButton onClick={handleSelectedFilesModalVisibility}>
-                                    Ver archivos seleccionados
+                                   {value?.length > 0 ? `Ver archivos seleccionados (${value?.length})` :'No hay archivos seleccionados'} 
                                 </StyledButton>
                                 <FormHelperText>{helperText}</FormHelperText>
                             </FormGroup >

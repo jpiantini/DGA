@@ -246,11 +246,10 @@ function RequestService() {
                 record_id: responseFormSubmit.SoftExpertResponse.record_id,
                 attribute: responseFormSubmit.attributes,
                 process_id: serviceDescription.process_id,
-                 acronym: responseFormSubmit.acronym,
-                //dev
-              //  acronym: "DPPDE",
+                acronym: responseFormSubmit.acronym,
                 names: [uploadedFilesRoutes[i].label],
-                activity_id: serviceDescription.activity_id
+                activity_id: serviceDescription.activity_id,
+                new_request:true
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
             }

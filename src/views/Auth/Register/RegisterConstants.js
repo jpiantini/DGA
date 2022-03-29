@@ -28,7 +28,7 @@ export const FormSchema =
       municipality_id: yup.string().required('Este campo es requerido'),
       sector_id: yup.string().required('Este campo es requerido'),
       phone: yup.string().required('Este campo es requerido'),
-      phone2: yup.string(),
+      phone2: yup.string().notOneOf([yup.ref('phone')],'El teléfono secundario no puede ser igual al teléfono primario'),
       email2: yup.string().email('Ingrese un email valido'),
       address: yup.string().required('Este campo es requerido'),
     }).required()

@@ -75,7 +75,7 @@ function Home() {
       <Header />
       <HomeContainer image={homeContent.image_url}>
         <HomeCenterContent>
-        <Title>PORTAL DE SERVICIOS - MITUR</Title>
+        <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS (UCTT)- MITUR</Title>
         <SmallHeightDivider/>
         <SmallHeightDivider/>
         <SearcherContainer>
