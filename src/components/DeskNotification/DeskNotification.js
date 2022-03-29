@@ -12,6 +12,7 @@ import {
     IconContainer
 } from './styles/DeskNotificationStyles';
 import Slide from 'react-reveal/Slide';
+import parse from 'html-react-parser';
 
 function DeskNotification({ variant, message, onClose, disableAnimation, disableCloseButton }) {
 
@@ -42,7 +43,7 @@ function DeskNotification({ variant, message, onClose, disableAnimation, disable
                     </IconContainer>
                     <Text >
                         {
-                            message ? message :
+                            message ? parse(message) :
                             ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                         }
                        

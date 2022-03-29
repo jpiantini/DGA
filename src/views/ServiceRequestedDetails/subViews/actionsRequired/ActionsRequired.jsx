@@ -67,7 +67,8 @@ function ActionsRequired() {
                 names: [
                     "Documento de accion requerida"
                 ],
-                activity_id: requestData.request.activity.activity_id
+                activity_id: requestData.request.activity.activity_id,
+                new_request:false
             }
             dispatch(ShowGlobalLoading('Procesando'));
             let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
@@ -115,11 +116,12 @@ function ActionsRequired() {
                     record_id: requestData.request.code,
                     attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
                     process_id: requestData.request.service.process_id,
-                    acronym: "DPPDE", //requestData.request.service.institution.acronym,
+                    acronym: requestData.request.service.institution.acronym,
                     names: [
                         "Documento de accion requerida"
                     ],
-                    activity_id: requestData.request.activity.activity_id
+                    activity_id: requestData.request.activity.activity_id,
+                    new_request:false
                 }
                 dispatch(ShowGlobalLoading('Procesando'));
                 let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);

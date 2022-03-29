@@ -25,12 +25,14 @@ import transferenciaLogo from '../../../../assets/images/transferenciaLogo.png'
 import depositoLogo from '../../../../assets/images/depositoLogo.png'
 import FormModal from '../../../../components/FormModal/FormModal';
 import UploadFile from '../../../../components/UploadFile/UploadFile';
-import { linkingDocumentsToRequestInBackOffice, uploadFormDocuments } from '../../../../api/RequestService'
+import { linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, uploadFormDocuments } from '../../../../api/RequestService'
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
+import { useSnackbar } from 'notistack';
 
 function Payment() {
     const dispatch = useDispatch()
+    const { enqueueSnackbar } = useSnackbar();
     let { requestID } = useParams();
     const queryClient = useQueryClient()
     const cleanRequestID = requestID.replace('payment', '');
@@ -90,29 +92,67 @@ function Payment() {
     }
 
     const uploadVoucher = async (data) => {
-
         const formFilesData = new FormData();
         formFilesData.append(
             "file[]",
-            data.file,
-            data.file.name
+            data.file[0],
+            data.file[0].name
         );
-        dispatch(ShowGlobalLoading('Subiendo documento'));
-        let responseFilesUpload = await uploadFormDocuments(formFilesData);
-        if (responseFilesUpload.success) {
-            let request = {
-                voucher: true,
-                documents: responseFilesUpload.files.map((file, index) => {
-                    return {
-                        ...file,
-                        label: "Comprobante de pago"
+        try {
+            dispatch(ShowGlobalLoading('Subiendo documento'));
+            let responseFilesUpload = await uploadFormDocuments(formFilesData);
+            if (responseFilesUpload.success) {
+                const softExpertRequest = {
+                    documents: [
+                        {
+                            ...responseFilesUpload.files[0],
+                            label: "Comprobante de pago"
+                        }
+                    ],
+                    title: `documento-${userData.payload.citizen_id}`,
+                    record_id: requestData.request.code,
+                    attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
+                    process_id: requestData.request.service.process_id,
+                    acronym: requestData.direction.name + "DE",
+                    names: [
+                        "Comprobante de pago"
+                    ],
+                    activity_id: requestData.request.activity.activity_id,
+                    new_request: false
+                }
+
+                let softExpertResponse = await linkingDocumentsToRequestInSoftExperted(softExpertRequest, requestID);
+                if (softExpertResponse.success) {
+                    let request = {
+                        voucher: true,
+                        documents: responseFilesUpload.files.map((file, index) => {
+                            return {
+                                ...file,
+                                label: "Comprobante de pago"
+                            }
+                        }),
                     }
-                }),
-            };
-            await linkingDocumentsToRequestInBackOffice(request, requestID);
+
+                    let linkBackOffice = await linkingDocumentsToRequestInBackOffice(request, requestID);
+                    if (linkBackOffice.success) {
+                        enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
+                    } else {
+                        enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+                    }
+                } else {
+                    enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+                }
+                setModalPaymentIsOpen(false)
+                dispatch(HideGlobalLoading());
+            } else {
+                enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+            }
+        } catch (error) {
+            enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
             setModalPaymentIsOpen(false)
             dispatch(HideGlobalLoading());
         }
+
     }
 
     return (

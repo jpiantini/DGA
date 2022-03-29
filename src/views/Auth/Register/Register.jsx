@@ -22,7 +22,7 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { Grid } from '@mui/material';
+import { Grid, IconButton, InputAdornment } from '@mui/material';
 import Select from '../../../components/Select/Select';
 import TextField from '../../../components/TextField/TextField';
 import RadioButtonGroup from '../../../components/RadioButtonGroup/RadioButtonGroup';
@@ -36,6 +36,7 @@ import parse from 'html-react-parser';
 import { useSnackbar } from 'notistack';
 import PhoneTextField from '../../../components/PhoneTextField/PhoneTextField';
 import { cedulaValidationService } from '../../../api/RenderField';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function Register() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -56,13 +57,11 @@ function Register() {
     const [provincesData, setProvincesData] = useState([]);
     const [municipalitiesData, setMunicipalitiesData] = useState([]);
     const [sectorsData, setSectorsData] = useState([]);
-
     const [questionsData, setQuestionsData] = useState([]);
-
     const [wordpressContent, setWordpressContent] = useState();
-
     const [isValidatingCedula, setIsValidatingCedula] = useState(false);
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
 
     const getAndSetAllWordPressContent = async () => {
         let data = await wpCall().get("/pages/v1/page/terminos-y-condiciones");
@@ -94,6 +93,9 @@ function Register() {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep == 0 ? 1 : prevActiveStep - 1);
     };
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleClickShowRepeatedPassword = () => setShowRepeatedPassword(!showRepeatedPassword);
 
     const formik = useFormik({
         initialValues: {
@@ -402,23 +404,41 @@ function Register() {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Contraseña" type="password" id="password"
+                            <TextField title="Contraseña" type={showPassword ? "text":"password"} id="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 error={formik.touched.password && Boolean(formik.errors.password)}
                                 helperText={formik.touched.password && formik.errors.password}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClickShowPassword}
+                                        >
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
                                 required
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Confirmar contraseña" type="password" id="password_confirmation"
+                            <TextField title="Confirmar contraseña" type={showRepeatedPassword ? "text":"password"} id="password_confirmation"
                                 value={formik.values.password_confirmation}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 error={formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)}
                                 helperText={formik.touched.password_confirmation && formik.errors.password_confirmation}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClickShowRepeatedPassword}
+                                        >
+                                            {showRepeatedPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
                                 required
                             />
                         </Grid>
@@ -489,17 +509,6 @@ function Register() {
                             </Grid>
 
                             <Grid item xs={8} sm={4} md={6}>
-                                <TextField title="Ocupación" type="text" id="occupation"
-                                    value={formik.values.occupation}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.occupation && Boolean(formik.errors.occupation)}
-                                    helperText={formik.touched.occupation && formik.errors.occupation}
-                                //required
-                                />
-                            </Grid>
-
-                            <Grid item xs={8} sm={4} md={6}>
                                 <Select title="Provincia" type="text" id="province_id"
                                     data={provincesData}
                                     value={formik.values.province_id}
@@ -546,7 +555,7 @@ function Register() {
                                 />
                             </Grid>
 
-                            <Grid item xs={8} sm={8} md={12}>
+                            <Grid item xs={8} sm={8} md={6}>
                                 <TextField title="Dirección" type="text" id="address"
                                     value={formik.values.address}
                                     onChange={formik.handleChange}
@@ -554,7 +563,6 @@ function Register() {
                                     error={formik.touched.address && Boolean(formik.errors.address)}
                                     helperText={formik.touched.address && formik.errors.address}
                                     required
-                                    multiline
                                 />
                             </Grid>
 
@@ -563,6 +571,7 @@ function Register() {
                                     required
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.phone && Boolean(formik.errors.phone)}
                                     helperText={formik.touched.phone && formik.errors.phone}
                                 />
@@ -572,6 +581,7 @@ function Register() {
                                 <PhoneTextField title="Teléfono de contacto secundario" type="text" id="phone2"
                                     value={formik.values.phone2}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.phone2 && Boolean(formik.errors.phone2)}
                                     helperText={formik.touched.phone2 && formik.errors.phone2}
                                 />
