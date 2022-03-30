@@ -199,6 +199,7 @@ const RenderField = (props) => {
           </Grid>
         )
       case FIELD_TYPES.checkboxGroup:
+        console.log(props.value)
         return (
           <Grid item xs={3} sm={6} md={6}>
             <CheckBoxGroup

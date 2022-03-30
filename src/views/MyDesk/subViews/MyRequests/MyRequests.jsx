@@ -1,5 +1,4 @@
 import { useState, Fragment, useRef, useLayoutEffect } from 'react';
-import TextInformation from '../../../../components/TextInformation/TextInformation';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MediumHeightDivider, Row, SmallHeightDivider, StyledButtonOutlined, StyledPagination } from '../../../../theme/Styles';
 import { useHistory } from 'react-router';
@@ -7,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MockupCompletedRequests, MockupInProcessRequests, MockupRejectedRequests, requestFilterTypes } from '../../MyDeskConstants';
 import RequestCard from '../../../../components/RequestCard/RequestCard';
 import Fade from 'react-reveal/Fade';
-import { ListContainer, SectionTextDivider, SectionTitle } from '../../styles/MyDeskStyles';
+import { ListContainer, SectionTitle } from '../../styles/MyDeskStyles';
 import { useQuery, useQueryClient } from 'react-query';
 import { getRequestedServicesWithFilters } from '../../../../api/RequestedServiceList';
 import COLORS from '../../../../theme/Colors';
@@ -27,9 +26,6 @@ function MyRequests() {
     const queryClient = useQueryClient();
     const userData = queryClient.getQueryData(['userData']);
 
-    //completado,cancelado,en proceso
-    const [isLoading, setIsLoading] = useState(true);
-
     const [requestType, setRequestType] = useState(1);
     const [requestName, setRequestName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -44,9 +40,9 @@ function MyRequests() {
             });
 
     const handleTypeChange = (value) => {
+        handlePageChange(1);
         setRequestType(value.target.value);
         setRequestName('');
-        handlePageChange(1);
         titleRef.current.scrollIntoView()
     }
 
@@ -56,6 +52,7 @@ function MyRequests() {
     }
 
     const handleStringFilter = () => {
+        handlePageChange(1);
         setStringFilter(requestName)
     }
 
