@@ -99,8 +99,8 @@ function ActionsRequired() {
             const formFileData = new FormData();
             formFileData.append(
                 "file[]",
-                values.file,
-                values.file.name
+                values.file[0],
+                values.file[0].name
             );
             dispatch(ShowGlobalLoading('Subiendo documentos'));
             let responseFilesUpload = await uploadFormDocuments(formFileData);
@@ -116,7 +116,7 @@ function ActionsRequired() {
                     record_id: requestData.request.code,
                     attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
                     process_id: requestData.request.service.process_id,
-                    acronym: requestData.request.service.institution.acronym,
+                    acronym: requestData.direction.name + "DE",
                     names: [
                         "Documento de accion requerida"
                     ],
