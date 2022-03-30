@@ -28,7 +28,7 @@ import { InformationFormSchema } from './MessagesConstants';
 import TextField from '../../../../components/TextField/TextField';
 import { useQueryClient, useMutation } from 'react-query';
 import { useSnackbar } from 'notistack';
-import { sendRequiredAction } from '../../../../api/ActionRequired';
+import { sendMessage } from '../../../../api/ActionRequired';
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 import { IconButton } from '@mui/material';
@@ -49,7 +49,7 @@ function Messages() {
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
     const userData = queryClient.getQueryData(['userData']);
 
-    const actionRequiredMutation = useMutation(sendRequiredAction, {
+    const messageMutation = useMutation(sendMessage, {
         onMutate: (req) => {
             dispatch(ShowGlobalLoading('Cargando'));
         }
@@ -67,11 +67,10 @@ function Messages() {
 
     const handleSubmit = (values) => {
         const reqData = {
-            entityAttributeId: 'response',
-            entityAttributeValue: values.information,
-            requestId: requestData.request.id,
+            request_id: requestData.request.id,
+            text: values.information
         }
-        actionRequiredMutation.mutate(reqData, {
+        messageMutation.mutate(reqData, {
             onSuccess: () => {
                 enqueueSnackbar("Información requerida enviada satisfactoriamente", { variant: "success" })
                 queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
