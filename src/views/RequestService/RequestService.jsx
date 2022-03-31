@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect, useRef } from "react";
+import { useState, useLayoutEffect, useEffect, useRef, Fragment } from "react";
 import {
   BodyText,
   BodyTextBold,
@@ -34,13 +34,13 @@ import TextInformation from "../../components/TextInformation/TextInformation";
 import { Dialog, Grid, Rating } from "@mui/material";
 import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { addRating, getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
 import { cleanStringFromNumbers, localToNumber } from '../../utilities/functions/NumberUtil';
-import { transformFileData, transformFormData, transformFormGrid } from "./RequestServiceUtils";
+import { reverseTransformFormData, reverseTransformFormGrid, transformFileData, transformFormData, transformFormGrid } from "./RequestServiceUtils";
 import { cleanString } from "../../utilities/functions/StringUtil";
 import { useSnackbar } from "notistack";
 import { FIELD_TYPES } from "./components/Form/FormConstants";
@@ -48,29 +48,36 @@ import FormModal from "../../components/FormModal/FormModal";
 import PaymentCard from "./components/PaymentCard/PaymentCard";
 import axios from 'axios';
 import CenterLoading from "../../components/CenterLoading/CenterLoading";
+import { getDraftsList, saveDraft } from "../../api/Drafts";
+import { isEmpty } from "../../utilities/functions/ValidationUtil";
+import ImportantInformationModal from "../../components/ImportantInformationModal/ImportantInformationModal";
 
 function RequestService() {
   const history = useHistory();
   let { serviceID } = useParams();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient()
 
   const successRef = useRef(null)
+  const formRef = useRef(null);
+  const [showRestoreFormModal, setShowRestoreFormModal] = useState(false);
+  const [isDraft, setIsDraft] = useState(false);
+  const [draftLoading, setDraftLoading] = useState(false);
 
   const [priceModalIsOpen, setPriceModalIsOpen] = useState(true);
   const [selectedVariation, setSelectedVariation] = useState();
-
   const [showRequestDetail, setShowRequestDetail] = useState(false);
-
   const [successResponse, setSuccessResponse] = useState();
-  const [ratingValue, setRatingValue] = useState('0,00');
-
-
-  const handleSelectVariation = (val) => {
-    handleModalVisibility();
-    setSelectedVariation(val)
-  }
-
+  const [state, setState] = useState({
+    rules: [],
+    data: {},
+    grid: {},
+    fakeStep: 0,
+    step: 0,
+    totalPayment: 0,
+    variations: [],
+  })
 
   const { data: userData, isLoading: userDataIsLoading } = useQuery(['userData'], async () => {
     try {
@@ -85,11 +92,10 @@ function RequestService() {
     }
   })
 
-
   const { data: serviceDescription, isLoading: serviceDescriptionIsLoading } = useQuery(['serviceDescription', serviceID], async () => {
     try {
       dispatch(ShowGlobalLoading("Cargando"));
-      const response = await getServiceDescription(serviceID);
+      const response = await getServiceDescription(serviceID, userData.payload.citizen_id);
       dispatch(HideGlobalLoading());
       return response;
     } catch (error) {
@@ -102,7 +108,6 @@ function RequestService() {
   const { data: formData, isLoading } = useQuery(['serviceForm', serviceDescription?.expertform_id], async () => {
     try {
       dispatch(ShowGlobalLoading("Cargando"));
-      //TO DO CHANGE CEDULA FOR LOGGED USER CEDULA
       const response = await getForm(serviceDescription.expertform_id, userData.payload.citizen_id);
       dispatch(HideGlobalLoading());
       return response;
@@ -115,8 +120,24 @@ function RequestService() {
     enabled: serviceDescription != undefined && userData != undefined
   })
 
+  const handleSelectVariation = (val) => {
+    handleModalVisibility();
+    console.log(val)
+    setSelectedVariation(val)
+  }
+
   const handleModalVisibility = () => {
     setPriceModalIsOpen(!priceModalIsOpen);
+  }
+
+  const handleRestoreFormModal = () => {
+    setShowRestoreFormModal(!showRestoreFormModal);
+  }
+
+  const handleRestoreForm = () => {
+    setShowRestoreFormModal(false);
+    setPriceModalIsOpen(false);
+    setIsDraft(true)
   }
 
   const getData = () => {
@@ -149,10 +170,53 @@ function RequestService() {
       data: _data.map(step => step.map(transformField)),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
+      date: Number(new Date())
     }
 
     return result;
   };
+
+  /* const getPayment = () => {
+     let totalPayment = 0
+     const variations= []
+     for (const key in props.servicePrice) {
+       variations.push(localToString(key))
+       totalPayment += localToNumber(props.servicePrice[key])
+     }
+     return {
+       totalPayment: totalPayment,
+       variations: variations,
+     }
+   }
+ */
+
+  const handleFormSave = async () => {
+    const formData = formRef.current?.saveForm()
+    const request = {
+      citizen_id: userData.payload.citizen_id,
+      service_id: serviceDescription.id,
+      expertform_id: serviceDescription.expertform_id,
+      //@ts-ignore
+      data: transformFormData(formData?.values, getData().plainData, formData?.errors).filter((field) => field.type !== FIELD_TYPES.file),
+      //@ts-ignore
+      grid: transformFormGrid(formData?.values, getData().plainData),
+      appliedRuleList: [...new Set(localToArray(formData?.appliedRuleList))],
+      fakeStep: formData?.fakeStep,
+      step: formData?.step,
+    }
+    if (isEmpty(request.data)) {
+      return
+    }
+    try {
+      const response = await saveDraft(request)
+      if (response?.success) {
+        console.log("guardado en backend")
+      }
+    } catch (error) {
+
+    }
+  }
+
 
   const sendRequest = async (formData) => {
     const request = {
@@ -249,7 +313,7 @@ function RequestService() {
                 acronym: responseFormSubmit.acronym,
                 names: [uploadedFilesRoutes[i].label],
                 activity_id: serviceDescription.activity_id,
-                new_request:true
+                new_request: true
               }
               uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
             }
@@ -273,6 +337,7 @@ function RequestService() {
           if (canFormContinue) {
             enqueueSnackbar("Solicitud enviada satisfactoriamente.", { variant: 'success' })
             //     history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}payment`)
+            queryClient.invalidateQueries('serviceForm')
             setSuccessResponse(responseFormSubmit);
             setShowRequestDetail(true);
             successRef.current.scrollIntoView()
@@ -290,12 +355,48 @@ function RequestService() {
     dispatch(HideGlobalLoading());
   }
 
+  //componentDidUpdate
+  useEffect(() => {
+    if (formData === undefined) {
+      return
+    }
+    if (localToArray(getData()?.saved_fields?.data).length > 0 && isDraft !== true) {
+      setShowRestoreFormModal(true);
+      return;
+    }
+    if (!localToArray(getData()?.plainData).length || !getData()?.saved_fields || !localToArray(getData()?.saved_fields?.data).length || isDraft === false) {
+      return
+    }
+
+    const { appliedRuleList, data, grid, fakeStep, step } = getData()?.saved_fields
+    // const { totalPayment, variations } = getPayment()
+    dispatch(ShowGlobalLoading("Restableciendo"))
+    setDraftLoading(true);
+    setState({
+      rules: localToArray(appliedRuleList),
+      fakeStep: localToNumber(fakeStep),
+      data: reverseTransformFormData(data, getData()?.plainData),
+      grid: reverseTransformFormGrid(grid, getData()?.plainData),
+      step: localToNumber(step),
+      //    totalPayment: totalPayment,
+      //    variations: variations,
+    })
+    setTimeout(() => {
+      //Simulate loading for 2.5s 
+      //Bug with react 17 for update somes components value is needed unmount and mount the Form component
+      setDraftLoading(false);
+      dispatch(HideGlobalLoading())
+    }, 2500);
+
+    return () => { }
+  }, [formData, isDraft])
+
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
     dispatch(UpdateAppSubHeaderTitle(serviceDescription?.name));
   }, [serviceDescription]);
 
-  if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return <CenterLoading/>;
+  if (isLoading || serviceDescriptionIsLoading || userDataIsLoading) return <CenterLoading />;
   return (
     <Container>
       <SmallHeightDivider />
@@ -303,13 +404,36 @@ function RequestService() {
       {
         !showRequestDetail ?
           <Container>
-            <Form
-              doRequest={sendRequest}
-              data={getData().data}
-              plainData={getData().plainData}
-              setPriceModalIsOpen={setPriceModalIsOpen}
-              multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
-            />
+            {
+              draftLoading ?
+                null
+                :
+                <Form
+                  ref={formRef}
+                  doRequest={sendRequest}
+                  data={getData().data}
+                  plainData={getData().plainData}
+                  setPriceModalIsOpen={setPriceModalIsOpen}
+                  handleFormSave={handleFormSave}
+                  multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
+                  initialForm={state}
+                />
+            }
+            <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
+              onCloseClick={handleRestoreFormModal} CloseTitle="Cancelar" CloseButton
+              buttonTitle="Confirmar" buttonClick={handleRestoreForm} content={
+                <Fragment>
+                  <strong>
+                    Se ha encontrado información previa de una solicitud sin terminar.
+                  </strong>
+                  <br />
+                  <strong>
+                    <p>
+                      ¿Desea cargarla para esta solicitud?
+                    </p>
+                  </strong>
+                </Fragment>
+              } />
             <Dialog open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
               <PricesContainer>
                 <Title>Tarifas del servicio</Title>
@@ -349,23 +473,6 @@ function RequestService() {
               <SubTitle >
                 Solicitud enviada satisfactoriamente.
               </SubTitle>
-              {     /*         <SmallHeightDivider />
-              <strong>
-                <BodyText>
-                  ¿Que le parecio el proceso de solicitud este servicio?
-                </BodyText>
-              </strong>
-              <Rating
-                name="simple-controlled"
-                value={ratingValue}
-                precision={0.5}
-                onChange={(event, newValue) => {
-                  handleSendRating(newValue);
-                }}
-                size="large"
-              />
-              */
-              }
               <MediumHeightDivider />
             </SuccessContainer>
             <ButtonsContainer>

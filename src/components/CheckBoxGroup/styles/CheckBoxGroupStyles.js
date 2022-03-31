@@ -21,20 +21,19 @@ export const StyledCheckBoxGroup = styled(ToggleButtonGroup)({
     display: 'flex ',
     flexDirection: 'column !important',
     ' & .btn-check': {
-        width: '20px !important',
-        height: '20px !important',
+        width: '22px !important',
+        height: '22px !important',
         cursor: 'pointer',
         'accent-color': COLORS.tertiary
     },
-
 });
-
 
 export const StyledFormLabel = styled(FormLabel)({
     color: COLORS.black,
     display: 'flex',
     marginLeft: '40px',
-    bottom: 25
+    fontSize:'18px',
+    bottom: 27
 });
 export const StyledToggleButton = styled(ToggleButton)(props => ({
     cursor: props.disabled ? 'default !important' : 'pointer !important',

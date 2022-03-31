@@ -75,7 +75,7 @@ function Notifications({ color }) {
             }}
           >
             <StyledPaper>
-              <MenuList>
+              <MenuList sx={{height:'500px',overflowY:'auto',overflowX: 'hidden'}}>
                 {
                   data?.notifications?.length > 0 ?
                     data.notifications?.map((item, index) => (

@@ -20,6 +20,7 @@ import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextFi
 import { cedulaValidationService } from '../../../../../api/RenderField';
 import TextFieldNumberFormat from '../../../../../components/TextFieldNumberFormat/TextFieldNumberFormat';
 import { useQueryClient } from 'react-query';
+import { format } from 'date-fns';
 
 const RenderField = (props) => {
 
@@ -142,7 +143,15 @@ const RenderField = (props) => {
 
 
 
-  const RenderGridItem = ({ item, index }) => {
+  const RenderGridItem = ({ fields, item, index }) => {
+    let currentItemData = Object.keys(item).map((fieldKey) => {
+      const fieldData = fields.find((field) => field.fieldKey === fieldKey)
+      return {
+        type: fieldData?.type,
+        name: fieldData?.label,
+        value: item[fieldKey]
+      }
+    })
     return (
       <Grid item xs={12} md={12}>
         <List >
@@ -165,8 +174,34 @@ const RenderField = (props) => {
               </Avatar>
             </ListItemAvatar>
 
-            <BodyText>{`${props.label} ${index + 1}`}</BodyText>
+            <div style={{ display: 'flex', flexDirection: 'column',textAlign:'justify'}}>
+              <strong>
+                <BodyText>{`${props.label} ${index + 1}`}</BodyText>
+              </strong>
+              <br />
+              {
+                currentItemData.map((field) => (
+                  <BodyText>
+                    {
+                      field.value === undefined ||  field.name === undefined?
+                      null
+                      :
+                      field.type === FIELD_TYPES.header ?
+                        null
+                        :
+                        //TO DO ADD TIME CASE
+                        field.type === FIELD_TYPES.date ?
+                          `${field.name}: ${format(new Date(field.value), 'yyyy-MM-dd')}`
+                          :
+                          `${field.name}: ${field.value}`
+                    }
+
+                  </BodyText>
+                ))
+              }
+            </div>
           </ListItem>
+
         </List>
       </Grid>
     )
@@ -177,7 +212,7 @@ const RenderField = (props) => {
     if (props.hidden) {
       return null
     }
-   // const fullwidth = props.value?.length > 0 ? 12 : 6
+    // const fullwidth = props.value?.length > 0 ? 12 : 6
     switch (props.type) {
       case FIELD_TYPES.radioGroup:
         return (
@@ -200,7 +235,7 @@ const RenderField = (props) => {
         )
       case FIELD_TYPES.checkboxGroup:
         return (
-          <Grid item xs={3} sm={6} md={6}>
+          <Grid item xs={3} sm={6} md={12}>
             <CheckBoxGroup
               id={props.fieldKey}
               //     title={props.label}
@@ -412,7 +447,7 @@ const RenderField = (props) => {
               <GridContainer>
                 {
                   localToArray(props.value).map((item, index) => (
-                    <RenderGridItem item={item} index={index} />
+                    <RenderGridItem fields={props.fields} item={item} index={index} />
                   ))
                 }
               </GridContainer>

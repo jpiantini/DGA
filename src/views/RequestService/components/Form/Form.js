@@ -1,4 +1,4 @@
-import { useState, useEffect, memo, Fragment } from 'react';
+import { useState, useEffect, memo, Fragment, useImperativeHandle, forwardRef } from 'react';
 import {
     SmallHeightDivider,
     StyledButtonOutlined,
@@ -24,7 +24,7 @@ import * as  yup from 'yup';
 import { dataObjectRuleChanger, fieldRuleChanger, getFieldValidation } from './FormFunctions';
 import RenderField from './components/RenderField';
 import { localToString } from '../../../../utilities/functions/StringUtil';
-import { safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
+import { localToObject, safeValExtraction } from '../../../../utilities/functions/ObjectUtil';
 import { FIELD_TYPES, RULE_LIST } from './FormConstants';
 import { useSnackbar } from 'notistack';
 import ImportantInformationModal from '../../../../components/ImportantInformationModal/ImportantInformationModal';
@@ -32,7 +32,7 @@ import { isEmpty } from '../../../../utilities/functions/ValidationUtil';
 import LocalStorageService from '../../../../services/LocalStorageService';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 
-function Form(props) {
+function Form(props, ref) {
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     let { serviceID } = useParams();
@@ -47,14 +47,11 @@ function Form(props) {
     const [fakeStep, setFakeStep] = useState(0)
     const [activeStep, setActiveStep] = useState(0);
     const [fakeStepsToShow, setFakeStepsToShow] = useState([]);
-
     const lastStep = (stepsLenght - 1) == activeStep;
     const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
-
     const [showSubmitModal, setShowSubmitModal] = useState(false);
-    const [showRestoreFormModal, setShowRestoreFormModal] = useState(false);
-
     const [state, setState] = useState({});
+    const [appliedRuleList, setAppliedRuleList] = useState([]);
     const [schemaValidation, setSchemaValidation] = useState({});
     const { errors, handleBlur, setFieldValue, handleChange, values, handleSubmit, touched, setFieldTouched, setFieldError, setErrors, setTouched, setValues } = useFormik({
         initialValues: state,
@@ -63,67 +60,22 @@ function Form(props) {
         enableReinitialize: true,
     });
 
-    const saveCurrentFormDataInLocalStorage = () => {
-        const formData = {
-            serviceID,
-            localFieldErrors,
-            localData,
-            fakeSteps,
-            fakeStep,
-            activeStep,
-            fakeStepsToShow,
-            state,
-            schemaValidation,
-            errors,
-            values,
-            touched
-        }
-        console.log(formData)
-        LocalStorageService.setItem(`dynamicFormData`, formData)
-    }
-
-    const restoreSavedFormDataFromLocalStorage = () => {
-        props.setPriceModalIsOpen(false);
-        const formData = LocalStorageService.getItem(`dynamicFormData`);
-        console.log(formData)
-        dispatch(ShowGlobalLoading('Reestableciendo formulario'))
-        setLocalFieldErrors(formData.localFieldErrors);
-        setLocalData(formData.localData);
-        setFakeSteps(formData.fakeSteps);
-        setFakeStep(formData.fakeStep);
-        setActiveStep(formData.activeStep);
-        setFakeStepsToShow(formData.fakeStepsToShow);
-        setState(formData.state);
-        setSchemaValidation(formData.schemaValidation)
-        setErrors(formData.errors);
-        setTouched(formData.touched)
-        setValues(formData.values);
-
-        //  simulate 2.3s while form is initializing 
-        setTimeout(() => {
-            handleShowRestoreFormModal();
-            dispatch(HideGlobalLoading())
-        }, 2300);
-    }
-
-    const cancelRestoreForm = () => {
-        dispatch(ShowGlobalLoading('Inicializando formulario'));
-        LocalStorageService.removeItem(`dynamicFormData`);
-        // simulate 2.3s while form is initializing 
-        setTimeout(() => {
-            setShowRestoreFormModal(false);
-            props.setPriceModalIsOpen(true);
-            dispatch(HideGlobalLoading())
-        }, 2500);
-    }
-
+    //Hooks
+    useImperativeHandle(ref, () => ({
+        saveForm: () => {
+            return {
+                appliedRuleList: appliedRuleList,
+                values: values,
+                fakeStep: fakeStep,
+                fakeSteps: fakeSteps,
+                step: activeStep,
+                errors: { ...localToObject(errors), ...localFieldErrors },
+            }
+        },
+    }))
 
     const handleShowSubmitModal = () => {
         setShowSubmitModal(!showSubmitModal)
-    }
-
-    const handleShowRestoreFormModal = () => {
-        setShowRestoreFormModal(!showRestoreFormModal)
     }
 
     //componentDidUpdate
@@ -173,18 +125,19 @@ function Form(props) {
                 }
             }
 
-            const formData = LocalStorageService.getItem(`dynamicFormData`);
-            if (formData?.serviceID === serviceID) {
-                setShowRestoreFormModal(true)
-                return;
-            }
-            
             //initialValues from dynamic form
             let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
             if (!initialState) {
                 //setting initial rules && values
-                setLocalData(_data)
-                setState(innerState)
+                changeRule(localToArray(props.initialForm?.rules), _data, !localToArray(props.initialForm?.rules).length, true)
+                setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
+                setFakeStep(0)
+                setActiveStep(0)
+                //BUG IN SOME FIELDS DONT SHOW THE VALUE WITH SETTIMEOUT 1 MS I SOLVED THE BUG
+                setTimeout(() => {
+                    setFakeStep(props.initialForm?.fakeStep || 0)
+                    setActiveStep(props.initialForm?.step || 0)
+                }, 1);
                 return
             } else if (initialState) {
                 initialState = JSON.parse(initialState)
@@ -214,11 +167,18 @@ function Form(props) {
             }
 
             //setting initial rules && values
-            changeRule(rules, _data)
-            setState(innerState)
+            changeRule([...rules, ...localToArray(props.initialForm?.rules)], _data, !localToArray(props.initialForm?.rules).length, true)
+            setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
+            setFakeStep(0)
+            setActiveStep(0)
+            //BUG IN SOME FIELDS DONT SHOW THE VALUE WITH SETTIMEOUT 1 MS I SOLVED THE BUG
+            setTimeout(() => {
+                setFakeStep(props.initialForm?.fakeStep || 0)
+                setActiveStep(props.initialForm?.step || 0)
+            }, 1);
         }
         return () => { }
-    }, [props.data])
+    }, [props.data, props.initialForm])
 
     const handleSubmitForm = (e) => {
         handleSubmit(e);
@@ -229,7 +189,7 @@ function Form(props) {
     }
 
     const localDoRequest = ({ values, actions }) => {
-        saveCurrentFormDataInLocalStorage();
+        // saveCurrentFormDataInLocalStorage();
         if (Object.keys(localFieldErrors).length > 0) {
             window.scrollTo(0, 0);
             return
@@ -237,6 +197,7 @@ function Form(props) {
         if (fakeLastStep && typeof props.doRequest == 'function') {
             handleShowSubmitModal();
         } else {
+            props.handleFormSave();
             let extraStep = 0
             for (let i = (activeStep + 1); i < localData.length; i++) {
                 const fields = localData[i]
@@ -273,11 +234,14 @@ function Form(props) {
     };
 
 
-    const changeRule = (rule, initialData) => {
-        if (!rule || !rule.length) {
+    const changeRule = (rule, initialData, setAnyway = false, initialCall = false) => {
+        if (setAnyway) {
+            setLocalData(localToArray(initialData))
+            return
+        } else if (!initialCall && (!rule || !rule.length)) {
             return
         }
-        const ruleList = Array.isArray(rule) ? rule : [rule]
+        const ruleList = Array.isArray(rule) ? localToArray(rule) : [localToString(rule)]
         let _localData = localToArray(initialData ?? localData)
         for (let index = 0; index < ruleList.length; index++) {
             const ruleSeparated = localToString(ruleList[index]).split(':')
@@ -318,6 +282,7 @@ function Form(props) {
                 })
             })
         }
+        setAppliedRuleList([...appliedRuleList, ...ruleList])
         setLocalData(_localData)
     }
 
@@ -349,25 +314,6 @@ function Form(props) {
 
     return (
         <Container >
-            <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
-                onCloseClick={cancelRestoreForm} CloseTitle="Cancelar" CloseButton
-                buttonTitle="Confirmar" buttonClick={restoreSavedFormDataFromLocalStorage} content={
-                    <Fragment>
-                        <strong>
-                            Se ha encontrado información previa de una solicitud sin terminar.
-                        </strong>
-                        <br />
-                        <strong>
-                            <p>
-                                ¿Desea cargarla para esta solicitud?
-                            </p>
-                        </strong>
-                        <p>
-                            Si cancela la informacion sera borrada.
-                        </p>
-                    </Fragment>
-                } />
-
             <ImportantInformationModal open={showSubmitModal} onBackDropClick={handleShowSubmitModal}
                 onCloseClick={handleShowSubmitModal} CloseTitle="Cancelar" CloseButton
                 buttonTitle="Confirmar" buttonClick={handleModalSubmit} content={
@@ -470,4 +416,4 @@ function Form(props) {
     );
 }
 
-export default memo(Form);
+export default forwardRef(Form);

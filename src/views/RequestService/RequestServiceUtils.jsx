@@ -59,12 +59,6 @@ const transformValue = (val, fieldProps) => {
     case '3':
       _val = cleanStringFromNumbers(_val)
       break;
-    case '10':
-      _val = format(new Date(_val), 'yyyy-MM-dd')
-      break;
-    case '11':
-      _val = format(new Date(_val), 'hh:mm')
-      break;
     case '12':
       _val = cleanCommasFromNumbers(_val);
     default:
@@ -76,6 +70,33 @@ const transformValue = (val, fieldProps) => {
     ...extraData,
   }
 }
+
+const reverseTransformValue = (val, fieldProps) => {
+  let _val = undefined
+  switch (fieldProps?.type) {
+    case FIELD_TYPES.select:
+      // fieldProps.data?.find(item => item.value == val.value)
+      _val = val.value
+      break;
+    case FIELD_TYPES.checkboxGroup:
+      console.log(val, fieldProps)
+      _val = fieldProps.data?.find(item => item.value == val.key)?.value
+      break;
+    case FIELD_TYPES.date:
+      //   _val = new Date(format(val.value, 'yyyy-MM-dd'))
+      _val = new Date(val.value)
+      break;
+    case FIELD_TYPES.time:
+      _val = new Date(format(val.value, 'hh:mm'))
+      break;
+    default:
+      _val = val.value
+      break;
+  }
+
+  return _val
+}
+
 
 export const transformFileData = (values, plainData) => {
   const _values = []
@@ -102,16 +123,16 @@ export const transformFileData = (values, plainData) => {
     })
     .filter(field => field.type == FIELD_TYPES.file)
     .map((field) => {
-      field.value.map((file,index) => {
+      field.value.map((file, index) => {
         if (file?.isARoute) {
           newData.oldFile.push({
             ...file,
-            label: `${field.label} ${index +1}`,
+            label: `${field.label} ${index + 1}`,
           })
         } else {
           newData.newFile.push({
             file,
-            label: `${field.label} ${index +1}`,
+            label: `${field.label} ${index + 1}`,
           })
         }
       });
@@ -120,7 +141,7 @@ export const transformFileData = (values, plainData) => {
   return newData
 }
 
-export const transformFormData = (values, plainData) => {
+export const transformFormData = (values, plainData, errors) => {
   let _values = []
   Object.keys(values).map(key => {
     //By default isEmpty search on "value" property of an object in this case i set 'isARoute' as props and isEmpty search this property instead of value  
@@ -140,6 +161,8 @@ export const transformFormData = (values, plainData) => {
       label: fieldProps?.label,
     }
   })
+  //.filter(field => field && field.type !== 'file' && field.type !== 'grid' && !errors[field.key])
+
 }
 
 export const transformFormGrid = (values, plainData) => {
@@ -196,4 +219,38 @@ export const transformFormGrid = (values, plainData) => {
   }
 
   return gridTransformed
+}
+
+export const reverseTransformFormData = (values, plainData) => {
+  if (!values || !localToArray(values).length) {
+    return {}
+  }
+  const data = {}
+  for (const value of values) {
+    const fieldData = plainData.find(field => field.fieldKey == value?.key)
+    data[fieldData?.fieldKey || ''] = reverseTransformValue(value, fieldData)
+  }
+
+  return data
+}
+
+export const reverseTransformFormGrid = (values, plainData) => {
+  const data = {}
+  for (const relationship in values) {
+    const valArray = localToArray(values[relationship]);
+    if (!valArray.length) {
+      continue;
+    }
+    const gridData = plainData.find(field => field.relationship == relationship)
+    data[gridData?.fieldKey || ''] = valArray.map((rowValues) => {
+      const rowData = {}
+      for (const fieldKey in rowValues) {
+        const value = rowValues[fieldKey];
+        rowData[fieldKey || ''] = reverseTransformValue(value, gridData?.fields.find(field => field.fieldKey == fieldKey))
+      }
+      return rowData
+    })
+  }
+
+  return data
 }

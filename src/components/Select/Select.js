@@ -25,14 +25,10 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                         disableClearable
                         select
                         noOptionsText="No hay opciones"
-                        //I PUT A STATIC margin here because the autocomplete had a marginTop and i cant find how to change
-                        sx={{marginBottom:'22px'}}
                         id={id}
                         name={id}
                         placeholder={placeholder}
                         value={data?.find((item) => item.value == value)}
-                        helperText={helperText}
-                        error={error}
                         disabled={disabled}
                         options={data}
                         getOptionLabel={(option) => option.label}
@@ -49,7 +45,12 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                                     value:newValue.value
                                 }
                             })}*/
-                        renderInput={(params) => <StyledTextInput {...params} InputProps={{...params.InputProps,style:{padding:3}}} />}
+                        renderInput={(params) =>
+                             <StyledTextInput {...params}
+                              InputProps={{...params.InputProps,style:{padding:3}}}
+                              helperText={helperText}
+                              error={error}
+                               />}
                     />
                     :
                     <StyledTextInput

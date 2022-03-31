@@ -6,14 +6,15 @@ export const requestFilterTypes = [
     },
     {
         value:2,
-        label:'Completadas',
+        label:'Finalizadas',
         variantTypes:[7]
     },
-    {
+   /* {
         value:3,
         label:'Rechazadas',
         variantTypes:[8,10]
     },
+    */
 ]
 
 export const MockupInProcessRequests = [
