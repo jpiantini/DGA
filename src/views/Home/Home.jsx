@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import GobMessage from "../../components/GobMessage/GobMessage";
 import Header from "./components/Header/Header";
 import COLORS from "../../theme/Colors";
@@ -48,15 +48,15 @@ function Home() {
 
   const history = useHistory();
 
-  const { data: homeContent, isLoading: homeContentIsLoading} = useQuery(['homeData'], () => getHomeDataFromWordpress())
+  const { data: homeContent, isLoading: homeContentIsLoading } = useQuery(['homeData'], () => getHomeDataFromWordpress())
   const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
-  const { data: listOfServices,isLoading: listOfServicesIsLoading } = useQuery(['listOfServices'], () => getAllServices())
+  const { data: listOfServices, isLoading: listOfServicesIsLoading } = useQuery(['listOfServices'], () => getAllServices())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
   };
 
-  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return <CenterLoading/>
+  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return <CenterLoading />
 
   const ServicesForSearcher = [
     ...listOfServices[0].services,
@@ -64,8 +64,8 @@ function Home() {
     ...listOfServices[2].services
   ].map((item) => {
     return {
-      id:item.id,
-      title:item.name,
+      id: item.id,
+      title: item.name,
     }
   })
 
@@ -75,47 +75,47 @@ function Home() {
       <Header />
       <HomeContainer image={homeContent.image_url}>
         <HomeCenterContent>
-        <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS (UCTT)- MITUR</Title>
-        <SmallHeightDivider/>
-        <SmallHeightDivider/>
-        <SearcherContainer>
-          <Autocomplete
-            options={ServicesForSearcher}
-            getOptionLabel={(option) => option.title}
-            autoHighlight
-            freeSolo
-            style={{ width: '100%' }}
-            onChange={(e, newValue) => {
-              goToSelectedService(newValue)
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.defaultMuiPrevented = true;
-              }
-            }}
+          <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS (UCTT)- MITUR</Title>
+          <SmallHeightDivider />
+          <SmallHeightDivider />
+          <SearcherContainer>
+            <Autocomplete
+              options={ServicesForSearcher}
+              getOptionLabel={(option) => option.title}
+              autoHighlight
+              freeSolo
+              style={{ width: '100%' }}
+              onChange={(e, newValue) => {
+                goToSelectedService(newValue)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.defaultMuiPrevented = true;
+                }
+              }}
 
 
-            renderInput={(params) =>
-              <SearchTextInput
-                {...params}
-                fullWidth
-                placeholder="Buscar por término o nombre del servicio"
-                variant="outlined"
-                InputProps={{
-                  ...params.InputProps,
-                  autoComplete: 'new-password',
-                  startAdornment: (
-                    <InputAdornment position="start" >
-                      <StyledSearchIconForSearcher />
-                    </InputAdornment>
-                  ),
-                }}
-              />}
-          />
-        </SearcherContainer>
+              renderInput={(params) =>
+                <SearchTextInput
+                  {...params}
+                  fullWidth
+                  placeholder="Buscar por término o nombre del servicio"
+                  variant="outlined"
+                  InputProps={{
+                    ...params.InputProps,
+                    autoComplete: 'new-password',
+                    startAdornment: (
+                      <InputAdornment position="start" >
+                        <StyledSearchIconForSearcher />
+                      </InputAdornment>
+                    ),
+                  }}
+                />}
+            />
+          </SearcherContainer>
 
         </HomeCenterContent>
-        
+
       </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
@@ -152,23 +152,23 @@ function Home() {
 
           <div style={{ height: "60px" }} />
           <CardsContainer>
-            <ServiceCard
-              title="CONFOTUR"
-              bodyText="Solicita tu licencia y otros servicios otorgados por el Ministerio de Turismo, para operar como proveedor de servicios turísticos."
-              onRequestPress={() => history.push("/app/listOfServices/1")}
-            />
-            <CardsDivider />
-            <ServiceCard
-              title="EMPRESAS Y SERVICIOS"
-              bodyText="Solicita tu licencia y otros servicios otorgados por el Ministerio de Turismo, para operar como proveedor de servicios turísticos."
-              onRequestPress={() => history.push("/app/listOfServices/2")}
-            />
-            <CardsDivider />
-            <ServiceCard
-              title="DPP"
-              bodyText="Conozca la Dirección de Planificación y Proyectos y obtenga toda la información necesaria para solicitar sus servicios"
-              onRequestPress={() => history.push("/app/listOfServices/3")}
-            />
+            {
+              listOfServices.map((direction,index) => (
+                <Fragment>
+                  <ServiceCard
+                    title={direction.name}
+                    bodyText={direction.description}
+                    onRequestPress={() => history.push(`/app/listOfServices/${direction.id}`)}
+                  />
+                  {
+                    listOfServices.length === index +1 ?
+                    null
+                    :
+                    <CardsDivider />
+                  }
+                </Fragment>
+              ))
+            }
           </CardsContainer>
         </CenterContainer>
 

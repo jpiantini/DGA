@@ -55,12 +55,6 @@ function RequestCard({ statusID, title, date, company, requestCode, status, onCl
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Empresa: {company}
-                </BodyText>
-            </RowContainer>
-
-            <RowContainer style={{ justifyContent: 'flex-start' }}>
-                <BodyText>
                     Solicitud No.:{requestCode}
                 </BodyText>
             </RowContainer>

@@ -50,7 +50,6 @@ function Form(props, ref) {
     const lastStep = (stepsLenght - 1) == activeStep;
     const fakeLastStep = (fakeStepsLenght - 1) == fakeStep;
     const [showSubmitModal, setShowSubmitModal] = useState(false);
-    const [showRestoreFormModal, setShowRestoreFormModal] = useState(false);
     const [state, setState] = useState({});
     const [appliedRuleList, setAppliedRuleList] = useState([]);
     const [schemaValidation, setSchemaValidation] = useState({});
@@ -74,66 +73,9 @@ function Form(props, ref) {
             }
         },
     }))
-    /*
-        const saveCurrentFormDataInLocalStorage = () => {
-            const formData = {
-                serviceID,
-                localFieldErrors,
-                localData,
-                fakeSteps,
-                fakeStep,
-                activeStep,
-                fakeStepsToShow,
-                state,
-                schemaValidation,
-                errors,
-                values,
-                touched
-            }
-            LocalStorageService.setItem(`dynamicFormData`, formData)
-        }
-    
-        const restoreSavedFormDataFromLocalStorage = () => {
-            props.setPriceModalIsOpen(false);
-            const formData = LocalStorageService.getItem(`dynamicFormData`);
-            console.log(formData)
-            dispatch(ShowGlobalLoading('Reestableciendo formulario'))
-            setLocalFieldErrors(formData.localFieldErrors);
-            setLocalData(formData.localData);
-            setFakeSteps(formData.fakeSteps);
-            setFakeStep(formData.fakeStep);
-            setActiveStep(formData.activeStep);
-            setFakeStepsToShow(formData.fakeStepsToShow);
-            setState(formData.state);
-            setSchemaValidation(formData.schemaValidation)
-            setErrors(formData.errors);
-            setTouched(formData.touched)
-            setValues(formData.values);
-    
-            //  simulate 2.3s while form is initializing 
-            setTimeout(() => {
-                handleShowRestoreFormModal();
-                dispatch(HideGlobalLoading())
-            }, 2300);
-        }
-        */
-    const cancelRestoreForm = () => {
-        dispatch(ShowGlobalLoading('Inicializando formulario'));
-        LocalStorageService.removeItem(`dynamicFormData`);
-        // simulate 2.3s while form is initializing 
-        setTimeout(() => {
-            setShowRestoreFormModal(false);
-            props.setPriceModalIsOpen(true);
-            dispatch(HideGlobalLoading())
-        }, 2500);
-    }
 
     const handleShowSubmitModal = () => {
         setShowSubmitModal(!showSubmitModal)
-    }
-
-    const handleShowRestoreFormModal = () => {
-        setShowRestoreFormModal(!showRestoreFormModal)
     }
 
     //componentDidUpdate
@@ -183,20 +125,19 @@ function Form(props, ref) {
                 }
             }
 
-            /*      const formData = LocalStorageService.getItem(`dynamicFormData`);
-                  if (formData?.serviceID === serviceID) {
-                      setShowRestoreFormModal(true)
-                      return;
-                  }
-      */
             //initialValues from dynamic form
             let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
             if (!initialState) {
                 //setting initial rules && values
                 changeRule(localToArray(props.initialForm?.rules), _data, !localToArray(props.initialForm?.rules).length, true)
                 setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
-                setFakeStep(props.initialForm?.fakeStep || 0)
-                setActiveStep(props.initialForm?.step || 0)
+                setFakeStep(0)
+                setActiveStep(0)
+                //BUG IN SOME FIELDS DONT SHOW THE VALUE WITH SETTIMEOUT 1 MS I SOLVED THE BUG
+                setTimeout(() => {
+                    setFakeStep(props.initialForm?.fakeStep || 0)
+                    setActiveStep(props.initialForm?.step || 0)
+                }, 1);
                 return
             } else if (initialState) {
                 initialState = JSON.parse(initialState)
@@ -228,8 +169,13 @@ function Form(props, ref) {
             //setting initial rules && values
             changeRule([...rules, ...localToArray(props.initialForm?.rules)], _data, !localToArray(props.initialForm?.rules).length, true)
             setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
-            setFakeStep(props.initialForm?.fakeStep || 0)
-            setActiveStep(props.initialForm?.step || 0)
+            setFakeStep(0)
+            setActiveStep(0)
+            //BUG IN SOME FIELDS DONT SHOW THE VALUE WITH SETTIMEOUT 1 MS I SOLVED THE BUG
+            setTimeout(() => {
+                setFakeStep(props.initialForm?.fakeStep || 0)
+                setActiveStep(props.initialForm?.step || 0)
+            }, 1);
         }
         return () => { }
     }, [props.data, props.initialForm])
@@ -368,25 +314,6 @@ function Form(props, ref) {
 
     return (
         <Container >
-            <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
-                onCloseClick={cancelRestoreForm} CloseTitle="Cancelar" CloseButton
-                buttonTitle="Confirmar" buttonClick={()=>console.log('ola')} content={
-                    <Fragment>
-                        <strong>
-                            Se ha encontrado información previa de una solicitud sin terminar.
-                        </strong>
-                        <br />
-                        <strong>
-                            <p>
-                                ¿Desea cargarla para esta solicitud?
-                            </p>
-                        </strong>
-                        <p>
-                            Si cancela la informacion sera borrada.
-                        </p>
-                    </Fragment>
-                } />
-
             <ImportantInformationModal open={showSubmitModal} onBackDropClick={handleShowSubmitModal}
                 onCloseClick={handleShowSubmitModal} CloseTitle="Cancelar" CloseButton
                 buttonTitle="Confirmar" buttonClick={handleModalSubmit} content={

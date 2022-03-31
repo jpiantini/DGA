@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { FormControl, FormHelperText, FormLabel, Typography } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
-function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, error, helperText = " ", disabled }) {
+function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, error, helperText = "", disabled }) {
    /*   IN CASE OF USE Checkboxgroup from material-ui use this function for return an array with options updated 
     const HandleCheckboxChange = (e) => {
      
