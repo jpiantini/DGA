@@ -75,8 +75,8 @@ export const ButtonContainer = styled('div')({
     }
 });
 
-export const StyledWarningIcon = styled(WarningIcon)({
-    color: '#ffa500',
+export const StyledWarningIcon = styled(WarningIcon)(props =>({
+    color:props.customColor ? props.customColor :'#ffa500',
     borderColor: '#000000',
     '@media (min-width:320px)': {
         fontSize: '18x',
@@ -87,7 +87,7 @@ export const StyledWarningIcon = styled(WarningIcon)({
     '@media (min-width:1200px)': {
         fontSize: '23px',
     }
-});
+}));
 
 export const ProgressBarContainer = styled('div')(props => ({
     position:'relative',

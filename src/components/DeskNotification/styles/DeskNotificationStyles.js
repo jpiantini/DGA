@@ -5,12 +5,13 @@ import WarningIcon from '@mui/icons-material/Warning';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
 import FONTS_FAMILY from '../../../theme/FontsFamily';
+import InfoIcon from '@mui/icons-material/Info';
+import { variationsColors } from '../DeskNotificationConstants';
 
 export const Container = styled('div')(props =>({
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor:props.variant === 'error' ? COLORS.notificationError : 
-    props.variant === 'warning' ? COLORS.notificationWarning :  COLORS.notificationSuccess,
+    backgroundColor: variationsColors[props.variant] ? variationsColors[props.variant] : COLORS.notificationSuccess,
     width:'100%',
     alignItems:'center',
     justifyContent:'space-between',
@@ -111,3 +112,17 @@ export const StyledCancelIcon = styled(CancelIcon)({
         fontSize: '23px',
     }
 });
+
+export const StyledInfoIcon = styled(InfoIcon)({
+    color:COLORS.notificationComplete,
+    '@media (min-width:320px)': {
+        fontSize: '18px',
+    },
+    '@media (min-width:768px)': {
+        fontSize: '20px',
+    },
+    '@media (min-width:1200px)': {
+        fontSize: '23px',
+    }
+});
+

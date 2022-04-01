@@ -117,12 +117,15 @@ function MyRequests() {
                             }
                             <RequestCard title={request.service.name} percent={request.progress + "%"}
                                 date={request.created_at}
-                                company={request?.company}
+                                approvalNumber={request.approval_number}
                                 requestCode={request.code}
                                 status={request.status.name}
                                 actionRequired={request.request_actions}
                                 onClick={() => history.push(`/app/serviceRequestedDetails/${request.id}`)}
                                 statusID={request.status.id}
+                                solution={request.solution}
+                                solutionColor={request.status.color}
+                                paymentData={request.payment}
                                 />
                         </Fragment>
                     ))

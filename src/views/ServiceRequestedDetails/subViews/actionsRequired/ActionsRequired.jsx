@@ -165,7 +165,6 @@ function ActionsRequired() {
                     error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
                     helperText={fileFormik.touched.file && fileFormik.errors.file}
                     required
-                    findDocuments
                 />
                 <SmallHeightDivider />
                 <ButtonContainer>
