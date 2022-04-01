@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import COLORS from "../../theme/Colors";
 
 export const FormSchema = yup.object({
   reason: yup.string().required('Este campo es requerido'),

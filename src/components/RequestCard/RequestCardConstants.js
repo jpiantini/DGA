@@ -1,3 +1,4 @@
+import COLORS from "../../theme/Colors"
 
 export const variantStatus = [
     {
@@ -51,3 +52,10 @@ export const variantStatus = [
         variant:"rejected"
     },
 ]
+
+export const statusColors = {
+    info: COLORS.notificationComplete,
+    success:COLORS.notificationSuccess,
+    warning:COLORS.notificationWarning,
+    danger:COLORS.notificationError,
+}

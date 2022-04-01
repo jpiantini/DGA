@@ -1,4 +1,4 @@
-import { useState,memo } from 'react';
+import { useState, memo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import {
     Container,
@@ -9,7 +9,8 @@ import {
     StyledWarningIcon,
     StyledCancelIcon,
     CloseButtonContainer,
-    IconContainer
+    IconContainer,
+    StyledInfoIcon
 } from './styles/DeskNotificationStyles';
 import Slide from 'react-reveal/Slide';
 import parse from 'html-react-parser';
@@ -21,7 +22,7 @@ function DeskNotification({ variant, message, onClose, disableAnimation, disable
     const handleOnClose = () => {
         setShowAnimation(false);
         setTimeout(() => {
-            if(onClose){
+            if (onClose) {
                 onClose();
             }
         }, 1000);
@@ -32,22 +33,28 @@ function DeskNotification({ variant, message, onClose, disableAnimation, disable
                 <TextContainer>
                     <IconContainer>
                         {
-                            variant === 'error' ?
+                            variant === 'danger' ?
                                 <StyledCancelIcon />
                                 :
                                 variant === 'warning' ?
                                     <StyledWarningIcon />
                                     :
-                                    <StyledCheckCircleIcon />
+                                    variant === 'info' ?
+                                        <StyledInfoIcon />
+                                        :
+                                        < StyledCheckCircleIcon />
+
+
                         }
                     </IconContainer>
-                    <Text >
-                        {
-                            message ? parse(message) :
-                            ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                        }
-                       
-                    </Text>
+                    <strong>
+                        <Text >
+                            {
+                                message ? parse(message) :
+                                    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                            }
+                        </Text>
+                    </strong>
                 </TextContainer>
                 {
                     disableCloseButton ? null :

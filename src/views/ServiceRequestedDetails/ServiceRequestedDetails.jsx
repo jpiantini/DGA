@@ -20,7 +20,7 @@ import ActionsRequired from './subViews/actionsRequired/ActionsRequired';
 import { useQuery, useQueryClient } from 'react-query';
 import { getRequestDetail } from '../../api/ServiceRequestedDetails';
 import { cacheConfig } from '../../cacheConfig';
-import { MenuOptions } from './ServiceRequestedDetailsConstants';
+import { MenuOptions, statusColors } from './ServiceRequestedDetailsConstants';
 import Messages from './subViews/messages/Messages';
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
@@ -87,7 +87,7 @@ function ServiceRequestedDetails() {
 
     }, [serviceRequestedDetail]);
 
-    if (isLoading) return <CenterLoading/>;
+    if (isLoading) return <CenterLoading />;
     return (
         <Container >
             <Row>
@@ -144,6 +144,15 @@ function ServiceRequestedDetails() {
                             </Fragment>
                             :
                             <MediumHeightDivider />
+                    }
+                    {
+                        serviceRequestedDetail.request.solution &&
+                        <Fragment>
+                        <DeskNotification variant={serviceRequestedDetail.request.status.color} disableCloseButton={true}
+                            message={serviceRequestedDetail.request.solution}
+                        />
+                        <SmallHeightDivider />
+                        </Fragment>
                     }
                     {
                         activeMenu == MenuOptions.details ?

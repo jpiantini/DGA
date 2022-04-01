@@ -165,12 +165,12 @@ function RequestService() {
 
     const result = {
       formulary_data: formData.formulary_data,
-      //dev
-      //data: _data.map(step => step.map(transformField)).reverse(),
       data: _data.map(step => step.map(transformField)),
       plainData: plainData.map(transformField),
       saved_fields: formData.saved_fields,
-      date: Number(new Date())
+      date: Number(new Date()),
+      //dev
+      // data: _data.map(step => step.map(transformField)).reverse(),
     }
 
     return result;
@@ -196,11 +196,9 @@ function RequestService() {
       citizen_id: userData.payload.citizen_id,
       service_id: serviceDescription.id,
       expertform_id: serviceDescription.expertform_id,
-      //@ts-ignore
       data: transformFormData(formData?.values, getData().plainData, formData?.errors).filter((field) => field.type !== FIELD_TYPES.file),
-      //@ts-ignore
       grid: transformFormGrid(formData?.values, getData().plainData),
-      appliedRuleList: [...new Set(localToArray(formData?.appliedRuleList))],
+      appliedRuleList: [...new Set(localToArray(formData?.appliedRuleList).reverse())].reverse(),
       fakeStep: formData?.fakeStep,
       step: formData?.step,
     }
@@ -208,10 +206,7 @@ function RequestService() {
       return
     }
     try {
-      const response = await saveDraft(request)
-      if (response?.success) {
-        console.log("guardado en backend")
-      }
+      await saveDraft(request)
     } catch (error) {
 
     }
@@ -368,8 +363,7 @@ function RequestService() {
       return
     }
 
-    const { appliedRuleList, data, grid, fakeStep, step } = getData()?.saved_fields
-    // const { totalPayment, variations } = getPayment()
+    const { appliedRuleList, data, grid, fakeStep, step, totalPayment, variations } = getData()?.saved_fields
     dispatch(ShowGlobalLoading("Restableciendo"))
     setDraftLoading(true);
     setState({
@@ -378,8 +372,8 @@ function RequestService() {
       data: reverseTransformFormData(data, getData()?.plainData),
       grid: reverseTransformFormGrid(grid, getData()?.plainData),
       step: localToNumber(step),
-      //    totalPayment: totalPayment,
-      //    variations: variations,
+      totalPayment: totalPayment,
+      variations: variations,
     })
     setTimeout(() => {
       //Simulate loading for 2.5s 

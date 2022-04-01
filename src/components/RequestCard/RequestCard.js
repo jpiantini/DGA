@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import { replaceGuionToSlashFromString } from '../../utilities/functions/StringUtil';
-import { variantStatus } from './RequestCardConstants';
+import { statusColors, variantStatus } from './RequestCardConstants';
 import {
     Container,
     RowContainer,
@@ -15,7 +15,7 @@ import {
     ProgressBarTitle
 } from './styles/RequestCardStyles';
 
-function RequestCard({ statusID, title, date, company, requestCode, status, onClick, percent, actionRequired }) {
+function RequestCard({ statusID, title, date, approvalNumber, requestCode, status, onClick, percent, actionRequired, solution, solutionColor, paymentData }) {
 
     const localVariant = variantStatus.find((status) => status.id == statusID)
 
@@ -32,6 +32,19 @@ function RequestCard({ statusID, title, date, company, requestCode, status, onCl
 
                     <ActionRequiredTitle >
                         Esta solicitud requiere de tu acción para continuar.
+                    </ActionRequiredTitle>
+                </RowContainer>
+            }
+
+            {
+                solution != undefined &&
+                <RowContainer>
+                    <IconContainer>
+                        <StyledWarningIcon customColor={statusColors[solutionColor]} />
+                    </IconContainer>
+
+                    <ActionRequiredTitle >
+                        {solution}.
                     </ActionRequiredTitle>
                 </RowContainer>
             }
@@ -55,9 +68,24 @@ function RequestCard({ statusID, title, date, company, requestCode, status, onCl
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
-                    Solicitud No.:{requestCode}
+                    Solicitud No.: {requestCode}
                 </BodyText>
             </RowContainer>
+
+            {approvalNumber != undefined ?
+                <RowContainer style={{ justifyContent: 'flex-start' }}>
+                    <BodyText>
+                        Numero de aprobación: {approvalNumber}
+                    </BodyText>
+                </RowContainer>
+                :
+                <RowContainer style={{ justifyContent: 'flex-start' }}>
+                    <BodyText>
+                        Monto: {paymentData.payment_amount === '0.00' ? 
+                        "Gratis" :`DOP${paymentData.payment_amount}`}
+                    </BodyText>
+                </RowContainer>
+            }
 
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>

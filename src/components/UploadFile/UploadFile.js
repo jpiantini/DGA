@@ -40,15 +40,16 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             let data = [];
             for (let i = 0; i < filesLength; i++) {
                 const file = e.target.files[i];
-                const fileSize = file.size / 1024 / 1024;
+                const fileExtension = e.target.files[i].name.substring(e.target.files[i].name.indexOf('.') + 1)
+              const fileSize = file.size / 1024 / 1024;
                 if (fileSize > 8) {
                     alert('El peso limite por archivo es de 8mb');
                     loopError = true;
                     break;
                 }
-                //Good select file by file type
+                //Good select file by file type specified on extension
                 if (extension != undefined) {
-                    if (types.find((type) => type.includes(extension)) && file.type.includes(extension)) {
+                    if (types.find((type) => type.includes(extension)) && file.type.includes(extension) || types.find((type) => type.includes(fileExtension))) {
                         setSelectedFileName(file.name)
                         data.push(file)
                         continue;
@@ -61,7 +62,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                     }
                 }
                 //Good select valid file
-                if (types.find((type) => type === file.type)) {
+                if (types.find((type) => type === file.type) || types.find((type) => type === fileExtension)) {
                     setSelectedFileName(file.name);
                     data.push(file);
                     continue;
@@ -94,8 +95,9 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     }
 
     const handleDocumentSelect = (e) => {
+        const fileExtension = e.name.substring(e.name.indexOf('.') + 1)
         if (extension != undefined) {
-            if (types.find((type) => type.includes(extension)) && e.type.includes(extension)) {
+            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || types.find((type) => type.includes(fileExtension))) {
                 //Good check selected file extension is equal than field required extension
             } else {
                 //bad
