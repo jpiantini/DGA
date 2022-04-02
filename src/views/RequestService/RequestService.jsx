@@ -32,7 +32,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import TextInformation from "../../components/TextInformation/TextInformation";
 import { Dialog, Grid, Rating } from "@mui/material";
-import { localToArray, transformField } from "../../utilities/functions/ArrayUtil";
+import { arrayArrayToArray, localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { addRating, getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
@@ -192,13 +192,17 @@ function RequestService() {
 
   const handleFormSave = async () => {
     const formData = formRef.current?.saveForm()
+    const reversedAppliedRuleList = localToArray(formData?.appliedRuleList).reverse()
+    const noDuplicates = new Set(reversedAppliedRuleList)
+    const _plainData = arrayArrayToArray(formData?.localData)
+
     const request = {
       citizen_id: userData.payload.citizen_id,
       service_id: serviceDescription.id,
       expertform_id: serviceDescription.expertform_id,
-      data: transformFormData(formData?.values, getData().plainData, formData?.errors).filter((field) => field.type !== FIELD_TYPES.file),
-      grid: transformFormGrid(formData?.values, getData().plainData),
-      appliedRuleList: [...new Set(localToArray(formData?.appliedRuleList).reverse())].reverse(),
+      data: transformFormData(formData?.values, _plainData, formData?.errors).filter((field) => field.type !== FIELD_TYPES.file),
+      grid: transformFormGrid(formData?.values, _plainData),
+      appliedRuleList: Array.from(noDuplicates).reverse(),
       fakeStep: formData?.fakeStep,
       step: formData?.step,
     }
@@ -213,7 +217,9 @@ function RequestService() {
   }
 
 
-  const sendRequest = async (formData) => {
+  const sendRequest = async (valuesOfForm) => {
+    const formData = formRef.current?.saveForm()
+    const _plainData = arrayArrayToArray(formData?.localData)
     const request = {
       req: {
         service_id: serviceID,
@@ -234,8 +240,8 @@ function RequestService() {
       form: {
         citizen_record_id: userData.payload.citizen_id,
         expertform_id: serviceDescription.expertform_id,
-        data: transformFormData(formData, getData().plainData).filter((field) => field.type != FIELD_TYPES.file && field.type != FIELD_TYPES.grid),
-        grid: transformFormGrid(formData, getData().plainData)
+        data: transformFormData(valuesOfForm, _plainData).filter((field) => field.type != FIELD_TYPES.file && field.type != FIELD_TYPES.grid),
+        grid: transformFormGrid(valuesOfForm, _plainData)
       },
       documents: [],
       userInfo: {
@@ -255,7 +261,7 @@ function RequestService() {
     dispatch(ShowGlobalLoading('Cargando'));
     try {
 
-      const FilesOfForm = transformFileData(formData, getData().plainData);
+      const FilesOfForm = transformFileData(valuesOfForm, _plainData);
 
       let canSubmitForm = true;
       let uploadedFilesRoutes = FilesOfForm.oldFile;

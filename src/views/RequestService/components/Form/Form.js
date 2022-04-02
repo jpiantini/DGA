@@ -70,6 +70,7 @@ function Form(props, ref) {
                 fakeSteps: fakeSteps,
                 step: activeStep,
                 errors: { ...localToObject(errors), ...localFieldErrors },
+                localData: localData,
             }
         },
     }))
@@ -306,6 +307,8 @@ function Form(props, ref) {
                 setLocalFieldErrors={setLocalFieldErrors}
                 localFieldErrors={localFieldErrors}
                 multipleDocuments={props?.multipleDocuments}
+                plainData={props.plainData}
+                values={values}
             //       step={step}
             //    steps={steps}
             />
@@ -389,7 +392,7 @@ function Form(props, ref) {
                         style: {
                             margin: '5%'
                         },
-                        title: "aaaaaaa"
+                        //   title: "aaaaaaa"
                     }}
                     steps={fakeStepsLenght}
                     position="bottom"

@@ -41,6 +41,8 @@ export const MASK_LIST = {
   '10': 'fecha',
   '11': 'hora',
   '12': 'decimal',
+  '20': "dpp",
+  '21': "mimarena"
 }
 
 export const MASK_TYPE = {

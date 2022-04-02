@@ -51,6 +51,7 @@ function Home() {
   const { data: homeContent, isLoading: homeContentIsLoading } = useQuery(['homeData'], () => getHomeDataFromWordpress())
   const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
   const { data: listOfServices, isLoading: listOfServicesIsLoading } = useQuery(['listOfServices'], () => getAllServices())
+  //const { data: homeMetricsData, isLoading: homeMetricsDataIsLoading } = useQuery(['homeMetricsData'], () => getAllServices())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
@@ -75,7 +76,8 @@ function Home() {
       <Header />
       <HomeContainer image={homeContent.image_url}>
         <HomeCenterContent>
-          <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS (UCTT)- MITUR</Title>
+          <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS</Title>
+          <Title>(UCTT)- MITUR</Title>
           <SmallHeightDivider />
           <SmallHeightDivider />
           <SearcherContainer>

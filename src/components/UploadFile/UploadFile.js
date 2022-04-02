@@ -31,7 +31,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const [selectedFiles, setSelectedFiles] = useState(value ? value : []);
     const [selectedFileName, setSelectedFileName] = useState(value?.[0]?.name);
 
-    const extensionForField = types.find((type) => type.includes(extension));
 
     const validateAndChangeSelectedFiles = (action, e) => {
         let filesLength = e.target.files.length;
@@ -41,7 +40,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             for (let i = 0; i < filesLength; i++) {
                 const file = e.target.files[i];
                 const fileExtension = e.target.files[i].name.substring(e.target.files[i].name.indexOf('.') + 1)
-              const fileSize = file.size / 1024 / 1024;
+                const fileSize = file.size / 1024 / 1024;
                 if (fileSize > 8) {
                     alert('El peso limite por archivo es de 8mb');
                     loopError = true;
@@ -49,7 +48,10 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 }
                 //Good select file by file type specified on extension
                 if (extension != undefined) {
-                    if (types.find((type) => type.includes(extension)) && file.type.includes(extension) || types.find((type) => type.includes(fileExtension))) {
+                    if (types.find((type) => type.includes(extension)) && file.type.includes(extension) ||
+                        types.find((type) => type.includes(extension)) && types.find((type) => type.includes(fileExtension)) &&
+                        extension.includes(fileExtension)) {
+
                         setSelectedFileName(file.name)
                         data.push(file)
                         continue;
@@ -97,7 +99,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const handleDocumentSelect = (e) => {
         const fileExtension = e.name.substring(e.name.indexOf('.') + 1)
         if (extension != undefined) {
-            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || types.find((type) => type.includes(fileExtension))) {
+            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || types.find((type) => type.includes(fileExtension)) && extension.includes(fileExtension)) {
                 //Good check selected file extension is equal than field required extension
             } else {
                 //bad
@@ -209,7 +211,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             <FormGroup >
 
                                 <StyledButton onClick={handleSelectedFilesModalVisibility}>
-                                   {value?.length > 0 ? `Ver archivos seleccionados (${value?.length})` :'No hay archivos seleccionados'} 
+                                    {value?.length > 0 ? `Ver archivos seleccionados (${value?.length})` : 'No hay archivos seleccionados'}
                                 </StyledButton>
                                 <FormHelperText>{helperText}</FormHelperText>
                             </FormGroup >
@@ -240,7 +242,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file' multiple={multipleDocuments} accept={extensionForField ? extensionForField : 'image/*,.pdf'}
+                <InputFile id={id} type='file' multiple={multipleDocuments} accept={'*'}
                     onBlur={(e) => {
                         onBlur && validateAndChangeSelectedFiles(onBlur, e)
                     }
