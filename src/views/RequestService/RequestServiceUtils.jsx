@@ -154,6 +154,9 @@ export const transformFormData = (values, plainData, errors) => {
   })
   return _values.map(val => {
     const fieldProps = plainData.find(item => item.fieldKey === val.key)
+    if (fieldProps?.hidden) {
+      return false
+    }
     return {
       key: val.key,
       ...transformValue(val.value, fieldProps),
@@ -253,4 +256,13 @@ export const reverseTransformFormGrid = (values, plainData) => {
   }
 
   return data
+}
+//THIS FUNCTION RETURN A OBJECT FROM VALUES ATRIBB OF FORM USE ONLY FOR GET VALUES OF A SELECT FIELD
+export const searchFieldValueByFieldKey = (plainData, fieldKey, selectedValue) => {
+  const field = plainData.find((field) => field.fieldKey === fieldKey)
+  const selectedValueObject = field?.data?.find((option) => option.value === selectedValue);
+  return {
+    selectedValueObject,
+    fieldLabel: field.label
+  }
 }

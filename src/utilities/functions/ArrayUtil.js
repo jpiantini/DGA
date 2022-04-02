@@ -100,3 +100,19 @@ export const mapArrayDiff = (array1, array2, unique = false) => {
   }
   return result
 }
+
+export const arrayArrayToArray = (arrayArray) => {
+  const array= []
+
+  if(!arrayArray){
+    return []
+  }
+
+  for (const row of arrayArray) {
+    for (const cell of row) {
+      array.push(cell)
+    }
+  }
+
+  return array
+}

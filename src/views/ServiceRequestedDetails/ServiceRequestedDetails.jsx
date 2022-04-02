@@ -110,7 +110,7 @@ function ServiceRequestedDetails() {
                                     null
                             }
                             {
-                                serviceRequestedDetail.request.comments.length > 0 &&
+                                serviceRequestedDetail.request.comments.length > 0 || serviceRequestedDetail.request.request_actions_id == 3 &&
                                 <StyledButtonOutlined active={activeMenu == MenuOptions.messages} onClick={() => handleChangeMenu(MenuOptions.messages)}>
                                     Mensajes
                                 </StyledButtonOutlined>

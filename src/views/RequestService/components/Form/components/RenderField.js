@@ -17,10 +17,11 @@ import ModalForm from './ModalForm';
 import { GridContainer, BodyText } from './Styles';
 import CheckBoxGroup from '../../../../../components/CheckBoxGroup/CheckBoxGroup';
 import PhoneTextField from '../../../../../components/PhoneTextField/PhoneTextField';
-import { cedulaValidationService } from '../../../../../api/RenderField';
+import { cedulaValidationService, dppValidationService, mimarenaValidationService } from '../../../../../api/RenderField';
 import TextFieldNumberFormat from '../../../../../components/TextFieldNumberFormat/TextFieldNumberFormat';
 import { useQueryClient } from 'react-query';
 import { format } from 'date-fns';
+import { searchFieldValueByFieldKey } from '../../../RequestServiceUtils';
 
 const RenderField = (props) => {
 
@@ -111,6 +112,79 @@ const RenderField = (props) => {
       }
     }
 
+    // 20 IS DPP FOR VALIDATE
+    if (props.Mask === '20' && val.target.value.length > 0) {
+      const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.values[props.MaskParam])
+      console.log(dependientValues)
+      if (dependientValues?.selectedValueObject === undefined) {
+        const _localFieldErrors = {
+          ...props.localFieldErrors
+        }
+        _localFieldErrors[props.fieldKey] = `Seleccione una opcion en el campo ${dependientValues.fieldLabel}`;
+        delete _localFieldErrors.undefined;
+        props.setLocalFieldErrors(_localFieldErrors);
+        return;
+      }
+      try {
+        setTextInputLoading(true);
+        let response = await dppValidationService(val.target.value, dependientValues.selectedValueObject.label);
+        setTextInputLoading(false);
+        if (response?.success) {
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          delete _localFieldErrors[props.fieldKey]
+          delete _localFieldErrors.undefined
+          props.setLocalFieldErrors(_localFieldErrors);
+        } else {
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          _localFieldErrors[props.fieldKey] = response.message;
+          delete _localFieldErrors.undefined;
+          props.setLocalFieldErrors(_localFieldErrors);
+        }
+      } catch (error) {
+        const _localFieldErrors = {
+          ...props.localFieldErrors
+        }
+        _localFieldErrors[props.fieldKey] = "Ha ocurrido un error en la validación";
+        props.setLocalFieldErrors(_localFieldErrors);
+        setTextInputLoading(false);
+      }
+    }
+
+    // 21 IS MIMARENA FOR VALIDATE
+    if (props.Mask === '21' && val.target.value.length > 0) {
+      try {
+        setTextInputLoading(true);
+        let response = await mimarenaValidationService(val.target.value);
+        setTextInputLoading(false);
+        if (response?.success) {
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          delete _localFieldErrors[props.fieldKey]
+          delete _localFieldErrors.undefined
+          props.setLocalFieldErrors(_localFieldErrors);
+        } else {
+          const _localFieldErrors = {
+            ...props.localFieldErrors
+          }
+          _localFieldErrors[props.fieldKey] = response.message;
+          delete _localFieldErrors.undefined;
+          props.setLocalFieldErrors(_localFieldErrors);
+        }
+      } catch (error) {
+        const _localFieldErrors = {
+          ...props.localFieldErrors
+        }
+        _localFieldErrors[props.fieldKey] = "Ha ocurrido un error en la validación";
+        props.setLocalFieldErrors(_localFieldErrors);
+        setTextInputLoading(false);
+      }
+    }
+
   }
 
 
@@ -174,7 +248,7 @@ const RenderField = (props) => {
               </Avatar>
             </ListItemAvatar>
 
-            <div style={{ display: 'flex', flexDirection: 'column',textAlign:'justify'}}>
+            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'justify' }}>
               <strong>
                 <BodyText>{`${props.label} ${index + 1}`}</BodyText>
               </strong>
@@ -183,17 +257,17 @@ const RenderField = (props) => {
                 currentItemData.map((field) => (
                   <BodyText>
                     {
-                      field.value === undefined ||  field.name === undefined?
-                      null
-                      :
-                      field.type === FIELD_TYPES.header ?
+                      field.value === undefined || field.name === undefined ?
                         null
                         :
-                        //TO DO ADD TIME CASE
-                        field.type === FIELD_TYPES.date ?
-                          `${field.name}: ${format(new Date(field.value), 'yyyy-MM-dd')}`
+                        field.type === FIELD_TYPES.header ?
+                          null
                           :
-                          `${field.name}: ${field.value}`
+                          //TO DO ADD TIME CASE
+                          field.type === FIELD_TYPES.date ?
+                            `${field.name}: ${format(new Date(field.value), 'yyyy-MM-dd')}`
+                            :
+                            `${field.name}: ${field.value}`
                     }
 
                   </BodyText>

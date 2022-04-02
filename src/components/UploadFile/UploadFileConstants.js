@@ -6,5 +6,8 @@ export const types = [
     'image/jpeg',
     'image/jpg',
     'kmz',
-    'dwg'
+    'kml',
+    'dwg',
+    'xlsx',
+    'xls'
 ];

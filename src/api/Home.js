@@ -1,3 +1,4 @@
+import apiServiceCall from "../services/ApiServiceCall";
 import wpCall from "../services/WpServerCall";
 
 export const getHomeDataFromWordpress = () => {
@@ -6,4 +7,9 @@ export const getHomeDataFromWordpress = () => {
 
 export const getVideoDataFromWordpress = () => {
     return wpCall().get('/v1/homeVideo').then(({data}) => data);
+}
+
+export const getHomeMetricsData = () => {
+    //TO DO CHANGE ENDPOINT
+    return apiServiceCall().get('/web/v1/homeImage').then(({data}) => data);
 }
