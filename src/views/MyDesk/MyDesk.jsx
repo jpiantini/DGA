@@ -25,7 +25,7 @@ function MyDesk() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [ActiveMenu, setActiveMenu] = useState(0); //0 MI PERFIL , 2 MIS SOLICITUDES, 3 MIS DOCUMENTOS
+    const [ActiveMenu, setActiveMenu] = useState(1); //0 MI PERFIL , 1 MIS SOLICITUDES, 2 MIS DOCUMENTOS
     const [ActiveDocumentMenu, setActiveDocumentMenu] = useState(0); //0 DOCUMENTOS PERSONALES ,1 DOCUMENTOS INSTITUCIONALES
 
     const [openModifyProfileModal, setOpenModifyProfileModal] = useState(false);

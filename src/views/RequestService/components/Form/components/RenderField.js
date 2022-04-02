@@ -114,7 +114,7 @@ const RenderField = (props) => {
 
     // 20 IS DPP FOR VALIDATE
     if (props.Mask === '20' && val.target.value.length > 0) {
-      const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.values[props.MaskParam])
+      const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.formValues[props.MaskParam])
       console.log(dependientValues)
       if (dependientValues?.selectedValueObject === undefined) {
         const _localFieldErrors = {
