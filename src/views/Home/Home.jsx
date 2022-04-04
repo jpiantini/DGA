@@ -37,7 +37,7 @@ import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
 import { useHistory } from "react-router";
 import { useQuery } from "react-query";
-import { getVideoDataFromWordpress, getHomeDataFromWordpress } from "../../api/Home";
+import { getVideoDataFromWordpress, getHomeDataFromWordpress, getHomeMetricsData } from "../../api/Home";
 import { getAllServices } from "../../api/ListOfServicesPerCategory";
 
 import { SmallHeightDivider } from "../../theme/Styles";
@@ -51,13 +51,13 @@ function Home() {
   const { data: homeContent, isLoading: homeContentIsLoading } = useQuery(['homeData'], () => getHomeDataFromWordpress())
   const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
   const { data: listOfServices, isLoading: listOfServicesIsLoading } = useQuery(['listOfServices'], () => getAllServices())
-  //const { data: homeMetricsData, isLoading: homeMetricsDataIsLoading } = useQuery(['homeMetricsData'], () => getAllServices())
+  const { data: homeMetricsData, isLoading: homeMetricsDataIsLoading } = useQuery(['homeMetricsData'], () => getHomeMetricsData())
 
   const goToSelectedService = (service) => {
     history.push(`/app/serviceDescription/${service.id}`)
   };
 
-  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading) return <CenterLoading />
+  if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading || homeMetricsDataIsLoading) return <CenterLoading />
 
   const ServicesForSearcher = [
     ...listOfServices[0].services,
@@ -123,12 +123,12 @@ function Home() {
         <AnalyticsContainer>
           <div>
             <StyledDescriptionIcon />
-            <Title>+5</Title>
+            <Title>+{homeMetricsData.requests}</Title>
             <SubTitle>Solicitudes de licencias</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />
-            <Title>+5</Title>
+            <Title>+{homeMetricsData.citizens}</Title>
             <SubTitle>Usuarios registrados</SubTitle>
           </div>
           <div>

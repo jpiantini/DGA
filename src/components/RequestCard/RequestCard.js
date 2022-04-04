@@ -65,12 +65,15 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
                     Fecha: {new Date(replaceGuionToSlashFromString(date)).toLocaleDateString()}
                 </BodyText>
             </RowContainer>
+            {
+                requestCode !== null &&
+                <RowContainer style={{ justifyContent: 'flex-start' }}>
+                    <BodyText>
+                        Solicitud No.: {requestCode}
+                    </BodyText>
+                </RowContainer>
 
-            <RowContainer style={{ justifyContent: 'flex-start' }}>
-                <BodyText>
-                    Solicitud No.: {requestCode}
-                </BodyText>
-            </RowContainer>
+            }
 
             {approvalNumber != undefined ?
                 <RowContainer style={{ justifyContent: 'flex-start' }}>
@@ -81,8 +84,8 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
                 :
                 <RowContainer style={{ justifyContent: 'flex-start' }}>
                     <BodyText>
-                        Monto: {paymentData.payment_amount === '0.00' ? 
-                        "Gratis" :`DOP${paymentData.payment_amount}`}
+                        Monto: {paymentData.payment_amount === '0.00' ?
+                            "Gratis" : `DOP${paymentData.payment_amount}`}
                     </BodyText>
                 </RowContainer>
             }

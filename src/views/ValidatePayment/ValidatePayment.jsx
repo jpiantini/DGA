@@ -15,25 +15,34 @@ import {
     Container,
     CenterContainer,
 } from './styles/ValidatePaymentStyles';
+import { useParams } from "react-router-dom";
+import { paymentValidation } from '../../api/ValidatePayment';
 
 function ValidatePayment() {
     const history = useHistory();
     const dispatch = useDispatch();
+    let { requestID } = useParams();
+
     const [paymentSuccess, setPaymentSuccess] = useState()
 
-    const handlePaymentValidation = () => {
+    const handlePaymentValidation = async () => {
         dispatch(ShowGlobalLoading('Verificando pago'));
         const urlParams = new URLSearchParams(window.location.search)
         let data;
         if (urlParams.has('numAprobacion') && urlParams.has('idAutorizacionPortal')) {
             data = {
-                numero_aprobacion: urlParams.get('numAprobacion'),
-                id_autorizacion_portal: urlParams.get('idAutorizacionPortal'),
+                requestId:requestID,
+                numAprobacion: urlParams.get('numAprobacion'),
+                idAutorizacionPortal: urlParams.get('idAutorizacionPortal'),
             }
-            setTimeout(() => { //Mockup async timing for SEND POST TO BACKEND AND IF SUCCESS
+            let response = await paymentValidation(data)
+            if(response.success){
                 setPaymentSuccess(true);
                 dispatch(HideGlobalLoading());
-            }, 3000);
+            }else{
+                setPaymentSuccess(false);
+                dispatch(HideGlobalLoading());
+            }
         } else {
             setPaymentSuccess(false);
             dispatch(HideGlobalLoading());

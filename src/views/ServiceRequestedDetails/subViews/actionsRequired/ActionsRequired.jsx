@@ -19,7 +19,7 @@ import { useSnackbar } from 'notistack';
 import { assingDocumentsForRequiredActionInSoftExpert } from '../../../../api/ActionRequired';
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
-import { linkingDocumentsToRequestInSoftExperted, uploadFormDocuments } from '../../../../api/RequestService';
+import { linkingDocumentsToRequestInSoftExpert, uploadFormDocuments } from '../../../../api/RequestService';
 
 function ActionsRequired() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -71,7 +71,7 @@ function ActionsRequired() {
                 new_request:false
             }
             dispatch(ShowGlobalLoading('Procesando'));
-            let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
+            let responseSoftExpert = await linkingDocumentsToRequestInSoftExpert(softExpertRequest);
             if (responseSoftExpert.success) {
                 const assignmentData = {
                     documents: softExpertRequest.documents,
@@ -124,7 +124,7 @@ function ActionsRequired() {
                     new_request:false
                 }
                 dispatch(ShowGlobalLoading('Procesando'));
-                let responseSoftExpert = await linkingDocumentsToRequestInSoftExperted(softExpertRequest);
+                let responseSoftExpert = await linkingDocumentsToRequestInSoftExpert(softExpertRequest);
                 if (responseSoftExpert.success) {
                     const assignmentData = {
                         documents: softExpertRequest.documents,

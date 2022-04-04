@@ -70,7 +70,7 @@ function Payment() {
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
             idAutorizacionPortal: requestData.request.idAutorizacionPortal,
-            urlRetorno: "http://127.0.0.1:3000/app/validatePayment",
+            urlRetorno: `http://127.0.0.1:3000/app/validatePayment/${requestData.request.id}`,
         }
 
         let form = document.createElement('form');

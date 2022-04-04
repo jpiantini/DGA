@@ -91,7 +91,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 });
             } else {
                 //Bad
-                console.log('error en loop')
+             //   console.log('error en loop')
             }
         }
     }
