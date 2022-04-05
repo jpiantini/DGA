@@ -135,7 +135,7 @@ const routes = [
   },
   */
   {
-    path: "/validatePayment",
+    path: "/validatePayment/:requestID",
     component: ValidatePayment,
     exact: false,
     layout: "/app",

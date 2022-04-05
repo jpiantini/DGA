@@ -18,30 +18,49 @@ import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
 import TextField from '../../../components/TextField/TextField';
 import { useDispatch, useSelector } from "react-redux";
-
+import { removeGuionFromString } from '../../../utilities/functions/StringUtil';
+import { useSnackbar } from 'notistack';
+import {restorePassword} from '../../../api/RequestPassword'
+import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiActions';
 function RequestPassword() {
 
+    const dispatch = useDispatch();
     const history = useHistory();
     const { authenticated } = useSelector((state) => state.authReducer);
-
-    const onRequest = (formData) => {
-        //CALL API passwordRequest WITH AXIOS
-        if (formData) {//IF passwordRequest SUCCESS
-            //ToggleScreen and show success message 
-        }
-    }
+    const { enqueueSnackbar } = useSnackbar();
 
     const formik = useFormik({
         initialValues: {
+            id: '',
             email: '',
             emailConfirmation: ''
         },
         validationSchema: FormSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            //alert(JSON.stringify(values, null, 2));
             onRequest(values);
         },
     });
+
+    const onRequest = async (formData) => {
+        try {
+            dispatch(ShowGlobalLoading("Cargando"));
+            const response = await restorePassword({
+                citizen_id: removeGuionFromString(formData.id),
+                email: formData.email
+            });
+            if (response.success) {//IF passwordRequest SUCCESS
+                enqueueSnackbar("Se ha enviado un mensaje a su correo electronico", { variant: 'success' })
+                history.push('/public')
+            }else{
+                enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+            }
+            dispatch(HideGlobalLoading());
+        } catch (error) {
+            enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+            dispatch(HideGlobalLoading());
+        }
+    }
 
     useEffect(() => {
         if (authenticated) {
@@ -49,7 +68,6 @@ function RequestPassword() {
             return;
         }
     }, []);
-
 
     return (
         <RowContainer>
@@ -59,6 +77,17 @@ function RequestPassword() {
                     <Title>Restablecer contraseña</Title>
                     <SmallHeightDivider />
                     <SmallHeightDivider />
+                    <TextFieldContainer>
+                        <TextField placeholder="Documento" type="text" id="id"
+                            value={formik.values.id}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.id && Boolean(formik.errors.id)}
+                            helperText={formik.touched.id && formik.errors.id}
+                        />
+
+                    </TextFieldContainer>
+
                     <TextFieldContainer>
                         <TextField placeholder="Correo Electronico" type="email" id="email"
                             value={formik.values.email}

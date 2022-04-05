@@ -47,7 +47,9 @@ function Notifications({ color }) {
         queryClient.invalidateQueries('notificationsData')
       },
     })
+    if(item["iD de solicitud"] !== undefined){
     history.push(`/app/serviceRequestedDetails/${item["iD de solicitud"]}`)
+    }
   }
 
   useEffect(() => {

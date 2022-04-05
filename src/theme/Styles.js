@@ -164,6 +164,7 @@ export const CardContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
+    minHeight:'100px',
     justifyContent: 'center',
     boxShadow: boxShadowConfig,
 });

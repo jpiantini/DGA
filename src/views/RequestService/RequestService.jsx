@@ -35,7 +35,7 @@ import { Dialog, Grid, Rating } from "@mui/material";
 import { arrayArrayToArray, localToArray, transformField } from "../../utilities/functions/ArrayUtil";
 import Form from "./components/Form/Form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addRating, getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExperted, registerForm, uploadFormDocuments } from "../../api/RequestService";
+import { addRating, getForm, linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftExpert, registerForm, uploadFormDocuments } from "../../api/RequestService";
 import { getServiceDescription } from "../../api/ServiceDescription";
 import { getUser } from "../../api/Auth";
 import { format } from 'date-fns'
@@ -205,6 +205,8 @@ function RequestService() {
       appliedRuleList: Array.from(noDuplicates).reverse(),
       fakeStep: formData?.fakeStep,
       step: formData?.step,
+      variations:[selectedVariation.id],
+      totalPayment:selectedVariation.price
     }
     if (isEmpty(request.data)) {
       return
@@ -216,48 +218,9 @@ function RequestService() {
     }
   }
 
-
   const sendRequest = async (valuesOfForm) => {
     const formData = formRef.current?.saveForm()
     const _plainData = arrayArrayToArray(formData?.localData)
-    const request = {
-      req: {
-        service_id: serviceID,
-        doc_identification: userData.payload.citizen_id,
-        name_service: serviceDescription.name,
-        process_flow: serviceDescription.process_flow,
-        form_version: cleanString(getData().formulary_data?.version),
-        payment_amount: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
-        payment_status: "1",
-        payment_method: "2",
-        total: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
-        variations: [
-          serviceDescription.prices[0].variations[0].id
-        ],
-        cant: "1",
-        idAutorizacionPortal: ""
-      },
-      form: {
-        citizen_record_id: userData.payload.citizen_id,
-        expertform_id: serviceDescription.expertform_id,
-        data: transformFormData(valuesOfForm, _plainData).filter((field) => field.type != FIELD_TYPES.file && field.type != FIELD_TYPES.grid),
-        grid: transformFormGrid(valuesOfForm, _plainData)
-      },
-      documents: [],
-      userInfo: {
-        numdocsolicita: userData.payload.citizen_id,
-        tipodocsolicita: 1,
-        nombressolicita: userData.payload.name,
-        apellidossolici: `${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
-        fechasolicitud: format(new Date(), 'yyyy-MM-dd'),
-        direccsolic: userData.payload.address,
-        nacionsolic: "Dominicano",
-        celularsolic: cleanStringFromNumbers(userData.payload.phone),
-        emailsolic: userData.payload.email,
-        solicitudonline: 1,
-      }
-    }
-
     dispatch(ShowGlobalLoading('Cargando'));
     try {
 
@@ -294,11 +257,66 @@ function RequestService() {
       }
       if (canSubmitForm) {
         let canFormContinue = true;
+        let documentsArray = [];
+        for (let i = 0; i < uploadedFilesRoutes.length; i++) {
+          const file = {
+            documents:
+              [
+                {
+                  ...uploadedFilesRoutes[i],
+                }
+              ],
+            process_id: serviceDescription.process_id,
+            names: [uploadedFilesRoutes[i].label],
+            activity_id: serviceDescription.activity_id,
+            new_request: true
+          }
+          documentsArray.push((file));
+        }
+        const request = {
+          req: {
+            service_id: serviceID,
+            doc_identification: userData.payload.citizen_id,
+            name_service: serviceDescription.name,
+            process_flow: serviceDescription.process_flow,
+            form_version: cleanString(getData().formulary_data?.version),
+            payment_amount: localToNumber(selectedVariation.price),
+            payment_status: "1",
+            payment_method: "2",
+            total: localToNumber(selectedVariation.price),
+            variations: [
+              selectedVariation.id
+            ],
+            cant: "1",
+            idAutorizacionPortal: ""
+          },
+          form: {
+            citizen_record_id: userData.payload.citizen_id,
+            expertform_id: serviceDescription.expertform_id,
+            data: transformFormData(valuesOfForm, _plainData).filter((field) => field.type != FIELD_TYPES.file && field.type != FIELD_TYPES.grid),
+            grid: transformFormGrid(valuesOfForm, _plainData)
+          },
+          documents: documentsArray,
+          userInfo: {
+            numdocsolicita: userData.payload.citizen_id,
+            tipodocsolicita: 1,
+            nombressolicita: userData.payload.name,
+            apellidossolici: `${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
+            fechasolicitud: format(new Date(), 'yyyy-MM-dd'),
+            direccsolic: userData.payload.address,
+            nacionsolic: "Dominicano",
+            celularsolic: cleanStringFromNumbers(userData.payload.phone),
+            emailsolic: userData.payload.email,
+            solicitudonline: 1,
+          }
+        }
+
         dispatch(ShowGlobalLoading('Registrando solicitud'));
         let responseFormSubmit = await registerForm(request);
         if (responseFormSubmit.success) {
           if (uploadedFilesRoutes.length > 0) {
-            let uploadSoftExpertArray = []
+            dispatch(ShowGlobalLoading('Procesando solicitud'));
+            let uploadSoftExpertArrayAxios = [];
             for (let i = 0; i < uploadedFilesRoutes.length; i++) {
               const uploadSoftExpertConfig = {
                 documents:
@@ -316,17 +334,18 @@ function RequestService() {
                 activity_id: serviceDescription.activity_id,
                 new_request: true
               }
-              uploadSoftExpertArray.push(linkingDocumentsToRequestInSoftExperted(uploadSoftExpertConfig));
+              uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
             }
-            dispatch(ShowGlobalLoading('Procesando solicitud'));
-            await axios.all(uploadSoftExpertArray);
+            if (serviceDescription.send === 1) {
+              await axios.all(uploadSoftExpertArrayAxios);
+            }
 
             let requestBackOffice = {
               documents: uploadedFilesRoutes
             };
             let responseBackOffice = await linkingDocumentsToRequestInBackOffice(requestBackOffice, responseFormSubmit.RequestID);
             if (responseBackOffice.success) {
-
+              //GOOD
             } else {
               canFormContinue = false;
               enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
@@ -381,6 +400,9 @@ function RequestService() {
       totalPayment: totalPayment,
       variations: variations,
     })
+    const formPriceVariation = serviceDescription?.prices?.[0]?.variations
+    .find((variation) => variation.id === variations[0])
+    setSelectedVariation(formPriceVariation)
     setTimeout(() => {
       //Simulate loading for 2.5s 
       //Bug with react 17 for update somes components value is needed unmount and mount the Form component
@@ -405,7 +427,7 @@ function RequestService() {
         !showRequestDetail ?
           <Container>
             {
-              draftLoading ?
+              draftLoading && selectedVariation === undefined ?
                 null
                 :
                 <Form
@@ -417,6 +439,7 @@ function RequestService() {
                   handleFormSave={handleFormSave}
                   multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
                   initialForm={state}
+                  variations={[selectedVariation?.id]}
                 />
             }
             <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
@@ -434,7 +457,7 @@ function RequestService() {
                   </strong>
                 </Fragment>
               } />
-            <Dialog open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
+            <Dialog keepMounted disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
               <PricesContainer>
                 <Title>Tarifas del servicio</Title>
                 <SmallHeightDivider />

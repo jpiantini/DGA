@@ -13,7 +13,7 @@ export const uploadFormDocuments = (documentsList) => {
     return ApiServiceUploadCall().post('/files',documentsList).then(({data}) => data);
 }
 
-export const linkingDocumentsToRequestInSoftExperted = (request) => {
+export const linkingDocumentsToRequestInSoftExpert = (request) => {
     return ApiServiceUploadCall().post('/uploadsoftexpert',request).then(({data}) => data);
 }
 
@@ -24,4 +24,7 @@ export const linkingDocumentsToRequestInBackOffice = (filesList,requestID) => {
 export const addRating = (rating,loggedUserCedula) => {
     //TO DO CHANGE ENDPOINT
     return apiServiceCall().post(`/assigndocument/${loggedUserCedula}`,rating).then(({data}) => data);
+}
+export const linkingDocumentsToRequestInSoftExperted = (request) => {
+    return ApiServiceUploadCall().post('/uploadsoftexpert',request).then(({data}) => data);
 }

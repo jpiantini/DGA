@@ -11,7 +11,7 @@ function PaymentCard({ title, onClick, variations }) {
 
     const [servicePrice, setServicePrice] = useState(variations?.[0]?.price);
 
-    const [selectedVariation, setSelectedVariation] = useState(variations?.[0]?.id);
+    const [selectedVariation, setSelectedVariation] = useState(variations?.[0]);
     const [quantityForRequest, setQuantityForRequest] = useState(1);
 
 
@@ -23,20 +23,28 @@ function PaymentCard({ title, onClick, variations }) {
             //maxValue: variation.
         }
     })
-
-    const handleValueChange = (value) => {
-        const selectedVariationPrice = variations.find((variation) => variation.id == selectedVariation)?.price;
-        setServicePrice(value * selectedVariationPrice)
-        setQuantityForRequest(value)
-    }
+    /* THIS FUNCTIONS IS REMOVED BECAUSE ON THIS PROJECT ONLY HAVE 1 PRICE WITH VARIATIONS USER CANT PUT AMOUNTS FOR CALCS
+        const handleValueChange = (value) => {
+            const selectedVariationPrice = variations.find((variation) => variation.id == selectedVariation)?.price;
+            setServicePrice(value * selectedVariationPrice)
+            setQuantityForRequest(value)
+        }
+    
+        const handleRadioChange = (value) => {
+            const selectedVariationPrice = variations.find((variation) => variation.id == value)?.price;
+            setServicePrice(quantityForRequest * selectedVariationPrice);
+            setSelectedVariation(value);
+    
+        }
+    */
 
     const handleRadioChange = (value) => {
-        const selectedVariationPrice = variations.find((variation) => variation.id == value)?.price;
-        setServicePrice(quantityForRequest * selectedVariationPrice);
-        setSelectedVariation(value);
+        const variation = variations.find((variation) => variation.id == value);
+        const selectedVariationPrice = variation?.price
+        setServicePrice(selectedVariationPrice);
+        setSelectedVariation(variation);
 
     }
-
     return (
         <Container>
             <Header>
@@ -53,9 +61,9 @@ function PaymentCard({ title, onClick, variations }) {
                         <div>
                             <SmallHeightDivider />
                             <RadioButtonGroup options={variationsForCheckGroup} title="Opciones de servicio" helperText={null}
-                                onChange={(e) => handleRadioChange(e.target.value)} value={selectedVariation} />
-                        
-                           {/* <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                onChange={(e) => handleRadioChange(e.target.value)} value={selectedVariation?.id} />
+
+                            {/* <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <strong>
                                     <BodySubTitle>
                                         Especifique cantidad a solicitar
@@ -76,7 +84,7 @@ function PaymentCard({ title, onClick, variations }) {
                     <BodySubTitle>Tiempo de entrega</BodySubTitle>
                     <strong>
                         <BodyTitle>
-                            {priceVariationToLaborableTime(variations?.find((variation) => variation.id == selectedVariation)?.delivery_time)}
+                            {priceVariationToLaborableTime(variations?.find((variation) => variation.id == selectedVariation?.id)?.delivery_time)}
                         </BodyTitle>
                     </strong>
                 </div>

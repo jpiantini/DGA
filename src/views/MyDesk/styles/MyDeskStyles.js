@@ -7,7 +7,7 @@ import FONTS_FAMILY from '../../../theme/FontsFamily';
 export const Container = styled('div')({
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
 });
 
 export const MetricsTextContainer = styled('div')({
@@ -38,6 +38,7 @@ export const MetricsTitle = styled('h1')({
 });
 
 export const MetricsValue = styled('h1')({
+    overflowWrap:'break-word',
     margin: 0,
     fontFamily:FONTS_FAMILY.bold.body,
     color: COLORS.secondary,

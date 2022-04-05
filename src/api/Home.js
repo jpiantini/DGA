@@ -11,5 +11,5 @@ export const getVideoDataFromWordpress = () => {
 
 export const getHomeMetricsData = () => {
     //TO DO CHANGE ENDPOINT
-    return apiServiceCall().get('/web/v1/homeImage').then(({data}) => data);
+    return apiServiceCall().get('/statistics').then(({data}) => data);
 }

@@ -63,15 +63,18 @@ function Details() {
                         {new Date(replaceGuionToSlashFromString(requestData.request.created_at)).toLocaleDateString()}
                     </BodyText>
                 </Grid>
+                {
+                    requestData.request?.provisional === 0 &&
+                    <Grid item xs={6} sm={4} md={4}>
+                        <BodyTextBold>
+                            Numero de solicitud:
+                        </BodyTextBold>
+                        <BodyText>
+                            {requestData.request.code}
+                        </BodyText>
+                    </Grid>
+                }
 
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                        Numero de solicitud:
-                    </BodyTextBold>
-                    <BodyText>
-                        {requestData.request.code}
-                    </BodyText>
-                </Grid>
 
                 {
                     requestData.data.map((item) => (

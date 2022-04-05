@@ -10,15 +10,15 @@ export const localToArray = (array) => {
 }
 
 //dataToSelect
-const dataToSelect = (data) => { 
+const dataToSelect = (data) => {
   return localToArray(data).map(item => {
     return {
-          id: item.value,
-          label: item.label,
-          value: item.value,
-          rule: item.rule,
-          father:item.father,
-          invertRule: invertRule(item.rule),
+      id: item.value,
+      label: item.label,
+      value: item.value,
+      rule: item.rule,
+      father: item.father,
+      invertRule: invertRule(item.rule),
     }
   })
 }
@@ -42,7 +42,7 @@ const dataToCheckboxGroup = (data) => {
   })
 }
 
-const transformDataArray = (data,fieldType) => {
+const transformDataArray = (data, fieldType, extraData) => {
   switch (fieldType) {
     case FIELD_TYPES.radioGroup:
       return dataToRadioSelect(data)
@@ -50,6 +50,8 @@ const transformDataArray = (data,fieldType) => {
       return dataToSelect(data)
     case FIELD_TYPES.checkboxGroup:
       return dataToCheckboxGroup(data)
+    case FIELD_TYPES.rulesPrice:
+      return extraData
     default:
       return []
   }
@@ -74,12 +76,12 @@ export const transformField = (field) => {
     ...field,
     key: field.orden,
     fieldKey: field.name,
-    data: transformDataArray(field.values, field.type),
+    data: transformDataArray(field.values, field.type,field.data),
     gridData: [],
     fields,
     values: transformValues(field.values),
     //dev
- //  hidden:false,
+    //  hidden:false,
   }
 }
 
@@ -102,9 +104,9 @@ export const mapArrayDiff = (array1, array2, unique = false) => {
 }
 
 export const arrayArrayToArray = (arrayArray) => {
-  const array= []
+  const array = []
 
-  if(!arrayArray){
+  if (!arrayArray) {
     return []
   }
 

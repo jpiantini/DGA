@@ -35,9 +35,9 @@ function MyRequests() {
 
     const { data: requestsList, isLoading: requestListIsLoading } =
         useQuery(['requestsList', requestType, stringFilter, currentPage], () =>
-            getRequestedServicesWithFilters(userData.payload.citizen_id, currentPage, requestType, stringFilter),{
-                staleTime:cacheConfig.staleTimeForRequestedServicesList
-            });
+            getRequestedServicesWithFilters(userData.payload.citizen_id, currentPage, requestType, stringFilter), {
+            staleTime: cacheConfig.staleTimeForRequestedServicesList
+        });
 
     const handleTypeChange = (value) => {
         handlePageChange(1);
@@ -61,7 +61,7 @@ function MyRequests() {
         setRequestName('')
     }
 
-    if (requestListIsLoading) return <CenterLoading/>;
+    if (requestListIsLoading) return <CenterLoading />;
 
     return (
         <Fade right >
@@ -92,14 +92,14 @@ function MyRequests() {
                         onChange={(e) => setRequestName(e.target.value)}
                     />
                 </div>
-                { stringFilter.length > 0 &&
+                {stringFilter.length > 0 &&
                     <div style={{ width: '10%' }}>
-                <IconButton onClick={() => handleRemoveFilters()} aria-label="delete">
-                    <DeleteIcon titleAccess='Eliminar filtro' color='error' sx={{ fontSize: '1.5em' }} />
-                </IconButton>
-                </div>
+                        <IconButton onClick={() => handleRemoveFilters()} aria-label="delete">
+                            <DeleteIcon titleAccess='Eliminar filtro' color='error' sx={{ fontSize: '1.5em' }} />
+                        </IconButton>
+                    </div>
                 }
-                
+
                 <div style={{ width: '20%' }}>
                     <StyledButtonOutlined onClick={handleStringFilter} variant='outlined'>
                         Buscar
@@ -118,7 +118,7 @@ function MyRequests() {
                             <RequestCard title={request.service.name} percent={request.progress + "%"}
                                 date={request.created_at}
                                 approvalNumber={request.approval_number}
-                                requestCode={request.code}
+                                requestCode={request?.provisional === 0 ? request.code : null}
                                 status={request.status.name}
                                 actionRequired={request.request_actions}
                                 onClick={() => history.push(`/app/serviceRequestedDetails/${request.id}`)}
@@ -126,7 +126,7 @@ function MyRequests() {
                                 solution={request.solution}
                                 solutionColor={request.status.color}
                                 paymentData={request.payment}
-                                />
+                            />
                         </Fragment>
                     ))
                 }

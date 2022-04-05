@@ -18,13 +18,18 @@ import MyProfile from './subViews/myProfile/MyProfile';
 import MyRequests from './subViews/MyRequests/MyRequests';
 import MyDocuments from './subViews/myDocuments/MyDocuments';
 import MyInstitutionalDocuments from './subViews/myInstitutionalDocuments/MyInstitutionalDocuments';
+import { useQuery, useQueryClient } from 'react-query';
+import { getMetricsData } from '../../api/myDesk';
+import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 function MyDesk() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
 
+    
     const [ActiveMenu, setActiveMenu] = useState(1); //0 MI PERFIL , 1 MIS SOLICITUDES, 2 MIS DOCUMENTOS
     const [ActiveDocumentMenu, setActiveDocumentMenu] = useState(0); //0 DOCUMENTOS PERSONALES ,1 DOCUMENTOS INSTITUCIONALES
 
@@ -35,6 +40,10 @@ function MyDesk() {
     const [openRequestDetailModal, setOpenRequestDetailModal] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState();
 
+    const userData = queryClient.getQueryData(['userData']);
+    const { data: metricsData, isLoading: metricsDataIsLoading } = useQuery(['myDeskMetricsData'], () => getMetricsData(userData.payload.citizen_id),{
+        enabled: userData.payload.citizen_id !== undefined
+    })
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID)
@@ -53,7 +62,7 @@ function MyDesk() {
     useLayoutEffect(() => {
         dispatch(UpdateAppSubHeaderTitle('Mi escritorio')) //SET SUBHEADER TITLE
     }, []);
-
+    if (metricsDataIsLoading) return <CenterLoading/>
     return (
         <Container >
             <Row>
@@ -70,22 +79,22 @@ function MyDesk() {
                     <CardContainer>
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes en proceso</MetricsTitle>
-                            <MetricsValue>01</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsOpen}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes completadas</MetricsTitle>
-                            <MetricsValue>02</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsComplete}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Documentos subidos</MetricsTitle>
-                            <MetricsValue>06</MetricsValue>
+                            <MetricsValue>{metricsData?.documents}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes rechazadas</MetricsTitle>
-                            <MetricsValue>01</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsRejected}</MetricsValue>
                         </MetricsTextContainer>
                     </CardContainer>
 

@@ -65,6 +65,13 @@ export function replaceGuionToSlashFromString(s) {
   return localToString(s).replace(/-/g, "/")
 }
 
+export function removeGuionFromString(s) {
+  if (!s) {
+    return ''
+  }
+  return localToString(s).replace(/-/g, "")
+}
+
 export function containString(v1, v2, caseSensitive = false) {
   if (!v1 || !v2) {
     return false;

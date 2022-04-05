@@ -28,6 +28,8 @@ import { getUser, registerLoggedUserInServiceBackend } from '../../../api/Auth';
 import { cleanStringFromNumbers } from '../../../utilities/functions/NumberUtil';
 import { useQuery } from 'react-query';
 import userLogo from '../../../assets/images/user.png'
+import {removeGuionFromString} from '../../../utilities/functions/StringUtil'
+
 function Login() {
 
     const history = useHistory();
@@ -60,7 +62,7 @@ function Login() {
             dispatch(ShowGlobalLoading('Iniciando sesión'));
             let response = await apiCall().post('/auth/login',
                 {
-                    citizen_id: formData.id,
+                    citizen_id: removeGuionFromString(formData.id),
                     password: formData.password,
                 });
             if (response.data?.success) {
