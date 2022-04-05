@@ -205,6 +205,8 @@ function RequestService() {
       appliedRuleList: Array.from(noDuplicates).reverse(),
       fakeStep: formData?.fakeStep,
       step: formData?.step,
+      variations:[selectedVariation.id],
+      totalPayment:selectedVariation.price
     }
     if (isEmpty(request.data)) {
       return
@@ -216,11 +218,9 @@ function RequestService() {
     }
   }
 
-
   const sendRequest = async (valuesOfForm) => {
     const formData = formRef.current?.saveForm()
     const _plainData = arrayArrayToArray(formData?.localData)
-
     dispatch(ShowGlobalLoading('Cargando'));
     try {
 
@@ -280,12 +280,12 @@ function RequestService() {
             name_service: serviceDescription.name,
             process_flow: serviceDescription.process_flow,
             form_version: cleanString(getData().formulary_data?.version),
-            payment_amount: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
+            payment_amount: localToNumber(selectedVariation.price),
             payment_status: "1",
             payment_method: "2",
-            total: localToNumber(serviceDescription.prices?.[0].variations?.[0].price),
+            total: localToNumber(selectedVariation.price),
             variations: [
-              serviceDescription.prices[0].variations[0].id
+              selectedVariation.id
             ],
             cant: "1",
             idAutorizacionPortal: ""
@@ -400,6 +400,9 @@ function RequestService() {
       totalPayment: totalPayment,
       variations: variations,
     })
+    const formPriceVariation = serviceDescription?.prices?.[0]?.variations
+    .find((variation) => variation.id === variations[0])
+    setSelectedVariation(formPriceVariation)
     setTimeout(() => {
       //Simulate loading for 2.5s 
       //Bug with react 17 for update somes components value is needed unmount and mount the Form component
@@ -424,7 +427,7 @@ function RequestService() {
         !showRequestDetail ?
           <Container>
             {
-              draftLoading ?
+              draftLoading && selectedVariation === undefined ?
                 null
                 :
                 <Form
@@ -436,6 +439,7 @@ function RequestService() {
                   handleFormSave={handleFormSave}
                   multipleDocuments={serviceDescription?.multiple_document === "true" ? true : false}
                   initialForm={state}
+                  variations={[selectedVariation?.id]}
                 />
             }
             <ImportantInformationModal open={showRestoreFormModal} onBackDropClick={() => { }}
@@ -453,7 +457,7 @@ function RequestService() {
                   </strong>
                 </Fragment>
               } />
-            <Dialog open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
+            <Dialog keepMounted disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
               <PricesContainer>
                 <Title>Tarifas del servicio</Title>
                 <SmallHeightDivider />

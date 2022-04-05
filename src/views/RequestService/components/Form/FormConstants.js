@@ -10,6 +10,7 @@ export const FIELD_TYPES = {
   file: 'file',
   grid:'grid',
   initialValues: "rules",
+  rulesPrice: 'rulesprice',
 }
 
 

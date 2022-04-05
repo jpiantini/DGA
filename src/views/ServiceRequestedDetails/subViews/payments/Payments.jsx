@@ -160,7 +160,7 @@ function Payment() {
             <TextInformation title="Método de pago" />
             <SmallHeightDivider />
             <SmallHeightDivider />
-            <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+            <Grid alignSelf="center" justifyContent="space-between" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
                 {
                     requestData.request.service.sirit_code != null &&
                     <Grid item xs={6} sm={4} md={4}>
@@ -216,58 +216,64 @@ function Payment() {
 
             <SmallHeightDivider />
             <SmallHeightDivider />
-            <TextInformation title="Mis pagos" />
-            <SmallHeightDivider />
+            {/*
+                <Fragment>
+                    <TextInformation title="Mis pagos" />
+                    <SmallHeightDivider />
+                    {
+                        MockupPayments.map((payment) => (
+                            <Fragment>
+                                <CardContainer>
+                                    <CardTextContainer>
+                                        <Grid alignItems="flex-start" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Pago
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.requestName}
+                                                </CardBodyText>
+                                            </Grid>
 
-            {
-                MockupPayments.map((payment) => (
-                    <Fragment>
-                        <CardContainer>
-                            <CardTextContainer>
-                                <Grid alignItems="flex-start" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
-                                    <Grid item xs={6} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Pago
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {payment.requestName}
-                                        </CardBodyText>
-                                    </Grid>
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    ID de pago
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.confirmationID}
+                                                </CardBodyText>
+                                            </Grid>
 
-                                    <Grid item xs={6} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            ID de pago
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {payment.confirmationID}
-                                        </CardBodyText>
-                                    </Grid>
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Monto pagado
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.amount}
+                                                </CardBodyText>
+                                            </Grid>
 
-                                    <Grid item xs={6} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Monto pagado
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {payment.amount}
-                                        </CardBodyText>
-                                    </Grid>
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Fecha de pago
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.date}
+                                                </CardBodyText>
+                                            </Grid>
 
-                                    <Grid item xs={6} sm={4} md={4}>
-                                        <CardBodyTitle>
-                                            Fecha de pago
-                                        </CardBodyTitle>
-                                        <CardBodyText>
-                                            {payment.date}
-                                        </CardBodyText>
-                                    </Grid>
+                                        </Grid>
+                                    </CardTextContainer>
+                                </CardContainer>
+                                <SmallHeightDivider />
+                            </Fragment>
+                        ))
+                    }
+                </Fragment>
 
-                                </Grid>
-                            </CardTextContainer>
-                        </CardContainer>
-                        <SmallHeightDivider />
-                    </Fragment>
-                ))
-            }
+                */ }
+
+
 
         </Container>
     );

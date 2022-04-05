@@ -119,7 +119,7 @@ function Form(props, ref) {
         if (_data.length > 0) {
             //setting every key to undefined so formik mark red error
             const innerState = { ...state, ...values }
-
+            const innerRules = []
             for (const field of props.plainData) {
                 if (!innerState[field.fieldKey]) {
                     innerState[field.fieldKey] = undefined
@@ -127,48 +127,83 @@ function Form(props, ref) {
             }
 
             //initialValues from dynamic form
-            let initialState = props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules?.[0]
-            if (!initialState) {
-                //setting initial rules && values
-                changeRule(localToArray(props.initialForm?.rules), _data, !localToArray(props.initialForm?.rules).length, true)
-                setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
-                setFakeStep(0)
-                setActiveStep(0)
-                //BUG IN SOME FIELDS DONT SHOW THE VALUE WITH SETTIMEOUT 1 MS I SOLVED THE BUG
-                setTimeout(() => {
-                    setFakeStep(props.initialForm?.fakeStep || 0)
-                    setActiveStep(props.initialForm?.step || 0)
-                }, 1);
-                return
-            } else if (initialState) {
-                initialState = JSON.parse(initialState)
-            }
-            const rules = []
-            for (const field of initialState) {
+            let initialState = localToArray(props.plainData.find(field => field.type == FIELD_TYPES.initialValues)?.rules)
+            if (initialState.length) {
+            for (const row of initialState) {
+                const _row = localToArray(JSON.parse(row))
+                for (const field of _row) {
                 const originalObject = props.plainData.find(plainField => plainField.name == field.name)
                 switch (field.type) {
                     case FIELD_TYPES.checkboxGroup:
                         const checkRule = originalObject?.values.find(values => values.value == field.value)?.rule
                         if (checkRule) {
-                            rules.push(checkRule)
+                            innerRules.push(checkRule)
                         }
                         innerState[field.name] = true
                         break;
                     case FIELD_TYPES.radioGroup:
                         const radioRule = originalObject?.values.find(values => values.value == field.value)?.rule
                         if (radioRule) {
-                            rules.push(radioRule)
+                            innerRules.push(radioRule)
                         }
                         innerState[field.name] = field.value
+                        break;
+                    case FIELD_TYPES.select:
+                        const selectObject = originalObject?.data?.find(values => values.value == field.value)
+                        if (selectObject?.rule) {
+                            innerRules.push(selectObject?.rule)
+                        }
+                        innerState[field.name] = selectObject.value
                         break;
                     default:
                         innerState[field.name] = field.value
                         break;
+                    }
                 }
             }
+        }
 
+            //Initial rulesprice
+            const rulesPrice = localToArray(
+                props.plainData.find(field => field.type == FIELD_TYPES.rulesPrice)?.data
+            ).filter(rulePrice => [...props.variations, props.initialForm?.variations].includes(rulePrice?.id))
+            if (rulesPrice.length) {
+                for (const row of rulesPrice) {
+                    const _row = localToArray(JSON.parse(row?.rules))
+                    for (const field of _row) {
+                        const originalObject = props.plainData.find(plainField => plainField.name == field.name)
+                        switch (field.type) {
+                            case FIELD_TYPES.checkboxGroup:
+                                const checkRule = originalObject?.values.find(values => values.value == field.name)?.rule
+                                if (checkRule) {
+                                    innerRules.push(checkRule)
+                                }
+                                innerState[field.name] = true
+                                break;
+                            case FIELD_TYPES.radioGroup:
+                                const radioRule = originalObject?.values.find(values => values.value == field.value)?.rule
+                                if (radioRule) {
+                                    innerRules.push(radioRule)
+                                }
+                                innerState[field.name] = field.value
+                                break;
+                            case FIELD_TYPES.select:
+                                const selectObject = originalObject?.data?.find(values => values.value == field.value)
+                                if (selectObject?.rule) {
+                                    innerRules.push(selectObject?.rule)
+                                }
+                                innerState[field.name] = selectObject.value
+                                break;
+                            default:
+                                innerState[field.name] = field.value
+                                break;
+                        }
+                        innerRules.push(`2:${field.name}`)
+                    }
+                }
+            }
             //setting initial rules && values
-            changeRule([...rules, ...localToArray(props.initialForm?.rules)], _data, !localToArray(props.initialForm?.rules).length, true)
+            changeRule([...innerRules, ...localToArray(props.initialForm?.rules)], _data, !localToArray(props.initialForm?.rules).length, true)
             setState({ ...innerState, ...localToObject(props.initialForm?.data), ...localToObject(props.initialForm?.grid) })
             setFakeStep(0)
             setActiveStep(0)
@@ -179,7 +214,7 @@ function Form(props, ref) {
             }, 1);
         }
         return () => { }
-    }, [props.data, props.initialForm])
+    }, [props.data, props.initialForm,props.variations])
 
     const handleSubmitForm = (e) => {
         handleSubmit(e);
@@ -235,16 +270,19 @@ function Form(props, ref) {
     };
 
 
-    const changeRule = (rule, initialData, setAnyway = false, initialCall = false) => {
-        if (setAnyway) {
-            setLocalData(localToArray(initialData))
+    const changeRule = (rule, initialData, initialCall = false) => {
+        if (!initialCall && (!rule || !rule.length)) {
             return
-        } else if (!initialCall && (!rule || !rule.length)) {
+          } else if (initialCall && (!rule || !rule.length)) {
+            setLocalData(localToArray(initialData ?? localData))
             return
-        }
+          }
         const ruleList = Array.isArray(rule) ? localToArray(rule) : [localToString(rule)]
         let _localData = localToArray(initialData ?? localData)
         for (let index = 0; index < ruleList.length; index++) {
+            if (!ruleList[index] || ruleList[index] == '') {
+                continue
+              }
             const ruleSeparated = localToString(ruleList[index]).split(':')
             const ruleAction = localToString(ruleSeparated[0]).split(',')
             const ruleField = localToString(ruleSeparated[1]).split(',')

@@ -41,7 +41,9 @@ function MyDesk() {
     const [selectedRequest, setSelectedRequest] = useState();
 
     const userData = queryClient.getQueryData(['userData']);
-    const { data: metricsData, isLoading: metricsDataIsLoading } = useQuery(['myDeskMetricsData'], () => getMetricsData(userData.payload.citizen_id))
+    const { data: metricsData, isLoading: metricsDataIsLoading } = useQuery(['myDeskMetricsData'], () => getMetricsData(userData.payload.citizen_id),{
+        enabled: userData.payload.citizen_id !== undefined
+    })
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID)
@@ -77,22 +79,22 @@ function MyDesk() {
                     <CardContainer>
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes en proceso</MetricsTitle>
-                            <MetricsValue>{metricsData.reqsOpen}</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsOpen}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes completadas</MetricsTitle>
-                            <MetricsValue>{metricsData.reqsComplete}</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsComplete}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Documentos subidos</MetricsTitle>
-                            <MetricsValue>{metricsData.documents}</MetricsValue>
+                            <MetricsValue>{metricsData?.documents}</MetricsValue>
                         </MetricsTextContainer>
                         <MetricsContentDivider />
                         <MetricsTextContainer>
                             <MetricsTitle>Solicitudes rechazadas</MetricsTitle>
-                            <MetricsValue>{metricsData.reqsRejected}</MetricsValue>
+                            <MetricsValue>{metricsData?.reqsRejected}</MetricsValue>
                         </MetricsTextContainer>
                     </CardContainer>
 

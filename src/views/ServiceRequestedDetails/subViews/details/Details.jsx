@@ -64,7 +64,7 @@ function Details() {
                     </BodyText>
                 </Grid>
                 {
-                    requestData.request?.provitional === 0 &&
+                    requestData.request?.provisional === 0 &&
                     <Grid item xs={6} sm={4} md={4}>
                         <BodyTextBold>
                             Numero de solicitud:
