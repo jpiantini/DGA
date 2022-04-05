@@ -124,7 +124,7 @@ function Home() {
           <div>
             <StyledDescriptionIcon />
             <Title>+{homeMetricsData.requests}</Title>
-            <SubTitle>Solicitudes de licencias</SubTitle>
+            <SubTitle>Solicitudes realizadas</SubTitle>
           </div>
           <div>
             <StyledPersonAddIcon />

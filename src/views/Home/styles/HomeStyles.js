@@ -202,6 +202,7 @@ export const StyledSearchIcon = styled(SearchIcon)({
 });
 
 export const Title = styled("h1")({
+  wordWrap:'break-word',
   margin: 0,
   textAlign: "center",
   color: COLORS.white,

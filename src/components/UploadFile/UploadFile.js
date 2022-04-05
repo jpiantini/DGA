@@ -242,7 +242,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file' multiple={multipleDocuments} accept={'*'}
+                <InputFile id={id} type='file' multiple={multipleDocuments} accept={extension === 'pdf' ? 'application/pdf':'*'}
                     onBlur={(e) => {
                         onBlur && validateAndChangeSelectedFiles(onBlur, e)
                     }
