@@ -79,7 +79,7 @@ const reverseTransformValue = (val, fieldProps) => {
       _val = val.value
       break;
     case FIELD_TYPES.checkboxGroup:
-      console.log(val, fieldProps)
+     // console.log(val, fieldProps)
       _val = fieldProps.data?.find(item => item.value == val.key)?.value
       break;
     case FIELD_TYPES.date:

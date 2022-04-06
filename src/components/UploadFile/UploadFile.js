@@ -31,7 +31,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const [selectedFiles, setSelectedFiles] = useState(value ? value : []);
     const [selectedFileName, setSelectedFileName] = useState(value?.[0]?.name);
 
-
     const validateAndChangeSelectedFiles = (action, e) => {
         let filesLength = e.target.files.length;
         if (filesLength > 0) {
@@ -48,9 +47,13 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 }
                 //Good select file by file type specified on extension
                 if (extension != undefined) {
+                        //Validate File extension valid in constants types and fileType
                     if (types.find((type) => type.includes(extension)) && file.type.includes(extension) ||
+                        //Validate File extension valid in constands types and fileType in file string name example file.pdf
                         types.find((type) => type.includes(extension)) && types.find((type) => type.includes(fileExtension)) &&
-                        extension.includes(fileExtension)) {
+                        extension.includes(fileExtension) ||
+                       //Validate File extension valid in constands types and fileType in file string name example file.pdf for XLSX AND XLS
+                       fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx') {
 
                         setSelectedFileName(file.name)
                         data.push(file)
@@ -99,7 +102,10 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const handleDocumentSelect = (e) => {
         const fileExtension = e.name.substring(e.name.indexOf('.') + 1)
         if (extension != undefined) {
-            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || types.find((type) => type.includes(fileExtension)) && extension.includes(fileExtension)) {
+            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || 
+            types.find((type) => type.includes(fileExtension)) && extension.includes(fileExtension) || 
+            //Validate File extension valid in constands types and fileType in file string name example file.pdf for XLSX AND XLS
+            fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx') {
                 //Good check selected file extension is equal than field required extension
             } else {
                 //bad

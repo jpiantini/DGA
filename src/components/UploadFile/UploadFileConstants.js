@@ -9,5 +9,5 @@ export const types = [
     'kml',
     'dwg',
     'xlsx',
-    'xls'
+    'xls',
 ];
