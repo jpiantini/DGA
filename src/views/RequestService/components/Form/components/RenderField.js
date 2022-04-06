@@ -38,14 +38,14 @@ const RenderField = (props) => {
       case FIELD_TYPES.select:
         // data object of form json. reference -> ArrayUtil/dataToSelect.js
         const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value);
-        const rulesSelect = localToString(localToArray(props.data).find(item => item.value == val.target.value).rule)
-        const invertRulesSelect = localToString(currentSelectedValue.invertRule)
         if (val?.target.value) {
+          const rulesSelect = localToString(localToArray(props.data).find(item => item.value == val.target.value).rule)
           if (rulesSelect.length > 0) {
             props.changeRule(rulesSelect)
           }
         } else if (currentSelectedValue?.invertRule) {
-          if (invertRuleCheckbox.length > 0) {
+          const invertRulesSelect = localToString(currentSelectedValue.invertRule)
+          if (invertRulesSelect.length > 0) {
             props.changeRule(invertRulesSelect);
           }
         }
@@ -53,26 +53,26 @@ const RenderField = (props) => {
       case FIELD_TYPES.checkboxGroup:
         const selectedOption = mapArrayDiff(val.target.value, props.value)[0]
         const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
-        const rulesCheckbox = props.values.find(item => item.value == selectedOption)?.rule
-        const invertRuleCheckbox = props.values.find(item => item.value == unselectedOption)?.ruleF
         if (selectedOption) {
+          const rulesCheckbox = props.values.find(item => item.value == selectedOption)?.rule
           if (rulesCheckbox.length > 0) {
             props.changeRule(rulesCheckbox)
           }
         } else {
+          const invertRuleCheckbox = props.values.find(item => item.value == unselectedOption)?.ruleF
           if (invertRuleCheckbox.length > 0) {
             props.changeRule(invertRuleCheckbox)
           }
         }
         break;
       case FIELD_TYPES.radioGroup:
-        const rulesRadio = props.values.find(item => item.value == val.target.value)?.rule
-        const invertRuleRadio = props.values.find(item => item.value == props.value)?.invertRule
         if (localToString(val.target.value).length > 0) {
+          const rulesRadio = props.values.find(item => item.value == val.target.value)?.rule
           if (rulesRadio.length > 0) {
             props.changeRule(rulesRadio)
           }
         } else {
+          const invertRuleRadio = props.values.find(item => item.value == props.value)?.invertRule
           if (invertRuleRadio.length > 0) {
             props.changeRule(invertRuleRadio)
           }
@@ -303,9 +303,9 @@ const RenderField = (props) => {
     if (props.hidden) {
       return null
     }
-    // const fullwidth = props.value?.length > 0 ? 12 : 6
     switch (props.type) {
       case FIELD_TYPES.radioGroup:
+        console.log(props.value)
         return (
           <Grid item xs={12} sm={12} md={12}>
             <RadioButtonGroup

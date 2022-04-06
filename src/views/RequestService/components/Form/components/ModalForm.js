@@ -20,6 +20,7 @@ import { localToString } from '../../../../../utilities/functions/StringUtil';
 import { localToObject } from '../../../../../utilities/functions/ObjectUtil';
 import FormModal from '../../../../../components/FormModal/FormModal';
 import { Grid } from '@mui/material';
+import { FIELD_TYPES } from '../FormConstants';
 
 function ModalForm(props) {
 
@@ -30,7 +31,7 @@ function ModalForm(props) {
   const { errors, setFieldTouched, setFieldValue, values, touched, handleSubmit, resetForm } = useFormik({
     initialValues: state,
     onSubmit: (values, actions) => {
-     localDoRequest({ values, actions })
+      localDoRequest({ values, actions })
     },
     validationSchema: yup.object().shape(schemaValidation),
     enableReinitialize: true,
@@ -66,14 +67,18 @@ function ModalForm(props) {
   const localDoRequest = ({ values, actions }) => {
     props.doRequest({ values, fatherKey: props.fatherKey, listIndex })
   }
-
   const LocalRenderGrid = ({ item, index }) => {
+    const fieldValue = item.type === FIELD_TYPES.select ||
+    item.type === FIELD_TYPES.radioGroup || item.type === FIELD_TYPES.checkboxGroup ?
+    values[item.fieldKey] !== undefined ? values[item.fieldKey]:""
+    :
+    values[item.fieldKey]
     return (
       <RenderField
         {...item}
         key={item.key}
         fieldKey={item.fieldKey}
-        value={values[item.fieldKey]}
+        value={fieldValue}
         fatherValue={values[localToString(item.father_id)]}
         placeholder={item.placeholder}
         error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}
@@ -97,9 +102,9 @@ function ModalForm(props) {
 
       </Grid>
       <MediumHeightDivider />
-        <StyledButton onClick={handleSubmit}>
-          {isModifying ? 'Guardar' : 'Confirmar'}
-        </StyledButton>
+      <StyledButton onClick={handleSubmit}>
+        {isModifying ? 'Guardar' : 'Confirmar'}
+      </StyledButton>
       <SmallHeightDivider />
     </FormModal>
   );
