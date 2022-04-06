@@ -38,27 +38,44 @@ const RenderField = (props) => {
       case FIELD_TYPES.select:
         // data object of form json. reference -> ArrayUtil/dataToSelect.js
         const currentSelectedValue = localToArray(props.data).find(item => item.value == props.value);
-        //new selectedValue
+        const rulesSelect = localToString(localToArray(props.data).find(item => item.value == val.target.value).rule)
+        const invertRulesSelect = localToString(currentSelectedValue.invertRule)
         if (val?.target.value) {
-          props.changeRule(localToString(localToArray(props.data).find(item => item.value == val.target.value).rule))
-        } else if (currentSelectedValue?.invertRule) { //current selectedValue
-          props.changeRule(localToString(currentSelectedValue.invertRule));
+          if (rulesSelect.length > 0) {
+            props.changeRule(rulesSelect)
+          }
+        } else if (currentSelectedValue?.invertRule) {
+          if (invertRuleCheckbox.length > 0) {
+            props.changeRule(invertRulesSelect);
+          }
         }
         break;
       case FIELD_TYPES.checkboxGroup:
         const selectedOption = mapArrayDiff(val.target.value, props.value)[0]
+        const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
+        const rulesCheckbox = props.values.find(item => item.value == selectedOption)?.rule
+        const invertRuleCheckbox = props.values.find(item => item.value == unselectedOption)?.ruleF
         if (selectedOption) {
-          props.changeRule(props.values.find(item => item.value == selectedOption)?.rule)
+          if (rulesCheckbox.length > 0) {
+            props.changeRule(rulesCheckbox)
+          }
         } else {
-          const unselectedOption = mapArrayDiff(props.value, val.target.value)[0]
-          props.changeRule(props.values.find(item => item.value == unselectedOption)?.ruleF)
+          if (invertRuleCheckbox.length > 0) {
+            props.changeRule(invertRuleCheckbox)
+          }
         }
         break;
       case FIELD_TYPES.radioGroup:
+        const rulesRadio = props.values.find(item => item.value == val.target.value)?.rule
+        const invertRuleRadio = props.values.find(item => item.value == props.value)?.invertRule
         if (localToString(val.target.value).length > 0) {
-          props.changeRule(props.values.find(item => item.value == val.target.value)?.rule)
+          if (rulesRadio.length > 0) {
+            props.changeRule(rulesRadio)
+          }
         } else {
-          props.changeRule(props.values.find(item => item.value == props.value)?.invertRule)
+          if (invertRuleRadio.length > 0) {
+            props.changeRule(invertRuleRadio)
+          }
         }
         break;
     }
@@ -115,7 +132,7 @@ const RenderField = (props) => {
     // 20 IS DPP FOR VALIDATE
     if (props.Mask === '20' && val.target.value.length > 0) {
       const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.formValues[props.MaskParam])
-      console.log(dependientValues)
+     // console.log(dependientValues)
       if (dependientValues?.selectedValueObject === undefined) {
         const _localFieldErrors = {
           ...props.localFieldErrors

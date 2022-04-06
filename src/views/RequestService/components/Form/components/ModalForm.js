@@ -29,7 +29,9 @@ function ModalForm(props) {
   const isModifying = listIndex !== undefined
   const { errors, setFieldTouched, setFieldValue, values, touched, handleSubmit, resetForm } = useFormik({
     initialValues: state,
-    onSubmit: (values, actions) => {console.log(values);localDoRequest({ values, actions })},
+    onSubmit: (values, actions) => {
+     localDoRequest({ values, actions })
+    },
     validationSchema: yup.object().shape(schemaValidation),
     enableReinitialize: true,
   });
@@ -84,7 +86,7 @@ function ModalForm(props) {
 
 
   return (
-    <FormModal open={props.isVisible} onClose={() => props.onVisibleChange(false)}>
+    <FormModal fullWidth maxWidth='xl' open={props.isVisible} onClose={() => props.onVisibleChange(false)}>
       <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 3, sm: 6, md: 12 }}>
 
         {
