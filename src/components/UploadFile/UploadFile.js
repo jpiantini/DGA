@@ -40,8 +40,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 const file = e.target.files[i];
                 const fileExtension = e.target.files[i].name.substring(e.target.files[i].name.indexOf('.') + 1)
                 const fileSize = file.size / 1024 / 1024;
-                if (fileSize > 64) {
-                    alert('El peso limite por archivo es de 64mb');
+                if (fileSize > 120) {
+                    alert('El peso limite por archivo es de 120mb');
                     loopError = true;
                     break;
                 }

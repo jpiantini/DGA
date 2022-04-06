@@ -28,7 +28,7 @@ import {
     VariationsContainer
 } from './styles/ServiceDescriptionStyles';
 import { useQuery } from 'react-query';
-import { getServiceDescription } from '../../api/ServiceDescription';
+import { getServiceCommentsAndRating, getServiceDescription } from '../../api/ServiceDescription';
 import { Box, Grid, Rating } from '@mui/material';
 import { hourIn24To12hours, priceVariationToLaborableTime } from '../../utilities/functions/FormatterUtil';
 import IconButton from '@mui/material/IconButton';
@@ -56,8 +56,8 @@ function ServiceDescription() {
             history.push('/public');
             dispatch(HideGlobalLoading());
         }
-
     })
+    const { data: serviceComments, isLoading:serviceCommentsIsLoading } = useQuery(['serviceComments', serviceID], () => getServiceCommentsAndRating(serviceID))
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
@@ -93,7 +93,7 @@ function ServiceDescription() {
 
     }, [serviceDescription]);
 
-    if (isLoading) return <CenterLoading/>;
+    if (isLoading || serviceCommentsIsLoading) return <CenterLoading/>;
 
     return (
         <Container >

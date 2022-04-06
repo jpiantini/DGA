@@ -6,6 +6,10 @@ export const FormSchema = yup.object({
   message: yup.string().required('Este campo es requerido'),
 }).required();
 
+export const FormRatingSchema = yup.object({
+    comment: yup.string().required('Este campo es requerido'),
+  }).required();
+
 export const MenuOptions = {
     details:0,
     claims:1,

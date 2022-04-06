@@ -12,33 +12,33 @@ export const Container = styled('div')({
 
 export const ChatContainer = styled('div')({
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     width: '100%',
     border: ` 2px solid ${COLORS.secondary}`,
     borderRadius: '25px',
-   // height: '500px',
+    // height: '500px',
 });
 
 export const MessageItem = styled('div')(props => ({
-    alignSelf:props.isUserMessage ? 'flex-end':'flex-start',
+    alignSelf: props.isUserMessage ? 'flex-end' : 'flex-start',
     maxWidth: '90%',
     borderRadius: '10px',
-    margin:'5px',
-    padding:'18px',
-    backgroundColor:props.isUserMessage ? COLORS.notificationComplete : COLORS.notificationWarning,
+    margin: '5px',
+    padding: '18px',
+    backgroundColor: props.isUserMessage ? COLORS.notificationComplete : COLORS.notificationWarning,
 }));
 
 export const ChatTopContainer = styled('div')(props => ({
-    position:'relative',
+    position: 'relative',
     display: 'flex',
-    overflow:'auto',
+    overflow: 'auto',
     flexDirection: 'column',
     alignSelf: 'center',
-    justifyContent: props.isEmpty ? 'center':'flex-start',
+    justifyContent: props.isEmpty ? 'center' : 'flex-start',
     width: '97%',
     height: '430px',
     maxHeight: '430px',
-    
+
 }));
 
 
@@ -47,7 +47,7 @@ export const MessageText = styled('p')({
     textAlign: 'left',
     fontSize: '16px',
     color: COLORS.black,
-    fontFamily:FONTS_FAMILY.regular.body
+    fontFamily: FONTS_FAMILY.regular.body
 });
 
 export const MessageDateText = styled('p')({
@@ -55,7 +55,7 @@ export const MessageDateText = styled('p')({
     textAlign: 'left',
     fontSize: '12px',
     color: COLORS.black,
-    fontFamily:FONTS_FAMILY.regular.body
+    fontFamily: FONTS_FAMILY.regular.body
 });
 
 export const ChatBottomContainer = styled('div')({
@@ -160,3 +160,8 @@ export const StyledSendIcon = styled(SendIcon)({
         fontSize: '40px',
     }
 });
+
+
+export const SolutionContainer = styled('div')(props => ({
+    width: props.fullwidth ? '100%' : '75%'
+}));

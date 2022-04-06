@@ -32,7 +32,7 @@ const transformValue = (val, fieldProps) => {
       _labelValue = fieldProps?.label
       break;
     case FIELD_TYPES.time:
-      _val = format(new Date(val), 'hh:mm')
+      _val = format(new Date(val), 'HH:mm')
       _labelValue = fieldProps?.label
       break;
     case FIELD_TYPES.text:
@@ -79,7 +79,7 @@ const reverseTransformValue = (val, fieldProps) => {
       _val = val.value
       break;
     case FIELD_TYPES.checkboxGroup:
-     // console.log(val, fieldProps)
+      // console.log(val, fieldProps)
       _val = fieldProps.data?.find(item => item.value == val.key)?.value
       break;
     case FIELD_TYPES.date:
@@ -87,7 +87,10 @@ const reverseTransformValue = (val, fieldProps) => {
       _val = new Date(val.value)
       break;
     case FIELD_TYPES.time:
-      _val = new Date(format(val.value, 'hh:mm'))
+      let hours = val.value.substring(0, 2)
+      let minutes = val.value.substring(3, 5)
+      const date = new Date().setHours(hours, minutes)
+      _val = new Date(date)
       break;
     default:
       _val = val.value
