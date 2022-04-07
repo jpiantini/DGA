@@ -4,12 +4,15 @@ import {
     Container,
     LineDivider,
 } from './styles/TextInformationStyles';
-import { BodyText } from '../../theme/Styles';
+import { BodyText, Row } from '../../theme/Styles';
 
-function TextInformation({ title, content }) {
+function TextInformation({ title,rightTitle, content }) {
     return (
         <Container>
+            <Row style={{width:'100%',justifyContent:'space-between'}}>
             <Title>{title}</Title>
+            <Title>{rightTitle}</Title>
+            </Row>
             <LineDivider />
             {
                 content &&

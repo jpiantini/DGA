@@ -9,7 +9,7 @@ import Radio from '@mui/material/Radio';
 import { FormControl, FormHelperText } from '@mui/material';
 
 function RadioButtonGroup({ id, title, options, value, onChange, onBlur, required, row, helperText=" ", error,disabled }) {
-
+    const radioValue = value === undefined ? "":value
     return (
         <Container>
             <Row>
@@ -23,7 +23,7 @@ function RadioButtonGroup({ id, title, options, value, onChange, onBlur, require
             </Row>
             <FormControl disabled={disabled} required={required} error={error} component='fieldset' variant='standard'>
                 <FormGroup >
-                    <RadioGroup name={id} value={value} onChange={onChange} onBlur={onBlur} row={row}>
+                    <RadioGroup name={id} value={radioValue} onChange={onChange} onBlur={onBlur} row={row}>
                         {
                             options?.map((option) => (
                                 <FormControlLabel key={option.value} value={option.value} control={<Radio sx={{ color: COLORS.tertiary }} />} label={option.label} />

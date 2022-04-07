@@ -262,9 +262,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 <DocumentsOfRequestsCard data={selectedFilesDataForShow} disableCardStyle hideSeeButton hideDownloadButton showDeleteButton
                     onDeleteClick={handleRemoveFileFromSelectedFiles}
                 />
-                <PaginationContainer>
 
-                </PaginationContainer>
                 <SmallHeightDivider />
             </FormModal>
             <FormModal open={myDocumentsModalIsOpen} onClose={handleMyDocumentsModalVisibility} title="Mis documentos">

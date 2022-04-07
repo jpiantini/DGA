@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
-import { boxShadowConfig } from '../../../theme/Styles';
+import { BodyText, boxShadowConfig } from '../../../theme/Styles';
 import SendIcon from '@mui/icons-material/Send';
 import FONTS_FAMILY from '../../../theme/FontsFamily';
 
@@ -40,7 +40,6 @@ export const ChatTopContainer = styled('div')(props => ({
     maxHeight: '430px',
 
 }));
-
 
 export const MessageText = styled('p')({
     margin: 0,
@@ -92,8 +91,6 @@ export const ButtonMessageContainer = styled('div')({
     }
 });
 
-
-
 export const ButtonContainer = styled('div')({
     marginTop: '20px',
     '@media (min-width: 320px)': {
@@ -133,7 +130,30 @@ export const ImageContainer = styled('div')({
     }
 });
 
+export const ImageContainerHeader = styled('div')({
+    botton:0,
+    top:0,
+    position:'absolute',
+    display:'flex',
+    flexDirection:'column',
+    alignSelf:'flex-start',
+    justifySelf:'flex-start',
+    backgroundColor:COLORS.secondary,
+    width:'100%',
+    alignItems:'center'
+});
+
+export const ImageContainerTitle = styled(BodyText)({
+    color:COLORS.white,
+    textAlign:'center'
+});
+
+
 export const LogoImage = styled('img')({
+    display:'flex',
+    flexDirection:'column',
+    alignSelf:'center',
+
     '@media (min-width:320px)': {
         width: '100px',
     },
@@ -161,7 +181,7 @@ export const StyledSendIcon = styled(SendIcon)({
     }
 });
 
-
 export const SolutionContainer = styled('div')(props => ({
     width: props.fullwidth ? '100%' : '75%'
 }));
+

@@ -304,7 +304,6 @@ const RenderField = (props) => {
     }
     switch (props.type) {
       case FIELD_TYPES.radioGroup:
-        console.log(props.value)
         return (
           <Grid item xs={12} sm={12} md={12}>
             <RadioButtonGroup

@@ -88,6 +88,7 @@ function ServiceRequestedDetails() {
             },
             onSuccess: () => {
                 enqueueSnackbar("Calificación enviada con exito", { variant: 'success' })
+                queryClient.invalidateQueries(['serviceComments', serviceRequestedDetail.request.service.id + ""])
                 queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
                 handleRatingModalVisibility();
             },

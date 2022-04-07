@@ -19,7 +19,7 @@ export const Container = styled('div')({
 export const ItemsContainer = styled('div')(props => ({
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: '96%',
   alignSelf: 'center',
 }));
 
