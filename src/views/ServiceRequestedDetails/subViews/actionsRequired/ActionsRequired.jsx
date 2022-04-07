@@ -29,9 +29,8 @@ function ActionsRequired() {
     const queryClient = useQueryClient()
     const { enqueueSnackbar } = useSnackbar();
 
-    const cleanRequestID = requestID.replace('payment', '');
 
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID]);
     const userData = queryClient.getQueryData(['userData']);
 
     const actionRequiredFileMutation = useMutation(assingDocumentsForRequiredActionInSoftExpert, {
@@ -81,7 +80,7 @@ function ActionsRequired() {
                 actionRequiredFileMutation.mutate(assignmentData, {
                     onSuccess: () => {
                         enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
-                        queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
+                        queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
                     },
                     onError: () => {
                         enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
@@ -134,7 +133,7 @@ function ActionsRequired() {
                     actionRequiredFileMutation.mutate(assignmentData, {
                         onSuccess: () => {
                             enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
-                            queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
+                            queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
                         },
                         onError: () => {
                             enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })

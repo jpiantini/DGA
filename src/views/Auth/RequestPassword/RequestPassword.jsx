@@ -10,7 +10,8 @@ import {
     LinkText,
     BodyText,
     FooterContainer,
-    TextFieldContainer
+    TextFieldContainer,
+    TextError
 } from './styles/RequestPasswordStyles';
 import { StyledButton, Row, SmallHeightDivider, MediumHeightDivider } from '../../../theme/Styles';
 import COLORS from '../../../theme/Colors';
@@ -28,6 +29,8 @@ function RequestPassword() {
     const history = useHistory();
     const { authenticated } = useSelector((state) => state.authReducer);
     const { enqueueSnackbar } = useSnackbar();
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     const formik = useFormik({
         initialValues: {
@@ -53,7 +56,8 @@ function RequestPassword() {
                 enqueueSnackbar("Se ha enviado un mensaje a su correo electronico", { variant: 'success' })
                 history.push('/public')
             }else{
-                enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
+                setErrorMessage(response?.msg)
+               // enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
             }
             dispatch(HideGlobalLoading());
         } catch (error) {
@@ -108,6 +112,7 @@ function RequestPassword() {
                             helperText={formik.touched.emailConfirmation && formik.errors.emailConfirmation}
                         />
                     </TextFieldContainer>
+                    <TextError>{errorMessage}</TextError>
                     <MediumHeightDivider />
                     <StyledButton onClick={() => formik.handleSubmit()}>Restablecer contraseña</StyledButton>
                     <MediumHeightDivider />

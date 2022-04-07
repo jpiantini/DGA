@@ -35,8 +35,7 @@ function Payment() {
     const { enqueueSnackbar } = useSnackbar();
     let { requestID } = useParams();
     const queryClient = useQueryClient()
-    const cleanRequestID = requestID.replace('payment', '');
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID])
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
     const userData = queryClient.getQueryData(['userData'])
 
     const [modalPaymentIsOpen, setModalPaymentIsOpen] = useState();

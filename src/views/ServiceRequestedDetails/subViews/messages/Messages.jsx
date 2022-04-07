@@ -44,9 +44,7 @@ function Messages() {
     const queryClient = useQueryClient()
     const { enqueueSnackbar } = useSnackbar();
 
-    const cleanRequestID = requestID.replace('payment', '');
-
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID]);
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID]);
     const userData = queryClient.getQueryData(['userData']);
 
     const messageMutation = useMutation(sendMessage, {
@@ -73,7 +71,7 @@ function Messages() {
         messageMutation.mutate(reqData, {
             onSuccess: () => {
                 enqueueSnackbar("Información requerida enviada satisfactoriamente", { variant: "success" })
-                queryClient.invalidateQueries(['serviceRequestedDetail', cleanRequestID])
+                queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
             },
             onError: () => {
                 enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })

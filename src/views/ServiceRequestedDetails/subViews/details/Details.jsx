@@ -33,9 +33,8 @@ function Details() {
     const dispatch = useDispatch();
     const { authenticated } = useSelector((state) => state.authReducer);
     const queryClient = useQueryClient()
-    const cleanRequestID = requestID.replace('payment', '');
 
-    const requestData = queryClient.getQueryData(['serviceRequestedDetail', cleanRequestID])
+    const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
 
     const documentsData = requestData.request.request_document.map((document) => {
         return {

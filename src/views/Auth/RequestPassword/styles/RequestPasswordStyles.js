@@ -115,3 +115,11 @@ export const FooterContainer = styled('div')({
     justifyContent: 'flex-end',
     height: '100%',
 });
+
+export const TextError = styled('p')({
+    color: COLORS.error,
+    fontSize: '15px',
+    fontFamily: FONTS_FAMILY.regular.body,
+    fontWeight:'bold',
+    margin: '0'
+});

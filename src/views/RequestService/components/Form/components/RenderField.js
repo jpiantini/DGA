@@ -132,7 +132,7 @@ const RenderField = (props) => {
     // 20 IS DPP FOR VALIDATE
     if (props.Mask === '20' && val.target.value.length > 0) {
       const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.formValues[props.MaskParam])
-     // console.log(dependientValues)
+      // console.log(dependientValues)
       if (dependientValues?.selectedValueObject === undefined) {
         const _localFieldErrors = {
           ...props.localFieldErrors
@@ -292,7 +292,6 @@ const RenderField = (props) => {
               }
             </div>
           </ListItem>
-
         </List>
       </Grid>
     )
@@ -535,13 +534,16 @@ const RenderField = (props) => {
                 {props.label}
               </SubTitle>
               <SmallHeightDivider />
-              <GridContainer>
-                {
-                  localToArray(props.value).map((item, index) => (
-                    <RenderGridItem fields={props.fields} item={item} index={index} />
-                  ))
-                }
-              </GridContainer>
+              {
+                localToArray(props.value).map((item, index) => (
+                  <Fragment>
+                    <GridContainer>
+                      <RenderGridItem fields={props.fields} item={item} index={index} />
+                    </GridContainer>
+                    <SmallHeightDivider />
+                  </Fragment>
+                ))
+              }
               <SmallHeightDivider />
               <StyledButton onClick={() => setModalVisible(true)}>
                 Agregar

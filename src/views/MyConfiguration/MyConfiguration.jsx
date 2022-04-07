@@ -135,7 +135,7 @@ export const MyConfiguration = () => {
           queryClient.invalidateQueries('userData')
           enqueueSnackbar('Se ha modificado su información de usuario', { variant: 'success' });
         } else {
-          enqueueSnackbar(data.data.msg, { variant: 'error' });
+          enqueueSnackbar(data.data.msg || "Ha ocurrido un error", { variant: 'error' });
         }
       }
     })
@@ -216,7 +216,9 @@ export const MyConfiguration = () => {
           <div>
             <Title>{data && data.payload.name + " " + data.payload.first_last_name + " " + data.payload.second_last_name}</Title>
             <BodyText>Cedula: <strong>{data && stringToDominicanCedula(data.payload.citizen_id)}</strong></BodyText>
+            {/*
             <BodyText>Última modificación:</BodyText>
+  */}
             <SmallHeightDivider />
           </div>
         </UserDataContainer>
@@ -426,37 +428,37 @@ export const MyConfiguration = () => {
             helperText={formik.touched.phone2 && formik.errors.phone2}
           />
         </Grid>
-
-  
-
       </Grid>
+      {/*
+        <Fragment>
+          <SmallHeightDivider />
+          <SmallHeightDivider />
+          <TextInformation title="Preferencias de Notificación" />
+          <SmallHeightDivider />
 
-      <SmallHeightDivider />
-      <SmallHeightDivider />
-      <TextInformation title="Preferencias de Notificación" />
-      <SmallHeightDivider />
+          <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
+            <Grid item xs={12} sm={4} md={6}>
+              <CheckBox label="Correo Electrónico" id="notificationsWithEmail"
+                value={formik.values.notificationsWithEmail}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.notificationsWithEmail && Boolean(formik.errors.notificationsWithEmail)}
+                helperText={formik.touched.notificationsWithEmail && formik.errors.notificationsWithEmail}
+              />
+            </Grid>
 
-      <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
-        <Grid item xs={12} sm={4} md={6}>
-          <CheckBox label="Correo Electrónico" id="notificationsWithEmail"
-            value={formik.values.notificationsWithEmail}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.notificationsWithEmail && Boolean(formik.errors.notificationsWithEmail)}
-            helperText={formik.touched.notificationsWithEmail && formik.errors.notificationsWithEmail}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={4} md={6}>
-          <CheckBox label="SMS" id="notificationsSms"
-            value={formik.values.notificationsSms}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.notificationsSms && Boolean(formik.errors.notificationsSms)}
-            helperText={formik.touched.notificationsSms && formik.errors.notificationsSms}
-          />
-        </Grid>
-      </Grid>
+            <Grid item xs={12} sm={4} md={6}>
+              <CheckBox label="SMS" id="notificationsSms"
+                value={formik.values.notificationsSms}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.notificationsSms && Boolean(formik.errors.notificationsSms)}
+                helperText={formik.touched.notificationsSms && formik.errors.notificationsSms}
+              />
+            </Grid>
+          </Grid>
+        </Fragment>
+          */}
       <MediumHeightDivider />
 
       <ButtonSaveContainer>
