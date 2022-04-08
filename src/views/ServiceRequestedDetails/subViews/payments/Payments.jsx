@@ -6,7 +6,8 @@ import {
     CardContainer,
     CardTextContainer,
     CardBodyTitle,
-    StyledButton
+    StyledButton,
+    BodyText
 } from '../../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -15,6 +16,8 @@ import { useParams } from "react-router-dom";
 import {
     ButtonContainer,
     Container,
+    ImageContainerHeader,
+    ImageContainerTitle,
 } from '../../styles/ServiceRequestedDetailsStyles';
 import { FileFormSchema, MockupPayments } from './PaymentsConstants';
 import { Grid } from '@mui/material';
@@ -69,7 +72,7 @@ function Payment() {
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
             idAutorizacionPortal: requestData.request.idAutorizacionPortal,
-            urlRetorno: `http://127.0.0.1:3000/app/validatePayment/${requestData.request.id}`,
+            urlRetorno: `http://servicios.mitur.gob.do/app/validatePayment/${requestData.request.id}`,
         }
 
         let form = document.createElement('form');
@@ -156,7 +159,7 @@ function Payment() {
 
     return (
         <Container >
-            <TextInformation title="Método de pago" />
+            <TextInformation title="Método de pago" rightTitle={`Monto a pagar DOP$${requestData.request.payment.payment_amount}`}/>
             <SmallHeightDivider />
             <SmallHeightDivider />
             <Grid alignSelf="center" justifyContent="space-between" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
@@ -164,6 +167,9 @@ function Payment() {
                     requestData.request.service.sirit_code != null &&
                     <Grid item xs={6} sm={4} md={4}>
                         <ImageContainer title="Sirite" onClick={() => handleSiritePayment()}>
+                            <ImageContainerHeader>
+                                <ImageContainerTitle>PAGO CON TARJETA</ImageContainerTitle>
+                            </ImageContainerHeader>
                             <LogoImage src={siritLogo} />
                         </ImageContainer>
                     </Grid>
@@ -173,12 +179,18 @@ function Payment() {
                     <Fragment>
                         <Grid item xs={6} sm={4} md={4}>
                             <ImageContainer title="Transferecia" onClick={handlePaymentModalVisibility}>
+                                <ImageContainerHeader>
+                                    <ImageContainerTitle>TRANSFERENCIA</ImageContainerTitle>
+                                </ImageContainerHeader>
                                 <LogoImage src={transferenciaLogo} />
                             </ImageContainer>
                         </Grid>
 
                         <Grid item xs={6} sm={4} md={4}>
                             <ImageContainer title="Deposito" onClick={handlePaymentModalVisibility}>
+                                <ImageContainerHeader>
+                                    <ImageContainerTitle>DEPOSITO</ImageContainerTitle>
+                                </ImageContainerHeader>
                                 <LogoImage src={depositoLogo} />
                             </ImageContainer>
                         </Grid>
@@ -215,11 +227,11 @@ function Payment() {
 
             <SmallHeightDivider />
             <SmallHeightDivider />
-            {/*
+             {/*
                 <Fragment>
                     <TextInformation title="Mis pagos" />
                     <SmallHeightDivider />
-                    {
+                   
                         MockupPayments.map((payment) => (
                             <Fragment>
                                 <CardContainer>
@@ -267,10 +279,10 @@ function Payment() {
                                 <SmallHeightDivider />
                             </Fragment>
                         ))
-                    }
+                        
                 </Fragment>
-
-                */ }
+*/   }
+            
 
 
 

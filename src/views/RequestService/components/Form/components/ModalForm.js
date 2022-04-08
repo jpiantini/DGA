@@ -68,17 +68,12 @@ function ModalForm(props) {
     props.doRequest({ values, fatherKey: props.fatherKey, listIndex })
   }
   const LocalRenderGrid = ({ item, index }) => {
-    const fieldValue = item.type === FIELD_TYPES.select ||
-    item.type === FIELD_TYPES.radioGroup || item.type === FIELD_TYPES.checkboxGroup ?
-    values[item.fieldKey] !== undefined ? values[item.fieldKey]:""
-    :
-    values[item.fieldKey]
     return (
       <RenderField
         {...item}
         key={item.key}
         fieldKey={item.fieldKey}
-        value={fieldValue}
+        value={values[item.fieldKey]}
         fatherValue={values[localToString(item.father_id)]}
         placeholder={item.placeholder}
         error={touched[item.fieldKey] && Boolean(errors[item.fieldKey])}

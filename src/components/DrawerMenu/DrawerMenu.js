@@ -56,7 +56,7 @@ function DrawerMenu({ layout }) {
     }, []);
 
     return (
-        <Container layout={layout}>
+        <Container removeRight={layout === "app" ? true:false} layout={layout}>
             {isMobile &&
                 <ImportantInformationModal
                     open={registerInformationModalVisible}

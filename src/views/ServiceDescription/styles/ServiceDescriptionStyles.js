@@ -28,6 +28,7 @@ export const TopItemContainer = styled('div')({
 });
 
 export const StyledFab = styled(Fab)({
+    zIndex:99999,
     color: COLORS.white,
     backgroundColor: COLORS.secondary,
     width: '200px',
@@ -36,7 +37,7 @@ export const StyledFab = styled(Fab)({
         backgroundColor: COLORS.primary,
     },
     bottom: 16,
-    top: 0,
+    top: 16,
     marginTop: '50px',
     alignSelf: 'flex-end',
     position: '-webkit-sticky',
@@ -44,7 +45,14 @@ export const StyledFab = styled(Fab)({
     '@media print': {
         display: 'none'
     }
+});
 
+export const CommentsContainer = styled('div')({
+    display: 'flex',
+    flexDirection: 'column',
+    '@media print': {
+        display: 'none'
+    }
 });
 
 export const ButtonContainer = styled('div')({
@@ -153,3 +161,11 @@ export const VariationsContainer = styled('div')({
         flexDirection: 'row'
     }
 });
+
+export const PaginationContainer = styled('div')({
+    display:'flex',
+    alignSelf:'center',
+    alignItems:'center',
+    width:'100%',
+    justifyContent:'center'
+  });

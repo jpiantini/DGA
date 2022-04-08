@@ -5,7 +5,8 @@ import { FieldTitle, Row, StyledTextInput } from '../../theme/Styles';
 import { Autocomplete } from '@mui/material';
 
 function Select({ id, title, data, placeholder, helperText = " ", value, onChange, onBlur, error, required, disabled, search = false,disableEmptyValue=false }) {
-    return (
+ let objectValue = value === undefined ? null:data?.find((item) => item.value == value)
+   return (
         <Container>
             <Row>
                 <FieldTitle>{title} </FieldTitle>
@@ -24,11 +25,12 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                         fullWidth
                         disableClearable
                         select
+                        unselectable
                         noOptionsText="No hay opciones"
                         id={id}
                         name={id}
                         placeholder={placeholder}
-                        value={data?.find((item) => item.value == value)}
+                        value={objectValue}
                         disabled={disabled}
                         options={data}
                         getOptionLabel={(option) => option.label}

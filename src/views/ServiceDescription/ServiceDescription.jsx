@@ -2,7 +2,7 @@ import { useState, useLayoutEffect, Fragment, useRef, useCallback } from 'react'
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider } from '../../theme/Styles';
+import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider, StyledPagination } from '../../theme/Styles';
 import { FAQDATA, mockupServiceInformation } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
@@ -25,7 +25,9 @@ import {
     TopContainer,
     TopItemContainer,
     StyledFab,
-    VariationsContainer
+    VariationsContainer,
+    CommentsContainer,
+    PaginationContainer
 } from './styles/ServiceDescriptionStyles';
 import { useQuery } from 'react-query';
 import { getServiceCommentsAndRating, getServiceDescription } from '../../api/ServiceDescription';
@@ -34,6 +36,8 @@ import { hourIn24To12hours, priceVariationToLaborableTime } from '../../utilitie
 import IconButton from '@mui/material/IconButton';
 import { useReactToPrint } from "react-to-print";
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
+import Comment from './components/Comment/Comment';
+import COLORS from '../../theme/Colors';
 
 function ServiceDescription() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -44,7 +48,7 @@ function ServiceDescription() {
     const componentToPrintRef = useRef(null);
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
-    const [isPrinting, setIsPrinting] = useState(false);
+    const [currentCommentsPage, setCurrentCommentsPage] = useState(1);
 
     const { data: serviceDescription, isLoading } = useQuery(['serviceDescription', serviceID], async () => {
         try {
@@ -57,7 +61,7 @@ function ServiceDescription() {
             dispatch(HideGlobalLoading());
         }
     })
-    const { data: serviceComments, isLoading:serviceCommentsIsLoading } = useQuery(['serviceComments', serviceID], () => getServiceCommentsAndRating(serviceID))
+    const { data: serviceComments, isLoading: serviceCommentsIsLoading } = useQuery(['serviceComments', serviceID, currentCommentsPage], () => getServiceCommentsAndRating(serviceID, currentCommentsPage))
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
@@ -75,11 +79,12 @@ function ServiceDescription() {
         content: reactToPrintContent,
         documentTitle: serviceDescription?.name,
         pageStyle: "width:400px",
-        onBeforeGetContent: () => setIsPrinting(true),
-       // onBeforePrint: () => setIsPrinting(true),
-        onAfterPrint: () => setIsPrinting(false),
         removeAfterPrint: true
     });
+
+    const handleChangePage = (page) => {
+        setCurrentCommentsPage(page);
+    }
 
     useLayoutEffect(() => {
         if (serviceDescription?.success == false) {
@@ -93,7 +98,7 @@ function ServiceDescription() {
 
     }, [serviceDescription]);
 
-    if (isLoading || serviceCommentsIsLoading) return <CenterLoading/>;
+    if (isLoading || serviceCommentsIsLoading) return <CenterLoading />;
 
     return (
         <Container >
@@ -326,16 +331,45 @@ function ServiceDescription() {
                         ))}
                     </Grid>
                     <SmallHeightDivider />
-                    {
-                        /*  <ButtonContainer>
-                          <StyledButtonOutlined variant="outlined" onClick={() => handleServiceRequest(serviceDescription.id)}>INICIAR SOLICITUD</StyledButtonOutlined>
-                      </ButtonContainer>
-                      */
-                    }
-         
-                        <StyledFab  onClick={() => handleServiceRequest(serviceDescription.id)}>
-                            INICIAR SOLICITUD
-                        </StyledFab>
+
+                    <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
+                        INICIAR SOLICITUD
+                    </StyledFab>
+
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+                    <CommentsContainer>
+                        <TextInformation title="Comentarios" />
+                        <SmallHeightDivider />
+                        {
+                            serviceComments.data.map((comment, index) => (
+                                <Fragment key={index}>
+                                    <Comment key={index} userName={`${comment.citizen.name} ${comment.citizen.surname}`}
+                                        comment={comment.comment} date={comment.created_at} rating={comment.rating}
+                                    />
+                                    <SmallHeightDivider />
+                                </Fragment>
+                            ))
+
+                        }
+
+                        {serviceComments.data.length > 0 ?
+                            <PaginationContainer>
+                                <StyledPagination count={serviceComments?.last_page} page={currentCommentsPage}
+                                    onChange={(event, page) => {
+                                        handleChangePage(page);
+                                    }} variant="outlined" shape="rounded" sx={{ color: COLORS.primary }} />
+                                <SmallHeightDivider />
+                            </PaginationContainer>
+                            :
+                            <strong>
+                                <BodyText>
+                                    No hay comentarios para este servicio.
+                                </BodyText>
+                            </strong>
+                        }
+                    </CommentsContainer>
+
 
                 </Container>
             </Row>
