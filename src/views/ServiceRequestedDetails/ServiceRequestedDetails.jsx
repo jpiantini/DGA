@@ -57,6 +57,10 @@ function ServiceRequestedDetails() {
         try {
             dispatch(ShowGlobalLoading("Cargando"));
             const response = await getRequestDetail(requestID, userData.payload.citizen_id);
+            if(response?.request === undefined){
+                history.push('/public');
+                throw Error
+            }
             dispatch(HideGlobalLoading());
             return response;
         } catch (error) {

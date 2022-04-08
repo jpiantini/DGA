@@ -44,6 +44,7 @@ function ValidatePayment() {
                 dispatch(HideGlobalLoading());
             }
         } else {
+            history.push(`/app/serviceRequestedDetails/${requestID}`)
             setPaymentSuccess(false);
             dispatch(HideGlobalLoading());
         }
