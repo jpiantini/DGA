@@ -504,6 +504,7 @@ const RenderField = (props) => {
 
         )
       case FIELD_TYPES.file:
+          console.log(props.value)
         return (
           <Grid item xs={3} sm={6} md={6}>
             <UploadFile
@@ -519,6 +520,7 @@ const RenderField = (props) => {
               required={props.required}
               extension={props.valid_exts}
               multipleDocuments={props?.multipleDocuments}
+              ignoreType={['dwg']}
               findDocuments
               hideDownloadButton
             />

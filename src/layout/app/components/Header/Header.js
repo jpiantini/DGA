@@ -18,7 +18,7 @@ import DrawerMenu from "../../../../components/DrawerMenu/DrawerMenu";
 
 function Header() {
   //THE MIN WIDTH DEPENDS OF QUANTITY OF ELEMENTS IN HEADER FOR PREVENT OVERFLOW and SCROLL
-  const matchesWidth = useMediaQuery("(min-width:820px)");
+  const matchesWidth = useMediaQuery("(min-width:1000px)");
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -31,42 +31,48 @@ function Header() {
   return (
     <Container>
       <LineContainer>
-      <Image onClick={() => goToRoute("/")} src={MiturLogo} />
-      {matchesWidth ?
-        <MenuContainer>
-          <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
-            Servicios
-          </MenuButton>
-          <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
-            Consultas generales
-          </MenuButton>
-          <MenuDivider />
-          <MenuButton onClick={() => goToRoute("/app/contact")}>
-            Contacto
-          </MenuButton>
-          <MenuDivider />
-          {!authenticated ?
-            <MenuButton onClick={() => goToRoute("/public/login")}>
-              Iniciar Sesión
+        <Image onClick={() => goToRoute("/")} src={MiturLogo} />
+        {matchesWidth ?
+          <MenuContainer>
+            <MenuButton onClick={() => goToRoute("/public")}>
+              Inicio
             </MenuButton>
-            :
-            <Fragment>
-              <MenuButton onClick={() => goToRoute("/app/myDesk")}>
-                Mi escritorio
+            <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
+              Servicios
+            </MenuButton>
+            <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
+              Consultas generales
+            </MenuButton>
+            <MenuDivider />
+            <MenuButton onClick={() => goToRoute("/app/contact")}>
+              Contacto
+            </MenuButton>
+            <MenuDivider />
+            {!authenticated ?
+              <MenuButton onClick={() => goToRoute("/public/login")}>
+                Iniciar Sesión
               </MenuButton>
-              <MenuDivider />
+              :
+              <Fragment>
+                <MenuButton onClick={() => goToRoute("/app/myDesk")}>
+                  Mi escritorio
+                </MenuButton>
+                <MenuDivider />
 
-              <LoggedInMenu />
-              <div style={{ width: "0.5rem" }} />
+                <LoggedInMenu />
+                <div style={{ width: "0.5rem" }} />
+                <Notifications color='black' />
+              </Fragment>
+            }
+          </MenuContainer>
+          :
+          <DrawerMenuContainer>
+            <DrawerMenu layout="app" />
+            {authenticated &&
               <Notifications color='black' />
-            </Fragment>
-          }
-        </MenuContainer>
-        :
-        <DrawerMenuContainer>
-          <DrawerMenu layout="app"/>
-        </DrawerMenuContainer>
-      }
+            }
+          </DrawerMenuContainer>
+        }
       </LineContainer>
     </Container>
   );

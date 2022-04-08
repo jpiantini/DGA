@@ -9,7 +9,7 @@ export const Container = styled("div")(props =>({
   display: "flex",
   flexDirection: "row",
   alignSelf: "flex-end",
-  right: "3vw",
+  right: props.removeRight ? 0:"3vw",
 }));
 
 export const MenuButton = styled(Button)(props => ({

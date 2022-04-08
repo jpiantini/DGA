@@ -29,6 +29,8 @@ export const MenuContainer = styled("div")({
 });
 
 export const DrawerMenuContainer = styled("div")({
+  display: "flex",
+  flexDirection: "row",
 });
 
 export const MenuButton = styled(Button)({
@@ -50,7 +52,7 @@ export const Image = styled("img")({
     cursor: 'pointer',
   },
   "@media (min-width:320px)": {
-    width: "200px",
+    width: "160px",
   },
   "@media (min-width:768px)": {
     width: "220px",

@@ -8,12 +8,12 @@ import { format } from 'date-fns';
 import { useQuery, useQueryClient } from 'react-query';
 import { getPersonalDocuments } from '../../api/MyDocuments';
 import { cacheConfig } from '../../cacheConfig';
-import { types } from './UploadFileConstants';
+import { types, typesForSelectedList } from './UploadFileConstants';
 import { useSnackbar } from 'notistack';
 import { FormControl, FormGroup, FormHelperText } from '@mui/material';
 import { replaceGuionToSlashFromString } from '../../utilities/functions/StringUtil';
 
-function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false, multipleDocuments = false }) {
+function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled, error, required, hideDownloadButton, extension, helperText = " ", findDocuments = false, multipleDocuments = false,ignoreType=[] }) {
 
     const queryClient = useQueryClient();
     const userData = queryClient.getQueryData(['userData']);
@@ -40,8 +40,15 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                 const file = e.target.files[i];
                 const fileExtension = e.target.files[i].name.substring(e.target.files[i].name.indexOf('.') + 1)
                 const fileSize = file.size / 1024 / 1024;
+                
                 if (fileSize > 120) {
                     alert('El peso limite por archivo es de 120mb');
+                    loopError = true;
+                    break;
+                }
+
+                if(ignoreType?.includes(fileExtension)){
+                    alert('Documento no permitido');
                     loopError = true;
                     break;
                 }
@@ -101,11 +108,15 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
     const handleDocumentSelect = (e) => {
         const fileExtension = e.name.substring(e.name.indexOf('.') + 1)
-        if (extension != undefined) {
-            if (types.find((type) => type.includes(extension)) && e.type.includes(extension) || 
-            types.find((type) => type.includes(fileExtension)) && extension.includes(fileExtension) || 
-            //Validate File extension valid in constands types and fileType in file string name example file.pdf for XLSX AND XLS
-            fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx') {
+        const _extension = extension === 'xls' ? 
+        "application/vnd.ms-excel" : 
+        extension === 'xlsx' ?
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        extension
+
+        if (_extension != undefined) {
+            if (types.find((type) => type.includes(_extension)) && e.type.includes(_extension) || 
+            types.find((type) => type.includes(fileExtension)) && _extension.includes(fileExtension)) {
                 //Good check selected file extension is equal than field required extension
             } else {
                 //bad
@@ -165,8 +176,11 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     }
 
     const documentsDataForShow = documentsData?.data?.map((document) => {
+        const typeForName = document.extension === "vnd.ms-excel" ? "xls" : 
+        document.extension === "vnd.openxmlformats-officedocument.spreadsheetml.sheet" ?
+        "xlsx" : document.extension
         return {
-            name: `${document.name}.${document.extension}`,
+            name: `${document.name}.${typeForName}`,
             nameClear: document.name,
             documentType: document.extension,
             date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
@@ -178,8 +192,9 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     })
 
     const selectedFilesDataForShow = selectedFiles?.map((file) => {
+        const typeForName = typesForSelectedList?.[file.type]
         return {
-            name: file.name,
+            name: `${file.name}${file?.isARoute? `.${typeForName}`:""} `,
             nameClear: '',
             documentType: '',
             date: format(new Date(), 'yyyy-MM-dd'),

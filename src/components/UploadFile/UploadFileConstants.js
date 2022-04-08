@@ -8,6 +8,19 @@ export const types = [
     'kmz',
     'kml',
     'dwg',
-    'xlsx',
-    'xls',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 ];
+
+
+export const typesForSelectedList = {
+    'application/pdf':"pdf",
+    'image/png':"png",
+    'image/jpeg':"jpeg",
+    'image/jpg':"jpg",
+    'kmz':"kmz",
+    'kml':"kml",
+    'dwg':"dwg",
+    'application/vnd.ms-excel':"xls",
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':"xlsx",
+};
