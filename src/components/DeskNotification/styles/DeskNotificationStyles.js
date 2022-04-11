@@ -52,10 +52,10 @@ export const Text = styled('p')({
         fontSize: '13px',
     },
     '@media (min-width:768px)': {
-        fontSize: '13PX',
+        fontSize: '15px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '13px',
+        fontSize: '17px',
     }
 });
 

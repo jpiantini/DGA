@@ -54,14 +54,6 @@ function Details() {
             <SmallHeightDivider />
             <SmallHeightDivider />
             <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                        Fecha:
-                    </BodyTextBold>
-                    <BodyText>
-                        {new Date(replaceGuionToSlashFromString(requestData.request.created_at)).toLocaleDateString()}
-                    </BodyText>
-                </Grid>
                 {
                     requestData.request?.provisional === 0 &&
                     <Grid item xs={6} sm={4} md={4}>
@@ -74,6 +66,22 @@ function Details() {
                     </Grid>
                 }
 
+                <Grid item xs={6} sm={4} md={4}>
+                    <BodyTextBold>
+                        Estatus:
+                    </BodyTextBold>
+                    <BodyText>
+                        {requestData.request.status.name}
+                    </BodyText>
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                    <BodyTextBold>
+                        Fecha:
+                    </BodyTextBold>
+                    <BodyText>
+                        {new Date(replaceGuionToSlashFromString(requestData.request.created_at)).toLocaleDateString()}
+                    </BodyText>
+                </Grid>
 
                 {
                     requestData.data.map((item) => (
@@ -88,15 +96,6 @@ function Details() {
                         </Grid>
                     ))
                 }
-
-                <Grid item xs={6} sm={4} md={4}>
-                    <BodyTextBold>
-                        Estatus:
-                    </BodyTextBold>
-                    <BodyText>
-                        {requestData.request.status.name}
-                    </BodyText>
-                </Grid>
 
             </Grid>
 
