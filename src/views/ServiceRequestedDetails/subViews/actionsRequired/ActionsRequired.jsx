@@ -20,6 +20,7 @@ import { assingDocumentsForRequiredActionInSoftExpert } from '../../../../api/Ac
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 import { linkingDocumentsToRequestInSoftExpert, uploadFormDocuments } from '../../../../api/RequestService';
+import axios from 'axios';
 
 function ActionsRequired() {
     const matchesWidth = useMediaQuery('(min-width:768px)');
@@ -50,65 +51,32 @@ function ActionsRequired() {
     });
 
     const handleSubmitFile = async (values) => {
-        if (values.file?.isARoute) {
-            const softExpertRequest = {
-                documents: [
-                    {
-                        ...values.file,
-                        label: "Documento de accion requerida"
-                    }
-                ],
-                title: `documento-${userData.payload.citizen_id}`,
-                record_id: requestData.request.code,
-                attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
-                process_id: requestData.request.service.process_id,
-                acronym: "DPPDE", //requestData.request.service.institution.acronym,
-                names: [
-                    "Documento de accion requerida"
-                ],
-                activity_id: requestData.request.activity.activity_id,
-                new_request:false
-            }
-            dispatch(ShowGlobalLoading('Procesando'));
-            let responseSoftExpert = await linkingDocumentsToRequestInSoftExpert(softExpertRequest);
-            if (responseSoftExpert.success) {
-                const assignmentData = {
-                    documents: softExpertRequest.documents,
-                    record_id: requestData.request.code,
-                    status: true
-                }
-                actionRequiredFileMutation.mutate(assignmentData, {
-                    onSuccess: () => {
-                        enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
-                        queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
-                    },
-                    onError: () => {
-                        enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-                    },
-                    onSettled: () => {
-                        dispatch(HideGlobalLoading());
-                    }
-                })
-            } else {
-                dispatch(HideGlobalLoading());
-                enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-            }
-
-        } else {
-            const formFileData = new FormData();
+        let uploadedFilesRoutes = []
+        const formFileData = new FormData();
+        for (let i = 0; i < values.file.length; i++) {
             formFileData.append(
                 "file[]",
-                values.file[0],
-                values.file[0].name
+                values.file[i],
+                values.file[i].name
             );
-            dispatch(ShowGlobalLoading('Subiendo documentos'));
-            let responseFilesUpload = await uploadFormDocuments(formFileData);
-            if (responseFilesUpload.success) {
+        }
+        dispatch(ShowGlobalLoading('Subiendo documentos'));
+        let responseFilesUpload = await uploadFormDocuments(formFileData);
+        if (responseFilesUpload.success) {
+            uploadedFilesRoutes = [
+                ...responseFilesUpload.files.map((item, index) => {
+                    return {
+                        ...item,
+                        label: `Documento de accion requerida ${index + 1}`
+                    }
+                })
+            ]
+            let uploadSoftExpertArrayAxios = [];
+            for (let i = 0; i < uploadedFilesRoutes.length; i++) {
                 const softExpertRequest = {
                     documents: [
                         {
-                            ...responseFilesUpload.files[0],
-                            label: "Documento de accion requerida"
+                            ...uploadedFilesRoutes[i],
                         }
                     ],
                     title: `documento-${userData.payload.citizen_id}`,
@@ -117,39 +85,35 @@ function ActionsRequired() {
                     process_id: requestData.request.service.process_id,
                     acronym: requestData.direction.name + "DE",
                     names: [
-                        "Documento de accion requerida"
+                        uploadedFilesRoutes[i].label
                     ],
                     activity_id: requestData.request.activity.activity_id,
-                    new_request:false
+                    new_request: false
                 }
-                dispatch(ShowGlobalLoading('Procesando'));
-                let responseSoftExpert = await linkingDocumentsToRequestInSoftExpert(softExpertRequest);
-                if (responseSoftExpert.success) {
-                    const assignmentData = {
-                        documents: softExpertRequest.documents,
-                        record_id: requestData.request.code,
-                        status: true
-                    }
-                    actionRequiredFileMutation.mutate(assignmentData, {
-                        onSuccess: () => {
-                            enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
-                            queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
-                        },
-                        onError: () => {
-                            enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-                        },
-                        onSettled: () => {
-                            dispatch(HideGlobalLoading());
-                        }
-                    })
-                } else {
-                    dispatch(HideGlobalLoading());
-                    enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
-                }
-            } else {
-                dispatch(HideGlobalLoading());
-                enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
+                uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(softExpertRequest));
             }
+            dispatch(ShowGlobalLoading('Procesando'));
+            await axios.all(uploadSoftExpertArrayAxios);
+            const assignmentData = {
+                documents: uploadedFilesRoutes,
+                record_id: requestData.request.code,
+                status: true
+            }
+            actionRequiredFileMutation.mutate(assignmentData, {
+                onSuccess: () => {
+                    enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
+                    queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
+                },
+                onError: () => {
+                    enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
+                },
+                onSettled: () => {
+                    dispatch(HideGlobalLoading());
+                }
+            })
+        } else {
+            dispatch(HideGlobalLoading());
+            enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
         }
     }
 
@@ -164,10 +128,12 @@ function ActionsRequired() {
                     error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
                     helperText={fileFormik.touched.file && fileFormik.errors.file}
                     required
+                    multipleDocuments
+                    value={fileFormik.values.file}
                 />
                 <SmallHeightDivider />
                 <ButtonContainer>
-                    <StyledButtonOutlined onClick={() => fileFormik.handleSubmit()} variant="outlined">ENVIAR</StyledButtonOutlined>
+                    <StyledButtonOutlined onClick={fileFormik.handleSubmit} variant="outlined">ENVIAR</StyledButtonOutlined>
                 </ButtonContainer>
             </Fragment>
         </Container>
