@@ -122,7 +122,7 @@ function RequestService() {
 
   const handleSelectVariation = (val) => {
     handleModalVisibility();
-   // console.log(val)
+    // console.log(val)
     setSelectedVariation(val)
   }
 
@@ -170,7 +170,7 @@ function RequestService() {
       saved_fields: formData.saved_fields,
       date: Number(new Date()),
       //dev
-    //   data: _data.map(step => step.map(transformField)).reverse(),
+      //   data: _data.map(step => step.map(transformField)).reverse(),
     }
 
     return result;
@@ -191,8 +191,8 @@ function RequestService() {
       appliedRuleList: Array.from(noDuplicates).reverse(),
       fakeStep: formData?.fakeStep,
       step: formData?.step,
-      variations:[selectedVariation.id],
-      totalPayment:selectedVariation.price
+      variations: [selectedVariation.id],
+      totalPayment: selectedVariation.price
     }
     if (isEmpty(request.data)) {
       return
@@ -302,27 +302,28 @@ function RequestService() {
         if (responseFormSubmit.success) {
           if (uploadedFilesRoutes.length > 0) {
             dispatch(ShowGlobalLoading('Procesando solicitud'));
-            let uploadSoftExpertArrayAxios = [];
-            for (let i = 0; i < uploadedFilesRoutes.length; i++) {
-              const uploadSoftExpertConfig = {
-                documents:
-                  [
-                    {
-                      ...uploadedFilesRoutes[i],
-                    }
-                  ],
-                title: responseFormSubmit.title,
-                record_id: responseFormSubmit.SoftExpertResponse.record_id,
-                attribute: responseFormSubmit.attributes,
-                process_id: serviceDescription.process_id,
-                acronym: responseFormSubmit.acronym,
-                names: [uploadedFilesRoutes[i].label],
-                activity_id: serviceDescription.activity_id,
-                new_request: true
-              }
-              uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
-            }
+
             if (serviceDescription.send === 1) {
+              let uploadSoftExpertArrayAxios = [];
+              for (let i = 0; i < uploadedFilesRoutes.length; i++) {
+                const uploadSoftExpertConfig = {
+                  documents:
+                    [
+                      {
+                        ...uploadedFilesRoutes[i],
+                      }
+                    ],
+                  title: responseFormSubmit.title,
+                  record_id: responseFormSubmit.code,
+                  attribute: responseFormSubmit.attributes,
+                  process_id: serviceDescription.process_id,
+                  acronym: responseFormSubmit.acronym,
+                  names: [uploadedFilesRoutes[i].label],
+                  activity_id: serviceDescription.activity_id,
+                  new_request: true
+                }
+                uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
+              }
               await axios.all(uploadSoftExpertArrayAxios);
             }
 
@@ -387,7 +388,7 @@ function RequestService() {
       variations: variations,
     })
     const formPriceVariation = serviceDescription?.prices?.[0]?.variations
-    .find((variation) => variation.id === variations[0])
+      .find((variation) => variation.id === variations[0])
     setSelectedVariation(formPriceVariation)
     setTimeout(() => {
       //Simulate loading for 2.5s 
