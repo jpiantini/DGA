@@ -127,6 +127,7 @@ function Payment() {
                 if (softExpertResponse.success) {
                     let request = {
                         voucher: true,
+                        status:true,
                         documents: responseFilesUpload.files.map((file, index) => {
                             return {
                                 ...file,
@@ -162,7 +163,7 @@ function Payment() {
             <TextInformation title="Método de pago" rightTitle={`Monto a pagar DOP$${requestData.request.payment.payment_amount}`}/>
             <SmallHeightDivider />
             <SmallHeightDivider />
-            <Grid alignSelf="center" justifyContent="space-between" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+            <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
                 {
                     requestData.request.service.sirit_code != null &&
                     <Grid item xs={6} sm={4} md={4}>
@@ -180,18 +181,9 @@ function Payment() {
                         <Grid item xs={6} sm={4} md={4}>
                             <ImageContainer title="Transferecia" onClick={handlePaymentModalVisibility}>
                                 <ImageContainerHeader>
-                                    <ImageContainerTitle>TRANSFERENCIA</ImageContainerTitle>
+                                    <ImageContainerTitle>DEPOSITO O TRANSFERENCIA</ImageContainerTitle>
                                 </ImageContainerHeader>
                                 <LogoImage src={transferenciaLogo} />
-                            </ImageContainer>
-                        </Grid>
-
-                        <Grid item xs={6} sm={4} md={4}>
-                            <ImageContainer title="Deposito" onClick={handlePaymentModalVisibility}>
-                                <ImageContainerHeader>
-                                    <ImageContainerTitle>DEPOSITO</ImageContainerTitle>
-                                </ImageContainerHeader>
-                                <LogoImage src={depositoLogo} />
                             </ImageContainer>
                         </Grid>
                     </Fragment>

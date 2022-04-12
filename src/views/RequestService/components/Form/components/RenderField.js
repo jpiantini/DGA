@@ -22,6 +22,8 @@ import TextFieldNumberFormat from '../../../../../components/TextFieldNumberForm
 import { useQueryClient } from 'react-query';
 import { format } from 'date-fns';
 import { searchFieldValueByFieldKey } from '../../../RequestServiceUtils';
+import Swal from 'sweetalert2'
+import { SweetAlert } from '../../../../../components/SweetAlert/SweetAlert';
 
 const RenderField = (props) => {
 
@@ -95,7 +97,6 @@ const RenderField = (props) => {
   }
 
   const handleValidationOnBlur = async (val) => {
-
     props.setFieldTouched(props.fieldKey, true, true)
 
     // 0 IS CEDULA FOR VALIDATE
@@ -105,6 +106,12 @@ const RenderField = (props) => {
         let response = await cedulaValidationService(val.target.value);
         setTextInputLoading(false);
         if (response?.success && response?.exist) {
+          SweetAlert.fire({
+            title: "Validación exitosa",
+            text:'Cédula válida',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -112,6 +119,12 @@ const RenderField = (props) => {
           delete _localFieldErrors.undefined
           props.setLocalFieldErrors(_localFieldErrors);
         } else {
+          SweetAlert.fire({
+            title: "Error en la validación",
+            text: "Cédula no válida, introduzca otra cédula",
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -120,6 +133,12 @@ const RenderField = (props) => {
           props.setLocalFieldErrors(_localFieldErrors);
         }
       } catch (error) {
+        SweetAlert.fire({
+          title: "Error en la validación",
+          text: "Ha ocurrido un error validando la cedula",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         const _localFieldErrors = {
           ...props.localFieldErrors
         }
@@ -147,6 +166,12 @@ const RenderField = (props) => {
         let response = await dppValidationService(val.target.value, dependientValues.selectedValueObject.label);
         setTextInputLoading(false);
         if (response?.success) {
+          SweetAlert.fire({
+            title: "Validación exitosa",
+            text:`${props.label} válida`,
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -154,6 +179,12 @@ const RenderField = (props) => {
           delete _localFieldErrors.undefined
           props.setLocalFieldErrors(_localFieldErrors);
         } else {
+          SweetAlert.fire({
+            title: "Error en la validación",
+            text: response.message,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -162,6 +193,12 @@ const RenderField = (props) => {
           props.setLocalFieldErrors(_localFieldErrors);
         }
       } catch (error) {
+        SweetAlert.fire({
+          title: "Error en la validación",
+          text: "Ha ocurrido un error en la validación",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         const _localFieldErrors = {
           ...props.localFieldErrors
         }
@@ -178,6 +215,12 @@ const RenderField = (props) => {
         let response = await mimarenaValidationService(val.target.value);
         setTextInputLoading(false);
         if (response?.success) {
+          SweetAlert.fire({
+            title: "Validación exitosa",
+            text:`${props.label} válida`,
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -185,6 +228,12 @@ const RenderField = (props) => {
           delete _localFieldErrors.undefined
           props.setLocalFieldErrors(_localFieldErrors);
         } else {
+          SweetAlert.fire({
+            title: "Error en la validación",
+            text: response.message,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
           const _localFieldErrors = {
             ...props.localFieldErrors
           }
@@ -193,6 +242,12 @@ const RenderField = (props) => {
           props.setLocalFieldErrors(_localFieldErrors);
         }
       } catch (error) {
+        SweetAlert.fire({
+          title: "Error en la validación",
+          text: "Ha ocurrido un error en la validación",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         const _localFieldErrors = {
           ...props.localFieldErrors
         }
@@ -504,7 +559,6 @@ const RenderField = (props) => {
 
         )
       case FIELD_TYPES.file:
-          console.log(props.value)
         return (
           <Grid item xs={3} sm={6} md={6}>
             <UploadFile

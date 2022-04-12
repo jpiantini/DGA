@@ -44,7 +44,6 @@ function Header() {
           <MenuButton onClick={() => goToRoute("/app/contact")}>
             Contacto
           </MenuButton>
-
           <div style={{ width: "1rem" }} />
           {!authenticated ?
             <Fragment>
@@ -66,6 +65,9 @@ function Header() {
             </Fragment>
             :
             <Fragment>
+              <MenuButton onClick={() => goToRoute("/app/myDesk")}>
+                Mi escritorio
+              </MenuButton>
               <LoggedInMenu />
               <div style={{ width: "0.5rem" }} />
               <Notifications color='white' />
@@ -74,9 +76,9 @@ function Header() {
 
         </Container>
         :
-          <DrawerMenuContainer>
-            <DrawerMenu layout="public" />
-          </DrawerMenuContainer>
+        <DrawerMenuContainer>
+          <DrawerMenu layout="public" />
+        </DrawerMenuContainer>
 
       }
     </Fragment>

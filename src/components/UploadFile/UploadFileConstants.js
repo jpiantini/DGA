@@ -23,4 +23,12 @@ export const typesForSelectedList = {
     'dwg':"dwg",
     'application/vnd.ms-excel':"xls",
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':"xlsx",
+    'xls':'xls',
+    'xlsx':'xlsx'
+};
+
+
+export const typesForExcel = {
+    xls:'application/vnd.ms-excel',
+    xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 };

@@ -74,6 +74,7 @@ function ServiceRequestedDetails() {
 
     const handleChangeMenu = (menuID) => {
         setActiveMenu(menuID);
+        window.location.hash = "";
     }
 
     const handleRatingModalVisibility = () => {

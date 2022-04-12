@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, Fragment } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import {
 
@@ -34,6 +34,7 @@ function Details() {
     const { authenticated } = useSelector((state) => state.authReducer);
     const queryClient = useQueryClient()
 
+    const documentsRef = useRef(null)
     const requestData = queryClient.getQueryData(['serviceRequestedDetail', requestID])
 
     const documentsData = requestData.request.request_document.map((document) => {
@@ -47,7 +48,10 @@ function Details() {
 
         }
     })
-
+    if (window.location.hash === "#documents") {
+        //When documents action required its send scroll to documents and remove hash
+        documentsRef?.current?.scrollIntoView();
+    }
     return (
         <Container >
             <TextInformation title="Detalles de Solicitud" />
@@ -103,7 +107,7 @@ function Details() {
             <SmallHeightDivider />
             {
                 requestData.request.request_document.length > 0 &&
-                <div>
+                <div ref={documentsRef} name="documents" >
                     <TextInformation title="Documentos subidos" />
                     <SmallHeightDivider />
                     <DocumentsOfRequestsCard data={documentsData} />
