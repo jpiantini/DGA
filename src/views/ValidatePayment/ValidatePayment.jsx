@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { UpdateAppSubHeaderTitle, ShowGlobalLoading, HideGlobalLoading } from '../../redux/actions/UiActions';
 import {
     ButtonContainer,
+    ButtonsContainer,
     Container,
     CenterContainer,
 } from './styles/ValidatePaymentStyles';
@@ -47,7 +48,7 @@ function ValidatePayment() {
                     dispatch(HideGlobalLoading());
                 }
             } else {
-                history.push(`/app/serviceRequestedDetails/${requestID}`)
+                //         history.push(`/app/serviceRequestedDetails/${requestID}`)
                 setPaymentSuccess(false);
                 dispatch(HideGlobalLoading());
             }
@@ -56,7 +57,6 @@ function ValidatePayment() {
             history.push(`/app/serviceRequestedDetails/${requestID}`)
             dispatch(HideGlobalLoading());
         }
-
     }
 
     useLayoutEffect(() => {
@@ -75,34 +75,35 @@ function ValidatePayment() {
                 paymentSuccess == undefined ?
                     null
                     :
-                    <div>
-                        <CenterContainer>
-
+                    <CenterContainer>
+                        {
+                            paymentSuccess ? <StyledCheckCircleIcon /> : <StyledCancelIcon />
+                        }
+                        <SmallHeightDivider />
+                        <SubTitle>
                             {
-                                paymentSuccess ? <StyledCheckCircleIcon /> : <StyledCancelIcon />
+                                paymentSuccess ?
+                                    "¡Pago realizado satisfactoriamente!"
+                                    :
+                                    "¡Ha ocurrido un error durante la validacion del pago!"
                             }
-                            <SmallHeightDivider />
-                            <SubTitle>
-                                {
-                                    paymentSuccess ?
-                                        "¡Pago realizado satisfactoriamente!"
-                                        :
-                                        "¡Ha ocurrido un error durante la validacion del pago!"
-                                }
 
-                            </SubTitle>
-
-                        </CenterContainer>
+                        </SubTitle>
                         <MediumHeightDivider />
                         <MediumHeightDivider />
-
-                        <ButtonContainer>
-                            <StyledButton onClick={() => history.push('/app/myDesk')}>
-                                Ir a mi escritorio
-                            </StyledButton>
-
-                        </ButtonContainer>
-                    </div>
+                        <ButtonsContainer>
+                            <ButtonContainer>
+                                <StyledButton onClick={() => history.push('/app/myDesk')}>
+                                    Ir a mi escritorio
+                                </StyledButton>
+                            </ButtonContainer>
+                            <ButtonContainer>
+                                <StyledButton onClick={() => history.push(`/app/serviceRequestedDetails/${requestID}`)}>
+                                    Ver detalle de solicitud
+                                </StyledButton>
+                            </ButtonContainer>
+                        </ButtonsContainer>
+                    </CenterContainer>
             }
             <MediumHeightDivider />
             <MediumHeightDivider />
