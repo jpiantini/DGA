@@ -261,7 +261,7 @@ export const reverseTransformFormGrid = (values, plainData) => {
   return data
 }
 //THIS FUNCTION RETURN A OBJECT FROM VALUES ATRIBB OF FORM USE ONLY FOR GET VALUES OF A SELECT FIELD
-export const searchFieldValueByFieldKey = (plainData, fieldKey, selectedValue) => {
+export const searchFieldSelectedValueByFieldKey = (plainData, fieldKey, selectedValue) => {
   const field = plainData.find((field) => field.fieldKey === fieldKey)
   const selectedValueObject = field?.data?.find((option) => option.value === selectedValue);
   return {

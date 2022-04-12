@@ -21,9 +21,10 @@ import { cedulaValidationService, dppValidationService, mimarenaValidationServic
 import TextFieldNumberFormat from '../../../../../components/TextFieldNumberFormat/TextFieldNumberFormat';
 import { useQueryClient } from 'react-query';
 import { format } from 'date-fns';
-import { searchFieldValueByFieldKey } from '../../../RequestServiceUtils';
+import { searchFieldSelectedValueByFieldKey } from '../../../RequestServiceUtils';
 import Swal from 'sweetalert2'
 import { SweetAlert } from '../../../../../components/SweetAlert/SweetAlert';
+import { cleanCommasFromNumbers } from '../../../../../utilities/functions/NumberUtil';
 
 const RenderField = (props) => {
 
@@ -150,7 +151,7 @@ const RenderField = (props) => {
 
     // 20 IS DPP FOR VALIDATE
     if (props.Mask === '20' && val.target.value.length > 0) {
-      const dependientValues = searchFieldValueByFieldKey(props.plainData, props.MaskParam, props.formValues[props.MaskParam])
+      const dependientValues = searchFieldSelectedValueByFieldKey(props.plainData, props.MaskParam, props.formValues[props.MaskParam])
       // console.log(dependientValues)
       if (dependientValues?.selectedValueObject === undefined) {
         const _localFieldErrors = {
@@ -257,6 +258,22 @@ const RenderField = (props) => {
       }
     }
 
+       // undefined mask for densidad calculation 
+       if (props.fieldKey === "areatotalterre1" || props.fieldKey === "canthabitacion") {
+        const area = cleanCommasFromNumbers(props.formValues["areatotalterre1"]);
+        const quantity = cleanCommasFromNumbers(props.formValues["canthabitacion"]);
+        let hectare;
+        let result;
+        if(area !== undefined && quantity !== undefined){
+          hectare = area / 10000;
+          result = quantity/hectare;
+          result = (Math.round(result * 100) / 100).toFixed(2);
+          props.onChange("densidadhabitac",result); 
+        }
+        if(area == 0 || quantity == 0){
+          props.onChange("densidadhabitac",0);
+        }
+      }
   }
 
 

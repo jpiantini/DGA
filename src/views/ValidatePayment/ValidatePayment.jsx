@@ -17,37 +17,46 @@ import {
 } from './styles/ValidatePaymentStyles';
 import { useParams } from "react-router-dom";
 import { paymentValidation } from '../../api/ValidatePayment';
+import { useSnackbar } from 'notistack';
 
 function ValidatePayment() {
     const history = useHistory();
     const dispatch = useDispatch();
     let { requestID } = useParams();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [paymentSuccess, setPaymentSuccess] = useState()
 
     const handlePaymentValidation = async () => {
-        dispatch(ShowGlobalLoading('Verificando pago'));
-        const urlParams = new URLSearchParams(window.location.search)
-        let data;
-        if (urlParams.has('numAprobacion') && urlParams.has('idAutorizacionPortal')) {
-            data = {
-                requestId:requestID,
-                numAprobacion: urlParams.get('numAprobacion'),
-                idAutorizacionPortal: urlParams.get('idAutorizacionPortal'),
-            }
-            let response = await paymentValidation(data)
-            if(response.success){
-                setPaymentSuccess(true);
-                dispatch(HideGlobalLoading());
-            }else{
+        try {
+            dispatch(ShowGlobalLoading('Verificando pago'));
+            const urlParams = new URLSearchParams(window.location.search)
+            let data;
+            if (urlParams.has('numAprobacion') && urlParams.has('idAutorizacionPortal')) {
+                data = {
+                    requestId: requestID,
+                    numAprobacion: urlParams.get('numAprobacion'),
+                    idAutorizacionPortal: urlParams.get('idAutorizacionPortal'),
+                }
+                let response = await paymentValidation(data)
+                if (response.success) {
+                    setPaymentSuccess(true);
+                    dispatch(HideGlobalLoading());
+                } else {
+                    setPaymentSuccess(false);
+                    dispatch(HideGlobalLoading());
+                }
+            } else {
+                history.push(`/app/serviceRequestedDetails/${requestID}`)
                 setPaymentSuccess(false);
                 dispatch(HideGlobalLoading());
             }
-        } else {
+        } catch (error) {
+            enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
             history.push(`/app/serviceRequestedDetails/${requestID}`)
-            setPaymentSuccess(false);
             dispatch(HideGlobalLoading());
         }
+
     }
 
     useLayoutEffect(() => {
@@ -55,9 +64,9 @@ function ValidatePayment() {
         dispatch(UpdateAppSubHeaderTitle('Verificacion de pago')) // TITLE OF SUBHEADER APP
     }, []);
 
-   useEffect(() => {
+    useEffect(() => {
         handlePaymentValidation();
-    },[]);
+    }, []);
 
     return (
         <Container >
