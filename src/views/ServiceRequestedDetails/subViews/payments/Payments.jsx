@@ -59,6 +59,11 @@ function Payment() {
     }
 
     const handleSiritePayment = () => {
+        let paymentAmount;
+        if (true) {
+            paymentAmount = requestData.request.payment.payment_amount
+        }
+
         const siritePaymentConfig = {
             //development
             codigoCentroRecaudacion: "0018",
