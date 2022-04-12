@@ -42,7 +42,7 @@ function MyDesk() {
 
     const userData = queryClient.getQueryData(['userData']);
     const { data: metricsData, isLoading: metricsDataIsLoading } = useQuery(['myDeskMetricsData'], () => getMetricsData(userData.payload.citizen_id),{
-        enabled: userData.payload.citizen_id !== undefined
+        enabled: userData?.payload?.citizen_id !== undefined
     })
 
     const handleChangeMenu = (menuID) => {
