@@ -54,10 +54,12 @@ function ValidatePayment() {
             }
         } catch (error) {
             setPaymentSuccess(true);
-
-       //     enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
-      //      history.push(`/app/serviceRequestedDetails/${requestID}`)
-            dispatch(HideGlobalLoading());
+            //     enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
+            //      history.push(`/app/serviceRequestedDetails/${requestID}`)
+            //This time is for test because the backend call is canceled for the time
+            setTimeout(() => {
+                dispatch(HideGlobalLoading());
+            }, 180000);
         }
     }
 
