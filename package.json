@@ -40,6 +40,7 @@
     "redux-thunk": "^2.4.0",
     "sass": "^1.44.0",
     "seamless-scroll-polyfill": "^2.1.5",
+    "sweetalert2": "^11.4.8",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.11"
   },

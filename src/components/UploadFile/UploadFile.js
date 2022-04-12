@@ -60,7 +60,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                         types.find((type) => type.includes(extension)) && types.find((type) => type.includes(fileExtension)) &&
                         extension.includes(fileExtension) ||
                        //Validate File extension valid in constands types and fileType in file string name example file.pdf for XLSX AND XLS
-                       fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx') {
+                       fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx' || 
+                       fileExtension === 'xlsx' && extension === 'xlsx' || fileExtension === 'xls' && extension === 'xls') {
 
                         setSelectedFileName(file.name)
                         data.push(file)
@@ -116,7 +117,11 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
         if (_extension != undefined) {
             if (types.find((type) => type.includes(_extension)) && e.type.includes(_extension) || 
-            types.find((type) => type.includes(fileExtension)) && _extension.includes(fileExtension)) {
+            types.find((type) => type.includes(fileExtension)) && _extension.includes(fileExtension) ||
+            //Validate File extension valid in constands types and fileType in file string name example file.pdf for XLSX AND XLS
+            fileExtension === 'xlsx' && extension === 'xls' ||  fileExtension === 'xls' && extension === 'xlsx' || 
+            fileExtension === 'xlsx' && extension === 'xlsx' || fileExtension === 'xls' && extension === 'xls'
+            ) {
                 //Good check selected file extension is equal than field required extension
             } else {
                 //bad
@@ -192,7 +197,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     })
 
     const selectedFilesDataForShow = selectedFiles?.map((file) => {
-        const typeForName = typesForSelectedList?.[file.type]
+        const typeForName = typesForSelectedList?.[file.type || file.extension]
         return {
             name: `${file.name}${file?.isARoute? `.${typeForName}`:""} `,
             nameClear: '',

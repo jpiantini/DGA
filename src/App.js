@@ -13,13 +13,14 @@ import Auth from './auth/Auth';
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { cacheConfig } from './cacheConfig';
+
 //ACCESSIBILITY IS A SCRIPT INSIDE OF public/index.html
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // 24 hours / 1 day time of data from server is considered fresh
-      staleTime: cacheConfig.staleTimeGeneral, 
+      staleTime: cacheConfig.staleTimeGeneral,
       cacheTime: cacheConfig.cacheTime
     }
   }
@@ -38,22 +39,22 @@ function App() {
         `}
       />
       <QueryClientProvider client={queryClient}>
-        <SnackbarProvider
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          TransitionComponent={Zoom}
-        >
-          <GlobalLoading />
-          <LocalizationProvider dateAdapter={DateFnsUtils}>
-            <BrowserRouter>
-              <Auth>
-                <Router routes={Layouts} />
-              </Auth>
-            </BrowserRouter>
-          </LocalizationProvider>
-        </SnackbarProvider>
+          <SnackbarProvider
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            TransitionComponent={Zoom}
+          >
+            <GlobalLoading />
+            <LocalizationProvider dateAdapter={DateFnsUtils}>
+              <BrowserRouter>
+                <Auth>
+                  <Router routes={Layouts} />
+                </Auth>
+              </BrowserRouter>
+            </LocalizationProvider>
+          </SnackbarProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </Provider>

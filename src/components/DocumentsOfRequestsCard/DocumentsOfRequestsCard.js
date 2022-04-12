@@ -124,7 +124,6 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
                                                 </IconButton>
                                             </Fragment>
                                         }
-
                                         {
                                             showDeleteButton &&
                                             <Fragment>
@@ -135,15 +134,11 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
                                                 </IconButton>
                                             </Fragment>
                                         }
-
                                     </Row>
-
                                 </Column>
-
                             </RowContainer>
                             <LineDivider />
                         </div>
-
                     ))
                 }
                 <Dialog
@@ -177,10 +172,8 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
                                     )}
                                 </TransformWrapper>
                             </Fragment>
-
                     }
                 </Dialog>
-
             </ContentContainer>
             <SmallHeightDivider />
             <SmallHeightDivider />

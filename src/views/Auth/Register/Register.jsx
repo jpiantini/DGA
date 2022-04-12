@@ -68,7 +68,6 @@ function Register() {
         setWordpressContent(data?.data?.content);
     };
 
-
     const handleStepsValidation = (step) => {
         if (RegisterSteps[step]) {
             let stepElementError = false
@@ -239,19 +238,18 @@ function Register() {
         }
     }
 
+    const questionsForShow = (questionNumber) => {
+        //questionNumber == 0,1,2
+        let selectedOptions = [
+            formik.values.first_citizen_question,
+            formik.values.second_citizen_question,
+            formik.values.third_citizen_question
+        ]
+        let optionsForRemove = selectedOptions.filter((option, index) => index !== questionNumber)
+        return questionsData.filter((question) => !optionsForRemove.includes(question.value + ""))
+    }
+
     const handleSecurityQuestionChange = (e) => {
-        if (formik.values.first_citizen_question == e.target.value) {
-            formik.setFieldValue("first_citizen_question", "");
-            formik.setFieldValue("first_citizen_answer", "");
-        }
-        if (formik.values.second_citizen_question == e.target.value) {
-            formik.setFieldValue("second_citizen_question", "");
-            formik.setFieldValue("second_citizen_answer", "");
-        }
-        if (formik.values.third_citizen_question == e.target.value) {
-            formik.setFieldValue("third_citizen_question", "");
-            formik.setFieldValue("third_citizen_answer", "");
-        }
         formik.setFieldValue(e.target.id, e.target.value);
     }
 
@@ -404,7 +402,7 @@ function Register() {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Contraseña" type={showPassword ? "text":"password"} id="password"
+                            <TextField title="Contraseña" type={showPassword ? "text" : "password"} id="password"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -424,7 +422,7 @@ function Register() {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Confirmar contraseña" type={showRepeatedPassword ? "text":"password"} id="password_confirmation"
+                            <TextField title="Confirmar contraseña" type={showRepeatedPassword ? "text" : "password"} id="password_confirmation"
                                 value={formik.values.password_confirmation}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -597,7 +595,7 @@ function Register() {
 
                                 <Grid item xs={12} sm={12} md={12}>
                                     <Select title="Pregunta de seguridad primaria" id="first_citizen_question"
-                                        data={questionsData}
+                                        data={questionsForShow(0)}
                                         value={formik.values.first_citizen_question}
                                         onChange={handleSecurityQuestionChange}
                                         onBlur={formik.handleBlur}
@@ -620,7 +618,7 @@ function Register() {
 
                                 <Grid item xs={12} sm={12} md={12}>
                                     <Select title="Pregunta de seguridad secundaria" id="second_citizen_question"
-                                        data={questionsData}
+                                        data={questionsForShow(1)}
                                         value={formik.values.second_citizen_question}
                                         onChange={handleSecurityQuestionChange}
                                         onBlur={formik.handleBlur}
@@ -643,7 +641,7 @@ function Register() {
 
                                 <Grid item xs={12} sm={12} md={12}>
                                     <Select title="Pregunta de seguridad terciaria" id="third_citizen_question"
-                                        data={questionsData}
+                                        data={questionsForShow(2)}
                                         value={formik.values.third_citizen_question}
                                         onChange={handleSecurityQuestionChange}
                                         onBlur={formik.handleBlur}
