@@ -127,6 +127,7 @@ function Payment() {
                 if (softExpertResponse.success) {
                     let request = {
                         voucher: true,
+                        status:true,
                         documents: responseFilesUpload.files.map((file, index) => {
                             return {
                                 ...file,

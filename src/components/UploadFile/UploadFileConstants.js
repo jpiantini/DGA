@@ -26,3 +26,9 @@ export const typesForSelectedList = {
     'xls':'xls',
     'xlsx':'xlsx'
 };
+
+
+export const typesForExcel = {
+    xls:'application/vnd.ms-excel',
+    xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};

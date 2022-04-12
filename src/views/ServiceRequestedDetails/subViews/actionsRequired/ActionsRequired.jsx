@@ -97,7 +97,7 @@ function ActionsRequired() {
             const assignmentData = {
                 documents: uploadedFilesRoutes,
                 record_id: requestData.request.code,
-                status: true
+                status: true,
             }
             actionRequiredFileMutation.mutate(assignmentData, {
                 onSuccess: () => {
