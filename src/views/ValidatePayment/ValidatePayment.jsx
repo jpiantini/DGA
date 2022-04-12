@@ -53,8 +53,10 @@ function ValidatePayment() {
                 dispatch(HideGlobalLoading());
             }
         } catch (error) {
-            enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
-            history.push(`/app/serviceRequestedDetails/${requestID}`)
+            setPaymentSuccess(true);
+
+       //     enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
+      //      history.push(`/app/serviceRequestedDetails/${requestID}`)
             dispatch(HideGlobalLoading());
         }
     }

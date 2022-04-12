@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import {
     SmallHeightDivider,
@@ -42,6 +42,7 @@ function Payment() {
     const userData = queryClient.getQueryData(['userData'])
 
     const [modalPaymentIsOpen, setModalPaymentIsOpen] = useState();
+    const [paymentAmount, setPaymentAmount] = useState();
 
     const fileFormik = useFormik({
         initialValues: {
@@ -58,7 +59,6 @@ function Payment() {
     }
 
     const handleSiritePayment = () => {
-
         const siritePaymentConfig = {
             //development
             codigoCentroRecaudacion: "0018",
@@ -66,7 +66,7 @@ function Payment() {
             //production
             //   codigoCentroRecaudacion: requestData.request.service.institution.recaudationCode,
             //   codigoServicio: requestData.request.service.sirit_code,
-            montoServicio: requestData.request.payment.payment_amount,
+            montoServicio: paymentAmount,
             nombre: `${userData.payload.name} ${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
             numeroDocumento: userData.payload.citizen_id,
             tipoDocumento: "C",
@@ -127,7 +127,7 @@ function Payment() {
                 if (softExpertResponse.success) {
                     let request = {
                         voucher: true,
-                        status:true,
+                        status: true,
                         documents: responseFilesUpload.files.map((file, index) => {
                             return {
                                 ...file,
@@ -155,12 +155,20 @@ function Payment() {
             setModalPaymentIsOpen(false)
             dispatch(HideGlobalLoading());
         }
-
     }
+
+    useEffect(() => {
+        if (requestData?.service !== undefined) {
+            //PUT CONDITIONS FOR THE PAYMENT AMOUNT 
+            if (requestData.request.payment.payment_amount) {
+                setPaymentAmount(requestData.request.payment.payment_amount)
+            }
+        }
+    }, [requestData]);
 
     return (
         <Container >
-            <TextInformation title="Método de pago" rightTitle={`Monto a pagar DOP$${requestData.request.payment.payment_amount}`}/>
+            <TextInformation title="Método de pago" rightTitle={`Monto a pagar DOP$${requestData.request.payment.payment_amount}`} />
             <SmallHeightDivider />
             <SmallHeightDivider />
             <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
@@ -219,7 +227,7 @@ function Payment() {
 
             <SmallHeightDivider />
             <SmallHeightDivider />
-             {/*
+            {/*
                 <Fragment>
                     <TextInformation title="Mis pagos" />
                     <SmallHeightDivider />
@@ -274,7 +282,7 @@ function Payment() {
                         
                 </Fragment>
 */   }
-            
+
 
 
 
