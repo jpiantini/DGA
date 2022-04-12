@@ -102,13 +102,18 @@ function ActionsRequired() {
             actionRequiredFileMutation.mutate(assignmentData, {
                 onSuccess: () => {
                     enqueueSnackbar("Documento requerido enviada satisfactoriamente", { variant: "success" })
-                    queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
+                    queryClient.invalidateQueries(['serviceRequestedDetail', requestID]);
+                    setTimeout(() => {
+                        history.push(`/app/serviceRequestedDetails/${requestID}#documents`)
+                        dispatch(HideGlobalLoading());
+                    }, 500);
                 },
                 onError: () => {
+                    dispatch(HideGlobalLoading());
                     enqueueSnackbar("Ha ocurrido un error, contacte a soporte", { variant: "error" })
                 },
                 onSettled: () => {
-                    dispatch(HideGlobalLoading());
+
                 }
             })
         } else {

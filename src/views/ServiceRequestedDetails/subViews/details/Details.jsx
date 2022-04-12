@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import TextInformation from '../../../../components/TextInformation/TextInformation';
 import {
 
@@ -45,13 +45,16 @@ function Details() {
             date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,
             type: document.extension
-
         }
     })
-    if (window.location.hash === "#documents") {
-        //When documents action required its send scroll to documents and remove hash
-        documentsRef?.current?.scrollIntoView();
-    }
+
+    useEffect(() => {
+        if (window.location.hash === "#documents") {
+            //When documents action required its send scroll to documents and remove hash
+            documentsRef?.current?.scrollIntoView();
+        }
+    },[window.location.hash]);
+
     return (
         <Container >
             <TextInformation title="Detalles de Solicitud" />
