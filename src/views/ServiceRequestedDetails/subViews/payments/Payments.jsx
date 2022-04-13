@@ -7,7 +7,8 @@ import {
     CardTextContainer,
     CardBodyTitle,
     StyledButton,
-    BodyText
+    BodyText,
+    BodyTextBold
 } from '../../../../theme/Styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useHistory } from 'react-router';
@@ -32,6 +33,8 @@ import { linkingDocumentsToRequestInBackOffice, linkingDocumentsToRequestInSoftE
 import { useFormik } from 'formik';
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../../redux/actions/UiActions';
 import { useSnackbar } from 'notistack';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 function Payment() {
     const dispatch = useDispatch()
@@ -59,11 +62,6 @@ function Payment() {
     }
 
     const handleSiritePayment = () => {
-        let paymentAmount;
-        if (true) {
-            paymentAmount = requestData.request.payment.payment_amount
-        }
-
         const siritePaymentConfig = {
             //development
             codigoCentroRecaudacion: "0018",
@@ -163,47 +161,56 @@ function Payment() {
     }
 
     useEffect(() => {
-        if (requestData?.service !== undefined) {
-            //PUT CONDITIONS FOR THE PAYMENT AMOUNT 
-            if (requestData.request.payment.payment_amount) {
-                setPaymentAmount(requestData.request.payment.payment_amount)
+        if (requestData?.request !== undefined) {
+            //Payment by required action
+            if (requestData.request.request_actions_id === 7) {
+                //put the payment_amount in requestData.priceRequest
+                setPaymentAmount(requestData.request.payment.payment_amount);
+                return;
+            }
+            //Initial Payment
+            if (requestData.request.payment.payment_status === "PENDIENTE") {
+                setPaymentAmount(requestData.request.payment.payment_amount);
+                return;
             }
         }
     }, [requestData]);
 
     return (
         <Container >
-            <TextInformation title="Método de pago" rightTitle={`Monto a pagar DOP$${requestData.request.payment.payment_amount}`} />
-            <SmallHeightDivider />
-            <SmallHeightDivider />
-            <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
-                {
-                    requestData.request.service.sirit_code != null &&
-                    <Grid item xs={6} sm={4} md={4}>
-                        <ImageContainer title="Sirite" onClick={() => handleSiritePayment()}>
-                            <ImageContainerHeader>
-                                <ImageContainerTitle>PAGO CON TARJETA</ImageContainerTitle>
-                            </ImageContainerHeader>
-                            <LogoImage src={siritLogo} />
-                        </ImageContainer>
+            {requestData.request.payment.payment_status === "PENDIENTE" &&
+                <Fragment>
+                    <TextInformation title="Método de pago" rightTitle={paymentAmount ? `Monto a pagar DOP$${paymentAmount}` : null} />
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+                    <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+                        {
+                            requestData.request.service.sirit_code != null &&
+                            <Grid item xs={6} sm={4} md={4}>
+                                <ImageContainer title="Sirite" onClick={() => handleSiritePayment()}>
+                                    <ImageContainerHeader>
+                                        <ImageContainerTitle>PAGO CON TARJETA</ImageContainerTitle>
+                                    </ImageContainerHeader>
+                                    <LogoImage src={siritLogo} />
+                                </ImageContainer>
+                            </Grid>
+                        }
+                        {
+                            requestData.request.service.external_pay !== 0 &&
+                            <Fragment>
+                                <Grid item xs={6} sm={4} md={4}>
+                                    <ImageContainer title="Transferecia" onClick={handlePaymentModalVisibility}>
+                                        <ImageContainerHeader>
+                                            <ImageContainerTitle>DEPOSITO O TRANSFERENCIA</ImageContainerTitle>
+                                        </ImageContainerHeader>
+                                        <LogoImage src={transferenciaLogo} />
+                                    </ImageContainer>
+                                </Grid>
+                            </Fragment>
+                        }
                     </Grid>
-                }
-                {
-                    requestData.request.service.external_pay !== 0 &&
-                    <Fragment>
-                        <Grid item xs={6} sm={4} md={4}>
-                            <ImageContainer title="Transferecia" onClick={handlePaymentModalVisibility}>
-                                <ImageContainerHeader>
-                                    <ImageContainerTitle>DEPOSITO O TRANSFERENCIA</ImageContainerTitle>
-                                </ImageContainerHeader>
-                                <LogoImage src={transferenciaLogo} />
-                            </ImageContainer>
-                        </Grid>
-                    </Fragment>
-                }
-
-            </Grid>
-
+                </Fragment>
+            }
             <FormModal onClose={handlePaymentModalVisibility} open={modalPaymentIsOpen}
                 title="Subir comprobante"
             >
@@ -229,7 +236,46 @@ function Payment() {
 
             </FormModal>
 
+            {requestData.request.payment.payment_status === "PAGADO" &&
+                <Fragment>
+                    <TextInformation title="Detalles de pago" />
+                    <SmallHeightDivider />
+                    <SmallHeightDivider />
+                    <Grid alignItems="center" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
 
+                        <Grid item xs={6} sm={4} md={4}>
+                            <BodyTextBold>
+                                Numero de aprobacion:
+                            </BodyTextBold>
+                            <BodyText>
+                                {requestData.request.approval_number}
+                            </BodyText>
+                        </Grid>
+
+                        <Grid item xs={6} sm={4} md={4}>
+                            <BodyTextBold>
+                                Monto pagado:
+                            </BodyTextBold>
+                            <BodyText>
+                                {requestData.request.payment.payment_amount}
+                            </BodyText>
+                        </Grid>
+
+                        <Grid item xs={6} sm={4} md={4}>
+                            <BodyTextBold>
+                                Fecha de pago:
+                            </BodyTextBold>
+                            <BodyText>
+                                {format(new Date(requestData.request.payment.succesfullyPayment_date.replace(" ", "T")), "dd 'de' MMMM yyyy", { locale: es })}
+                            </BodyText>
+                        </Grid>
+
+                    </Grid>
+                </Fragment>
+            }
+
+            <SmallHeightDivider />
+            <SmallHeightDivider />
             <SmallHeightDivider />
             <SmallHeightDivider />
             {/*
