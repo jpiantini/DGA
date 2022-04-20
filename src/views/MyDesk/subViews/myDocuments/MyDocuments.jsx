@@ -30,8 +30,11 @@ function MyDocuments() {
     }
 
     const documentsDataForShow = documentsData?.data?.map((document) => {
-        return {
-            name: `${document.name}.${document.extension}`,
+        const typeForName = document.extension === "vnd.ms-excel" ? "xls" :
+        document.extension === "vnd.openxmlformats-officedocument.spreadsheetml.sheet" ?
+            "xlsx" : document.extension
+    return {
+        name: `${document.name}.${typeForName}`,
             documentType: document.extension,
             date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,

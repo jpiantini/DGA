@@ -62,13 +62,13 @@ export const Text = styled('p')({
 export const StyledCloseIcon = styled(CloseIcon)({
     color:COLORS.black,
     '@media (min-width:320px)': {
-        fontSize: '18px',
+        fontSize: '23px',
     },
     '@media (min-width:768px)': {
-        fontSize: '20px',
+        fontSize: '25px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '20px',
+        fontSize: '30px',
     }
 });
 
@@ -76,13 +76,13 @@ export const StyledCloseIcon = styled(CloseIcon)({
 export const StyledCheckCircleIcon = styled(CheckCircleIcon)({
     color:COLORS.success,
     '@media (min-width:320px)': {
-        fontSize: '18px',
+        fontSize: '23px',
     },
     '@media (min-width:768px)': {
-        fontSize: '20px',
+        fontSize: '25px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '23px',
+        fontSize: '30px',
     }
 });
 
@@ -90,39 +90,39 @@ export const StyledWarningIcon = styled(WarningIcon)({
     color:'#ffa500',
     borderColor:'#000000',
     '@media (min-width:320px)': {
-        fontSize: '18px',
+        fontSize: '23px',
     },
     '@media (min-width:768px)': {
-        fontSize: '20px',
+        fontSize: '25px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '23px',
+        fontSize: '30px',
     }
 });
 
 export const StyledCancelIcon = styled(CancelIcon)({
     color:COLORS.red,
     '@media (min-width:320px)': {
-        fontSize: '18px',
+        fontSize: '23px',
     },
     '@media (min-width:768px)': {
-        fontSize: '20px',
+        fontSize: '25px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '23px',
+        fontSize: '30px',
     }
 });
 
 export const StyledInfoIcon = styled(InfoIcon)({
-    color:COLORS.notificationComplete,
+    color:COLORS.notificationCompleteDark,
     '@media (min-width:320px)': {
-        fontSize: '18px',
+        fontSize: '23px',
     },
     '@media (min-width:768px)': {
-        fontSize: '20px',
+        fontSize: '25px',
     },
     '@media (min-width:1200px)': {
-        fontSize: '23px',
+        fontSize: '30px',
     }
 });
 

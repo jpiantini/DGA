@@ -106,7 +106,7 @@ function Payment() {
         try {
             dispatch(ShowGlobalLoading('Subiendo documento'));
             let responseFilesUpload = await uploadFormDocuments(formFilesData);
-            if (responseFilesUpload.success) {
+            if (responseFilesUpload?.success) {
                 const softExpertRequest = {
                     documents: [
                         {

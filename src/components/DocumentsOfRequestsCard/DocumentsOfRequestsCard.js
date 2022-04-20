@@ -19,8 +19,8 @@ import { DocumentViewer } from 'react-documents';
 import { Dialog } from '@mui/material';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useDispatch } from 'react-redux';
-import { ShowGlobalLoading, HideGlobalLoading } from '../../redux/actions/UiActions';
-import { downloadPDF } from '../../utilities/functions/DownloadUtil';
+import { downloadFile } from '../../utilities/functions/DownloadUtil';
+import { typesForDownload } from './DocumentsOfRequestsCardConstants';
 
 function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hideSeeButton = false, showDeleteButton = false, showSelectButton = false, disableCardStyle = false, hideDownloadButton = false }) {
 
@@ -29,14 +29,18 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
     const [currentDocumentURL, setCurrentCurrentURL] = useState();
     const [viewerOpen, setViewerOpen] = useState(false);
 
-    const handleViewer = async ({ url, type }) => {
+    const handleViewer = async ({ url, extension }) => {
+        const _extension = extension === "vnd.ms-excel" ? "xls" :
+        extension === "vnd.openxmlformats-officedocument.spreadsheetml.sheet" ?
+            "xlsx" : extension
         if (url) {
             setViewerOpen(true);
-            if (type === 'pdf') {
-                let downloadedDocument = await downloadPDF(url);
-                setCurrentCurrentURL({ url: downloadedDocument, type: type });
+            if (_extension === 'pdf' || _extension === 'xls' || _extension === 'xlsx') {
+                const type = typesForDownload[_extension]
+                let downloadedDocument = await downloadFile(url,type);
+                setCurrentCurrentURL({ url: downloadedDocument, type: _extension });
             } else {
-                setCurrentCurrentURL({ url: url, type: type });
+                setCurrentCurrentURL({ url: url, type: _extension });
             }
 
         } else {
@@ -99,7 +103,7 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
                                         {
                                             !hideSeeButton &&
                                             <IconButton title='Ver'
-                                                onClick={() => handleViewer({ url: item.url, type: item.documentType })} sx={{ padding: 0 }}>
+                                                onClick={() => handleViewer({ url: item.url, extension: item.documentType })} sx={{ padding: 0 }}>
                                                 <StyledDescriptionIcon title='Ver' />
                                             </IconButton>
                                         }
@@ -149,7 +153,7 @@ function DocumentsOfRequestsCard({ title, data, onSelectClick, onDeleteClick, hi
                     maxWidth="xl"
                 >
                     {
-                        currentDocumentURL?.type === "pdf" ?
+                        currentDocumentURL?.type === "pdf" || currentDocumentURL?.type === "xls" || currentDocumentURL?.type === "xlsx" ?
                             <DocumentViewer style={{ height: '90vh', width: '100%' }} viewer="url" url={currentDocumentURL?.url} />
                             :
                             <Fragment>

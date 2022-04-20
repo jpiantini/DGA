@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const downloadPDF = async (downloadUrl) => {
+export const downloadFile = async (downloadUrl,fileType='application/pdf') => {
     const response = await axios({
         url: downloadUrl,
         method: 'GET',
@@ -8,7 +8,7 @@ export const downloadPDF = async (downloadUrl) => {
     });
     const file = new Blob(
         [response.data],
-        { type: 'application/pdf' });
+        { type: fileType });
     const fileURL = URL.createObjectURL(file);
     return fileURL;
 }
