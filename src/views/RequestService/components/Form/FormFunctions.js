@@ -35,7 +35,9 @@ export const getFieldValidation = (field) => {
       break;
     case FIELD_TYPES.file:
       if (field?.required) {
-        validator = yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+        validator = yup.object().shape({
+          files: yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText)
+        })
       }
       validator = yup.mixed()
       break;

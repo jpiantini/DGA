@@ -133,30 +133,30 @@ function ExampleAppForm() {
                     <Container>
                         <Title>TITULO FORMULARIO DE PRUEBA - PASO {activeStep + 1}</Title>
                         <SubTitle>SUBTITULO FORMULARIO DE PRUEBA - PASO {activeStep + 1}</SubTitle>
-                        <Select title="Select" required data={testAdata} />
+                        <Select title="Select" required data={testAdata} error={true} helperText={"Este campo es requerido"}/>
 
-                        <TextField title="TextField Text" type="text" required />
-                        <TextField title="TextField Number" type="number" required />
-                        <TextField title="TextField Masked" type="text"
+                        <TextField title="TextField Text" type="text" required error={true} helperText={"Este campo es requerido"} />
+                        <TextField title="TextField Number" type="number" required error={true} helperText={"Este campo es requerido"} />
+                        <TextField title="TextField Masked" type="text" error={true} helperText={"Este campo es requerido"}
                             mask="999-999-9999" unMaskedValue={true} onChange={(e) => console.log(e)}
                             required />
-                        <TextField multiline title="TextField Text Multiline" type="text" required />
+                        <TextField multiline title="TextField Text Multiline" type="text" required error={true} helperText={"Este campo es requerido"}/>
 
-                        <DatePicker title="Date Picker" required value={testDate} onChange={(e) => setTestDate(e.target.value)} />
-                        <TimePicker  title="Time Picker" required value={testTime} onChange={(e) => setTestTime(e.target.value)} />
+                        <DatePicker title="Date Picker" required value={testDate} onChange={(e) => setTestDate(e.target.value)} error={true} helperText={"Este campo es requerido"}/>
+                        <TimePicker  title="Time Picker" required value={testTime} onChange={(e) => setTestTime(e.target.value)} error={true} helperText={"Este campo es requerido"}/>
                         
-                        <CheckBox label="Checkbox Label" title="Checkbox" value={testCheckboxValue} onChange={(e) => setTestCheckboxValue(e.target.value)}/>
+                        <CheckBox label="Checkbox Label" title="Checkbox" value={testCheckboxValue} onChange={(e) => setTestCheckboxValue(e.target.value)} error={true} helperText={"Este campo es requerido"}/>
                         
                         <CheckBoxGroup title="CheckBox Group"
-                            options={testAdataOptions}
+                            options={testAdataOptions} error={true} helperText={"Este campo es requerido"}
                             onChange={(e) => setTestAdataOptions(e.target.value)} />
 
                         <RadioButtonGroup title="RadioButton Group"
                             options={testRadiodataOptions}
-                            value={testRadio}
+                            value={testRadio} error={true} helperText={"Este campo es requerido"}
                             onChange={(e) => setTestRadio(e.target.value)} />
 
-                            <UploadFile title="Upload File" id={'Acta de nacimiento'}/>
+                            <UploadFile title="Upload File" id={'Acta de nacimiento'} error={true} helperText={"Este campo es requerido"}/>
 
                         <div style={{ height: '50px' }} />
                     </Container>

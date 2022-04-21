@@ -88,7 +88,6 @@ export const StyledTextInput = styled(TextField)(props => ({
       '&.Mui-focused fieldset': {
         borderColor: COLORS.secondary,
         borderWidth: props.hiddenBorder ? 0:'1px',
-
       },
     },
   }));

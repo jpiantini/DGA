@@ -2,7 +2,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import { styled } from '@mui/system';
 import COLORS from '../../../theme/Colors';
-
+import SearchIcon from '@mui/icons-material/Search';
 export const Container = styled('div')({
   display: 'flex',
   flexDirection: 'column',
@@ -18,7 +18,7 @@ export const StyledUploadFileIcon = styled(UploadFileIcon)({
   }
 });
 
-export const StyledFolderIcon = styled(FolderSharedOutlinedIcon)({
+export const StyledSearchIcon = styled(SearchIcon)({
   color: COLORS.secondary,
   fontSize: '40px',
   '&:hover': {

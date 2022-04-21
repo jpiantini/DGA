@@ -196,7 +196,7 @@ function RequestService() {
       saved_fields: formData.saved_fields,
       date: Number(new Date()),
       //dev
-      //   data: _data.map(step => step.map(transformField)).reverse(),
+      //data: _data.map(step => step.map(transformField)).reverse(),
     }
 
     return result;

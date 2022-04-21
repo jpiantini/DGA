@@ -25,7 +25,7 @@ function TimePicker({ id, title, placeholder, helperText = " ", value, onChange,
                     cancelText="Cancelar"
                     okText="Aceptar"
                     toolbarTitle={title}
-                    renderInput={props => <StyledTextInput  {...props} helperText={helperText} error={error} />}
+                    renderInput={props => <StyledTextInput  {...props} helperText={helperText} FormHelperTextProps={{sx:{fontSize:'0.90rem'}}} error={error} />}
                     toolbarPlaceholder={placeholder}
                     value={value}
                     onChange={(e) => {

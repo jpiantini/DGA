@@ -50,7 +50,7 @@ function CheckBox({ id, title, label, value, onChange, onBlur, required, error, 
 
 
                 </FormGroup >
-                <FormHelperText>{helperText}</FormHelperText>
+                <FormHelperText sx={{fontSize:'0.90rem'}} >{helperText}</FormHelperText>
             </FormControl>
 
         </Container>

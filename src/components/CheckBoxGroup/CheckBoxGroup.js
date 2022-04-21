@@ -69,7 +69,7 @@ function CheckBoxGroup({ id, title, options, value, onChange, onBlur, required, 
                         ))}
                     </StyledCheckBoxGroup>
                 </FormGroup>
-                <FormHelperText>{helperText}</FormHelperText>
+                <FormHelperText sx={{fontSize:'0.90rem'}}>{helperText}</FormHelperText>
             </FormControl>
         </Container >
     );

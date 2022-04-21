@@ -104,7 +104,7 @@ const reverseTransformValue = (val, fieldProps) => {
 export const transformFileData = (values, plainData) => {
   const _values = []
   for (const key in values) {
-    if (!isEmpty(values[key])) {
+    if (!isEmpty(values[key],'files')) {
       _values.push({
         key,
         value: values[key],
@@ -126,7 +126,7 @@ export const transformFileData = (values, plainData) => {
     })
     .filter(field => field.type == FIELD_TYPES.file)
     .map((field) => {
-      field.value.map((file, index) => {
+      field.value.files.map((file, index) => {
         if (file?.isARoute) {
           newData.oldFile.push({
             ...file,
@@ -140,7 +140,6 @@ export const transformFileData = (values, plainData) => {
         }
       });
     })
-
   return newData
 }
 
