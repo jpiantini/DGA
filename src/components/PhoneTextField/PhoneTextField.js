@@ -120,7 +120,7 @@ function PhoneTextField({ id, title, placeholder, helperText = " ", value = "", 
                         </InputMask>
                     </Row>
                 </FormGroup>
-                <FormHelperText>{helperText}</FormHelperText>
+                <FormHelperText sx={{fontSize:'0.90rem'}}>{helperText}</FormHelperText>
             </FormControl>
         </Container>
     );

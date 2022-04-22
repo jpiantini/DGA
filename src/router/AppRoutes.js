@@ -47,7 +47,7 @@ const routes = [
     layout: "/app",
     loginRequired: false,
   },
-  /*
+ 
   {  // FOR SEE ALL FORM FIELDS AND COMPONENTS ONLY DEVELOPMENT
     path: "/TESTFORM",
     component: ExampleAppForm,
@@ -55,7 +55,7 @@ const routes = [
     layout: "/app",
     loginRequired: false,
   },
-  */
+
   {
     path: "/activateAccount/:activationToken",
     component: ActivateAccount,

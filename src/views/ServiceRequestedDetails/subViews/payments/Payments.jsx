@@ -49,7 +49,9 @@ function Payment() {
 
     const fileFormik = useFormik({
         initialValues: {
-            file: null
+            file: {
+                files: [],
+            }
         },
         validationSchema: FileFormSchema,
         onSubmit: (values) => {
@@ -96,17 +98,21 @@ function Payment() {
         document.body.removeChild(form);
     }
 
-    const uploadVoucher = async (data) => {
+    const uploadVoucher = async (values) => {
+        let data = values.file.files;
+        if(data.length === 0){
+            return
+        }
         const formFilesData = new FormData();
         formFilesData.append(
             "file[]",
-            data.file[0],
-            data.file[0].name
+            data[0],
+            data[0].name
         );
         try {
             dispatch(ShowGlobalLoading('Subiendo documento'));
             let responseFilesUpload = await uploadFormDocuments(formFilesData);
-            if (responseFilesUpload.success) {
+            if (responseFilesUpload?.success) {
                 const softExpertRequest = {
                     documents: [
                         {
@@ -122,7 +128,7 @@ function Payment() {
                     names: [
                         "Comprobante de pago"
                     ],
-                    activity_id: requestData.request.activity.activity_id,
+                    activity_id: requestData?.request?.activity?.activity_id ? requestData?.request?.activity?.activity_id : requestData?.request?.service?.activity_id,
                     new_request: false
                 }
 
@@ -220,6 +226,7 @@ function Payment() {
                 <UploadFile id="file" title="Documento"
                     onChange={fileFormik.handleChange}
                     onBlur={fileFormik.handleBlur}
+                    value={fileFormik.values.file}
                     error={fileFormik.touched.file && Boolean(fileFormik.errors.file)}
                     helperText={fileFormik.touched.file && fileFormik.errors.file}
                     required

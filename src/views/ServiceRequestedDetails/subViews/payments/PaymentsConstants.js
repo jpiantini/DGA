@@ -1,8 +1,14 @@
 import * as yup from "yup";
+import { defaultString } from "../../../../utilities/functions/StringUtil";
 
-export const FileFormSchema = yup.object({
-    file: yup.mixed().required('Este campo es requerido'),
-  }).required();
+export const FileFormSchema = yup.object().shape({
+    file: yup.mixed().required(defaultString.requiredText),
+   /* file: yup.object().shape({
+        files: yup.array().min(1, defaultString.requiredText).required(defaultString.requiredText),
+    })
+    */
+  })
+
 
 export const MockupPayments = [
     {

@@ -51,6 +51,7 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                              <StyledTextInput {...params}
                               InputProps={{...params.InputProps,style:{padding:3}}}
                               helperText={helperText}
+                              FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                               error={error}
                                />}
                     />
@@ -64,6 +65,7 @@ function Select({ id, title, data, placeholder, helperText = " ", value, onChang
                         onChange={onChange}
                         onBlur={onBlur}
                         helperText={helperText}
+                        FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                         error={error}
                         select
                         disabled={disabled}

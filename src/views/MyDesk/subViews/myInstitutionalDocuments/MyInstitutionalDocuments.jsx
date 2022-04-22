@@ -26,8 +26,11 @@ function MyInstitutionalDocuments() {
     }
 
     const documentsDataForShow = institutionalDocumentsData?.data?.map((document) => {
+        const typeForName = document.extension === "vnd.ms-excel" ? "xls" :
+            document.extension === "vnd.openxmlformats-officedocument.spreadsheetml.sheet" ?
+                "xlsx" : document.extension
         return {
-            name: `${document.name}.${document.extension}`,
+            name: `${document.name}.${typeForName}`,
             documentType: document.extension,
             date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,

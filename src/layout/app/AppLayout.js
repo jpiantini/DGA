@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from './components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import GobMessage from '../../components/GobMessage/GobMessage';
 import routes from '../../router/AppRoutes';
 import Router from '../../router/Router';

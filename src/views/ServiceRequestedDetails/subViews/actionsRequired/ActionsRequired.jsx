@@ -56,8 +56,8 @@ function ActionsRequired() {
         for (let i = 0; i < values.file.length; i++) {
             formFileData.append(
                 "file[]",
-                values.file[i],
-                values.file[i].name
+                values.file.files[i],
+                values.file.files[i].name
             );
         }
         dispatch(ShowGlobalLoading('Subiendo documentos'));

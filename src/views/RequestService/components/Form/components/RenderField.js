@@ -590,7 +590,7 @@ const RenderField = (props) => {
               disabled={!props.enabled}
               required={props.required}
               extension={props.valid_exts}
-              multipleDocuments={props?.multipleDocuments}
+              multipleDocuments={props?.multipleDocuments ? true : false}
               ignoreType={['dwg']}
               findDocuments
               hideDownloadButton
@@ -620,7 +620,7 @@ const RenderField = (props) => {
               <StyledButton onClick={() => setModalVisible(true)}>
                 Agregar
               </StyledButton>
-              <FormHelperText>{props.helperText}</FormHelperText>
+              <FormHelperText sx={{fontSize:'0.90rem'}}>{props.helperText}</FormHelperText>
               <ModalForm
                 title={props.label}
                 isVisible={modalVisible}

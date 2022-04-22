@@ -32,6 +32,7 @@ function TextFieldNumberFormat({ id, title, placeholder, helperText = " ", value
                 value={value}
                 onBlur={onBlur}
                 helperText={helperText}
+                FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                 error={error}
                 inputProps={{
                     maxLength: maxLength,

@@ -31,7 +31,7 @@ function RadioButtonGroup({ id, title, options, value, onChange, onBlur, require
                         }
                     </RadioGroup>
                 </FormGroup>
-                <FormHelperText>{helperText}</FormHelperText>
+                <FormHelperText sx={{fontSize:'0.90rem'}}>{helperText}</FormHelperText>
             </FormControl>
         </Container>
     );

@@ -39,6 +39,7 @@ import { useHistory } from "react-router";
 import { useQuery } from "react-query";
 import { getVideoDataFromWordpress, getHomeDataFromWordpress, getHomeMetricsData } from "../../api/Home";
 import { getAllServices } from "../../api/ListOfServicesPerCategory";
+import  LayoutFooter from '../../components/Footer/Footer';
 
 import { SmallHeightDivider } from "../../theme/Styles";
 import CenterLoading from "../../components/CenterLoading/CenterLoading";
@@ -187,8 +188,8 @@ function Home() {
           src={videoContent?.video_url} />
 
       </ContainerVideo>
-
       <Footer FooterRoutes={FooterRoutes} />
+      <LayoutFooter/>
     </Container>
   );
 }

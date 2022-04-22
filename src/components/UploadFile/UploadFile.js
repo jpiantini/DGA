@@ -1,6 +1,6 @@
 import { Fragment, memo, useState } from 'react';
 import COLORS from '../../theme/Colors';
-import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledFolderIcon, PaginationContainer } from './styles/UploadFileStyles';
+import { Container, InputFile, StyledUploadFileIcon, InputFileButtonContainer, RowContainer, RowSeparator, StyledSearchIcon, PaginationContainer } from './styles/UploadFileStyles';
 import { FieldTitle, Row, SmallHeightDivider, StyledButton, StyledPagination, StyledTextInput } from '../../theme/Styles';
 import FormModal from '../FormModal/FormModal';
 import DocumentsOfRequestsCard from '../DocumentsOfRequestsCard/DocumentsOfRequestsCard';
@@ -28,10 +28,15 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
     const [selectedFilesModalIsOpen, setSelectedFilesModalIsOpen] = useState(false);
     const [myDocumentsModalIsOpen, setMyDocumentsModalIsOpen] = useState(false);
-    const [selectedFiles, setSelectedFiles] = useState(value ? value : []);
-    const [selectedFileName, setSelectedFileName] = useState(value?.[0]?.name);
+    const [selectedFiles, setSelectedFiles] = useState(value?.files ? value.files : []);
+    const [selectedFileName, setSelectedFileName] = useState(value?.files.[0]?.name);
+    const [selectedItemsByIndexInDocuments, setSelectedItemsByIndexInDocuments] = useState(value?.selectedDocumentsArray ? value?.selectedDocumentsArray : []);
 
     const validateAndChangeSelectedFiles = (action, e) => {
+        if (multipleDocuments === false && e.target.files.length > 1) {
+            enqueueSnackbar("No se puede agregar mas de un documento", { variant: 'error' })
+            return;
+        }
         let filesLength = e.target.files.length;
         if (filesLength > 0) {
             let loopError = false;
@@ -89,15 +94,26 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
             if (loopError == false) {
                 //Good
-                let concatData = [
-                    ...selectedFiles,
-                    ...data
-                ]
+                let concatData = []
+                if (multipleDocuments === false) {
+                    setSelectedItemsByIndexInDocuments([])
+                    concatData = [
+                        ...data
+                    ]
+                } else {
+                    concatData = [
+                        ...selectedFiles,
+                        ...data
+                    ]
+                }
                 setSelectedFiles(concatData);
                 action({
                     target: {
                         id,
-                        value: concatData
+                        value: {
+                            files: concatData,
+                            selectedDocumentsArray: selectedItemsByIndexInDocuments
+                        }
                     }
                 });
             } else {
@@ -107,7 +123,12 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
         }
     }
 
-    const handleDocumentSelect = (e) => {
+    const handleDocumentSelect = (e, index) => {
+        console.log(selectedFiles)
+        if (multipleDocuments === false && selectedFiles.length >= 1 && selectedItemsByIndexInDocuments.length >= 1) {
+            enqueueSnackbar("No se puede agregar mas de un documento", { variant: 'error' })
+            return;
+        }
         const fileExtension = e.name.substring(e.name.indexOf('.') + 1)
         const _extension = extension === 'xls' ?
             "application/vnd.ms-excel" :
@@ -131,35 +152,68 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             }
         }
         //Good select a valid file
+        setSelectedItemsByIndexInDocuments((prev) => [...prev, index])
         setSelectedFileName(e.name);
         enqueueSnackbar("Documento agregado", { variant: 'success' })
         if (multipleDocuments == false) {
             handleMyDocumentsModalVisibility();
         }
-        let concatData = [
-            ...selectedFiles,
-            {
-                isARoute: true,
-                name: e.nameClear,
-                extension: e.type,
-                type:
-                    e.type === "xls" || e.type === "xlsx" ?
-                        typesForExcel[e.type]
-                        :
-                        types.find((type) => type.includes(e.type)),
-                route: e.route,
-            }
-        ]
+
+        let concatData = []
+        if (multipleDocuments === true) {
+            concatData = [
+                ...selectedFiles,
+                {
+                    indexInDocumentsArray: index,
+                    isARoute: true,
+                    name: e.nameClear,
+                    extension: e.type,
+                    type:
+                        e.type === "xls" || e.type === "xlsx" ?
+                            typesForExcel[e.type]
+                            :
+                            types.find((type) => type.includes(e.type)),
+                    route: e.route,
+                }
+            ]
+        } else {
+            setSelectedItemsByIndexInDocuments([index])
+            concatData = [
+                {
+                    indexInDocumentsArray: index,
+                    isARoute: true,
+                    name: e.nameClear,
+                    extension: e.type,
+                    type:
+                        e.type === "xls" || e.type === "xlsx" ?
+                            typesForExcel[e.type]
+                            :
+                            types.find((type) => type.includes(e.type)),
+                    route: e.route,
+                }
+            ]
+        }
         setSelectedFiles(concatData);
         onChange({
             target: {
                 id,
-                value: concatData
+                value: {
+                    files: concatData,
+                    selectedDocumentsArray: selectedItemsByIndexInDocuments
+                }
             }
         });
     }
 
     const handleRemoveFileFromSelectedFiles = (file, position) => {
+        enqueueSnackbar("Documento removido", { variant: 'success' })
+        setSelectedFileName('');
+        let newSelectedItemsByIndexInDocuments = selectedItemsByIndexInDocuments;
+        if (file?.isARoute) {
+            const realPositionInSelectedItemsByIndex = selectedFiles.find((selectedFile) => selectedFile?.route === file?.route)?.indexInDocumentsArray;
+            newSelectedItemsByIndexInDocuments = selectedItemsByIndexInDocuments.filter((index) => index !== realPositionInSelectedItemsByIndex);
+            setSelectedItemsByIndexInDocuments(newSelectedItemsByIndexInDocuments);
+        }
         let newFiles = []
         selectedFiles.forEach((item, index) => {
             if (index != position) {
@@ -170,7 +224,10 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
         onChange({
             target: {
                 id,
-                value: newFiles
+                value: {
+                    files: newFiles,
+                    selectedDocumentsArray: newSelectedItemsByIndexInDocuments
+                }
             }
         })
     }
@@ -178,7 +235,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const handleMyDocumentsModalVisibility = () => {
         setMyDocumentsModalIsOpen(!myDocumentsModalIsOpen);
     }
-
 
     const handleSelectedFilesModalVisibility = () => {
         setSelectedFilesModalIsOpen(!selectedFilesModalIsOpen);
@@ -189,6 +245,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             document.extension === "vnd.openxmlformats-officedocument.spreadsheetml.sheet" ?
                 "xlsx" : document.extension
         return {
+            isARoute: true,
             name: `${document.name}.${typeForName}`,
             nameClear: document.name,
             documentType: document.extension,
@@ -203,14 +260,15 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     const selectedFilesDataForShow = selectedFiles?.map((file) => {
         const typeForName = typesForSelectedList?.[file.type || file.extension]
         return {
+            isARoute: file?.isARoute,
+            indexInDocumentsArray: file?.indexInDocumentsArray,
             name: `${file.name}${file?.isARoute ? `.${typeForName}` : ""} `,
             nameClear: '',
             documentType: '',
             date: format(new Date(), 'yyyy-MM-dd'),
             url: '',
             type: '',
-            route: ''
-
+            route: file?.route
         }
     })
 
@@ -218,11 +276,9 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
         setCurrentPage(page);
     }
 
-
     if (documentsDataLoading) return null;
     return (
         <Container>
-
             <Row>
                 <FieldTitle>{title} </FieldTitle>
                 <div style={{ width: '5px' }} />
@@ -233,7 +289,6 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                     : null}
 
             </Row>
-
             <RowContainer>
                 {
                     multipleDocuments ?
@@ -241,9 +296,9 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             <FormGroup >
 
                                 <StyledButton onClick={handleSelectedFilesModalVisibility}>
-                                    {value?.length > 0 ? `Ver archivos seleccionados (${value?.length})` : 'No hay archivos seleccionados'}
+                                    {value?.files.length > 0 ? `Ver archivos seleccionados (${value?.files.length})` : 'No hay archivos seleccionados'}
                                 </StyledButton>
-                                <FormHelperText>{helperText}</FormHelperText>
+                                <FormHelperText sx={{fontSize:'0.90rem'}}>{helperText}</FormHelperText>
                             </FormGroup >
 
                         </FormControl>
@@ -253,6 +308,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             placeholder={placeholder}
                             value={selectedFileName}
                             helperText={helperText}
+                            FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                             error={error}
                             InputProps={{
                                 readOnly: true
@@ -264,23 +320,23 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                     <Fragment>
                         <RowSeparator />
                         <div onClick={handleMyDocumentsModalVisibility} title='Seleccionar documento'>
-                            <StyledFolderIcon />
+                            <StyledSearchIcon />
                         </div>
                     </Fragment>
                 }
                 <RowSeparator />
-                <InputFileButtonContainer title='Subir archivo' htmlFor={id}>
+                <InputFileButtonContainer title='Buscar archivo en mi dispositivo' htmlFor={id}>
                     <StyledUploadFileIcon />
                 </InputFileButtonContainer>
-                <InputFile id={id} type='file' multiple={multipleDocuments} accept={extension === 'pdf' ? 'application/pdf' : '*'}
-                    onBlur={(e) => {
-                        onBlur && validateAndChangeSelectedFiles(onBlur, e)
-                    }
-                    }
+                <InputFile id={id} type='file' value={""} multiple={multipleDocuments} accept={extension === 'pdf' ? 'application/pdf' : '*'}
+                    /*  onBlur={(e) => {
+                          onBlur && validateAndChangeSelectedFiles(onBlur, e)
+                      }
+                      }
+                    */
                     onChange={(e) => {
                         validateAndChangeSelectedFiles(onChange, e)
-                    }
-                    } />
+                    }} />
             </RowContainer>
             <FormModal open={selectedFilesModalIsOpen} onClose={handleSelectedFilesModalVisibility} title={`${title} - Archivos`}>
                 <DocumentsOfRequestsCard data={selectedFilesDataForShow} disableCardStyle hideSeeButton hideDownloadButton showDeleteButton
@@ -291,7 +347,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             </FormModal>
             <FormModal open={myDocumentsModalIsOpen} onClose={handleMyDocumentsModalVisibility} title="Mis documentos">
                 <DocumentsOfRequestsCard data={documentsDataForShow} disableCardStyle showSelectButton hideDownloadButton={hideDownloadButton}
-                    onSelectClick={handleDocumentSelect} />
+                    onSelectClick={handleDocumentSelect} onDeleteClick={handleRemoveFileFromSelectedFiles} selectedItemsByIndex={selectedItemsByIndexInDocuments} />
                 <PaginationContainer>
                     <StyledPagination count={documentsData?.last_page} page={currentPage}
                         onChange={(event, page) => {

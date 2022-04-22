@@ -65,6 +65,9 @@ function RequestService() {
   const [isDraft, setIsDraft] = useState(false);
   const [draftLoading, setDraftLoading] = useState(false);
 
+  const [formData, setFormData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
   const [priceModalIsOpen, setPriceModalIsOpen] = useState(true);
   const [selectedVariation, setSelectedVariation] = useState();
   const [showRequestDetail, setShowRequestDetail] = useState(false);
@@ -105,6 +108,7 @@ function RequestService() {
     }
   })
 
+/* formData have the save_fields and its bugged when you save draft and you move to another screen when you go back get the previously you have saved in cache the save_fields of first call of form
   const { data: formData, isLoading } = useQuery(['serviceForm', serviceDescription?.expertform_id], async () => {
     try {
       dispatch(ShowGlobalLoading("Cargando"));
@@ -119,6 +123,28 @@ function RequestService() {
   }, {
     enabled: serviceDescription != undefined && userData != undefined
   })
+*/
+  const getAndSetForm = async () => {
+    try {
+      dispatch(ShowGlobalLoading("Cargando"));
+      setIsLoading(true);
+      const response = await getForm(serviceDescription.expertform_id, userData.payload.citizen_id);
+      setFormData(response);
+      setIsLoading(false);
+      dispatch(HideGlobalLoading());
+    } catch (error) {
+      history.push('/public');
+      setIsLoading(false);
+      dispatch(HideGlobalLoading());
+      throw new Error('An error has ocurred');
+    }
+  }
+
+  useEffect(() => {
+    if(serviceDescription != undefined && userData != undefined){
+      getAndSetForm();
+    }
+  },[serviceDescription,userData]);
 
   const handleSelectVariation = (val) => {
     handleModalVisibility();
@@ -170,7 +196,7 @@ function RequestService() {
       saved_fields: formData.saved_fields,
       date: Number(new Date()),
       //dev
-      //   data: _data.map(step => step.map(transformField)).reverse(),
+      //data: _data.map(step => step.map(transformField)).reverse(),
     }
 
     return result;
@@ -444,7 +470,7 @@ function RequestService() {
                   </strong>
                 </Fragment>
               } />
-            <Dialog keepMounted disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
+            <Dialog keepMounted sx={{zIndex:1000}} disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
               <PricesContainer>
                 <Title>Tarifas del servicio</Title>
                 <SmallHeightDivider />

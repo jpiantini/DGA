@@ -88,7 +88,6 @@ export const StyledTextInput = styled(TextField)(props => ({
       '&.Mui-focused fieldset': {
         borderColor: COLORS.secondary,
         borderWidth: props.hiddenBorder ? 0:'1px',
-
       },
     },
   }));
@@ -164,7 +163,7 @@ export const CardContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    minHeight:'100px',
+    minHeight:'200px',
     justifyContent: 'center',
     boxShadow: boxShadowConfig,
 });

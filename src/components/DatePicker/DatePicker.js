@@ -26,7 +26,7 @@ function DatePicker({ id, title, placeholder, helperText = " ", value, onChange,
                     okText="Aceptar"
                     toolbarTitle={title}
                     inputFormat='dd/MM/yyyy'
-                    renderInput={props => <StyledTextInput {...props} helperText={helperText} error={error} />}
+                    renderInput={props => <StyledTextInput {...props} FormHelperTextProps={{sx:{fontSize:'0.90rem'}}} helperText={helperText} error={error} />}
                     toolbarPlaceholder={placeholder}
                     value={value}
                     onChange={(e) => {

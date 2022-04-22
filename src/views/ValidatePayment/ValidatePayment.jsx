@@ -53,13 +53,10 @@ function ValidatePayment() {
                 dispatch(HideGlobalLoading());
             }
         } catch (error) {
-            setPaymentSuccess(true);
-            //     enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
-            //      history.push(`/app/serviceRequestedDetails/${requestID}`)
-            //This time is for test because the backend call is canceled for the time
-            setTimeout(() => {
-                dispatch(HideGlobalLoading());
-            }, 180000);
+            setPaymentSuccess(false);
+            enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
+            //history.push(`/app/serviceRequestedDetails/${requestID}`)
+            dispatch(HideGlobalLoading());
         }
     }
 
@@ -87,7 +84,7 @@ function ValidatePayment() {
                         <SubTitle>
                             {
                                 paymentSuccess ?
-                                    "¡Pago realizado satisfactoriamente!"
+                                    "¡Pago realizado satisfactoriamente! Los cambios se reflejara en unos minutos."
                                     :
                                     "¡Ha ocurrido un error durante la validacion del pago!"
                             }

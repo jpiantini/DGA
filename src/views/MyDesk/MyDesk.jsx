@@ -62,7 +62,9 @@ function MyDesk() {
     useLayoutEffect(() => {
         dispatch(UpdateAppSubHeaderTitle('Mi escritorio')) //SET SUBHEADER TITLE
     }, []);
+
     if (metricsDataIsLoading) return <CenterLoading/>
+   
     return (
         <Container >
             <Row>

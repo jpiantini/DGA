@@ -78,6 +78,7 @@ function TextField({ id, title, placeholder, value, onChange, onBlur, type, erro
                                 placeholder={placeholder}
                                 type={type}
                                 helperText={helperText}
+                                FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                                 error={error}
                                 InputProps={{
                                     endAdornment: isLoading ? (
@@ -103,6 +104,7 @@ function TextField({ id, title, placeholder, value, onChange, onBlur, type, erro
                         onChange={onChange}
                         type={type}
                         helperText={helperText}
+                        FormHelperTextProps={{sx:{fontSize:'0.90rem'}}}
                         error={error}
                         minRows={minRows}
                         inputProps={{
