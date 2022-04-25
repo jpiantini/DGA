@@ -66,11 +66,11 @@ function Payment() {
     const handleSiritePayment = () => {
         const siritePaymentConfig = {
             //development
-            codigoCentroRecaudacion: "0018",
-            codigoServicio: "0251",
+            //codigoCentroRecaudacion: "0018",
+            //codigoServicio: "0251",
             //production
-            //   codigoCentroRecaudacion: requestData.request.service.institution.recaudationCode,
-            //   codigoServicio: requestData.request.service.sirit_code,
+            codigoCentroRecaudacion: requestData.request.service.institution.recaudationCode,
+            codigoServicio: requestData.request.service.sirit_code,
             montoServicio: paymentAmount,
             nombre: `${userData.payload.name} ${userData.payload.first_last_name} ${userData.payload.second_last_name}`,
             numeroDocumento: userData.payload.citizen_id,
@@ -82,7 +82,10 @@ function Payment() {
 
         let form = document.createElement('form');
         form.style.display = 'none'
-        form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
+        //development
+        //form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
+        //production
+        form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
         form.method = 'POST';
         //  form.target = 'blank';
 
@@ -100,7 +103,7 @@ function Payment() {
 
     const uploadVoucher = async (values) => {
         let data = values.file.files;
-        if(data.length === 0){
+        if (data.length === 0) {
             return
         }
         const formFilesData = new FormData();
@@ -189,7 +192,7 @@ function Payment() {
                     <TextInformation title="Método de pago" rightTitle={paymentAmount ? `Monto a pagar DOP$${paymentAmount}` : null} />
                     <SmallHeightDivider />
                     <SmallHeightDivider />
-                    <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
+                    <Grid alignSelf="center" justifyContent="space-evenly" container direction="row" spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 8, md: 12 }}>
                         {
                             requestData.request.service.sirit_code != null &&
                             <Grid item xs={6} sm={4} md={4}>
@@ -243,7 +246,7 @@ function Payment() {
 
             </FormModal>
 
-            {requestData.request.payment.payment_status === "PAGADO" &&
+            {/*requestData.request.payment.payment_status === "PAGADO" &&
                 <Fragment>
                     <TextInformation title="Detalles de pago" />
                     <SmallHeightDivider />
@@ -279,19 +282,17 @@ function Payment() {
 
                     </Grid>
                 </Fragment>
-            }
+        */}
 
-            <SmallHeightDivider />
-            <SmallHeightDivider />
-            <SmallHeightDivider />
-            <SmallHeightDivider />
-            {/*
+
+            {
+                requestData.priceRequest.length > 0 &&
                 <Fragment>
                     <TextInformation title="Mis pagos" />
                     <SmallHeightDivider />
-                   
-                        MockupPayments.map((payment) => (
-                            <Fragment>
+                    {
+                        requestData.priceRequest.map((payment) => (
+                            <Fragment key={payment.id}>
                                 <CardContainer>
                                     <CardTextContainer>
                                         <Grid alignItems="flex-start" justifyContent="flex-start" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 6, sm: 8, md: 12 }}>
@@ -300,7 +301,7 @@ function Payment() {
                                                     Pago
                                                 </CardBodyTitle>
                                                 <CardBodyText>
-                                                    {payment.requestName}
+                                                    {payment.concept}
                                                 </CardBodyText>
                                             </Grid>
 
@@ -309,7 +310,16 @@ function Payment() {
                                                     ID de pago
                                                 </CardBodyTitle>
                                                 <CardBodyText>
-                                                    {payment.confirmationID}
+                                                    {payment.approval_number}
+                                                </CardBodyText>
+                                            </Grid>
+
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Método de pago
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.payment_method}
                                                 </CardBodyText>
                                             </Grid>
 
@@ -318,16 +328,27 @@ function Payment() {
                                                     Monto pagado
                                                 </CardBodyTitle>
                                                 <CardBodyText>
-                                                    {payment.amount}
+                                                    {payment.price}
                                                 </CardBodyText>
                                             </Grid>
+
+                                            <Grid item xs={6} sm={4} md={4}>
+                                                <CardBodyTitle>
+                                                    Moneda
+                                                </CardBodyTitle>
+                                                <CardBodyText>
+                                                    {payment.coin}
+                                                </CardBodyText>
+                                            </Grid>
+
 
                                             <Grid item xs={6} sm={4} md={4}>
                                                 <CardBodyTitle>
                                                     Fecha de pago
                                                 </CardBodyTitle>
                                                 <CardBodyText>
-                                                    {payment.date}
+                                                    {format(new Date(payment.created_at.replace(" ", "T")), "dd 'de' MMMM yyyy", { locale: es })}
+
                                                 </CardBodyText>
                                             </Grid>
 
@@ -337,13 +358,9 @@ function Payment() {
                                 <SmallHeightDivider />
                             </Fragment>
                         ))
-                        
+                    }
                 </Fragment>
-*/   }
-
-
-
-
+            }
         </Container>
     );
 }

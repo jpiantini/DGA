@@ -163,14 +163,22 @@ export const CardContainer = styled('div')({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    minHeight:'200px',
     justifyContent: 'center',
     boxShadow: boxShadowConfig,
+    '@media (min-width:320px)': {
+        minHeight:'100px',
+    },
+    '@media (min-width:768px)': {
+        minHeight:'130px',
+    },
+    '@media (min-width:1200px)': {
+        minHeight:'200px',
+    },
 });
 
 export const CardBodyTitle = styled('p')({
     margin:0,
-    fontFamily:FONTS_FAMILY.regular.body,
+    fontFamily:FONTS_FAMILY.bold.body,
     color: COLORS.black,
     '@media(min-width:320px)':{
         fontSize: '12px',

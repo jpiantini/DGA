@@ -3,7 +3,7 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Icon from '@mui/material/Icon';
 
-import COLORS from '../../../../theme/Colors';
+import COLORS from '../../theme/Colors';
 import {
     Container,
     RowContainer,
@@ -18,9 +18,7 @@ import {
     ServiceSecondaryButton
 } from './styles/ServiceCardStyles';
 
-function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, OnViewInformationPress }) {
-
-
+function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, OnViewInformationPress,disableRequestButton = false }) {
     return (
         <Container>
             <div style={{ width: '95%', alignSelf: 'center' }}>
@@ -41,14 +39,12 @@ function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, On
                     {subTitle}
                 </BodyText>
             </div>
-
             < ButtonsContainer>
-                <ServiceButton onClick={onRequestPress} endIcon={<LaptopIcon />}>SOLICITAR</ServiceButton>
+                <ServiceButton disabled={disableRequestButton} onClick={onRequestPress} endIcon={<LaptopIcon />}>SOLICITAR</ServiceButton>
                 <ServiceSecondaryButton onClick={OnViewInformationPress} endIcon={<HelpOutlineIcon />}>VER INFORMACIÓN</ServiceSecondaryButton>
             </ButtonsContainer >
 
         </Container >
-
     );
 }
 

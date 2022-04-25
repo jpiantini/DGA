@@ -7,7 +7,7 @@ import { MediumHeightDivider, SmallHeightDivider } from '../../theme/Styles';
 import { Row, RowBodyDivider } from '../../theme/Styles';
 import { Grid } from '@mui/material';
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
-import { localDirections, ListServices } from './ListOfServicesPerCategoryConstants';
+import { localDirections, ListServices } from './AllServicesConstants';
 import { useHistory } from 'react-router';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
 import { useDispatch, useSelector } from "react-redux";
@@ -15,12 +15,12 @@ import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import { useParams } from "react-router-dom";
 import {
     Container,
-} from './styles/ListOfServicesPerCategoryStyles';
+} from './styles/AllServicesStyles';
 import { getAllQuestions, getAllServices, getGeneralInformationsFromWordpress } from '../../api/ListOfServicesPerCategory';
 import { useQuery } from 'react-query';
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
-function ListOfServicesPerCategory() {
+function AllServices() {
 
     const matchesWidth = useMediaQuery('(min-width:768px)');
     const history = useHistory();
@@ -34,32 +34,22 @@ function ListOfServicesPerCategory() {
 
     const [loginOrRegisterModalStatus, setLoginOrRegisterModalStatus] = useState(false);
     const [currentDirection, setCurrentDirection] = useState();
-    const [ListServicesState, setListServicesState] = useState([]);
 
     const handleServiceRequest = (service) => {
         if (authenticated) {
-            history.push(`/app/requestService/${service.id}`)
+                history.push(`/app/requestService/${service.id}`)
         } else {
             setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
         }
     }
 
     useLayoutEffect(() => {
-        if (categoryID == 1 || categoryID == 2 || categoryID == 3) {
-            //find direction in local info  
-            let localCurrentDirection = localDirections.find((direction) => direction.id == categoryID);
-            // TITLE OF SUBHEADER APP
-            dispatch(UpdateAppSubHeaderTitle(localCurrentDirection.title))
-            setCurrentDirection(localCurrentDirection);
-            if (listOfServices != undefined) {
-                setListServicesState(listOfServices.find((direction) => direction.id == categoryID).services);
-            }
-        }
-        else {
-            //IF ENTERED CATEGORY AS PARAM DOES`NT EXISTS REDIRECT TO ALL SERVICES
-            history.push('/app/allServices')
-        }
-    }, [categoryID, listOfServices]);
+        //find direction in local info  
+        let localCurrentDirection = localDirections.find((direction) => direction.id == 0);
+        // TITLE OF SUBHEADER APP
+        dispatch(UpdateAppSubHeaderTitle(localCurrentDirection.title))
+        setCurrentDirection(localCurrentDirection);
+    }, []);
 
     if (generalInformationDataLoading || allQuestionsDataLoading || listOfServicesLoading) return <CenterLoading />
 
@@ -68,7 +58,6 @@ function ListOfServicesPerCategory() {
             <LoginOrRegisterModal open={loginOrRegisterModalStatus} onBackDropClick={() => setLoginOrRegisterModalStatus(false)} onCloseClick={() => setLoginOrRegisterModalStatus(false)} />
             <Row>
                 {
-
                     matchesWidth &&
                     <Fragment>
                         <ServiceDirectoryMenu />
@@ -82,27 +71,31 @@ function ListOfServicesPerCategory() {
                     } />
                     <SmallHeightDivider />
 
-                    <Fragment>
-                        <TextInformation title="Servicios" />
-                        <SmallHeightDivider />
-                        <Grid alignItems="center" container direction="row" justifyContent={!matchesWidth ? "center" : "flex-start"} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                            {
-                                ListServicesState?.map((item) => (
-                                    <Grid key={item.id} item >
-                                        <ServiceCard itemId={item.id}
-                                            title={item.name}
-                                            subTitle={item.description}
-                                            relationTo={localDirections.find((direction) => direction.id == item.direction_id).title}
-                                            onRequestPress={() => handleServiceRequest(item)}
-                                            OnViewInformationPress={() => history.push(`/app/serviceDescription/${item.id}`)} />
-                                    </Grid>
-                                ))
-                            }
-                        </Grid>
-                    </Fragment>
-
+                    {
+                        listOfServices?.map((item) => (
+                            <Fragment key={item.id}>
+                                <TextInformation title={item.name} />
+                                <SmallHeightDivider />
+                                <Grid alignItems="center" container direction="row" justifyContent={!matchesWidth ? "center" : "flex-start"} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                    {
+                                        item.services?.map((service) => (
+                                            <Grid key={service.id} item>
+                                                <ServiceCard itemId={service.id}
+                                                    title={service.name}
+                                                    subTitle={service.description}
+                                                    relationTo={localDirections.find((direction) => direction.id == service.direction_id).title}
+                                                    onRequestPress={() => handleServiceRequest(service)}
+                                                    disableRequestButton={service.type_id === 1 ? true:false}
+                                                    OnViewInformationPress={() => history.push(`/app/serviceDescription/${service.id}`)} />
+                                            </Grid>
+                                        ))
+                                    }
+                                </Grid>
+                                <MediumHeightDivider />
+                            </Fragment>
+                        ))
+                    }
                     <MediumHeightDivider />
-
                     <Fragment>
                         <TextInformation title="Preguntas frecuentes" />
                         <SmallHeightDivider />
@@ -116,14 +109,10 @@ function ListOfServicesPerCategory() {
                             ))
                         }
                     </Fragment>
-
-
-
                 </Container>
             </Row>
-
         </Container>
     );
 }
 
-export default ListOfServicesPerCategory;
+export default AllServices;

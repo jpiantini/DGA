@@ -1,8 +1,8 @@
 import { styled } from '@mui/system';
 import { Button, List, ListItem } from '@mui/material';
-import COLORS from '../../../../../theme/Colors';
-import { boxShadowConfig } from '../../../../../theme/Styles';
-import FONTS_FAMILY from '../../../../../theme/FontsFamily';
+import COLORS from '../../../theme/Colors';
+import { boxShadowConfig } from '../../../theme/Styles';
+import FONTS_FAMILY from '../../../theme/FontsFamily';
 
 export const Container = styled('div')({
     display: 'flex',

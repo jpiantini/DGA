@@ -16,6 +16,7 @@ import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
 import ValidatePayment from "../views/ValidatePayment/ValidatePayment";
 import GeneralQueries from "../views/GeneralQueries/GeneralQueries";
+import AllServices from "../views/AllServices/AllServices";
 
 const routes = [
    //PUT ALL loginRequired:false OBJECTS ROUTES on TOP of array
@@ -77,6 +78,14 @@ const routes = [
     layout: "/app",
     loginRequired: false,
   },
+  {
+    path: "/allServices",
+    component: AllServices,
+    exact: true,
+    layout: "/app",
+    loginRequired: false,
+  },
+
   {
     path: "/contact",
     component: Contact,
