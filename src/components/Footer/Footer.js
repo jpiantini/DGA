@@ -7,7 +7,7 @@ import {
   Divider,
   LogosContainer,
   CertificationsImage,
-  ResponsiveLogosContainer,
+  CertificationsContainer,
   TextDivider
 } from "./styles/FooterStyles";
 import { useHistory } from "react-router";
@@ -22,13 +22,12 @@ function Footer() {
   return (
     <FooterContainer>
       <CenterContainer>
-        <ResponsiveLogosContainer>
-          <LogosContainer>
-            <Image src={EscudoPNG} />
-            <Divider />
-            <Image src={MiturPNG} />
-          </LogosContainer>
-          <div style={{ width: '30%' }} />
+        <LogosContainer>
+          <Image src={EscudoPNG} />
+          <Divider />
+          <Image src={MiturPNG} />
+        </LogosContainer>
+        <CertificationsContainer>
           <LogosContainer>
             <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
               <CertificationsImage src={A3} />
@@ -40,7 +39,7 @@ function Footer() {
               <CertificationsImage src={E1} />
             </a>
           </LogosContainer>
-        </ResponsiveLogosContainer>
+        </CertificationsContainer>
         <strong>
           <FooterText>
             Ministerio de Turismo de la República Dominicana
@@ -59,11 +58,11 @@ function Footer() {
           <LinkText target="_blank" href="https://www.mitur.gob.do/terminos-de-uso/">
             Terminos de uso
           </LinkText>
-          <TextDivider/>
+          <TextDivider />
           <LinkText onClick={() => history.push("/app/policy")}>
             Políticas de Privacidad
           </LinkText>
-          <TextDivider/>
+          <TextDivider />
           <LinkText target="_blank" href="https://www.mitur.gob.do/preguntas-frecuentes/">
             Preguntas Frecuentes
           </LinkText>

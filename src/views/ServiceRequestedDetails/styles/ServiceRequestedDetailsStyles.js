@@ -116,7 +116,7 @@ export const ImageContainer = styled('div')({
     justifyContent: 'center',
     cursor: 'pointer',
     '@media (min-width:320px)': {
-        width: '200px',
+        width: '100%',
     },
     '@media (min-width:768px)': {
         width: '280px',

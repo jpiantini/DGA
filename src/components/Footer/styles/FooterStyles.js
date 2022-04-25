@@ -12,34 +12,28 @@ export const CertificationsImage = styled("img")({
   height: '100px'
 });
 
-export const ResponsiveLogosContainer = styled("div")({
+export const CertificationsContainer = styled("div")({
   display: "flex",
+  flexDirection: "row",
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignSelf: 'center',
   '@media (min-width:320px)': {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    flexDirection: 'column',
+
   },
   '@media (min-width:768px)': {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    flexDirection: 'column',
+
   },
   '@media (min-width:1200px)': {
-    flexDirection: "row",
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-start',
-    width: '60%',
+    position:'absolute',
+    marginTop:'45px',
+    right:'200px'
   }
 });
 
 export const LogosContainer = styled("div")({
   display: "flex",
-  flexDirection: "row",
-  justifyContent: 'center',
-  alignItems: 'center',
-  alignSelf: 'center'
+
 });
 
 export const TextDivider = styled("div")({

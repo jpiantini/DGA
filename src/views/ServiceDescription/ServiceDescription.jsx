@@ -65,7 +65,11 @@ function ServiceDescription() {
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
-            history.push(`/app/requestService/${serviceID}`)
+            if(serviceDescription?.type?.id === 1){
+                window.open(serviceDescription.helper_link, '_blank').focus();
+            }else{
+                history.push(`/app/requestService/${serviceID}`)
+            }
         } else {
             setLoginOrRegisterModalStatus(!loginOrRegisterModalStatus);
         }
@@ -333,7 +337,7 @@ function ServiceDescription() {
                     <SmallHeightDivider />
 
                     <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
-                        INICIAR SOLICITUD
+                       {serviceDescription?.type?.id === 1 ? "VER INFORMACION":"INICIAR SOLICITUD"}
                     </StyledFab>
 
                     <SmallHeightDivider />
