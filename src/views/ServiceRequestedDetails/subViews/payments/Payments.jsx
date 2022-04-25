@@ -83,9 +83,9 @@ function Payment() {
         let form = document.createElement('form');
         form.style.display = 'none'
         //development
-        //form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
+        form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
         //production
-        form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
+       // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
         form.method = 'POST';
         //  form.target = 'blank';
 
