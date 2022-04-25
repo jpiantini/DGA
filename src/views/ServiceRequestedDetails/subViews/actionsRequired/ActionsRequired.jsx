@@ -53,7 +53,7 @@ function ActionsRequired() {
     const handleSubmitFile = async (values) => {
         let uploadedFilesRoutes = []
         const formFileData = new FormData();
-        for (let i = 0; i < values.file.length; i++) {
+        for (let i = 0; i < values.file.files.length; i++) {
             formFileData.append(
                 "file[]",
                 values.file.files[i],
