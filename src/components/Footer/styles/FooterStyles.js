@@ -18,17 +18,7 @@ export const CertificationsContainer = styled("div")({
   justifyContent: 'center',
   alignItems: 'center',
   alignSelf: 'center',
-  '@media (min-width:320px)': {
-
-  },
-  '@media (min-width:768px)': {
-
-  },
-  '@media (min-width:1200px)': {
-    position:'absolute',
-    marginTop:'45px',
-    right:'200px'
-  }
+  
 });
 
 export const LogosContainer = styled("div")({

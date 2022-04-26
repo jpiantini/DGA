@@ -25,7 +25,7 @@ export const FooterContainer = styled("div")({
 
 export const LinkText = styled("a")({
   color: COLORS.black,
-  fontSize: "12px",
+  fontSize: "16px",
   cursor: "pointer",
   fontFamily: FONTS_FAMILY.regular.body,
   margin: "3px",

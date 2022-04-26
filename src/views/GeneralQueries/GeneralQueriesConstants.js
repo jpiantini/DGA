@@ -157,6 +157,30 @@ export const generalQueriesDocumentsMockup = [
         title: 'Resoluciones',
         documents:[
             {
+                documentTitle:"Resolución No. 01-2019",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-01-2019-DE-SERVICIOS.pdf"
+            },
+            {
+                documentTitle:"Resolución No. 100-2020",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-100-2020-QUE-OTORGA-UNA-PRORROGA-DE-UN-1-AN%CC%83O-A-PLAZO-DE-3-TRES-AN%CC%83OS-DE-CONSTRUCCION.pdf"
+            },
+            {
+                documentTitle:"Resolución No. 166-2020",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-166-2020-MODIFICATORIA-RES.-100-2020-PRORROGA-GENERAL-A-LOS-TRES-AA%CC%83%E2%80%98OS-DE-CONSTRUCCION.pdf"
+            },
+            {
+                documentTitle:"Resolución No. 196-2019",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-196-2019-QUE-ESTABLECE-LA-OBLIGATORIEDAD-DE-INSTALACION-D....pdf"
+            },
+            {
+                documentTitle:"Resolución No. 28-2018",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-28-2018-REQUISITOS-SOLICITUD-EXONERACION-MATERIALES.pdf"
+            },
+            {
+                documentTitle:"Resolución No. 49-2014",
+                documentURL:"https://confotur.mitur.gob.do/wp-content/uploads/2021/01/RESOLUCION-NO.-49-2014-TURISMO-DE-SALUD.pdf"
+            },
+            {
                 documentTitle:"Resolución 01-2007",
                 documentURL:"https://www.dpp-mitur.gob.do//a/d/resoluciones/Resolucion-01-2007.pdf"
             },

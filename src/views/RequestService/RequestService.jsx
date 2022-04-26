@@ -374,6 +374,9 @@ function RequestService() {
             setSuccessResponse(responseFormSubmit);
             setShowRequestDetail(true);
             successRef.current.scrollIntoView()
+            setTimeout(() => {
+              history.push(`/app/serviceRequestedDetails/${responseFormSubmit.RequestID}`)
+            }, 1000);
           }
         } else {
           enqueueSnackbar("Ha ocurrido un error favor intentar mas tarde.", { variant: 'error' })
@@ -511,7 +514,8 @@ function RequestService() {
               </SubTitle>
               <MediumHeightDivider />
             </SuccessContainer>
-            <ButtonsContainer>
+            {/*
+              <ButtonsContainer>
               <div style={{ width: '30%' }}>
                 <StyledButtonOutlined onClick={() => history.push('/app/myDesk')} variant="outlined">
                   Ir a inicio mi escritorio
@@ -524,6 +528,7 @@ function RequestService() {
                 </StyledButton>
               </div>
             </ButtonsContainer>
+                */}
           </Container>
       }
     </Container>

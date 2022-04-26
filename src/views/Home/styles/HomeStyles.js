@@ -59,7 +59,7 @@ export const MediumContainer = styled("div")({
     minHeight: "300px",
   },
   "@media (min-width:1200px)": {
-    minHeight: "380px",
+    minHeight: "600px",
   },
 });
 
