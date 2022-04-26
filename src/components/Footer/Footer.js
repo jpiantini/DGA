@@ -16,7 +16,7 @@ import MiturPNG from '../../assets/images/MiturPNG.png'
 import A3 from '../../assets/images/A3.png'
 import A2 from '../../assets/images/A2.png'
 import E1 from '../../assets/images/E1.png'
-import { Row } from '../../theme/Styles'
+import { Row, SmallHeightDivider } from '../../theme/Styles'
 function Footer() {
   const history = useHistory();
   return (
@@ -27,19 +27,6 @@ function Footer() {
           <Divider />
           <Image src={MiturPNG} />
         </LogosContainer>
-        <CertificationsContainer>
-          <LogosContainer>
-            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
-              <CertificationsImage src={A3} />
-            </a>
-            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
-              <CertificationsImage src={A2} />
-            </a>
-            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
-              <CertificationsImage src={E1} />
-            </a>
-          </LogosContainer>
-        </CertificationsContainer>
         <strong>
           <FooterText>
             Ministerio de Turismo de la República Dominicana
@@ -71,6 +58,24 @@ function Footer() {
           @2021 Ministerio de Turismo de la República Dominicana. Todos los
           derechos reservados.
         </FooterText>
+        <SmallHeightDivider/>
+        <CertificationsContainer>
+          <LogosContainer>
+            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
+              <CertificationsImage src={A3} />
+            </a>
+            <div style={{width:'10px'}}/>
+            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
+              <CertificationsImage src={A2} />
+            </a>
+            <div style={{width:'10px'}}/>
+            <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
+              <CertificationsImage src={E1} />
+            </a>
+          </LogosContainer>
+        </CertificationsContainer>
+        <SmallHeightDivider/>
+
       </CenterContainer>
     </FooterContainer>
   );
