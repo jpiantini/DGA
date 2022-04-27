@@ -32,7 +32,6 @@ function Contact() {
   const formik = useFormik({
     initialValues: {
       fullName: '',
-      email: '',
       phoneNumber: '',
       message: '',
     },
@@ -77,9 +76,9 @@ function Contact() {
                   <br />
                   {content.phoneNumber}
                   <br />
-                  {content.email}
-                  <br />
                   {content.website}
+                  <br />
+                  {content.email}
                 </p>
               </ContactInfoContainer>
             </Grid>
@@ -97,7 +96,7 @@ function Contact() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 8, sm: 8, md: 12 }}
       >
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={4} md={6}>
           <TextField
             title='Nombre completo'
             type='text'
@@ -111,19 +110,6 @@ function Contact() {
           />
         </Grid>
 
-        <Grid item xs={12} sm={4} md={6}>
-          <TextField
-            title='Correo Electronico'
-            type='email'
-            id='email'
-            required
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-        </Grid>
 
         <Grid item xs={12} sm={4} md={6}>
           <PhoneTextField title="Teléfono de contacto" type="text" id="phoneNumber"

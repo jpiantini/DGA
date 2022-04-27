@@ -6,7 +6,7 @@ import Pagination from '@mui/material/Pagination';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-export const boxShadowConfig="5px 5px 50px -15px rgba(0,0,0,0.51)"
+export const boxShadowConfig="0 4px 8px 0 rgba(0,0,0,0.2)"
 
 export const Container = styled('div')({
     display: 'flex',

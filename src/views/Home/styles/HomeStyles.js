@@ -6,6 +6,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import { Translate } from "@mui/icons-material";
 import FONTS_FAMILY from "../../../theme/FontsFamily";
+import {StyledTextInput} from "../../../theme/Styles";
 
 export const Container = styled("div")({
   display: "flex",
@@ -31,7 +32,7 @@ export const HomeContainer = styled("div")((props) => ({
 export const HomeCenterContent = styled("div")((props) => ({
   display:'flex',
   flexDirection:'column',
-  height:'300px',
+  height:'600px',
   alignItems:'center',
   justifyContent:'center'
 
@@ -236,24 +237,28 @@ export const SubTitle = styled("h3")({
 
 export const SearcherSubTitle = styled("p")({
   color: COLORS.secondary,
+  textAlign: "center",
   marginBottom: "10px",
-  textAlign: "left",
+  alignSelf:'center',
   fontFamily: FONTS_FAMILY.regular.body,
   "@media (min-width:320px)": {
     fontSize: "15px",
+    width:'350px',
   },
   "@media (min-width:768px)": {
     fontSize: "15px",
+    width:'500px',
   },
   "@media (min-width:1200px)": {
     fontSize: "16px",
+    width:'700px',
   },
 });
 
 export const SearcherTitle = styled("h3")({
   color: COLORS.secondary,
   margin: "0",
-  textAlign: "left",
+  textAlign: "center",
   fontSize: "30px",
   fontFamily: FONTS_FAMILY.regular.title,
   "@media (max-width:768px)": {
@@ -271,7 +276,6 @@ export const AnalyticsContainer = styled("div")({
 });
 
 export const SearcherContainer = styled("div")({
-  backgroundColor:'#FFF',
   borderRadius:'10px',
   "@media (min-width:320px)": {
     width:'300px',
@@ -292,38 +296,38 @@ export const SelectorContainer = styled("div")({
 });
 
 export const StyledSearchIconForSearcher = styled(SearchIcon)({
-
+  color:COLORS.white
 });
 
 export const SearchTextInput = styled(TextField)({
   width: '100%',
   alignSelf: 'center',
   borderWidth: '5px',
-  
+  color:COLORS.white,
   '& .MuiInputBase-input ': {
     width: '100%',
     fontSize: '17px',
-    backgroundColor: COLORS.white,
-    padding:10
+ //   backgroundColor: COLORS.white,
+    padding:10,
+    color:COLORS.white,
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: COLORS.secondary,
-      borderRadius: '10px',
+      borderColor: COLORS.white,
+      borderRadius: '50px',
       minHeight: '45px',
+      color:COLORS.white,
     },
-
     '&:hover fieldset': {
-  //    borderColor: COLORS.secondary,
+      borderColor: COLORS.white,
+      color:COLORS.white,
     },
     '&.Mui-focused fieldset': {
-      borderColor: COLORS.secondary,
-      borderWidth: '1px'
+      borderColor: COLORS.white,
+      borderWidth: '1px',
     },
   },
 });
-
-
 
 export const ServicesListContainer = styled("div")({
   display: "flex",
