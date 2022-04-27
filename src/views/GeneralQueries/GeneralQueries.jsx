@@ -11,17 +11,14 @@ import {
   ButtonsMenuContainer,
   Container,
 } from './styles/GeneralQueriesStyles';
-import { useFormik } from 'formik';
 import { generalQueriesDocumentsMockup, generalQueriesMapsMockup, menuOptions } from './GeneralQueriesConstants';
 import { ButtonGroup, Grid } from '@mui/material';
 import { useQuery } from 'react-query'
 import MapCard from './components/MapCard/MapCard';
-import Fade from 'react-reveal/Fade';
 import Select from '../../components/Select/Select';
 import TextField from '../../components/TextField/TextField';
-import TextInformation from '../../components/TextInformation/TextInformation';
 import FilePDF from './components/FilePDF/FilePDF';
-import { getMapsDataFromWordpress } from '../../api/GeneralQueries';
+import { getDocumentsFromWordpress, getMapsDataFromWordpress } from '../../api/GeneralQueries';
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
 
 function GeneralQueries() {
@@ -34,19 +31,19 @@ function GeneralQueries() {
   const [filteredItems, setFilteredItems] = useState([]);
 
   const { data:mapsData, isLoading:mapsLoading } = useQuery(['mapsData'], () => getMapsDataFromWordpress())
+  const { data:documentsData, isLoading:documentsLoading } = useQuery(['generalQueriesDocuments'], () => getDocumentsFromWordpress())
 
-
-  const selectOptions = generalQueriesDocumentsMockup.map((option) => {
+  const selectOptions = documentsData?.map((option,index) => {
     return {
       label: option.title,
-      value: option.id,
+      value: option.id || index,
       documents: option.documents
     }
   })
 
   const handleFilterByText = (filter) => {
     setFilterString(filter);
-    const filteredData = selectOptions.find((option) => option.value == typeSelectedOption).documents
+    const filteredData = selectOptions?.find((option) => option.value == typeSelectedOption).documents
       .map((document) => {
         if (document.documentTitle.toLocaleLowerCase().includes(filter.toLowerCase())) {
           return document
@@ -59,17 +56,20 @@ function GeneralQueries() {
   const handleTypeChange = (type) => {
     setFilterString('');
     setTypeSelectedOption(type);
-    const filteredData = selectOptions.find((option) => option.value == type).documents
+    const filteredData = selectOptions?.find((option) => option.value == type).documents
     setFilteredItems(filteredData);
   }
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
-    handleTypeChange(1);
-    dispatch(UpdateAppSubHeaderTitle('Consultas generales')); // TITLE OF SUBHEADER APP
-  }, []);
+    if(documentsData !== undefined){
+      handleTypeChange(1);
+    }
 
-  if (mapsLoading) return <CenterLoading/>
+    dispatch(UpdateAppSubHeaderTitle('Consultas generales')); // TITLE OF SUBHEADER APP
+  }, [documentsData]);
+
+  if (mapsLoading || documentsLoading) return <CenterLoading/>
 
   return (
     <Container>
@@ -140,7 +140,7 @@ function GeneralQueries() {
             <SmallHeightDivider />
             <SmallHeightDivider />
             <div>
-              {filteredItems.length > 0 &&
+              {filteredItems?.length > 0 &&
                 filteredItems.map((document, index) => (
                   <FilePDF key={index} title={document.documentTitle} url={document.documentURL} />
                 ))

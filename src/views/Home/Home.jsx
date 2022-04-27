@@ -39,7 +39,7 @@ import { useHistory } from "react-router";
 import { useQuery } from "react-query";
 import { getVideoDataFromWordpress, getHomeDataFromWordpress, getHomeMetricsData } from "../../api/Home";
 import { getAllServices } from "../../api/ListOfServicesPerCategory";
-import  LayoutFooter from '../../components/Footer/Footer';
+import LayoutFooter from '../../components/Footer/Footer';
 
 import { SmallHeightDivider } from "../../theme/Styles";
 import CenterLoading from "../../components/CenterLoading/CenterLoading";
@@ -148,26 +148,26 @@ function Home() {
         }}
       >
         <CenterContainer>
-          <SearcherSubTitle style={{ margin: 0 }}>
-            LISTADO DE SERVICIOS POR DIRECCION
+          <SearcherTitle>Servicios que ofrece el UCTT</SearcherTitle>
+          <SearcherSubTitle >
+            Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión turística. Desde el análisis del suelo, obtención de incentivos y su licencia de operación.
           </SearcherSubTitle>
-          <SearcherTitle>Usa nuestro buscador avanzado</SearcherTitle>
-
           <div style={{ height: "60px" }} />
           <CardsContainer>
             {
-              listOfServices.map((direction,index) => (
+              listOfServices.map((direction, index) => (
                 <Fragment>
                   <ServiceCard
+                    cardNumber={index}
                     title={direction.name}
                     bodyText={direction.description}
                     onRequestPress={() => history.push(`/app/listOfServices/${direction.id}`)}
                   />
                   {
-                    listOfServices.length === index +1 ?
-                    null
-                    :
-                    <CardsDivider />
+                    listOfServices.length === index + 1 ?
+                      null
+                      :
+                      <CardsDivider />
                   }
                 </Fragment>
               ))
@@ -189,7 +189,7 @@ function Home() {
 
       </ContainerVideo>
       <Footer FooterRoutes={FooterRoutes} />
-      <LayoutFooter/>
+      <LayoutFooter />
     </Container>
   );
 }

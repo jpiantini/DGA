@@ -6,21 +6,30 @@ import {
     Separator,
     BodyText,
     ServiceButton,
-    CenterContainer
+    CenterContainer,
+    FirstIcon,
+    SecondIcon,
+    ThirdIcon,
+    LinkText
 } from './styles/ServiceCardStyles';
 
-function ServiceCard({ title, bodyText, onRequestPress }) {
-
+function ServiceCard({ title, bodyText, onRequestPress, cardNumber = 0 }) {
+    const iconsForCard = [
+        <FirstIcon />,
+        <SecondIcon />,
+        <ThirdIcon />,
+    ]
     return (
         <Container>
+            {
+                iconsForCard[cardNumber]
+            }
             <CenterContainer >
-                <Separator />
                 <Title>{title}</Title>
-                <Separator />
                 <BodyText>
                     {bodyText}
                 </BodyText>
-                <StyledButtonOutlined variant="outlined" onClick={onRequestPress} style={{width:'80%'}}>VER SERVICIOS</StyledButtonOutlined>
+                <LinkText onClick={onRequestPress}>VER SERVICIOS</LinkText>
             </CenterContainer>
         </Container >
 
