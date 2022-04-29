@@ -85,7 +85,7 @@ function Payment() {
         //development
         form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
         //production
-       // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
+        // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
         form.method = 'POST';
         //  form.target = 'blank';
 
@@ -135,25 +135,25 @@ function Payment() {
                     new_request: false
                 }
 
+                const backOfficeRequest = {
+                    voucher: true,
+                    status: true,
+                    documents: responseFilesUpload.files.map((file, index) => {
+                        return {
+                            ...file,
+                            label: "Comprobante de pago"
+                        }
+                    }),
+                }
+                let linkBackOffice = await linkingDocumentsToRequestInBackOffice(backOfficeRequest, requestID);
+                if (linkBackOffice.success) {
+                //GOOD THE VOUCHER IS SEND SUCCESSFULL TO BACKOFFICE
+                } else {
+                    enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+                }
                 let softExpertResponse = await linkingDocumentsToRequestInSoftExperted(softExpertRequest, requestID);
                 if (softExpertResponse.success) {
-                    let request = {
-                        voucher: true,
-                        status: true,
-                        documents: responseFilesUpload.files.map((file, index) => {
-                            return {
-                                ...file,
-                                label: "Comprobante de pago"
-                            }
-                        }),
-                    }
-
-                    let linkBackOffice = await linkingDocumentsToRequestInBackOffice(request, requestID);
-                    if (linkBackOffice.success) {
-                        enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
-                    } else {
-                        enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
-                    }
+                    enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
                 } else {
                     enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
                 }
