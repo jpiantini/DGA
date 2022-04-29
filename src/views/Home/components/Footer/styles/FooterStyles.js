@@ -27,7 +27,7 @@ export const LinkText = styled("a")({
   color: COLORS.black,
   fontSize: "16px",
   cursor: "pointer",
-  fontFamily: FONTS_FAMILY.regular.body,
+  fontFamily: FONTS_FAMILY.medium.body,
   margin: "3px",
   textDecoration: "none",
   "&:hover,&:focus": {
@@ -37,8 +37,8 @@ export const LinkText = styled("a")({
 
 export const FooterText = styled("p")({
   color: COLORS.tertiary,
-  fontSize: "15px",
-  fontFamily: FONTS_FAMILY.regular.title,
+  fontSize: "18px",
+  fontFamily: FONTS_FAMILY.medium.title,
 });
 
 export const CenterContainer = styled("div")({

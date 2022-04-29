@@ -6,7 +6,8 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import SearchIcon from "@mui/icons-material/Search";
 import { Translate } from "@mui/icons-material";
 import FONTS_FAMILY from "../../../theme/FontsFamily";
-import {StyledTextInput} from "../../../theme/Styles";
+import { StyledTextInput } from "../../../theme/Styles";
+import VideoImage from '../../../assets/images/videoImage.png'
 
 export const Container = styled("div")({
   display: "flex",
@@ -15,37 +16,57 @@ export const Container = styled("div")({
 });
 
 export const HomeContainer = styled("div")((props) => ({
-  display:'flex',
-  flexDirection:'column',
-  position:'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
   minHeight: "100vh",
   //paddingTop:'300px',
- // paddingBottom:'100px',
+  // paddingBottom:'100px',
   background: `url(${props.image})`,
   backgroundSize: "cover",
   boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.5)",
-  alignItems:'center',
-  justifyContent:'center',
-  textAlign:'center'
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center'
 }));
 
 export const HomeCenterContent = styled("div")((props) => ({
-  display:'flex',
-  flexDirection:'column',
-  height:'600px',
-  alignItems:'center',
-  justifyContent:'center'
+  display: 'flex',
+  flexDirection: 'column',
+  height: '600px',
+  alignItems: 'center',
+  justifyContent: 'center'
 
 }));
 
 export const ContainerVideo = styled("div")(props => ({
+  position: 'relative',
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  maxWidth:'1920px',
-  alignSelf:'center',
-  minHeight: "70vh",
+  maxWidth: '1920px',
+  alignSelf: 'center',
+  minHeight: "100vh",
   justifyContent: "center",
+}));
+
+export const VideoOverlay = styled("div")(props => ({
+  position: 'absolute',
+  backgroundImage: `url(${VideoImage})`,
+  display: props.display,
+  flexDirection: "column",
+  width: "100%",
+  maxWidth: '1920px',
+  alignSelf: 'center',
+  minHeight: "100vh",
+  justifyContent: "center",
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+  "&:hover": {
+    cursor: 'pointer',
+    boxShadow: "inset 0 0 0 2000px rgba(0, 0, 0, 0.1)",
+  },
 }));
 
 export const MediumContainer = styled("div")({
@@ -65,7 +86,7 @@ export const MediumContainer = styled("div")({
 });
 
 export const HomeTextContainer = styled("div")({
-  display:'flex',
+  display: 'flex',
   flexDirection: "column",
   position: "relative",
   marginLeft: "15%",
@@ -74,16 +95,16 @@ export const HomeTextContainer = styled("div")({
   alignSelf: "center",
   fontSize: "15px",
   width: "100%",
-  justifyContent:'center'
+  justifyContent: 'center'
 });
- 
+
 export const DefaultButton = styled(Button)({
   color: COLORS.white,
   backgroundColor: COLORS.primary,
   borderRadius: "20px",
   fontSize: "15px !important",
-  fontFamily:`${FONTS_FAMILY.regular.body} !important`,
-  height:'38px',
+  fontFamily: `${FONTS_FAMILY.regular.body} !important`,
+  height: '38px',
   "&:hover,&:focus,&:active": {
     color: COLORS.white,
     backgroundColor: COLORS.black,
@@ -104,7 +125,7 @@ export const HomeTitle = styled("h1")({
   width: "55%",
   color: COLORS.white,
   fontFamily: FONTS_FAMILY.regular.title,
-  textAlign:'left',
+  textAlign: 'left',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   display: '-webkit-box',
@@ -203,7 +224,7 @@ export const StyledSearchIcon = styled(SearchIcon)({
 });
 
 export const Title = styled("h1")({
-  wordWrap:'break-word',
+  wordWrap: 'break-word',
   margin: 0,
   textAlign: "center",
   color: COLORS.white,
@@ -239,19 +260,19 @@ export const SearcherSubTitle = styled("p")({
   color: COLORS.secondary,
   textAlign: "center",
   marginBottom: "10px",
-  alignSelf:'center',
+  alignSelf: 'center',
   fontFamily: FONTS_FAMILY.regular.body,
   "@media (min-width:320px)": {
     fontSize: "15px",
-    width:'350px',
+    width: '350px',
   },
   "@media (min-width:768px)": {
     fontSize: "15px",
-    width:'500px',
+    width: '500px',
   },
   "@media (min-width:1200px)": {
     fontSize: "16px",
-    width:'700px',
+    width: '700px',
   },
 });
 
@@ -276,15 +297,15 @@ export const AnalyticsContainer = styled("div")({
 });
 
 export const SearcherContainer = styled("div")({
-  borderRadius:'10px',
+  borderRadius: '10px',
   "@media (min-width:320px)": {
-    width:'300px',
+    width: '300px',
   },
   "@media (min-width:768px)": {
-    width:'600px',
+    width: '600px',
   },
   "@media (min-width:1200px)": {
-    width:'800px',
+    width: '800px',
   },
 });
 
@@ -296,31 +317,31 @@ export const SelectorContainer = styled("div")({
 });
 
 export const StyledSearchIconForSearcher = styled(SearchIcon)({
-  color:COLORS.white
+  color: COLORS.white
 });
 
 export const SearchTextInput = styled(TextField)({
   width: '100%',
   alignSelf: 'center',
   borderWidth: '5px',
-  color:COLORS.white,
+  color: COLORS.white,
   '& .MuiInputBase-input ': {
     width: '100%',
     fontSize: '17px',
- //   backgroundColor: COLORS.white,
-    padding:10,
-    color:COLORS.white,
+    //   backgroundColor: COLORS.white,
+    padding: 10,
+    color: COLORS.white,
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: COLORS.white,
       borderRadius: '50px',
       minHeight: '45px',
-      color:COLORS.white,
+      color: COLORS.white,
     },
     '&:hover fieldset': {
       borderColor: COLORS.white,
-      color:COLORS.white,
+      color: COLORS.white,
     },
     '&.Mui-focused fieldset': {
       borderColor: COLORS.white,
@@ -404,3 +425,27 @@ export const CardsDivider = styled("div")({
     width: "10%",
   },
 });
+
+export const AnalyticItem = styled("div")((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+}));
+
+export const AnalyticItemIcon = styled("div")((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  "@media (min-width:320px)": {
+    width: '50px',
+    height: '50px',
+  },
+  "@media (min-width:768px)": {
+    width: '70px',
+    height: '70px',
+  },
+  "@media (min-width:1200px)": {
+    width: '90px',
+    height: '90px',
+  },
+}));

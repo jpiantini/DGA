@@ -32,6 +32,9 @@ import {
   CardsDivider,
   HomeContainer,
   HomeCenterContent,
+  AnalyticItemIcon,
+  AnalyticItem,
+  VideoOverlay
 } from "./styles/HomeStyles";
 import ServiceCard from "./components/ServiceCard/ServiceCard";
 import Footer from "./components/Footer/Footer";
@@ -40,14 +43,18 @@ import { useQuery } from "react-query";
 import { getVideoDataFromWordpress, getHomeDataFromWordpress, getHomeMetricsData } from "../../api/Home";
 import { getAllServices } from "../../api/ListOfServicesPerCategory";
 import LayoutFooter from '../../components/Footer/Footer';
-
 import { SmallHeightDivider } from "../../theme/Styles";
 import CenterLoading from "../../components/CenterLoading/CenterLoading";
+import WebIcon from '../../assets/icons/WebIcon.png'
+import ValidUserIcon from '../../assets/icons/ValidUserIcon.png'
+import CertifiedIcon from '../../assets/icons/CertifiedIcon.png'
 
 
 function Home() {
 
   const history = useHistory();
+
+  const [showVideoOverlay, setShowVideoOverlay] = useState(true);
 
   const { data: homeContent, isLoading: homeContentIsLoading } = useQuery(['homeData'], () => getHomeDataFromWordpress())
   const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
@@ -70,6 +77,10 @@ function Home() {
       title: item.name,
     }
   })
+
+  const handleShowVideoOverlay = () => {
+    setShowVideoOverlay(false);
+  }
 
   return (
     <Container>
@@ -97,7 +108,6 @@ function Home() {
                 }
               }}
 
-
               renderInput={(params) =>
                 <SearchTextInput
                   {...params}
@@ -122,27 +132,33 @@ function Home() {
       </HomeContainer>
       <MediumContainer style={{ backgroundColor: COLORS.secondary }}>
         <AnalyticsContainer>
-          <div>
-            <StyledDescriptionIcon />
+          <AnalyticItem>
+            <AnalyticItemIcon>
+              <img src={WebIcon} />
+            </AnalyticItemIcon>
             <Title>+{homeMetricsData.requests}</Title>
             <SubTitle>Solicitudes realizadas</SubTitle>
-          </div>
-          <div>
-            <StyledPersonAddIcon />
+          </AnalyticItem>
+          <AnalyticItem>
+            <AnalyticItemIcon>
+              <img src={ValidUserIcon} />
+            </AnalyticItemIcon>
             <Title>+{homeMetricsData.citizens}</Title>
             <SubTitle>Usuarios registrados</SubTitle>
-          </div>
-          <div>
-            <StyledSearchIcon />
+          </AnalyticItem>
+          <AnalyticItem>
+            <AnalyticItemIcon>
+              <img src={CertifiedIcon} />
+            </AnalyticItemIcon>
             <Title>+5</Title>
             <SubTitle>Busquedas realizadas</SubTitle>
-          </div>
+          </AnalyticItem>
         </AnalyticsContainer>
       </MediumContainer>
 
       <Container
         style={{
-          backgroundColor: COLORS.snow,
+          backgroundColor: '#EEEEEE',
           minHeight: "80vh",
           justifyContent: "center",
         }}
@@ -179,14 +195,20 @@ function Home() {
       </Container>
 
       <ContainerVideo>
-        <iframe
-          width='100%'
-          height='700px'
-          style={{ border: 0 }}
-          allowfullscreen=''
-          loading='lazy'
-          src={videoContent?.video_url} />
-
+        {
+          showVideoOverlay ?
+            <VideoOverlay display={showVideoOverlay ? 'flex' : 'none'} onClick={handleShowVideoOverlay} />
+            :
+            <iframe
+              width='100%'
+              style={{ border: 0, height: '100vh' }}
+              frameborder="0"
+              allow="autoplay"
+              encrypted-media
+              allowfullscreen
+              loading='lazy'
+              src={`${videoContent?.video_url}?autoplay=1&loop=1`} />
+        }
       </ContainerVideo>
       <Footer FooterRoutes={FooterRoutes} />
       <LayoutFooter />

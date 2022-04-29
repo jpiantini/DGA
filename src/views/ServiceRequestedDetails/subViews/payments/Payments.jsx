@@ -85,7 +85,7 @@ function Payment() {
         //development
         form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
         //production
-       // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
+        // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
         form.method = 'POST';
         //  form.target = 'blank';
 
@@ -114,18 +114,31 @@ function Payment() {
         );
         try {
             dispatch(ShowGlobalLoading('Subiendo documento'));
-            let responseFilesUpload = await uploadFormDocuments(formFilesData);
-            if (responseFilesUpload?.success) {
+            let responseFilesUploadResponse = await uploadFormDocuments(formFilesData);
+            if (responseFilesUploadResponse?.success) {
+                const backOfficeRequest = {
+                    voucher: true,
+                    status: true,
+                    documents: responseFilesUploadResponse.files.map((file, index) => {
+                        return {
+                            ...file,
+                            label: "Comprobante de pago"
+                        }
+                    }),
+                }
+                let linkBackOfficeResponse = await linkingDocumentsToRequestInBackOffice(backOfficeRequest, requestID);
+                if (linkBackOfficeResponse.success) {
+                //GOOD THE VOUCHER IS SEND SUCCESSFULL TO BACKOFFICE
                 const softExpertRequest = {
                     documents: [
                         {
-                            ...responseFilesUpload.files[0],
+                            ...responseFilesUploadResponse.files[0],
                             label: "Comprobante de pago"
                         }
                     ],
                     title: `documento-${userData.payload.citizen_id}`,
-                    record_id: requestData.request.code,
-                    attribute: `NumeroSolicitud=${requestData.request.code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
+                    record_id: linkBackOfficeResponse?.request_code,
+                    attribute: `NumeroSolicitud=${linkBackOfficeResponse?.request_code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
                     process_id: requestData.request.service.process_id,
                     acronym: requestData.direction.name + "DE",
                     names: [
@@ -134,29 +147,18 @@ function Payment() {
                     activity_id: requestData?.request?.activity?.activity_id ? requestData?.request?.activity?.activity_id : requestData?.request?.service?.activity_id,
                     new_request: false
                 }
-
                 let softExpertResponse = await linkingDocumentsToRequestInSoftExperted(softExpertRequest, requestID);
-                if (softExpertResponse.success) {
-                    let request = {
-                        voucher: true,
-                        status: true,
-                        documents: responseFilesUpload.files.map((file, index) => {
-                            return {
-                                ...file,
-                                label: "Comprobante de pago"
-                            }
-                        }),
-                    }
-
-                    let linkBackOffice = await linkingDocumentsToRequestInBackOffice(request, requestID);
-                    if (linkBackOffice.success) {
-                        enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
-                    } else {
-                        enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
-                    }
+                if (softExpertResponse.success) {   
+                    enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
+                    queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
                 } else {
                     enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
                 }
+                } else {
+                    enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+                }
+
+
                 setModalPaymentIsOpen(false)
                 dispatch(HideGlobalLoading());
             } else {
