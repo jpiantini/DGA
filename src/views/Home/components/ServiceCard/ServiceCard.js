@@ -10,20 +10,25 @@ import {
     FirstIcon,
     SecondIcon,
     ThirdIcon,
-    LinkText
+    LinkText,
+    CardIconContainer
 } from './styles/ServiceCardStyles';
+import HomeIcon from '../../../../assets/icons/HomeIcon.png'
+import MonumentIcon from '../../../../assets/icons/MonumentIcon.png'
+import EditIcons from '../../../../assets/icons/EditIcons.png'
+
 
 function ServiceCard({ title, bodyText, onRequestPress, cardNumber = 0 }) {
     const iconsForCard = [
-        <FirstIcon />,
-        <SecondIcon />,
-        <ThirdIcon />,
+        HomeIcon,
+        EditIcons,
+        MonumentIcon,
     ]
     return (
         <Container>
-            {
-                iconsForCard[cardNumber]
-            }
+            <CardIconContainer>
+                <img src={iconsForCard[cardNumber]} />
+            </CardIconContainer>
             <CenterContainer >
                 <Title>{title}</Title>
                 <BodyText>
