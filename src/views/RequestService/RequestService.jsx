@@ -108,22 +108,22 @@ function RequestService() {
     }
   })
 
-/* formData have the save_fields and its bugged when you save draft and you move to another screen when you go back get the previously you have saved in cache the save_fields of first call of form
-  const { data: formData, isLoading } = useQuery(['serviceForm', serviceDescription?.expertform_id], async () => {
-    try {
-      dispatch(ShowGlobalLoading("Cargando"));
-      const response = await getForm(serviceDescription.expertform_id, userData.payload.citizen_id);
-      dispatch(HideGlobalLoading());
-      return response;
-    } catch (error) {
-      history.push('/public');
-      dispatch(HideGlobalLoading());
-      throw new Error('An error has ocurred');
-    }
-  }, {
-    enabled: serviceDescription != undefined && userData != undefined
-  })
-*/
+  /* formData have the save_fields and its bugged when you save draft and you move to another screen when you go back get the previously you have saved in cache the save_fields of first call of form
+    const { data: formData, isLoading } = useQuery(['serviceForm', serviceDescription?.expertform_id], async () => {
+      try {
+        dispatch(ShowGlobalLoading("Cargando"));
+        const response = await getForm(serviceDescription.expertform_id, userData.payload.citizen_id);
+        dispatch(HideGlobalLoading());
+        return response;
+      } catch (error) {
+        history.push('/public');
+        dispatch(HideGlobalLoading());
+        throw new Error('An error has ocurred');
+      }
+    }, {
+      enabled: serviceDescription != undefined && userData != undefined
+    })
+  */
   const getAndSetForm = async () => {
     try {
       dispatch(ShowGlobalLoading("Cargando"));
@@ -141,10 +141,10 @@ function RequestService() {
   }
 
   useEffect(() => {
-    if(serviceDescription != undefined && userData != undefined){
+    if (serviceDescription != undefined && userData != undefined) {
       getAndSetForm();
     }
-  },[serviceDescription,userData]);
+  }, [serviceDescription, userData]);
 
   const handleSelectVariation = (val) => {
     handleModalVisibility();
@@ -310,11 +310,10 @@ function RequestService() {
           },
           documents: documentsArray,
           userInfo: {
-         /* provinciasolici:userData.payload.province_id,
+            provinciasolici: userData.payload.province_id,
             municipiosolic: userData.payload.municipality_id,
             sectorsolic: userData.payload.sector_id,
             horasolicitud: format(new Date(), 'HH:mm'),
-            */
             numdocsolicita: userData.payload.citizen_id,
             tipodocsolicita: 1,
             nombressolicita: userData.payload.name,
@@ -478,7 +477,7 @@ function RequestService() {
                   </strong>
                 </Fragment>
               } />
-            <Dialog keepMounted sx={{zIndex:1000}} disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
+            <Dialog keepMounted sx={{ zIndex: 1000 }} disableEscapeKeyDown open={priceModalIsOpen} onClose={handleModalVisibility} maxWidth='xl' fullScreen>
               <PricesContainer>
                 <Title>Tarifas del servicio</Title>
                 <SmallHeightDivider />
