@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { BodyText, SmallHeightDivider, StyledButtonOutlined } from '../../theme/Styles';
 import { replaceGuionToSlashFromString } from '../../utilities/functions/StringUtil';
 import { statusColors, variantStatus } from './RequestCardConstants';
@@ -17,8 +17,20 @@ import {
 
 function RequestCard({ statusID, title, date, approvalNumber, requestCode, status, onClick, percent, actionRequired, solution, solutionColor, paymentData }) {
 
-    const localVariant = variantStatus.find((status) => status.id == statusID)
+    const [localVariant, setLocalVariant] = useState(
+        variantStatus.find((variant) => status === variant.id)
+    );
 
+    useEffect(() => {
+        if(localVariant == undefined){
+            setLocalVariant(variantStatus[2])
+        }
+    }, [localVariant]);
+    /*
+        if(localVariant == undefined){
+            localVariant = "inProcess";
+        }
+    */
     return (
         <Container >
             <SmallHeightDivider />
@@ -99,7 +111,7 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
             <SmallHeightDivider />
             <RowContainer>
                 <ProgressBarContainer>
-                    <ProgressBarTitle variant={localVariant.variant}>
+                    <ProgressBarTitle variant={localVariant?.variant}>
                         {   //STATUSID 8 IS REJECTED and 10 is canceled
                             statusID == 8 ?
                                 'RECHAZADO'
@@ -110,7 +122,7 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
                                     percent + ' COMPLETADO'
                         }
                     </ProgressBarTitle>
-                    <ProgressBarPercent variant={localVariant.variant} percent={statusID == 8 || statusID == 10 ? '100' : percent} />
+                    <ProgressBarPercent variant={localVariant?.variant} percent={statusID == 8 || statusID == 10 ? '100' : percent} />
                 </ProgressBarContainer>
             </RowContainer>
             <SmallHeightDivider />
