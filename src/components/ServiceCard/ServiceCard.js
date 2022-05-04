@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Icon from '@mui/material/Icon';
-
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import COLORS from '../../theme/Colors';
 import {
     Container,
@@ -18,15 +18,20 @@ import {
     ServiceSecondaryButton
 } from './styles/ServiceCardStyles';
 
-function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, OnViewInformationPress,disableRequestButton = false }) {
+function ServiceCard({ iconName, relationTo, title, subTitle, onRequestPress, OnViewInformationPress, disableRequestButton = false }) {
     return (
         <Container>
             <div style={{ width: '95%', alignSelf: 'center' }}>
-   
-                <span style={{ color: COLORS.tertiary, fontSize: '40px' }} className="material-icons">
-                {/*iconName*/}
-                note_add
-                </span>
+                {
+                    /*
+                    <span style={{ color: COLORS.tertiary, fontSize: '40px' }} className="material-icons">
+                        iconName
+                        note_add
+                    </span>
+                */
+                }
+                <NoteAddIcon sx={{ color: COLORS.tertiary, fontSize: '40px' }} />
+
                 <RowContainer>
                     <Subtitle>RELACIONADO A: </Subtitle>
                     <SpecialSubtitle style={{ color: COLORS.tertiary }}>{relationTo}</SpecialSubtitle>
