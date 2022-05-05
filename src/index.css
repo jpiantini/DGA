@@ -1,29 +1,41 @@
 @font-face {
   font-family: 'FiraSans-Bold';
-  src: local('FiraSans-Bold'), url(./assets/fonts/FiraSans-Bold.woff2) format('truetype');
+  font-display: auto;
+  src: local('FiraSans-Bold'),
+   url(./assets/fonts/FiraSans-Bold.woff2) format('truetype');
 }
 
 @font-face {
   font-family: 'FiraSans-Medium';
-  src: local('FiraSans-Medium'), url(./assets/fonts/FiraSans-Medium.woff2) format('truetype');
+  font-display: auto;
+  src: local('FiraSans-Medium'),
+   url(./assets/fonts/FiraSans-Medium.woff2) format('truetype');
 }
 
 @font-face {
   font-family: 'FiraSans-Regular';
-  src: local('FiraSans-Regular'), url(./assets/fonts/FiraSans-Regular.woff2) format('truetype');
+  font-display: auto;
+  src: local('FiraSans-Regular'),
+   url(./assets/fonts/FiraSans-Regular.woff2) format('truetype');
 }
 
 @font-face {
   font-family: 'NunitoSans-Bold';
-  src: local('NunitoSans-Bold'), url(./assets/fonts/NunitoSans-Bold.woff2) format('truetype');
+  font-display: auto;
+  src: local('NunitoSans-Bold'),
+   url(./assets/fonts/NunitoSans-Bold.woff2) format('truetype');
 }
 
 @font-face {
   font-family: 'NunitoSans-Regular';
-  src: local('NunitoSans-Regular'), url(./assets/fonts/NunitoSans-Regular.woff2) format('truetype');
+  font-display: auto;
+  src: local('NunitoSans-Regular'),
+   url(./assets/fonts/NunitoSans-Regular.woff2) format('truetype');
 }
 
 @font-face {
   font-family: 'NunitoSans-SemiBold';
-  src: local('NunitoSans-SemiBold'), url(./assets/fonts/NunitoSans-SemiBold.woff2) format('truetype');
+  font-display: auto;
+  src: local('NunitoSans-SemiBold'),
+   url(./assets/fonts/NunitoSans-SemiBold.woff2) format('truetype');
 }
