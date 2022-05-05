@@ -19,7 +19,7 @@ function Auth({ children }) {
         const TOKEN = LocalStorageService.getItem('token');
         if (TOKEN == null) {
             // i write this 3 times because router cant be mounted before auth validation
-            //    setIsValidating(false)
+            setIsValidating(false)
             throw Error;
         }
         try {
@@ -33,11 +33,11 @@ function Auth({ children }) {
                         //     profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
                     }))
                     dispatch(HideGlobalLoading());
-                    //      setIsValidating(false)
-                }, 1500);
+                    setIsValidating(false)
+                }, 3500);
             } else {
                 dispatch(HideGlobalLoading());
-                //     setIsValidating(false)
+                setIsValidating(false)
                 history.push('/public');
             }
             return response;
@@ -49,18 +49,16 @@ function Auth({ children }) {
     });
 
     useEffect(() => {
-        /*    dispatch(ShowGlobalLoading());
-            setTimeout(() => {
-                dispatch(HideGlobalLoading());
-            }, 6000);
-            */
+        dispatch(ShowGlobalLoading());
+        setTimeout(() => {
+            dispatch(HideGlobalLoading());
+        }, 3000);
     }, []);
 
 
     return (
         <Fragment>
-            {children}
-            {/*isValidating ? null : children*/}
+            {isValidating ? null : children}
         </Fragment>
     );
 }
