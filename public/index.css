@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'FiraSans-Bold';
+  font-display: auto;
+  src: local('FiraSans-Bold'),
+   url(./fonts/FiraSans-Bold.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'FiraSans-Medium';
+  font-display: auto;
+  src: local('FiraSans-Medium'),
+   url(./fonts/FiraSans-Medium.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'FiraSans-Regular';
+  font-display: auto;
+  src: local('FiraSans-Regular'),
+   url(./fonts/FiraSans-Regular.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'NunitoSans-Bold';
+  font-display: auto;
+  src: local('NunitoSans-Bold'),
+   url(./fonts/NunitoSans-Bold.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'NunitoSans-Regular';
+  font-display: auto;
+  src: local('NunitoSans-Regular'),
+   url(./fonts/NunitoSans-Regular.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'NunitoSans-SemiBold';
+  font-display: auto;
+  src: local('NunitoSans-SemiBold'),
+   url(./fonts/NunitoSans-SemiBold.woff2) format('truetype');
+}
