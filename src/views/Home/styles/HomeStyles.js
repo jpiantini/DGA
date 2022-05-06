@@ -434,18 +434,8 @@ export const AnalyticItem = styled("div")((props) => ({
 
 export const AnalyticItemIcon = styled("div")((props) => ({
   display: 'flex',
-  flexDirection: 'column',
   alignSelf: 'center',
-  "@media (min-width:320px)": {
-    width: '50px',
-    height: '50px',
-  },
-  "@media (min-width:768px)": {
-    width: '70px',
-    height: '70px',
-  },
-  "@media (min-width:1200px)": {
-    width: '90px',
-    height: '90px',
-  },
+  width: '90px',
+  height: '90px',
+ 
 }));

@@ -310,9 +310,9 @@ function RequestService() {
           },
           documents: documentsArray,
           userInfo: {
-            provinciasolici: userData.payload.province_id,
-            municipiosolic: userData.payload.municipality_id,
-            sectorsolic: userData.payload.sector_id,
+            provinciasolici: userData.payload.province,
+            municipiosolic: userData.payload.municipality,
+            sectorsolic: userData.payload.sector,
             horasolicitud: format(new Date(), 'HH:mm'),
             numdocsolicita: userData.payload.citizen_id,
             tipodocsolicita: 1,

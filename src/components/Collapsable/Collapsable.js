@@ -7,7 +7,9 @@ import {
     BodyText
 } from './styles/CollapsableStyles';
 import Icon from '@mui/material/Icon';
-import { SmallHeightDivider } from '../../theme/Styles';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 function Collapsable({ title, content }) {
 
     const [open, setOpen] = useState(false);
@@ -20,7 +22,12 @@ function Collapsable({ title, content }) {
             <ItemsContainer>
                 <RowContainer>
                     <Title>{title}</Title>
-                    <Icon style={{ fontSize: '40px' }}>{open ? 'expand_less' : 'expand_more'}</Icon>
+                    {
+                        open ?
+                        <ExpandLessIcon sx={{ fontSize: '40px' }}/>
+                        :
+                        <ExpandMoreIcon sx={{ fontSize: '40px' }}/>
+                    }
                 </RowContainer>
                 {
                     open &&
