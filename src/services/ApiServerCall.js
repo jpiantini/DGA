@@ -9,7 +9,7 @@ const apiCall = () => {
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17/api';
+            config.baseURL = 'https://identidad.servicios.mitur.gob.do/api';
             config.headers = {
                 'Authorization': `beater ${Token}`,
                 'Accept': 'application/json',
