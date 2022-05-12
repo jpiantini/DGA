@@ -58,7 +58,8 @@ function Footer() {
           @2021 Ministerio de Turismo de la República Dominicana. Todos los
           derechos reservados.
         </FooterText>
-        <SmallHeightDivider/>
+        <SmallHeightDivider />
+        {/* remove comment when mitur get ogtic certified
         <CertificationsContainer>
           <LogosContainer>
             <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
@@ -74,7 +75,8 @@ function Footer() {
             </a>
           </LogosContainer>
         </CertificationsContainer>
-        <SmallHeightDivider/>
+        */}
+        <SmallHeightDivider />
 
       </CenterContainer>
     </FooterContainer>
