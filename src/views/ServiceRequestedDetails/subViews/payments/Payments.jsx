@@ -77,7 +77,7 @@ function Payment() {
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
             idAutorizacionPortal: requestData.request.idAutorizacionPortal,
-            urlRetorno: `https://servicios.mitur.gob.do/app/validatePayment/${requestData.request.id}`,
+            urlRetorno: `http://dev.servicios.mitur.gob.do/app/validatePayment/${requestData.request.id}`,
         }
 
         let form = document.createElement('form');
