@@ -38,7 +38,7 @@ function Header() {
               Inicio
             </MenuButton>
             <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
-              Servicios
+              Tramites
             </MenuButton>
             <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
               Consultas generales
@@ -49,16 +49,20 @@ function Header() {
             </MenuButton>
             <MenuDivider />
             {!authenticated ?
-              <MenuButton onClick={() => goToRoute("/public/login")}>
-                Iniciar Sesión
-              </MenuButton>
+              <Fragment>
+                <MenuButton onClick={() => goToRoute("/public/login")}>
+                  Iniciar Sesión
+                </MenuButton>
+                <MenuButton onClick={() => goToRoute("/app/register")}>
+                  Registrar
+                </MenuButton>
+              </Fragment>
               :
               <Fragment>
                 <MenuButton onClick={() => goToRoute("/app/myDesk")}>
                   Mi escritorio
                 </MenuButton>
                 <MenuDivider />
-
                 <LoggedInMenu />
                 <div style={{ width: "0.5rem" }} />
                 <Notifications color='black' />

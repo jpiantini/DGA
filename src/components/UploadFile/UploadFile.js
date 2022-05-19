@@ -23,7 +23,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
 
     const { data: documentsData, isLoading: documentsDataLoading } = useQuery(['documentsData', currentPage],
         () => getPersonalDocuments(userData.payload.citizen_id, currentPage), {
-        staleTime: cacheConfig.staleTimeForRequestedServiceDetail
+        staleTime: cacheConfig.staleTimeForRequestedServiceDetail,
+        enabled: findDocuments === true
     })
 
     const [selectedFilesModalIsOpen, setSelectedFilesModalIsOpen] = useState(false);

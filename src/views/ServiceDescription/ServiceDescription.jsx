@@ -150,11 +150,11 @@ function ServiceDescription() {
                                 </IconButton>
 
 
-                                <IconButton onClick={() => window.open(`https://twitter.com/share?text=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&url=${window.location.href}&hashtags=MinisterioDeTurismo,Mitur`, 'name', 'width=600,height=400')}>
+                                <IconButton onClick={() => window.open(`https://twitter.com/share?text=Ahora es mas facil solicitar tramites con el Portal de tramites de MITUR😁&url=${window.location.href}&hashtags=MinisterioDeTurismo,Mitur`, 'name', 'width=600,height=400')}>
                                     <StyledTwitterIcon />
                                 </IconButton>
 
-                                <IconButton onClick={() => window.open(`mailto:?subject=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&body=${window.location.href}`)}>
+                                <IconButton onClick={() => window.open(`mailto:?subject=Ahora es mas facil solicitar tramites con el Portal de tramites de MITUR😁&body=${window.location.href}`)}>
                                     <StyledEmailIcon />
                                 </IconButton>
 

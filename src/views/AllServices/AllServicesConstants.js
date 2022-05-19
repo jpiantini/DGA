@@ -13,24 +13,24 @@ export const localDirections = [
     id:0,
     wordpressID:130,
     wordpressKey:'todosServicios',
-    title:'Todos los servicios',
+    title:'Todos los Tramites',
   },
   {
     id:1,
     wordpressID:132,
     wordpressKey:'confotour',
-    title:'Confotur',
+    title:'Clasificaciones de Confotur',
   },
   {
     id:2,
     wordpressID:133,
     wordpressKey:'dpp',
-    title:'DPP',
+    title:'Aprobación y Análisis de proyectos (DPP)',
   },
   {
     id:3,
     wordpressID:134,
     wordpressKey:'empresaServicios',
-    title:'EMPRESAS Y SERVICIOS',
+    title:'Licencias de Operación',
   },
 ]
