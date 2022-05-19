@@ -40,7 +40,7 @@ function Header() {
             </div>
             <div style={{ display: 'flex' }}>
               <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
-                Servicios
+                Tramites
               </MenuButton>
               <div style={{ width: "1rem" }} />
               <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
@@ -86,8 +86,8 @@ function Header() {
         :
         <Container>
           <LineContainer>
-              <Image onClick={() => goToRoute("/")} src={LogoSecondaryWhite} />
-              <DrawerMenu layout="public" />
+            <Image onClick={() => goToRoute("/")} src={LogoSecondaryWhite} />
+            <DrawerMenu layout="public" />
           </LineContainer>
         </Container>
 

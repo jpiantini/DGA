@@ -34,7 +34,7 @@ function ServiceCard({ title, bodyText, onRequestPress, cardNumber = 0 }) {
                 <BodyText>
                     {bodyText}
                 </BodyText>
-                <LinkText onClick={onRequestPress}>VER SERVICIOS</LinkText>
+                <LinkText onClick={onRequestPress}>VER TRAMITES</LinkText>
             </CenterContainer>
         </Container >
 

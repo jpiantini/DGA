@@ -164,7 +164,7 @@ function Home() {
         }}
       >
         <CenterContainer>
-          <SearcherTitle>Servicios que ofrece la UCTT</SearcherTitle>
+          <SearcherTitle>Tramites que ofrece la UCTT</SearcherTitle>
           <SearcherSubTitle >
             Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión turística. Desde el análisis del suelo, obtención de incentivos y su licencia de operación.
           </SearcherSubTitle>

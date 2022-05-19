@@ -96,19 +96,6 @@ function AllServices() {
                         ))
                     }
                     <MediumHeightDivider />
-                    <Fragment>
-                        <TextInformation title="Preguntas frecuentes" />
-                        <SmallHeightDivider />
-                        {
-                            allQuestionsData[currentDirection?.wordpressKey]?.map((question) => (
-                                <div>
-                                    <Collapsable title={question.question} content={question.answer} />
-                                    <SmallHeightDivider />
-
-                                </div>
-                            ))
-                        }
-                    </Fragment>
                 </Container>
             </Row>
         </Container>
