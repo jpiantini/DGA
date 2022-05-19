@@ -65,9 +65,9 @@ function ServiceDescription() {
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
-            if(serviceDescription?.type?.id === 1){
+            if (serviceDescription?.type?.id === 1) {
                 window.open(serviceDescription.helper_link, '_blank').focus();
-            }else{
+            } else {
                 history.push(`/app/requestService/${serviceID}`)
             }
         } else {
@@ -234,8 +234,13 @@ function ServiceDescription() {
                         {
                             serviceDescription.requirements.map((requeriment, index) => (
                                 <li key={index} style={{ marginTop: '5px' }}>
+                                    <strong>
+                                        <BodyText>
+                                            {requeriment.name}
+                                        </BodyText>
+                                    </strong>
                                     <BodyText>
-                                        {requeriment.name}
+                                        {requeriment?.description}
                                     </BodyText>
                                 </li>
                             ))
@@ -337,7 +342,7 @@ function ServiceDescription() {
                     <SmallHeightDivider />
 
                     <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
-                       {serviceDescription?.type?.id === 1 ? "VER INFORMACION":"INICIAR SOLICITUD"}
+                        {serviceDescription?.type?.id === 1 ? "VER INFORMACION" : "INICIAR SOLICITUD"}
                     </StyledFab>
 
                     <SmallHeightDivider />

@@ -2,7 +2,10 @@ import axios from 'axios';
 
 export default function wpCall() {
     return axios.create({
-        baseURL: 'https://wp.servicios.mitur.gob.do/wp-json',
+        //dev
+        baseURL: 'http://159.223.159.18/wp-json',
+        //production
+        //baseURL: 'https://wp.servicios.mitur.gob.do/wp-json',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
