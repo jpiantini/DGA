@@ -37,7 +37,7 @@ function ServiceCard({ title, bodyText, onRequestPress, requestCustomTitle, card
                     {bodyText}
                 </BodyText>
                 <LinkText onClick={onRequestPress}>
-                    {requestCustomTitle ? requestCustomTitle : "VER TRÀMITES"}
+                    {requestCustomTitle ? requestCustomTitle : "VER TRÁMITES"}
                 </LinkText>
             </CenterContainer>
         </Container >

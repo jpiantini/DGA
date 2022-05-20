@@ -89,7 +89,7 @@ function Home() {
       <Header servicesRef={servicesRef}/>
       <HomeContainer image={homeContent.image_url}>
         <HomeCenterContent>
-          <Title>UNIDAD CENTRAL DE TRÀMITES TURISTICOS</Title>
+          <Title>UNIDAD CENTRAL DE TRÁMITES TURISTICOS</Title>
           <Title>(UCTT)- MITUR</Title>
           <SmallHeightDivider />
           <SmallHeightDivider />
