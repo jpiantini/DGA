@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import GobMessage from "../../components/GobMessage/GobMessage";
 import Header from "./components/Header/Header";
 import COLORS from "../../theme/Colors";
@@ -55,6 +55,7 @@ function Home() {
   const history = useHistory();
 
   const [showVideoOverlay, setShowVideoOverlay] = useState(true);
+  const servicesRef = useRef(null);
 
   const { data: homeContent, isLoading: homeContentIsLoading } = useQuery(['homeData'], () => getHomeDataFromWordpress())
   const { data: videoContent, isLoading: videoContentIsLoading } = useQuery(['videoData'], () => getVideoDataFromWordpress())
@@ -85,10 +86,10 @@ function Home() {
   return (
     <Container>
       <GobMessage />
-      <Header />
+      <Header servicesRef={servicesRef}/>
       <HomeContainer image={homeContent.image_url}>
         <HomeCenterContent>
-          <Title>UNIDAD CENTRAL DE TRAMITES TURISTICOS</Title>
+          <Title>UNIDAD CENTRAL DE TRÀMITES TURISTICOS</Title>
           <Title>(UCTT)- MITUR</Title>
           <SmallHeightDivider />
           <SmallHeightDivider />
@@ -163,8 +164,8 @@ function Home() {
           justifyContent: "center",
         }}
       >
-        <CenterContainer>
-          <SearcherTitle>Tramites que ofrece la UCTT</SearcherTitle>
+        <CenterContainer ref={servicesRef}>
+          <SearcherTitle>Trámites que ofrece la UCTT</SearcherTitle>
           <SearcherSubTitle >
             Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión turística. Desde el análisis del suelo, obtención de incentivos y su licencia de operación.
           </SearcherSubTitle>
@@ -179,15 +180,17 @@ function Home() {
                     bodyText={direction.description}
                     onRequestPress={() => history.push(`/app/listOfServices/${direction.id}`)}
                   />
-                  {
-                    listOfServices.length === index + 1 ?
-                      null
-                      :
-                      <CardsDivider />
-                  }
+                  <CardsDivider />
                 </Fragment>
               ))
             }
+            <ServiceCard
+              cardNumber={3}
+              title={"Sistema de Seguimiento a la Inversión Turística"}
+              bodyText={"En este sistema se registra la inversión mensual de los proyectos, la cual le permite enviar los listados de exoneraciones para su aprobación."}
+              requestCustomTitle="VER SISTEMA"
+              onRequestPress={() => window.open("https://sit.mitur.gob.do/", '_blank').focus()}
+            />
           </CardsContainer>
         </CenterContainer>
 

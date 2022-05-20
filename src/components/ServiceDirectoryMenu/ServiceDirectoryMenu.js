@@ -19,7 +19,7 @@ function ServiceDirectoryMenu() {
     return (
         <Container >
             <div style={{ width: '80%', alignSelf: 'center', marginTop: '30px' }}>
-                <Title>TRAMITES</Title>
+                <Title>trámites</Title>
                 <MinDivider />
                 {
                     listOfServices.map((item) => (

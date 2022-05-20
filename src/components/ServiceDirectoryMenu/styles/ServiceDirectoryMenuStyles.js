@@ -33,6 +33,7 @@ export const Subtitle = styled('p')({
     color: COLORS.secondary,
     margin:'2px',
     fontSize: '14px',
+    textTransform:'uppercase',
     fontWeight:'700',
     textAlign:'left',
     '@media (max-width:768px)': {

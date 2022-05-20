@@ -20,7 +20,7 @@ function Footer({FooterRoutes}) {
     return (
             <FooterContainer>
                 <CenterContainer >
-                    <Title>Directorio de tramites</Title>
+                    <Title>Directorio de trámites</Title>
                     <TitleDivider/>
                     <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {

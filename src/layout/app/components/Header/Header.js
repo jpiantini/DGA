@@ -38,7 +38,7 @@ function Header() {
               Inicio
             </MenuButton>
             <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
-              Tramites
+              Trámites
             </MenuButton>
             <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
               Consultas generales

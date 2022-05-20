@@ -96,7 +96,7 @@ function DrawerMenu({ layout }) {
                             color='inherit'
                             onClick={() => goToRoute("/app/listOfServices/0")}
                         >
-                            tramites
+                            trámites
                         </DrawerListItemButton>
                     </DrawerListItemContainer>
                     <DrawerListItemContainer layout={layout}>

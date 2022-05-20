@@ -13,19 +13,19 @@ export const localDirections = [
     id:0,
     wordpressID:130,
     wordpressKey:'todosServicios',
-    title:'Todos los Tramites',
+    title:'Todos los trámites',
   },
   {
     id:1,
-    wordpressID:132,
-    wordpressKey:'confotour',
-    title:'Clasificaciones de Confotur',
-  },
-  {
-    id:2,
     wordpressID:133,
     wordpressKey:'dpp',
     title:'Aprobación y Análisis de proyectos (DPP)',
+  },
+  {
+    id:2,
+    wordpressID:132,
+    wordpressKey:'confotour',
+    title:'Clasificaciones de Confotur',
   },
   {
     id:3,

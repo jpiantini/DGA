@@ -30,6 +30,6 @@ export const FAQDATA = [
     {
         id:5,
         question:'¿Cómo puedo realizar una reclamación?',
-        answer:'"Cuando el servicio sea solicitado puede hacer una reclamacion en el apartado de Detalles en la lista de tramites solicitados',
+        answer:'"Cuando el servicio sea solicitado puede hacer una reclamacion en el apartado de Detalles en la lista de trámites solicitados',
     }
 ]

@@ -10,11 +10,7 @@ const apiServiceCall = () => {
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            //dev
-            config.baseURL = 'http://159.223.159.18:9000/api';
-            //production
-            //config.baseURL = 'https://fileserver.servicios.mitur.gob.do/api';
-           
+            config.baseURL = process.env.REACT_APP_FILESERVER_URL;
             config.headers = {
                 'Authorization': `beater ${Token}`,
                 'X-Authorization': 'pON2xGGbpraP698B5CJvUMljzJvDa8MmwXCOBDhz1jqwzlQ8bAG1QalAIRrDRmgY',
