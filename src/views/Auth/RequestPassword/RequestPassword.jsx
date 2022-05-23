@@ -53,7 +53,7 @@ function RequestPassword() {
                 email: formData.email
             });
             if (response.success) {//IF passwordRequest SUCCESS
-                enqueueSnackbar("Se ha enviado un mensaje a su correo electronico", { variant: 'success' })
+                enqueueSnackbar("Se ha enviado un mensaje a su correo electrónico", { variant: 'success' })
                 history.push('/public')
             }else{
                 setErrorMessage(response?.msg)
@@ -93,7 +93,7 @@ function RequestPassword() {
                     </TextFieldContainer>
 
                     <TextFieldContainer>
-                        <TextField placeholder="Correo Electronico" type="email" id="email"
+                        <TextField placeholder="Correo Electrónico" type="email" id="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -104,7 +104,7 @@ function RequestPassword() {
                     </TextFieldContainer>
 
                     <TextFieldContainer>
-                        <TextField placeholder="Confirmar correo electronico" type="email" id="emailConfirmation"
+                        <TextField placeholder="Confirmar correo electrónico" type="email" id="emailConfirmation"
                             value={formik.values.emailConfirmation}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

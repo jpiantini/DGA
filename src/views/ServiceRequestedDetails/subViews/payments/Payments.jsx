@@ -77,18 +77,13 @@ function Payment() {
             tipoDocumento: "C",
             medioPago: "PagoEnLinea",
             idAutorizacionPortal: requestData.request.idAutorizacionPortal,
-            urlRetorno: `http://dev.servicios.mitur.gob.do/app/validatePayment/${requestData.request.id}`,
+            urlRetorno: process.env.REACT_APP_SIRITE_RETURN_URL + requestData.request.id,
         }
 
         let form = document.createElement('form');
         form.style.display = 'none'
-        //development
-        form.action = 'https://prw-psp-1.hacienda.gob.do/pasarela-pago/transaccion';
-        //production
-        // form.action = 'https://ecommerce.cardnet.com.do/pasarela-pago/transaccion'
+        form.action = process.env.REACT_APP_SIRITE_ENVIROMENT
         form.method = 'POST';
-        //  form.target = 'blank';
-
         let siriteConfigKeys = Object.keys(siritePaymentConfig)
         siriteConfigKeys.forEach((key, index) => {
             const input = document.createElement('input')
@@ -128,32 +123,32 @@ function Payment() {
                 }
                 let linkBackOfficeResponse = await linkingDocumentsToRequestInBackOffice(backOfficeRequest, requestID);
                 if (linkBackOfficeResponse.success) {
-                //GOOD THE VOUCHER IS SEND SUCCESSFULL TO BACKOFFICE
-                const softExpertRequest = {
-                    documents: [
-                        {
-                            ...responseFilesUploadResponse.files[0],
-                            label: "Comprobante de pago"
-                        }
-                    ],
-                    title: `documento-${userData.payload.citizen_id}`,
-                    record_id: linkBackOfficeResponse?.request_code,
-                    attribute: `NumeroSolicitud=${linkBackOfficeResponse?.request_code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
-                    process_id: requestData.request.service.process_id,
-                    acronym: requestData.direction.name + "DE",
-                    names: [
-                        "Comprobante de pago"
-                    ],
-                    activity_id: requestData?.request?.activity?.activity_id ? requestData?.request?.activity?.activity_id : requestData?.request?.service?.activity_id,
-                    new_request: false
-                }
-                let softExpertResponse = await linkingDocumentsToRequestInSoftExperted(softExpertRequest, requestID);
-                if (softExpertResponse.success) {   
-                    enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
-                    queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
-                } else {
-                    enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
-                }
+                    //GOOD THE VOUCHER IS SEND SUCCESSFULL TO BACKOFFICE
+                    const softExpertRequest = {
+                        documents: [
+                            {
+                                ...responseFilesUploadResponse.files[0],
+                                label: "Comprobante de pago"
+                            }
+                        ],
+                        title: `documento-${userData.payload.citizen_id}`,
+                        record_id: linkBackOfficeResponse?.request_code,
+                        attribute: `NumeroSolicitud=${linkBackOfficeResponse?.request_code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
+                        process_id: requestData.request.service.process_id,
+                        acronym: requestData.direction.name + "DE",
+                        names: [
+                            "Comprobante de pago"
+                        ],
+                        activity_id: requestData?.request?.activity?.activity_id ? requestData?.request?.activity?.activity_id : requestData?.request?.service?.activity_id,
+                        new_request: false
+                    }
+                    let softExpertResponse = await linkingDocumentsToRequestInSoftExperted(softExpertRequest, requestID);
+                    if (softExpertResponse.success) {
+                        enqueueSnackbar("Comprobante de pago enviado", { variant: 'success' })
+                        queryClient.invalidateQueries(['serviceRequestedDetail', requestID])
+                    } else {
+                        enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+                    }
                 } else {
                     enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
                 }
