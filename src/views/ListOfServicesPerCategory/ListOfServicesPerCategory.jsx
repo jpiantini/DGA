@@ -83,7 +83,7 @@ function ListOfServicesPerCategory() {
                     <SmallHeightDivider />
 
                     <Fragment>
-                        <TextInformation title="Servicios" />
+                        <TextInformation title="Trámites" />
                         <SmallHeightDivider />
                         <Grid alignItems="center" container direction="row" justifyContent={!matchesWidth ? "center" : "flex-start"} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {
@@ -94,6 +94,7 @@ function ListOfServicesPerCategory() {
                                             subTitle={item.description}
                                             relationTo={localDirections.find((direction) => direction.id == item.direction_id).title}
                                             onRequestPress={() => handleServiceRequest(item)}
+                                            disableRequestButton={item.type_id === 1 ? true : false}
                                             OnViewInformationPress={() => history.push(`/app/serviceDescription/${item.id}`)} />
                                     </Grid>
                                 ))

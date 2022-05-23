@@ -380,7 +380,7 @@ function Register() {
                     <Grid alignItems="center" justifyContent="center" container direction="row" spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, sm: 8, md: 12 }}>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Correo Electronico" type="email" id="email"
+                            <TextField title="Correo Electrónico" type="email" id="email"
                                 required
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
@@ -391,7 +391,7 @@ function Register() {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={12}>
-                            <TextField title="Confirmar correo electronico" type="email" id="emailConfirmation"
+                            <TextField title="Confirmar correo electrónico" type="email" id="emailConfirmation"
                                 required
                                 value={formik.values.emailConfirmation}
                                 onChange={formik.handleChange}

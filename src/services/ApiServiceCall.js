@@ -10,7 +10,7 @@ const apiServiceCall = () => {
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17:8000/api';
+            config.baseURL = process.env.REACT_APP_BACKOFFICE_URL
             config.headers = {
                 'Authorization': `beater ${Token}`,
                 'X-Authorization': 'XiS9cuDMlRP0YtMsXPNepZFti5jqeoQdm0LbnZh8IMvZmF118LqCNSSj6CDVnYPv',

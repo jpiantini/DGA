@@ -16,13 +16,15 @@ import {
 import HomeIcon from '../../../../assets/icons/HomeIcon.png'
 import MonumentIcon from '../../../../assets/icons/MonumentIcon.png'
 import EditIcons from '../../../../assets/icons/EditIcons.png'
+import MunicipeWithCartIcon from '../../../../assets/icons/MunicipeWithCartIcon.png'
 
 
-function ServiceCard({ title, bodyText, onRequestPress, cardNumber = 0 }) {
+function ServiceCard({ title, bodyText, onRequestPress, requestCustomTitle, cardNumber = 0 }) {
     const iconsForCard = [
-        HomeIcon,
         EditIcons,
+        HomeIcon,
         MonumentIcon,
+        MunicipeWithCartIcon
     ]
     return (
         <Container>
@@ -34,7 +36,9 @@ function ServiceCard({ title, bodyText, onRequestPress, cardNumber = 0 }) {
                 <BodyText>
                     {bodyText}
                 </BodyText>
-                <LinkText onClick={onRequestPress}>VER SERVICIOS</LinkText>
+                <LinkText onClick={onRequestPress}>
+                    {requestCustomTitle ? requestCustomTitle : "VER TRÁMITES"}
+                </LinkText>
             </CenterContainer>
         </Container >
 

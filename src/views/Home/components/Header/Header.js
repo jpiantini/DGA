@@ -13,21 +13,14 @@ import LoggedInMenu from "../../../../components/LoggedInMenu/LoggedInMenu";
 import Notifications from "../../../../components/Notifications/Notifications";
 import DrawerMenu from "../../../../components/DrawerMenu/DrawerMenu";
 import LogoSecondaryWhite from '../../../../assets/images/LogoSecondaryWhite.png'
-function Header() {
+function Header(props) {
   const matchesWidth = useMediaQuery("(min-width:1000px)");
-  const [drawerState, setDrawerState] = useState(false);
-  const [registerInformationModalVisible, setRegisterInformationModalVisible] = useState(false);
-
   const history = useHistory();
   const dispatch = useDispatch();
   const { authenticated, profileImg } = useSelector((state) => state.authReducer);
 
   const goToRoute = (route) => {
     history.push(route);
-  };
-
-  const handleregisterInformationModalVisibility = () => {
-    setRegisterInformationModalVisible(!registerInformationModalVisible);
   };
 
   return (
@@ -39,8 +32,8 @@ function Header() {
               <Image onClick={() => goToRoute("/")} src={LogoSecondaryWhite} />
             </div>
             <div style={{ display: 'flex' }}>
-              <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
-                Servicios
+              <MenuButton onClick={() => props.servicesRef.current.scrollIntoView({behavior:'smooth',block:'center'})}>
+                Trámites
               </MenuButton>
               <div style={{ width: "1rem" }} />
               <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
@@ -86,8 +79,8 @@ function Header() {
         :
         <Container>
           <LineContainer>
-              <Image onClick={() => goToRoute("/")} src={LogoSecondaryWhite} />
-              <DrawerMenu layout="public" />
+            <Image onClick={() => goToRoute("/")} src={LogoSecondaryWhite} />
+            <DrawerMenu layout="public" />
           </LineContainer>
         </Container>
 

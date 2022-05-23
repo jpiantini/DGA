@@ -9,7 +9,7 @@ const apiCall = () => {
     axiosInstance.interceptors.request.use(
         async config => {
             let Token = LocalStorageService.getItem('token');
-            config.baseURL = 'http://159.223.159.17/api';
+            config.baseURL = process.env.REACT_APP_IDENTIDAD_URL
             config.headers = {
                 'Authorization': `beater ${Token}`,
                 'Accept': 'application/json',
@@ -43,7 +43,7 @@ const refreshToken = async () => {
     try {
         let response = await apiCall().get('/refresh/token');
         if (response.data.success) {
-         //   console.log('token refrescado')
+            //   console.log('token refrescado')
             LocalStorageService.setItem('token', response.data.payload.token);
             return response.data.payload.token;
         } else {

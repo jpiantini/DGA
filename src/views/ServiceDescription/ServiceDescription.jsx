@@ -65,9 +65,9 @@ function ServiceDescription() {
 
     const handleServiceRequest = (serviceID) => {
         if (authenticated) {
-            if(serviceDescription?.type?.id === 1){
+            if (serviceDescription?.type?.id === 1) {
                 window.open(serviceDescription.helper_link, '_blank').focus();
-            }else{
+            } else {
                 history.push(`/app/requestService/${serviceID}`)
             }
         } else {
@@ -150,11 +150,11 @@ function ServiceDescription() {
                                 </IconButton>
 
 
-                                <IconButton onClick={() => window.open(`https://twitter.com/share?text=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&url=${window.location.href}&hashtags=MinisterioDeTurismo,Mitur`, 'name', 'width=600,height=400')}>
+                                <IconButton onClick={() => window.open(`https://twitter.com/share?text=Ahora es mas facil solicitar trámites con el Portal de trámites de MITUR😁&url=${window.location.href}&hashtags=MinisterioDeTurismo,Mitur`, 'name', 'width=600,height=400')}>
                                     <StyledTwitterIcon />
                                 </IconButton>
 
-                                <IconButton onClick={() => window.open(`mailto:?subject=Ahora es mas facil solicitar servicios con el Portal de servicios de MITUR😁&body=${window.location.href}`)}>
+                                <IconButton onClick={() => window.open(`mailto:?subject=Ahora es mas facil solicitar trámites con el Portal de trámites de MITUR😁&body=${window.location.href}`)}>
                                     <StyledEmailIcon />
                                 </IconButton>
 
@@ -234,8 +234,13 @@ function ServiceDescription() {
                         {
                             serviceDescription.requirements.map((requeriment, index) => (
                                 <li key={index} style={{ marginTop: '5px' }}>
+                                    <strong>
+                                        <BodyText>
+                                            {requeriment.name}
+                                        </BodyText>
+                                    </strong>
                                     <BodyText>
-                                        {requeriment.name}
+                                        {requeriment?.description}
                                     </BodyText>
                                 </li>
                             ))
@@ -337,7 +342,7 @@ function ServiceDescription() {
                     <SmallHeightDivider />
 
                     <StyledFab onClick={() => handleServiceRequest(serviceDescription.id)}>
-                       {serviceDescription?.type?.id === 1 ? "VER INFORMACION":"INICIAR SOLICITUD"}
+                        {serviceDescription?.type?.id === 1 ? "VER INFORMACION" : "INICIAR SOLICITUD"}
                     </StyledFab>
 
                     <SmallHeightDivider />

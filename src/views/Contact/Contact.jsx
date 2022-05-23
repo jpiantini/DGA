@@ -14,13 +14,14 @@ import {
   MapContainer,
 } from './styles/ContactStyles';
 import { useFormik } from 'formik';
-import { FormSchema } from './ContactConstants';
+import { FormSchema, relationToData } from './ContactConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import { useQuery } from 'react-query'
 import { getContactDataFromWordpress } from '../../api/Contact';
 import PhoneTextField from '../../components/PhoneTextField/PhoneTextField';
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
+import Select from '../../components/Select/Select';
 
 
 function Contact() {
@@ -32,6 +33,8 @@ function Contact() {
   const formik = useFormik({
     initialValues: {
       fullName: '',
+      relationTo: 1,
+      email: '',
       phoneNumber: '',
       message: '',
     },
@@ -49,13 +52,12 @@ function Contact() {
     dispatch(UpdateAppSubHeaderTitle('Contacto')); // TITLE OF SUBHEADER APP
   }, []);
 
-  if (isLoading) return <CenterLoading/>
+  if (isLoading) return <CenterLoading />
 
   return (
     <Container>
       <TextInformation title='Información de contacto' />
       <SmallHeightDivider />
-
       <Grid
         alignItems='center'
         justifyContent='space-between'
@@ -96,7 +98,7 @@ function Contact() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 8, sm: 8, md: 12 }}
       >
-        <Grid item xs={12} sm={4} md={6}>
+        <Grid item xs={12} sm={12} md={12}>
           <TextField
             title='Nombre completo'
             type='text'
@@ -109,9 +111,31 @@ function Contact() {
             helperText={formik.touched.fullName && formik.errors.fullName}
           />
         </Grid>
-
-
-        <Grid item xs={12} sm={4} md={6}>
+        <Grid item xs={12} sm={4} md={4}>
+          <Select title="Relacionado a: " id="relationTo"
+            required
+            value={formik.values.relationTo}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.relationTo && Boolean(formik.errors.relationTo)}
+            helperText={formik.touched.relationTo && formik.errors.relationTo}
+            data={relationToData}
+            disableEmptyValue
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <TextField title="Correo Electrónico"
+           type="email"
+            id="email"
+            required
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4} md={4}>
           <PhoneTextField title="Teléfono de contacto" type="text" id="phoneNumber"
             required
             value={formik.values.phoneNumber}

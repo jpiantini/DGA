@@ -100,7 +100,7 @@ function RequestedServiceList() {
   useLayoutEffect(() => {
     getAndSetRequestedServiceList(1);
     //UPDATE APP HEADER SUBTITLE
-    dispatch(UpdateAppSubHeaderTitle('Listado de servicios solicitados')); // TITLE OF SUBHEADER APP
+    dispatch(UpdateAppSubHeaderTitle('Listado de trámites solicitados')); // TITLE OF SUBHEADER APP
   }, []);
 
 
