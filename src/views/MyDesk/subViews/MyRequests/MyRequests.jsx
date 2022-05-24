@@ -117,7 +117,6 @@ function MyRequests() {
                             }
                             <RequestCard title={request.service.name} percent={request.progress + "%"}
                                 date={request.created_at}
-                                approvalNumber={request.approval_number}
                                 requestCode={request?.provisional === 0 ? request.code : null}
                                 status={request.status.name}
                                 actionRequired={request.request_actions}
@@ -125,7 +124,7 @@ function MyRequests() {
                                 statusID={request.status.id}
                                 solution={request.solution}
                                 solutionColor={request.status.color}
-                                paymentData={request.payment}
+                                projectName={request.nmtramite}
                             />
                         </Fragment>
                     ))

@@ -6,7 +6,7 @@ import {
   StyledButtonOutlined,
 } from '../../theme/Styles';
 import { useDispatch } from 'react-redux';
-import { UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
+import { HideGlobalLoading, ShowGlobalLoading, UpdateAppSubHeaderTitle } from '../../redux/actions/UiActions';
 import {
   ButtonContainer,
   ContactInfoContainer,
@@ -34,7 +34,7 @@ function Contact() {
   const formik = useFormik({
     initialValues: {
       fullName: '',
-      relationTo: 1,
+      relationTo: '',
       email: '',
       phoneNumber: '',
       message: '',
@@ -48,6 +48,7 @@ function Contact() {
   });
 
   const handleSendMessage = async () => {
+    dispatch(ShowGlobalLoading(''));
     const reqData = {
       name: formik.values.fullName,
       mail: formik.values.email,
@@ -59,6 +60,7 @@ function Contact() {
       await sendMessage(reqData);
       enqueueSnackbar("Mensaje enviado satisfactoriamente", { variant: 'success' })
       formik.resetForm();
+      dispatch(HideGlobalLoading());
     } catch (error) {
       enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
     }
@@ -128,7 +130,7 @@ function Contact() {
             helperText={formik.touched.fullName && formik.errors.fullName}
           />
         </Grid>
-        <Grid item xs={12} sm={4} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <Select title="Relacionado a: " id="relationTo"
             required
             value={formik.values.relationTo}
@@ -137,7 +139,6 @@ function Contact() {
             error={formik.touched.relationTo && Boolean(formik.errors.relationTo)}
             helperText={formik.touched.relationTo && formik.errors.relationTo}
             data={relationToData}
-            disableEmptyValue
           />
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
@@ -152,7 +153,7 @@ function Contact() {
             helperText={formik.touched.email && formik.errors.email}
           />
         </Grid>
-        <Grid item xs={12} sm={4} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <PhoneTextField title="Teléfono de contacto" type="text" id="phoneNumber"
             required
             value={formik.values.phoneNumber}
