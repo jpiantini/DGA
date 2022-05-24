@@ -15,14 +15,14 @@ import {
     ProgressBarTitle
 } from './styles/RequestCardStyles';
 
-function RequestCard({ statusID, title, date, approvalNumber, requestCode, status, onClick, percent, actionRequired, solution, solutionColor, paymentData }) {
+function RequestCard({ statusID, title, projectName, date, requestCode, status, onClick, percent, actionRequired, solution, solutionColor }) {
 
     const [localVariant, setLocalVariant] = useState(
         variantStatus.find((variant) => status === variant.id)
     );
 
     useEffect(() => {
-        if(localVariant == undefined){
+        if (localVariant == undefined) {
             setLocalVariant(variantStatus[2])
         }
     }, [localVariant]);
@@ -77,6 +77,7 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
                     Fecha: {new Date(replaceGuionToSlashFromString(date)).toLocaleDateString()}
                 </BodyText>
             </RowContainer>
+
             {
                 requestCode !== null &&
                 <RowContainer style={{ justifyContent: 'flex-start' }}>
@@ -86,22 +87,14 @@ function RequestCard({ statusID, title, date, approvalNumber, requestCode, statu
                 </RowContainer>
 
             }
-
-            {approvalNumber != undefined ?
+            {
+                projectName !== null &&
                 <RowContainer style={{ justifyContent: 'flex-start' }}>
                     <BodyText>
-                        Numero de aprobación: {approvalNumber}
-                    </BodyText>
-                </RowContainer>
-                :
-                <RowContainer style={{ justifyContent: 'flex-start' }}>
-                    <BodyText>
-                        Monto: {paymentData.payment_amount === '0.00' ?
-                            "Gratis" : `DOP${paymentData.payment_amount}`}
+                        Nombre : {projectName}
                     </BodyText>
                 </RowContainer>
             }
-
             <RowContainer style={{ justifyContent: 'flex-start' }}>
                 <BodyText>
                     Estado : {status}
