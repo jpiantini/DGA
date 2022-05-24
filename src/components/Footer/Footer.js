@@ -59,7 +59,7 @@ function Footer() {
           derechos reservados.
         </FooterText>
         <SmallHeightDivider />
-        {/* remove comment when mitur get ogtic certified
+        {process.env.REACT_APP_CONFIG_SHOW_OGTIC_CERTIFICATES == 1 &&
         <CertificationsContainer>
           <LogosContainer>
             <a target="_blank" href="https://optic.gob.do/nortic/index.php/certificaciones/instituciones-certificadas/item/ministerio-de-turismo-mitur">
@@ -75,7 +75,7 @@ function Footer() {
             </a>
           </LogosContainer>
         </CertificationsContainer>
-        */}
+        }
         <SmallHeightDivider />
 
       </CenterContainer>

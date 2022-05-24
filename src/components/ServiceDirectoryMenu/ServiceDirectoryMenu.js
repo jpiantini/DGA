@@ -14,12 +14,14 @@ import {
 function ServiceDirectoryMenu() {
     const history = useHistory();
 
-    const { data: listOfServices,isLoading } = useQuery(['listOfServices'], () => getAllServices())
-    if(isLoading) return null;
+    const { data: listOfServices, isLoading } = useQuery(['listOfServices'], () => getAllServices())
+    if (isLoading) return null;
     return (
         <Container >
             <div style={{ width: '80%', alignSelf: 'center', marginTop: '30px' }}>
-                <Title>trámites</Title>
+                <Title style={{ textTransform: 'uppercase' }}>
+                    trámites
+                </Title>
                 <MinDivider />
                 {
                     listOfServices.map((item) => (
