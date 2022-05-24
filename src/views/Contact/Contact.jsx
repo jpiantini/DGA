@@ -18,15 +18,16 @@ import { FormSchema, relationToData } from './ContactConstants';
 import { Grid } from '@mui/material';
 import TextField from '../../components/TextField/TextField';
 import { useQuery } from 'react-query'
-import { getContactDataFromWordpress } from '../../api/Contact';
+import { getContactDataFromWordpress, sendMessage } from '../../api/Contact';
 import PhoneTextField from '../../components/PhoneTextField/PhoneTextField';
 import CenterLoading from '../../components/CenterLoading/CenterLoading';
 import Select from '../../components/Select/Select';
-
+import { useSnackbar } from 'notistack';
 
 function Contact() {
 
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { data, isLoading } = useQuery(['contactData'], () => getContactDataFromWordpress())
 
@@ -42,10 +43,26 @@ function Contact() {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
-      //  handleRegister(values)
-      alert('formulario enviado')
+      handleSendMessage(values)
     },
   });
+
+  const handleSendMessage = async () => {
+    const reqData = {
+      name: formik.values.fullName,
+      mail: formik.values.email,
+      phone: formik.values.phoneNumber,
+      relation: relationToData.find((relation) => relation.value == formik.values.relationTo)?.label,
+      message: formik.values.message
+    }
+    try {
+      await sendMessage(reqData);
+      enqueueSnackbar("Mensaje enviado satisfactoriamente", { variant: 'success' })
+      formik.resetForm();
+    } catch (error) {
+      enqueueSnackbar("Ha ocurrido un error", { variant: 'error' })
+    }
+  }
 
   useLayoutEffect(() => {
     //UPDATE APP HEADER SUBTITLE
@@ -125,7 +142,7 @@ function Contact() {
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
           <TextField title="Correo Electrónico"
-           type="email"
+            type="email"
             id="email"
             required
             value={formik.values.email}
