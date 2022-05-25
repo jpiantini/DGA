@@ -135,7 +135,7 @@ function Payment() {
                         record_id: linkBackOfficeResponse?.request_code,
                         attribute: `NumeroSolicitud=${linkBackOfficeResponse?.request_code};DocumentoIdentidadSolicitante=${userData.payload.citizen_id};TipoDocumentoPortal=Adjunto`,
                         process_id: requestData.request.service.process_id,
-                        acronym: requestData.direction.name + "DE",
+                        acronym: requestData.direction.acronym + "DE",
                         names: [
                             "Comprobante de pago"
                         ],
