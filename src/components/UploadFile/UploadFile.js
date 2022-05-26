@@ -125,7 +125,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
     }
 
     const handleDocumentSelect = (e, index) => {
-        console.log(selectedFiles)
+      //  console.log(selectedFiles)
         if (multipleDocuments === false && selectedFiles.length >= 1 && selectedItemsByIndexInDocuments.length >= 1) {
             enqueueSnackbar("No se puede agregar mas de un documento", { variant: 'error' })
             return;
