@@ -1,6 +1,6 @@
 import { useEffect, Fragment, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthLogin } from '../redux/actions/AuthActions';
 import { HideGlobalLoading, ShowGlobalLoading } from '../redux/actions/UiActions';
 import LocalStorageService from '../services/LocalStorageService';
@@ -12,6 +12,7 @@ function Auth({ children }) {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const { authenticated } = useSelector((state) => state.authReducer);
 
     const [isValidating, setIsValidating] = useState(true)
 
@@ -27,14 +28,9 @@ function Auth({ children }) {
             dispatch(ShowGlobalLoading());
             let response = await getUser();
             if (response.success) {
-                setTimeout(() => {
-                    dispatch(AuthLogin({
-                        authenticated: true,
-                        //     profileImg: "https://www.w3schools.com/howto/img_avatar.png" // data.data.payload?.profile_img //beato add this atrib in future
-                    }))
-                    dispatch(HideGlobalLoading());
-                    setIsValidating(false)
-                }, 3500);
+                dispatch(AuthLogin({
+                    authenticated: true,
+                }));
             } else {
                 dispatch(HideGlobalLoading());
                 setIsValidating(false)
@@ -49,16 +45,19 @@ function Auth({ children }) {
     });
 
     useEffect(() => {
-        dispatch(ShowGlobalLoading());
-        setTimeout(() => {
-            dispatch(HideGlobalLoading());
-        }, 3000);
-    }, []);
-
+        if(authenticated){
+            setIsValidating(false);
+            setTimeout(() => {
+                dispatch(HideGlobalLoading());
+            }, 2000);
+        }
+    }, [authenticated]);
 
     return (
         <Fragment>
-            {isValidating ? null : children}
+            {
+                isValidating ? null : children
+            }
         </Fragment>
     );
 }
