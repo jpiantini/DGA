@@ -26,8 +26,6 @@ const queryClient = new QueryClient({
   }
 })
 
-  console.log(process.env.REACT_APP_SIRITE_RETURN_URL)
-
 function App() {
 
   return (
