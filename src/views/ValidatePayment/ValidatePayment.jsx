@@ -63,10 +63,8 @@ function ValidatePayment() {
     useLayoutEffect(() => {
         //UPDATE APP HEADER SUBTITLE
         dispatch(UpdateAppSubHeaderTitle('Verificacion de pago')) // TITLE OF SUBHEADER APP
-    }, []);
-
-    useEffect(() => {
         handlePaymentValidation();
+
     }, []);
 
     return (
