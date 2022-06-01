@@ -175,6 +175,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             :
                             types.find((type) => type.includes(e.type)),
                     route: e.route,
+                    size_mb:e.size_mb
                 }
             ]
         } else {
@@ -191,6 +192,7 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
                             :
                             types.find((type) => type.includes(e.type)),
                     route: e.route,
+                    size_mb:e.size_mb
                 }
             ]
         }
@@ -253,7 +255,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             date: format(new Date(replaceGuionToSlashFromString(document.created_at)), 'yyyy-MM-dd'),
             url: document.url,
             type: document.extension,
-            route: document.route
+            route: document.route,
+            size_mb:document.size_mb || 0
 
         }
     })
@@ -269,7 +272,8 @@ function UploadFile({ id, title, placeholder, onChange, value, onBlur, disabled,
             date: format(new Date(), 'yyyy-MM-dd'),
             url: '',
             type: '',
-            route: file?.route
+            route: file?.route,
+            size_mb:file.size_mb || 0
         }
     })
 

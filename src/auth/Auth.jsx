@@ -54,11 +54,11 @@ function Auth({ children }) {
     }, [authenticated]);
 
     return (
-        <Fragment>
+        <div>
             {
                 isValidating ? null : children
             }
-        </Fragment>
+        </div>
     );
 }
 

@@ -336,23 +336,28 @@ function RequestService() {
             if (serviceDescription.send === 1) {
               let uploadSoftExpertArrayAxios = [];
               for (let i = 0; i < uploadedFilesRoutes.length; i++) {
-                const uploadSoftExpertConfig = {
-                  documents:
-                    [
-                      {
-                        ...uploadedFilesRoutes[i],
-                      }
-                    ],
-                  title: responseFormSubmit.title,
-                  record_id: responseFormSubmit.code,
-                  attribute: responseFormSubmit.attributes,
-                  process_id: serviceDescription.process_id,
-                  acronym: responseFormSubmit.acronym,
-                  names: [uploadedFilesRoutes[i].label],
-                  activity_id: serviceDescription.activity_id,
-                  new_request: true
+                console.log('enter in for of array', uploadedFilesRoutes)
+                //SOFTEXPERT HAVE A LIMIT OF 25MB AND I REMOVE ALL uploadedFilesRoutes with > 25mb of size
+                if (uploadedFilesRoutes[i]?.size_mb < 25) {
+                  console.log('enter in condition', uploadedFilesRoutes[i])
+                  const uploadSoftExpertConfig = {
+                    documents:
+                      [
+                        {
+                          ...uploadedFilesRoutes[i],
+                        }
+                      ],
+                    title: responseFormSubmit.title,
+                    record_id: responseFormSubmit.code,
+                    attribute: responseFormSubmit.attributes,
+                    process_id: serviceDescription.process_id,
+                    acronym: responseFormSubmit.acronym,
+                    names: [uploadedFilesRoutes[i].label],
+                    activity_id: serviceDescription.activity_id,
+                    new_request: true
+                  }
+                  uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
                 }
-                uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
               }
               await axios.all(uploadSoftExpertArrayAxios);
             }
