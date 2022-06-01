@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LocalStorageService from "./LocalStorageService";
 import apiCall from './ApiServerCall';
-import {removeLocalStorageSessionData} from '../auth/AuthFunctions';
+import { removeLocalStorageSessionData } from '../auth/AuthFunctions';
 
 const apiServiceCall = () => {
 
@@ -15,7 +15,6 @@ const apiServiceCall = () => {
                 'Authorization': `beater ${Token}`,
                 'X-Authorization': 'pON2xGGbpraP698B5CJvUMljzJvDa8MmwXCOBDhz1jqwzlQ8bAG1QalAIRrDRmgY',
             }
-            config.timeout = 60000;
             return config;
         },
         error => {
@@ -42,9 +41,9 @@ const apiServiceCall = () => {
 const refreshToken = async () => {
     try {
         let response = await apiCall().get('/refresh/token');
-       // console.log('refrescando token')
+        // console.log('refrescando token')
         if (response.data.success) {
-      //      console.log('token refrescado')
+            //      console.log('token refrescado')
             LocalStorageService.setItem('token', response.data.payload.token);
             return response.data.payload.token;
         } else {
