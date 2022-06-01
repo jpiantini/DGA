@@ -9,8 +9,8 @@ export const registerForm = (requestData) => {
     return apiServiceCall().post('/requests',requestData).then(({data}) => data);
 }
 
-export const uploadFormDocuments = (documentsList) => {
-    return ApiServiceUploadCall().post('/files',documentsList).then(({data}) => data);
+export const uploadFormDocuments = (documentsList,uploadConfig) => {
+    return ApiServiceUploadCall().post('/files',documentsList,uploadConfig).then(({data}) => data);
 }
 
 export const linkingDocumentsToRequestInSoftExpert = (request) => {

@@ -108,8 +108,13 @@ function Payment() {
             data[0].name
         );
         try {
-            dispatch(ShowGlobalLoading('Subiendo documento'));
-            let responseFilesUploadResponse = await uploadFormDocuments(formFilesData);
+            const uploadFilesConfig = {
+                onUploadProgress: progressEvent => {
+                  var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                  dispatch(ShowGlobalLoading(`Subiendo documentos ${percentCompleted}%`))
+                }
+              }
+            let responseFilesUploadResponse = await uploadFormDocuments(formFilesData,uploadFilesConfig);
             if (responseFilesUploadResponse?.success) {
                 const backOfficeRequest = {
                     voucher: true,

@@ -250,8 +250,14 @@ function RequestService() {
             FilesOfForm.newFile[i].file.name
           );
         }
-        dispatch(ShowGlobalLoading('Subiendo documentos'));
-        let responseFilesUploaded = await uploadFormDocuments(formDataOfFiles);
+        const uploadFilesConfig = {
+          onUploadProgress: progressEvent => {
+            var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            dispatch(ShowGlobalLoading(`Subiendo documentos ${percentCompleted}%`))
+          }
+        }
+
+        let responseFilesUploaded = await uploadFormDocuments(formDataOfFiles, uploadFilesConfig);
         if (responseFilesUploaded.success) {
           uploadedFilesRoutes = [
             ...uploadedFilesRoutes,
