@@ -60,8 +60,13 @@ function ActionsRequired() {
                 values.file.files[i].name
             );
         }
-        dispatch(ShowGlobalLoading('Subiendo documentos'));
-        let responseFilesUpload = await uploadFormDocuments(formFileData);
+        const uploadFilesConfig = {
+            onUploadProgress: progressEvent => {
+              var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              dispatch(ShowGlobalLoading(`Subiendo documentos ${percentCompleted}%`))
+            }
+          }
+        let responseFilesUpload = await uploadFormDocuments(formFileData,uploadFilesConfig);
         if (responseFilesUpload.success) {
             uploadedFilesRoutes = [
                 ...responseFilesUpload.files.map((item, index) => {
