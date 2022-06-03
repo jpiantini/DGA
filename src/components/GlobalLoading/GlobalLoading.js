@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import MiturLogo from "../../assets/images/MiturLogoSecondary.png";
 
-function GlobalLoading() {
+function GlobalLoading({showByProp,textByProp}) {
     const { showGlobalLoading, globalLoadingMessage } = useSelector((state) => state.uiReducer);
 
     const [showLocalLoading, setShowLocalLoading] = useState(false);
@@ -17,7 +17,7 @@ function GlobalLoading() {
     return (
         <Dialog
             fullScreen
-            open={showGlobalLoading}
+            open={showByProp ? showByProp:showGlobalLoading}
             TransitionComponent={Fade}
         >
             <Container>
@@ -28,7 +28,7 @@ function GlobalLoading() {
                     showLocalLoading && <CircularProgress size='10em' />
                 }
                 <SmallHeightDivider />
-                <Title>{globalLoadingMessage}</Title>
+                <Title>{textByProp ? textByProp:globalLoadingMessage}</Title>
             </Container>
         </Dialog>
     );
