@@ -51,7 +51,7 @@ function Notifications({ color }) {
     history.push(`/app/serviceRequestedDetails/${item["iD de solicitud"]}`)
     }
   }
-  console.log(citizenID)
+  //console.log(citizenID)
 
   useEffect(() => {
     setCitizenID(LocalStorageService.getItem('user_cedula'));

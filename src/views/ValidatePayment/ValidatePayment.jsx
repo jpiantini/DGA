@@ -19,6 +19,7 @@ import {
 import { useParams } from "react-router-dom";
 import { paymentValidation } from '../../api/ValidatePayment';
 import { useSnackbar } from 'notistack';
+import GlobalLoading from '../../components/GlobalLoading/GlobalLoading'
 
 function ValidatePayment() {
     const history = useHistory();
@@ -27,10 +28,10 @@ function ValidatePayment() {
     const { enqueueSnackbar } = useSnackbar();
 
     const [paymentSuccess, setPaymentSuccess] = useState()
+    const [isLoading, setIsLoading] = useState(true);
 
     const handlePaymentValidation = async () => {
         try {
-            dispatch(ShowGlobalLoading('Verificando pago'));
             const urlParams = new URLSearchParams(window.location.search)
             let data;
             if (urlParams.has('numAprobacion') && urlParams.has('idAutorizacionPortal')) {
@@ -42,21 +43,21 @@ function ValidatePayment() {
                 let response = await paymentValidation(data)
                 if (response.success) {
                     setPaymentSuccess(true);
-                    dispatch(HideGlobalLoading());
+                    setIsLoading(false);
                 } else {
                     setPaymentSuccess(false);
-                    dispatch(HideGlobalLoading());
+                    setIsLoading(false);
                 }
             } else {
-                //         history.push(`/app/serviceRequestedDetails/${requestID}`)
+                //history.push(`/app/serviceRequestedDetails/${requestID}`)
                 setPaymentSuccess(false);
-                dispatch(HideGlobalLoading());
+                setIsLoading(false);
             }
         } catch (error) {
             setPaymentSuccess(false);
             enqueueSnackbar('Ha ocurrido un error, contacte a soporte', { variant: 'error' });
             //history.push(`/app/serviceRequestedDetails/${requestID}`)
-            dispatch(HideGlobalLoading());
+            setIsLoading(false);
         }
     }
 
@@ -64,11 +65,11 @@ function ValidatePayment() {
         //UPDATE APP HEADER SUBTITLE
         dispatch(UpdateAppSubHeaderTitle('Verificacion de pago')) // TITLE OF SUBHEADER APP
         handlePaymentValidation();
-
     }, []);
 
     return (
         <Container >
+            <GlobalLoading showByProp={isLoading} textByProp={"Verificando pago"} />
             <SmallHeightDivider />
             {
                 paymentSuccess == undefined ?
