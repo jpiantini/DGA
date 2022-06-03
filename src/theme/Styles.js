@@ -100,6 +100,18 @@ export const BodyText = styled('p')({
     fontFamily:FONTS_FAMILY.regular.body
 });
 
+export const FairBodyText = styled('pre')({
+    margin: 0,
+    textAlign: 'left',
+    fontSize: '15px',
+    color: COLORS.black,
+    fontFamily:FONTS_FAMILY.regular.body,
+    wordBreak:'break-all',
+    overflowX:'auto',
+    whiteSpace: 'pre-wrap',
+    wordWrap:'break-word'
+});
+
 export const BodyTextBold = styled('p')({
     margin: 0,
     textAlign: 'left',

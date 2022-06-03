@@ -26,7 +26,7 @@ function Notifications({ color }) {
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery(['notificationsData', citizenID], () => getNotifications(citizenID), {
-    enabled: citizenID === undefined ? false : true
+    enabled: typeof citizenID === 'string' ? true : false
   })
   const mutation = useMutation(removeNotification);
 
@@ -51,10 +51,11 @@ function Notifications({ color }) {
     history.push(`/app/serviceRequestedDetails/${item["iD de solicitud"]}`)
     }
   }
+  console.log(citizenID)
 
   useEffect(() => {
     setCitizenID(LocalStorageService.getItem('user_cedula'));
-  }, []);
+  }, [citizenID]);
   return (
     <Container ref={containerRef} onClick={handleMenuOpen}>
       <Badge badgeContent={data?.notifications?.length} color='secondary' overlap="circular">

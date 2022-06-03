@@ -2,7 +2,7 @@ import { useState, useLayoutEffect, Fragment, useRef, useCallback } from 'react'
 import Collapsable from '../../components/Collapsable/Collapsable';
 import ServiceDirectoryMenu from '../../components/ServiceDirectoryMenu/ServiceDirectoryMenu';
 import TextInformation from '../../components/TextInformation/TextInformation';
-import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider, StyledPagination } from '../../theme/Styles';
+import { BodyText, Row, SmallHeightDivider, RowBodyDivider, StyledButtonOutlined, MediumHeightDivider, StyledPagination, FairBodyText } from '../../theme/Styles';
 import { FAQDATA, mockupServiceInformation } from './ServiceDescriptionConstants';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LoginOrRegisterModal from '../../components/LoginOrRegisterModal/LoginOrRegisterModal';
@@ -235,13 +235,13 @@ function ServiceDescription() {
                             serviceDescription.requirements.map((requeriment, index) => (
                                 <li key={index} style={{ marginTop: '5px' }}>
                                     <strong>
-                                        <BodyText>
+                                        <FairBodyText>
                                             {requeriment.name}
-                                        </BodyText>
+                                        </FairBodyText>
                                     </strong>
-                                    <BodyText>
+                                    <FairBodyText>
                                         {requeriment?.description}
-                                    </BodyText>
+                                    </FairBodyText>
                                 </li>
                             ))
                         }

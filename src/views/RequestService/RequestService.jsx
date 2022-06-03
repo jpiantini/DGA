@@ -338,12 +338,11 @@ function RequestService() {
         if (responseFormSubmit.success) {
           if (uploadedFilesRoutes.length > 0) {
             dispatch(ShowGlobalLoading('Procesando solicitud'));
-
             if (serviceDescription.send === 1) {
               let uploadSoftExpertArrayAxios = [];
               for (let i = 0; i < uploadedFilesRoutes.length; i++) {
                 //SOFTEXPERT HAVE A LIMIT OF 25MB AND I REMOVE ALL uploadedFilesRoutes with > 25mb of size
-                if (uploadedFilesRoutes[i]?.size_mb < 25) {
+                //if (uploadedFilesRoutes[i]?.size_mb < 25) {
                   const uploadSoftExpertConfig = {
                     documents:
                       [
@@ -351,6 +350,7 @@ function RequestService() {
                           ...uploadedFilesRoutes[i],
                         }
                       ],
+                    size_mb:uploadedFilesRoutes[i]?.size_mb,
                     title: responseFormSubmit.title,
                     record_id: responseFormSubmit.code,
                     attribute: responseFormSubmit.attributes,
@@ -361,7 +361,7 @@ function RequestService() {
                     new_request: true
                   }
                   uploadSoftExpertArrayAxios.push(linkingDocumentsToRequestInSoftExpert(uploadSoftExpertConfig));
-                }
+           //     }
               }
               await axios.all(uploadSoftExpertArrayAxios);
             }
