@@ -102,14 +102,6 @@ function DrawerMenu({ layout }) {
                     <DrawerListItemContainer layout={layout}>
                         <DrawerListItemButton
                             color='inherit'
-                            onClick={() => goToRoute("/app/generalQueries")}
-                        >
-                            CONSULTAS GENERALES
-                        </DrawerListItemButton>
-                    </DrawerListItemContainer>
-                    <DrawerListItemContainer layout={layout}>
-                        <DrawerListItemButton
-                            color='inherit'
                             onClick={() => goToRoute("/app/contact")}
                         >
                             CONTACTO

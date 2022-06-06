@@ -15,7 +15,6 @@ import ExampleAppForm from "../views/ExampleAppForm/ExampleAppForm";
 import { MyConfiguration } from "../views/MyConfiguration/MyConfiguration";
 import ActivateAccount from "../views/Auth/ActivateAccount/ActivateAccount";
 import ValidatePayment from "../views/ValidatePayment/ValidatePayment";
-import GeneralQueries from "../views/GeneralQueries/GeneralQueries";
 import AllServices from "../views/AllServices/AllServices";
 
 const routes = [
@@ -89,13 +88,6 @@ const routes = [
   {
     path: "/contact",
     component: Contact,
-    exact: true,
-    layout: "/app",
-    loginRequired: false,
-  },
-  {
-    path: "/generalQueries",
-    component: GeneralQueries,
     exact: true,
     layout: "/app",
     loginRequired: false,

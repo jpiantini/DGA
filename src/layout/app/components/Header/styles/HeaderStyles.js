@@ -52,12 +52,15 @@ export const Image = styled("img")({
     cursor: 'pointer',
   },
   "@media (min-width:320px)": {
-    width: "160px",
-  },
+    width: "170px",
+    padding:'20px'
+    },
   "@media (min-width:768px)": {
-    width: "220px",
-  },
+    width: "170px",
+    padding:'20px'
+    },
   "@media (min-width:1200px)": {
-    width: "320px",
+    width: "170px",
+    padding:'20px'
   },
 });

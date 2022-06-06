@@ -13,6 +13,7 @@ import LoggedInMenu from "../../../../components/LoggedInMenu/LoggedInMenu";
 import Notifications from "../../../../components/Notifications/Notifications";
 import DrawerMenu from "../../../../components/DrawerMenu/DrawerMenu";
 import LogoSecondaryWhite from '../../../../assets/images/LogoSecondaryWhite.png'
+
 function Header(props) {
   const matchesWidth = useMediaQuery("(min-width:1000px)");
   const history = useHistory();
@@ -34,10 +35,6 @@ function Header(props) {
             <div style={{ display: 'flex' }}>
               <MenuButton onClick={() => props.servicesRef.current.scrollIntoView({behavior:'smooth',block:'center'})}>
                 Trámites
-              </MenuButton>
-              <div style={{ width: "1rem" }} />
-              <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
-                Consultas generales
               </MenuButton>
               <div style={{ width: "1rem" }} />
               <MenuButton onClick={() => goToRoute("/app/contact")}>

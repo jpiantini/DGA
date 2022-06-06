@@ -17,11 +17,11 @@ export const Container = styled('div')({
     height: '300px',
     // boxShadow: boxShadowConfig,
     borderRadius: '10px',
-    boxShadow: '0 1px 5px rgba(14,33,75,0.03)',
-    // transition: '0.3s',
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+    transition: '0.3s',
     padding: '10px',
     '&:hover': {
-        //     boxShadow: '0 8px 16px 0 rgba(0,0,0,0.2)'
+        boxShadow: '0 8px 16px 0 rgba(0,0,0,0.2)'
     }
 });
 

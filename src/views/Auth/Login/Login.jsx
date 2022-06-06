@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './LoginConstants';
+import { FormSchema } from './LoginConstants';
 import {
     LogoImage,
     Image,
@@ -29,6 +29,8 @@ import { cleanStringFromNumbers } from '../../../utilities/functions/NumberUtil'
 import { useQuery } from 'react-query';
 import userLogo from '../../../assets/images/user.png'
 import {removeGuionFromString} from '../../../utilities/functions/StringUtil'
+import Logo from '../../../assets/images/LogoPNG.png'
+import AuthImage from '../../../assets/images/HomeImage.jpeg'
 
 function Login() {
 
@@ -116,7 +118,7 @@ function Login() {
     return (
         <LoginContainer>
             <LeftPanelContainer>
-                <LogoImage src={MiturLogoImage} />
+                <LogoImage src={Logo} />
                 <FlexStartContainer>
                     <Title>Iniciar Sesión</Title>
                     <TextFieldContainer>
@@ -165,7 +167,7 @@ function Login() {
                 </FlexStartContainer>
             </LeftPanelContainer>
             <Image style={{
-                backgroundImage: `url(${AuthBackgroundImage})`
+                backgroundImage: `url(${AuthImage})`
             }} />
         </LoginContainer>
     );

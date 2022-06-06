@@ -71,13 +71,16 @@ export const Image = styled("img")({
     cursor: 'pointer',
   },
   "@media (min-width:320px)": {
-    width: "200px",
-    marginBottom:'10px',
+    //marginBottom:'50px',
+    width: "150px",
+    height:'70px'
   },
   "@media (min-width:768px)": {
-    width: "220px",
+    width: "150px",
+    height:'100px'
   },
   "@media (min-width:1200px)": {
-    width: "320px",
+    width: "150px",
+    height:'100px'
   },
 });

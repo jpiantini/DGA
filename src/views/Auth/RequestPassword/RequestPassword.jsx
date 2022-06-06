@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MiturLogoImage, AuthBackgroundImage, FormSchema } from './RequestPasswordConstants';
+import { FormSchema } from './RequestPasswordConstants';
 import {
     LogoImage,
     Image,
@@ -23,6 +23,9 @@ import { removeGuionFromString } from '../../../utilities/functions/StringUtil';
 import { useSnackbar } from 'notistack';
 import {restorePassword} from '../../../api/RequestPassword'
 import { HideGlobalLoading, ShowGlobalLoading } from '../../../redux/actions/UiActions';
+import Logo from '../../../assets/images/LogoPNG.png'
+import AuthImage from '../../../assets/images/HomeImage.jpeg'
+
 function RequestPassword() {
 
     const dispatch = useDispatch();
@@ -76,7 +79,7 @@ function RequestPassword() {
     return (
         <RowContainer>
             <LeftPanelContainer>
-                <LogoImage src={MiturLogoImage} />
+                <LogoImage src={Logo} />
                 <FlexStartContainer>
                     <Title>Restablecer contraseña</Title>
                     <SmallHeightDivider />
@@ -129,7 +132,7 @@ function RequestPassword() {
                 </FlexStartContainer>
             </LeftPanelContainer>
             <Image style={{
-                backgroundImage: `url(${AuthBackgroundImage})`
+                backgroundImage: `url(${AuthImage})`
             }} />
         </RowContainer>
     );

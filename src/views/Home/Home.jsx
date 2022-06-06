@@ -48,7 +48,7 @@ import CenterLoading from "../../components/CenterLoading/CenterLoading";
 import WebIcon from '../../assets/icons/WebIcon.png'
 import ValidUserIcon from '../../assets/icons/ValidUserIcon.png'
 import CertifiedIcon from '../../assets/icons/CertifiedIcon.png'
-
+import AuthImage from '../../assets/images/HomeImage.jpeg'
 
 function Home() {
 
@@ -69,10 +69,10 @@ function Home() {
   if (homeContentIsLoading || videoContentIsLoading || listOfServicesIsLoading || homeMetricsDataIsLoading) return <CenterLoading />
 
   const ServicesForSearcher = [
-    ...listOfServices[0].services,
-    ...listOfServices[1].services,
-    ...listOfServices[2].services
-  ].map((item) => {
+    ...listOfServices[0]?.services,
+    ...listOfServices[1]?.services,
+    ...listOfServices[2]?.services
+  ]?.map((item) => {
     return {
       id: item.id,
       title: item.name,
@@ -87,10 +87,10 @@ function Home() {
     <Container>
       <GobMessage />
       <Header servicesRef={servicesRef}/>
-      <HomeContainer image={homeContent.image_url}>
+      <HomeContainer image={AuthImage} /*image={homeContent.image_url} */>
         <HomeCenterContent>
-          <Title>UNIDAD CENTRAL DE TRÁMITES TURISTICOS</Title>
-          <Title>(UCTT)- MITUR</Title>
+        <Title>UNIDAD CENTRAL DE TRAMITES PUBLICOS</Title>
+          <Title>(UCTP)- DGA</Title>
           <SmallHeightDivider />
           <SmallHeightDivider />
           <SearcherContainer>
@@ -165,9 +165,9 @@ function Home() {
         }}
       >
         <CenterContainer ref={servicesRef}>
-          <SearcherTitle>Trámites que ofrece la UCTT</SearcherTitle>
+          <SearcherTitle>Trámites que ofrece la UCTP</SearcherTitle>
           <SearcherSubTitle >
-            Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión turística. Desde el análisis del suelo, obtención de incentivos y su licencia de operación.
+            Nuestras direcciones te ofrecen el servicio integrado para gestionar la inversión. Desde trámites generales, importacion y exportacion.
           </SearcherSubTitle>
           <div style={{ height: "60px" }} />
           <CardsContainer>
@@ -184,13 +184,6 @@ function Home() {
                 </Fragment>
               ))
             }
-            <ServiceCard
-              cardNumber={3}
-              title={"Sistema de Seguimiento a la Inversión Turística"}
-              bodyText={"En este sistema se registra la inversión mensual de los proyectos, la cual le permite enviar los listados de exoneraciones para su aprobación."}
-              requestCustomTitle="VER SISTEMA"
-              onRequestPress={() => window.open("https://sit.mitur.gob.do/", '_blank').focus()}
-            />
           </CardsContainer>
         </CenterContainer>
 

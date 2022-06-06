@@ -1,9 +1,9 @@
 const COLORS = {
-  primary: "#ed5f30",
+  primary: "#008cca",
   primaryOpacity: (color) => { return `rgba(237, 95, 48,${color || 0.50})` },  
-  secondary: "#202a5d",
+  secondary: "#002e62",
   secondaryOpacity: (color) => { return `rgba(32, 42, 93,${color || 0.50})` },
-  tertiary: "#0063bc",
+  tertiary: "#7db901",
   tertiaryOpacity: (color) => { return `rgba(0, 99, 188,${color || 0.50})` },
 
   notificationSuccess:'#cee6d6',

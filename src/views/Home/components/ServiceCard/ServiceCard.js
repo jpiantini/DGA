@@ -13,18 +13,16 @@ import {
     LinkText,
     CardIconContainer
 } from './styles/ServiceCardStyles';
-import HomeIcon from '../../../../assets/icons/HomeIcon.png'
-import MonumentIcon from '../../../../assets/icons/MonumentIcon.png'
-import EditIcons from '../../../../assets/icons/EditIcons.png'
-import MunicipeWithCartIcon from '../../../../assets/icons/MunicipeWithCartIcon.png'
+import Aire from '../../../../assets/icons/aire.png'
+import Cliente from '../../../../assets/icons/cliente.png'
+import Envio from '../../../../assets/icons/envio.png'
 
 
 function ServiceCard({ title, bodyText, onRequestPress, requestCustomTitle, cardNumber = 0 }) {
     const iconsForCard = [
-        EditIcons,
-        HomeIcon,
-        MonumentIcon,
-        MunicipeWithCartIcon
+        Aire,
+        Cliente,
+        Envio
     ]
     return (
         <Container>

@@ -6,7 +6,7 @@ import { Container, LogoImage, Title } from './styles/GlobalLoadingStyles';
 import { SmallHeightDivider } from '../../theme/Styles';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import MiturLogo from "../../assets/images/MiturLogoSecondary.png";
+import Logo from "../../assets/images/LogoPNG.png";
 
 function GlobalLoading({showByProp,textByProp}) {
     const { showGlobalLoading, globalLoadingMessage } = useSelector((state) => state.uiReducer);
@@ -22,7 +22,7 @@ function GlobalLoading({showByProp,textByProp}) {
         >
             <Container>
                 <Fade in={showLogo} onEntered={() => setShowLogo(false)} onExited={() => setShowLocalLoading(true)} unmountOnExit={true}>
-                    <LogoImage src={MiturLogo} />
+                    <LogoImage src={Logo} />
                 </Fade>
                 {
                     showLocalLoading && <CircularProgress size='10em' />

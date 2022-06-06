@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import MiturLogo from "../../../../assets/images/MiturLogoSecondary.png";
+import LogoSecondary from "../../../../assets/images/LogoSecondary.jpeg";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ function Header() {
   return (
     <Container>
       <LineContainer>
-        <Image onClick={() => goToRoute("/")} src={MiturLogo} />
+        <Image onClick={() => goToRoute("/")} src={LogoSecondary} />
         {matchesWidth ?
           <MenuContainer>
             <MenuButton onClick={() => goToRoute("/public")}>
@@ -39,9 +39,6 @@ function Header() {
             </MenuButton>
             <MenuButton onClick={() => goToRoute("/app/listOfServices/0")}>
               Trámites
-            </MenuButton>
-            <MenuButton onClick={() => goToRoute("/app/generalQueries")}>
-              Consultas generales
             </MenuButton>
             <MenuDivider />
             <MenuButton onClick={() => goToRoute("/app/contact")}>
